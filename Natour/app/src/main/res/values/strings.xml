@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name"><font color='#373737'>NATOUR</font></string>
+    <string name="slogan"><font color='#373737'>Adventure awaits, go find it!</font></string>
+    <string name="signin"><font color='white'>Sign in</font></string>
+    <string name="noaccountyet"><font color='#373737'>No account yet?</font><font color='#88B27E'> Sign up</font></string>
+</resources>
