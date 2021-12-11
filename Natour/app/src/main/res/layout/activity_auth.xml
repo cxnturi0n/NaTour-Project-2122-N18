@@ -7,13 +7,30 @@
 
     <ImageView
         android:id="@+id/auth_image"
-        android:layout_width="274dp"
-        android:layout_height="262dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="260dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="16dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_signin_image" />
+        app:srcCompat="@drawable/ic_signup_image" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/signup_fragment"
+        android:name="com.cinamidea.natour.SignupFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/auth_image"
+        tools:layout="@layout/fragment_signup" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
