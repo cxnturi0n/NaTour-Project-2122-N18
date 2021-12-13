@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour/app/src/main/res/drawable/ic_signin_image.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour/app/src/main/res/layout/activity_auth.xml" value="0.264" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour/app/src/main/res/layout/activity_run.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour/app/src/main/res/layout/fragment_signin.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour/app/src/main/res/layout/fragment_signup.xml" value="0.264" />
         <entry key="..\:/corel/Desktop/ud851-Exercises-student/Natour/app/src/main/res/drawable/button_background.xml" value="0.3828125" />
         <entry key="..\:/corel/Desktop/ud851-Exercises-student/Natour/app/src/main/res/drawable/ic_logo.xml" value="0.3828125" />
         <entry key="..\:/corel/Desktop/ud851-Exercises-student/Natour/app/src/main/res/drawable/ic_signup_image.xml" value="0.22135416666666666" />

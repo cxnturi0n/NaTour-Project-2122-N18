@@ -18,19 +18,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_signup_image" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/signup_fragment"
-        android:name="com.cinamidea.natour.SignupFragment"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:id="@+id/fragmentLayout"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/auth_image"
-        tools:layout="@layout/fragment_signup" />
+        app:layout_constraintTop_toBottomOf="@+id/auth_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name"><font color='#373737'>NATOUR</font></string>
     <string name="slogan"><font color='#373737'>Adventure awaits, go find it!</font></string>
-    <string name="signin"><font color='white'>Sign in</font></string>
+    <string name="signin">Sign in</string>
     <string name="noaccountyet"><font color='#373737'>No account yet?</font><font color='#88B27E'> Sign up</font></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="signup">Sign up</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="terms">By signing up, you agree to our Terms &amp; Privacy Policy.</string>
+    <string name="already_have_account"><font color='#373737'>Already have an account?</font><font color='#88B27E'> Sign in</font></string>
+    <string name="email_id">Email ID</string>
+    <string name="retype_password">Re-type password</string>
 </resources>
