@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
-        android:text="@string/slogan"
+        android:text="@string/activityRun_slogan"
         android:textColor="#373737"
         android:textSize="24sp"
         tools:layout_editor_absoluteX="61dp"
@@ -45,9 +45,9 @@
         android:stateListAnimator="@null"
         android:background="@drawable/signin_button"
         android:fontFamily="@font/roboto_regular"
-        android:text="@string/signin"
+        android:text="@string/activityRun_signin"
         android:textAllCaps="false"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textColor="@color/white"
         tools:layout_editor_absoluteX="31dp"
         tools:layout_editor_absoluteY="437dp" />
@@ -60,9 +60,9 @@
         android:background="@drawable/signup_button"
         android:fontFamily="@font/roboto_regular"
         android:stateListAnimator="@null"
-        android:text="@string/noaccountyet"
+        android:text="@string/activityRun_noaccountyet"
         android:textAllCaps="false"
-        android:textSize="18sp"
+        android:textSize="20sp"
         tools:layout_editor_absoluteX="31dp"
         tools:layout_editor_absoluteY="509dp" />
 

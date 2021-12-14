@@ -2,6 +2,7 @@ package com.cinamidea.natour;
 
 import android.os.Bundle;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -23,27 +24,24 @@ public class AuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_auth);
-        auth_image = findViewById(R.id.auth_image);
+        auth_image = findViewById(R.id.activityAuth_image);
 
-        Bundle extras = getIntent().getExtras();
-        if(extras!=null) {
 
-            String data = extras.getString("key");
-            if(data.equals("signin")) {
+        String data = getIntent().getExtras().getString("key");
+        if(data.equals("signin")) {
 
-                auth_image.setImageResource(R.drawable.ic_signin_image);
-                changeFragment(new SigninFragment());
-
-            }
-
-            else {
-
-                auth_image.setImageResource(R.drawable.ic_signup_image);
-                changeFragment(new SignupFragment());
-
-            }
+            auth_image.setImageResource(R.drawable.ic_signin_image);
+            changeFragment(new SigninFragment());
 
         }
+
+        else {
+
+            auth_image.setImageResource(R.drawable.ic_signup_image);
+            changeFragment(new SignupFragment());
+
+        }
+
 
     }
 
@@ -51,9 +49,10 @@ public class AuthActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragmentLayout, fragment);
+        fragmentTransaction.add(R.id.activityAuth_framelayout, fragment);
         fragmentTransaction.commit();
 
     }
+
 
 }

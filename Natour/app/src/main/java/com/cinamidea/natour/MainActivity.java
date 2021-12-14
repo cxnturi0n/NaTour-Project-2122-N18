@@ -61,11 +61,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                button_signin.startAnimation(scale_up);
-                button_signin.startAnimation(scale_down);
                 intent.putExtra("key", "signin");
-                MainActivity.this.startActivity(intent);
-
+                buttonAnimation(button_signin);
 
             }
         });
@@ -74,13 +71,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                button_signup.startAnimation(scale_up);
-                button_signup.startAnimation(scale_down);
                 intent.putExtra("key", "signup");
-                MainActivity.this.startActivity(intent);
+                buttonAnimation(button_signup);
 
             }
         });
+
+    }
+
+    private void buttonAnimation(Button button) {
+
+        button.startAnimation(scale_up);
+        button.startAnimation(scale_down);
+        button.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                MainActivity.this.startActivity(intent);
+
+            }
+        }, 200);
 
     }
 

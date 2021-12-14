@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/roboto_medium"
-        android:text="@string/signin"
+        android:text="@string/activityRun_signin"
         android:textColor="#373737"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +55,20 @@
         app:layout_constraintTop_toBottomOf="@+id/fragmentSignin_username"
         tools:ignore="TextContrastCheck" />
 
+    <TextView
+        android:id="@+id/fragmentSignin_orsigninwith"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/roboto_thin"
+        android:text="@string/activityAuth_orsigninwith"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentSignin_signin" />
+
     <Button
         android:id="@+id/fragmentSignin_signin"
         android:layout_width="fill_parent"
@@ -62,14 +76,54 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/signin_button"
         android:fontFamily="@font/roboto_regular"
-        android:text="@string/signin"
+        android:text="@string/activityRun_signin"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragmentSignin_password"
         tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/fragmentSignin_signinwithgoogle"
+        android:layout_width="fill_parent"
+        android:layout_height="61dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/signup_button"
+        android:drawableLeft="@drawable/ic_google_favicon"
+        android:drawablePadding="-37dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingLeft="16dp"
+        android:text="@string/activityAuth_signingoogle"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentSignin_orsigninwith" />
+
+    <Button
+        android:id="@+id/fragmentSignin_signinwithfacebook"
+        android:layout_width="fill_parent"
+        android:layout_height="61dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/signup_button"
+        android:drawableLeft="@drawable/ic_facebook_favicon"
+        android:drawablePadding="-37dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingLeft="16dp"
+        android:text="@string/activityAuth_signinfacebook"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentSignin_signinwithgoogle"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
