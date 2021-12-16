@@ -43,6 +43,8 @@ public class AuthActivity extends AppCompatActivity {
         }
 
 
+
+
     }
 
     private void changeFragment(Fragment fragment) {

@@ -8,6 +8,8 @@
     <string name="activityRun_noaccountyet"><font color='#373737'>No account yet?</font><font color='#88B27E'> Sign up</font></string>
 
     <!-- Activity_Auth -->
+    <string name="activityAuth_username">Username</string>
+    <string name="activityAuth_password">Password</string>
     <string name="activityAuth_emailid">Email ID</string>
     <string name="activityAuth_retypepassword">Re-type password</string>
     <string name="activityAuth_signingoogle">Sign in with Google</string>
