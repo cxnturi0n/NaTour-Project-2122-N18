@@ -19,7 +19,13 @@
     <string name="activityAuth_terms">By signing up, you agree to our Terms &amp; Privacy Policy.</string>
     <string name="activityAuth_alreadyhaveanaccount"><font color='#373737'>Already have an account?</font><font color='#88B27E'> Sign in</font></string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Activity_Pin -->
+    <string name="activityPin_title">Email verification</string>
+    <string name="activityPin_message">We have sent code to your email:</string>
+    <string name="activityPin_mail">ang**cinic@gmail.com</string>
+    <string name="activityPin_codemessage">Didn\'t receive code?</string>
+    <string name="activityPin_verifyaccount">Verify account</string>
 
 
 </resources>

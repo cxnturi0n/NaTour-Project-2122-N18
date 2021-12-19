@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         loadButtons();
         buttonsListener();
 
-        intent = new Intent(MainActivity.this, AuthActivity.class);
+        intent = new Intent(MainActivity.this, PinActivity.class);
 
     }
 
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
             }
         }, 200);

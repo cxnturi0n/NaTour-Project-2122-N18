@@ -10,9 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Natour2022">
         <activity
-            android:name=".AuthActivity"
-            android:launchMode="singleTask"
+            android:name=".PinActivity"
             android:exported="false" />
+        <activity
+            android:name=".AuthActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
