@@ -2,6 +2,9 @@ package org.natour;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysql.cj.xdevapi.JsonParser;
 import org.natour.daos.UserDAO;
 import org.natour.daos_impl.UserDaoMySql;
 import org.natour.exceptions.PersistenceException;
@@ -16,7 +19,7 @@ public class Function implements RequestHandler<Request, Object> {
         try {
             user_dao = new UserDaoMySql();
         } catch (PersistenceException e) {
-            return "Couldn't connect with Database";
+            return e.getMessage();
         }
 
         switch (request.getHttpMethod()) {
@@ -25,17 +28,18 @@ public class Function implements RequestHandler<Request, Object> {
                     User user = user_dao.getUserByUsername(request.getUsername());
                     return user;
                 } catch (PersistenceException e) {
-                    return "Couldn't fetch User!";
+                    return e.getMessage();
                 }
             case "POST":
                 try {
                     user_dao.saveUser(request.getUser());
+                    Response response = new Response("User saved successfully");
+                    return response;
                 } catch (PersistenceException e) {
-                    return "Couldn't save User!";
+                    return e.getMessage();
                 }
         }
         return null;
     }
-
 }
 

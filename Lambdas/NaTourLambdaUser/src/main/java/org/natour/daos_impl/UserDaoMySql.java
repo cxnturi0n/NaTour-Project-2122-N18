@@ -49,7 +49,7 @@ public class UserDaoMySql implements UserDAO {
             User user = new User(username, email,pwd);
             return user;
         }catch(SQLException s){
-            throw new PersistenceException("Read error");
+            throw new PersistenceException("An error has occurred while trying to fetch the user");
         }
     }
 }
