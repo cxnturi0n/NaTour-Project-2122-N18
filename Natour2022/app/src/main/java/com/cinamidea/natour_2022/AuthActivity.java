@@ -1,8 +1,12 @@
 package com.cinamidea.natour_2022;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -14,7 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 public class AuthActivity extends AppCompatActivity {
 
     protected ImageView auth_image;
-    protected ImageButton button;
+    protected ImageButton button_back;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,7 @@ public class AuthActivity extends AppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_auth);
         auth_image = findViewById(R.id.activityAuth_image);
-        button = findViewById(R.id.activityAuth_back);
+        button_back = findViewById(R.id.activityAuth_back);
 
 
         String data = getIntent().getExtras().getString("key");
@@ -43,7 +48,8 @@ public class AuthActivity extends AppCompatActivity {
 
         }
 
-        button.setOnClickListener(new View.OnClickListener() {
+
+        button_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -70,6 +76,7 @@ public class AuthActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }
+
 
 
 }

@@ -7,7 +7,7 @@
     tools:context=".PinActivity">
 
     <com.chaos.view.PinView
-        android:id="@+id/firstPinView"
+        android:id="@+id/activityPin_pin"
         style="@style/PinWidget.PinView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,13 +30,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pinActivity_mail"
+        app:layout_constraintTop_toBottomOf="@+id/activityPin_mail"
         app:lineColor="#C4C4C4"
         app:lineWidth="1dp"
         app:viewType="rectangle" />
 
     <TextView
-        android:id="@+id/pinActivity_title"
+        android:id="@+id/activityPin_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/pinActivity_message"
+        android:id="@+id/activityPin_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -61,10 +61,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pinActivity_title" />
+        app:layout_constraintTop_toBottomOf="@+id/activityPin_title" />
 
     <TextView
-        android:id="@+id/pinActivity_mail"
+        android:id="@+id/activityPin_mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
@@ -74,10 +74,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pinActivity_message" />
+        app:layout_constraintTop_toBottomOf="@+id/activityPin_message" />
 
     <TextView
-        android:id="@+id/pinActivity_codeMessage"
+        android:id="@+id/activityPin_codeMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
@@ -87,9 +87,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstPinView" />
+        app:layout_constraintTop_toBottomOf="@+id/activityPin_pin" />
 
     <android.widget.Button
+        android:id="@+id/activityPin_button"
         android:layout_width="350dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
@@ -102,6 +103,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pinActivity_codeMessage" />
+        app:layout_constraintTop_toBottomOf="@+id/activityPin_codeMessage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

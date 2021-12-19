@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         loadButtons();
         buttonsListener();
 
-        intent = new Intent(MainActivity.this, PinActivity.class);
+        intent = new Intent(MainActivity.this, AuthActivity.class);
 
     }
 
