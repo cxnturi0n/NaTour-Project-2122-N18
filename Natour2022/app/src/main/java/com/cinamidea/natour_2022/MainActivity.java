@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("key", "signup");
                 buttonAnimation(button_signup);
 
+
             }
         });
 
