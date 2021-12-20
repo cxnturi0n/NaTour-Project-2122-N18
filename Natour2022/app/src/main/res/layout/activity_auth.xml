@@ -33,8 +33,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitStart"
-                app:srcCompat="@drawable/image_signin" />
+                android:scaleType="fitCenter"
+                android:textAlignment="center"
+                app:srcCompat="@drawable/image_signup" />
 
             <FrameLayout
                 android:id="@+id/activityAuth_framelayout"

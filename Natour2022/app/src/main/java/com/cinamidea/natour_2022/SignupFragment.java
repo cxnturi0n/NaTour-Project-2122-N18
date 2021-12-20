@@ -61,7 +61,7 @@ public class SignupFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleSignUp();
+//                handleSignUp();
                 buttonAnimation(button);
             }
         });
