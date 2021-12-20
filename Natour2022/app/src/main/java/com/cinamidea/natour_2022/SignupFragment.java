@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,14 +35,15 @@ import java.util.Map;
 public class SignupFragment extends Fragment {
 
     private Button button;
-    private Animation scale_up, scale_down;
+    private Animation anim_scale_up, anim_scale_down;
     private Intent intent;
-    private EditText usernameET, emailET, passwordET;
+    private EditText edit_user;
+    private EditText edit_email;
+    private EditText edit_password;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_signup, container, false);
     }
 
@@ -49,30 +51,49 @@ public class SignupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        button = view.findViewById(R.id.fragmentSignup_signup);
-        scale_up = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
-        scale_down = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_down);
-        usernameET = view.findViewById(R.id.fragmentSignup_username);
-        emailET = view.findViewById(R.id.fragmentSignup_email);
-        passwordET = view.findViewById(R.id.fragmentSignup_password);
+        // Identifica le varie componenti assegnandole.
+        setupViewComponents(view);
 
-        intent = new Intent(getActivity(), PinActivity.class);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                buttonAnimator(button);
 //                handleSignUp();
-                buttonAnimation(button);
+                runIntent(intent);
+
             }
         });
 
     }
 
-    private void buttonAnimation(Button button) {
+    private void setupViewComponents(View view) {
 
-        button.startAnimation(scale_up);
-        button.startAnimation(scale_down);
-        button.postDelayed(new Runnable() {
+        button = view.findViewById(R.id.fragmentSignup_signup);
+        anim_scale_up = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
+        anim_scale_down = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_down);
+        edit_user = view.findViewById(R.id.fragmentSignup_username);
+        edit_email = view.findViewById(R.id.fragmentSignup_email);
+        edit_password = view.findViewById(R.id.fragmentSignup_password);
+
+        intent = new Intent(getActivity(), PinActivity.class);
+
+    }
+
+    private void buttonAnimator(Button button) {
+
+        button.startAnimation(anim_scale_up);
+        button.startAnimation(anim_scale_down);
+
+    }
+
+    private void runIntent(Intent intent) {
+
+        intent.putExtra("email", edit_email.getText().toString());
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
@@ -80,26 +101,36 @@ public class SignupFragment extends Fragment {
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
             }
-        }, 200);
+        },170);
+
+    }
+
+    private JSONObject getPostRequest() {
+
+        String username = edit_user.getText().toString();
+        String email = edit_email.getText().toString();
+        String password = edit_password.getText().toString();
+
+        Map<String, String>params = new HashMap<>();
+
+        params.put("username", username);
+        params.put("email", email);
+        params.put("password", password);
+
+        JSONObject body = new JSONObject(params);
+
+        return body;
 
     }
 
     private void handleSignUp() {
 
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        String username = usernameET.getText().toString();
-        String email = emailET.getText().toString();
-        String password = passwordET.getText().toString();
-        String url = "https://eagwqm6kz0.execute-api.eu-central-1.amazonaws.com/dev/user/"+username;
-        //BODY PER LA POST
-        //Map<String, String>params = new HashMap<>();
-        //params.put("username",username);
-        //params.put("email",email);
-        //params.put("password",password);
-        //JSONObject body = new JSONObject(params);
+        String url = "";
+        JSONObject body = getPostRequest();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                (Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -111,6 +142,7 @@ public class SignupFragment extends Fragment {
                             Log.e("ERROR1",error.getMessage());
                     }
                 });
+
         Volley.newRequestQueue(this.getContext()).add(jsonObjectRequest);
     }
 }

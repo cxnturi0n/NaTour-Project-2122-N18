@@ -1,9 +1,7 @@
 package com.cinamidea.natour_2022;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.motion.widget.MotionLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,8 +12,10 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button_signin, button_signup;
-    private Animation scale_up, scale_down;
+    private Button button_signin;
+    private Button button_signup;
+    private Animation anim_scale_up;
+    private Animation anim_scale_down;
     private Intent intent;
 
     @Override
@@ -24,15 +24,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        animHomepage();
-        loadButtons();
-        buttonsListener();
+        // Identifica le varie componenti assegnandole.
+        setupViewComponents();
 
+        //Avvia l'animazione iniziale
+        runAnimation();
+
+
+        /* Al touch di un button, viene effettuata l'animazione e avvia l'activity, passando
+        * i parametri che serviranno successivamente a capire quale fragment utilizzare
+        * nella nuova activity. */
+        runButtonListeners();
+
+
+
+    }
+
+    private void setupViewComponents() {
+
+        button_signin =  findViewById(R.id.signin);
+        button_signup =  findViewById(R.id.signup);
+        anim_scale_up = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+        anim_scale_down = AnimationUtils.loadAnimation(this, R.anim.scale_down);
         intent = new Intent(MainActivity.this, AuthActivity.class);
 
     }
 
-    private void animHomepage() {
+    private void runAnimation() {
 
         MotionLayout ml = findViewById(R.id.motionlayout);
         Handler handler = new Handler();
@@ -44,23 +62,36 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void loadButtons() {
+    private void buttonAnimator(Button button) {
 
-        button_signin = findViewById(R.id.signin);
-        button_signup = findViewById(R.id.signup);
-        scale_up = AnimationUtils.loadAnimation(this, R.anim.scale_up);
-        scale_down = AnimationUtils.loadAnimation(this, R.anim.scale_down);
+        button.startAnimation(anim_scale_up);
+        button.startAnimation(anim_scale_down);
 
     }
 
-    private void buttonsListener() {
+    private void runIntent(Intent intent) {
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                startActivity(intent);
+
+            }
+        },170);
+
+    }
+
+    private void runButtonListeners() {
 
         button_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 intent.putExtra("key", "signin");
-                buttonAnimation(button_signin);
+                buttonAnimator(button_signin);
+                runIntent(intent);
 
             }
         });
@@ -70,27 +101,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 intent.putExtra("key", "signup");
-                buttonAnimation(button_signup);
+                buttonAnimator(button_signup);
+                runIntent(intent);
 
 
             }
         });
-
-    }
-
-    private void buttonAnimation(Button button) {
-
-        button.startAnimation(scale_up);
-        button.startAnimation(scale_down);
-        button.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                startActivity(intent);
-//                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-            }
-        }, 200);
 
     }
 

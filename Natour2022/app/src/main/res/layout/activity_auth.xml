@@ -18,10 +18,10 @@
 
             <ImageButton
                 android:id="@+id/activityAuth_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@null"
                 app:srcCompat="@drawable/button_back"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -42,9 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="16dp" />
 
         </LinearLayout>

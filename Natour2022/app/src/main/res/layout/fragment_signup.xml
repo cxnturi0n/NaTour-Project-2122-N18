@@ -5,9 +5,9 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupFragment"
+    android:focusable="true"
     android:focusableInTouchMode="true"
-    android:focusable="true">
+    tools:context=".SignupFragment">
 
     <TextView
         android:id="@+id/fragmentSignup_signuptext"
@@ -18,6 +18,8 @@
         android:text="@string/activityAuth_signup"
         android:textColor="#373737"
         android:textSize="48sp"
+        android:layout_marginHorizontal="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentSignup_username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,6 +35,8 @@
         android:inputType="text"
         android:minHeight="48dp"
         android:paddingStart="16dp"
+        android:layout_marginHorizontal="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentSignup_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,12 +52,13 @@
         android:drawableStart="@drawable/icon_mail"
         android:drawablePadding="16dp"
         android:hint="@string/activityAuth_emailid"
-
+        android:layout_marginHorizontal="32dp"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:paddingStart="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentSignup_password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragmentSignup_username"
         tools:ignore="TextContrastCheck" />
@@ -70,8 +75,10 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:paddingStart="16dp"
+        android:layout_marginHorizontal="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentSignup_retypepassw"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragmentSignup_email"
         tools:ignore="TextContrastCheck" />
@@ -85,12 +92,13 @@
         android:drawableStart="@drawable/icon_lock"
         android:drawablePadding="16dp"
         android:hint="@string/activityAuth_retypepassword"
-
+        android:layout_marginHorizontal="32dp"
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:paddingStart="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentSignup_signup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragmentSignup_password"
         tools:ignore="TextContrastCheck" />
@@ -105,7 +113,10 @@
         android:text="@string/activityAuth_signup"
         android:textAllCaps="false"
         android:textColor="@color/white"
+        android:stateListAnimator="@null"
         android:textSize="20sp"
+        android:layout_marginHorizontal="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentSignup_termsandconditions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -122,9 +133,10 @@
         android:textAlignment="center"
         android:textColor="#373737"
         android:textSize="14sp"
+        android:layout_marginHorizontal="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragmentSignup_signup"
         app:layout_constraintVertical_bias="0.0" />
