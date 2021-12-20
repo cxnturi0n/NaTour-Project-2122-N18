@@ -17,20 +17,22 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SignupFragment extends Fragment {
 
@@ -45,6 +47,7 @@ public class SignupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_signup, container, false);
+
     }
 
     @Override
@@ -59,8 +62,11 @@ public class SignupFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                String username = edit_user.getText().toString();
+                String email = edit_email.getText().toString();
+                String password = edit_password.getText().toString();
                 buttonAnimator(button);
-//                handleSignUp();
+                handleSignUp(username, email, password);
                 runIntent(intent);
 
             }
@@ -105,44 +111,38 @@ public class SignupFragment extends Fragment {
 
     }
 
-    private JSONObject getPostRequest() {
+    private void handleSignUp(String username, String email, String password) {
 
-        String username = edit_user.getText().toString();
-        String email = edit_email.getText().toString();
-        String password = edit_password.getText().toString();
 
-        Map<String, String>params = new HashMap<>();
+        String URL_POST= "https://eagwqm6kz0.execute-api.eu-central-1.amazonaws.com/dev/user";
 
-        params.put("username", username);
-        params.put("email", email);
-        params.put("password", password);
+        OkHttpClient client = new OkHttpClient();
 
-        JSONObject body = new JSONObject(params);
+        String json = "{\"username\":"+username+",\"email\":"+email+",\"password\":"+password+"}";
 
-        return body;
+        RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"), json);
 
-    }
+        Request request = new Request.Builder()
+                .url(URL_POST)
+                .post(body)
+                .build();
 
-    private void handleSignUp() {
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                //Se metto Toast per qualche motivo crasha, da risolvere
+                Log.e("HTTP_ERROR",e.getMessage());
+            }
 
-        RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        String url = "";
-        JSONObject body = getPostRequest();
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                //Qui va stampato il messaggio di avvenuta registrazione : response.body().string()
+                //Se metto Toast per qualche motivo crasha, da risolvere
+                Log.e("HTTP_RESPONSE",  response.body().string());
+            }
+        });
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.e("OK",response.toString());
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                            Log.e("ERROR1",error.getMessage());
-                    }
-                });
-
-        Volley.newRequestQueue(this.getContext()).add(jsonObjectRequest);
     }
 }
