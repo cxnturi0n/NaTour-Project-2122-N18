@@ -3,6 +3,7 @@ package org.natour.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import org.natour.exceptions.PersistenceException;
 
 
@@ -12,6 +13,7 @@ public class MySqlDB {
 
     public static Connection getConnection() throws PersistenceException {
         Connection conn;
+        Connection con;
         try {
             conn =
                     DriverManager.getConnection(URL);
