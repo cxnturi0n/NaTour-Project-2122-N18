@@ -1,57 +1,45 @@
 package org.natour;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.natour.dao_factories.UserDAOFactory;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysql.cj.xdevapi.JsonParser;
 import org.natour.daos.UserDAO;
 import org.natour.daos_impl.UserDaoMySql;
 import org.natour.exceptions.PersistenceException;
-import org.natour.entities.User;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import org.natour.models.User;
 
-public class Function implements RequestHandler<Request, String> {
+public class Function implements RequestHandler<Request, Object> {
     @Override
-    public String handleRequest(Request request, Context context) {
-        UserDAO user_dao;
-        Response response_object;
-        String response;
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public Object handleRequest(Request request, Context context) {
 
+        UserDAO user_dao;
         try {
-            user_dao = UserDAOFactory.getUserDAO("mysql");
+            user_dao = new UserDaoMySql();
         } catch (PersistenceException e) {
             return e.getMessage();
         }
+
         switch (request.getHttpMethod()) {
             case "GET":
                 try {
                     User user = user_dao.getUserByUsername(request.getUsername());
-                    response_object = new Response(user);
-                    response = gson.toJson(response_object);
-                    return response;
-
+                    return user;
                 } catch (PersistenceException e) {
-                    response_object = new Response(e.getMessage());
-                    response = gson.toJson(response_object);
-                    return response;
+                    return e.getMessage();
                 }
             case "POST":
                 try {
                     user_dao.saveUser(request.getUser());
-                    response_object = new Response("User saved successfully");
-                    response = gson.toJson(response_object);
+                    Response response = new Response("User saved successfully");
                     return response;
                 } catch (PersistenceException e) {
-                    response_object = new Response(e.getMessage());
-                    response = gson.toJson(response_object);
-                    return response;
+                    return e.getMessage();
                 }
         }
         return null;
     }
-
-
 }
 

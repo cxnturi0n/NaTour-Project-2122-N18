@@ -3,7 +3,7 @@ package org.natour.daos_impl;
 import org.natour.daos.UserDAO;
 import org.natour.db.MySqlDB;
 import org.natour.exceptions.PersistenceException;
-import org.natour.entities.User;
+import org.natour.models.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
