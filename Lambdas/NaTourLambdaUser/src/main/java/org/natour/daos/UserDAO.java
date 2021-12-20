@@ -1,7 +1,7 @@
 package org.natour.daos;
 
 import org.natour.exceptions.PersistenceException;
-import org.natour.models.User;
+import org.natour.entities.User;
 
 public interface UserDAO {
 

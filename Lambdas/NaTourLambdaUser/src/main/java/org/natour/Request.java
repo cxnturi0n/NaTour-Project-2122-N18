@@ -1,6 +1,6 @@
 package org.natour;
 
-import org.natour.models.User;
+import org.natour.entities.User;
 
 public class Request {
 
