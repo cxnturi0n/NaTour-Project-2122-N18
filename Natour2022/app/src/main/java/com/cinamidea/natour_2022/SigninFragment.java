@@ -52,7 +52,7 @@ public class SigninFragment extends Fragment {
         anim_scale_up = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
         anim_scale_down = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_down);
 
-        intent = new Intent(getActivity(), ProfileActivity.class);
+        intent = new Intent(getActivity(), HomeActivity.class);
 
     }
     private void buttonAnimator(Button button) {
