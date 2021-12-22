@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menuLayout_container"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/menu_bottom_background">
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_line"/>
+
+    <android.widget.Button
+        android:id="@+id/menuLayout_settings"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@null"
+        android:drawableStart="@drawable/icon_settings"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingStart="16dp"
+        android:stateListAnimator="@null"
+        android:text="Settings"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="32dp" />
+
+    <android.widget.Button
+        android:id="@+id/menuLayout_addPath"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/icon_addpath"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingStart="16dp"
+        android:stateListAnimator="@null"
+        android:text="Add path"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="32dp" />
+
+    <android.widget.Button
+        android:id="@+id/menuLayout_openMap"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:drawableStart="@drawable/icon_openmap"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingStart="16dp"
+        android:stateListAnimator="@null"
+        android:text="Open map"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="32dp" />
+
+    <android.widget.Button
+        android:id="@+id/menuLayout_favouritePaths"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:drawableStart="@drawable/icon_favouritepaths"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingStart="16dp"
+        android:stateListAnimator="@null"
+        android:text="Favourite paths"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="32dp" />
+
+    <android.widget.Button
+        android:id="@+id/menuLayout_savedPaths"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/icon_savedpaths"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingStart="16dp"
+        android:stateListAnimator="@null"
+        android:text="Saved paths"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="32dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:background="@color/white"/>
+
+</LinearLayout>
