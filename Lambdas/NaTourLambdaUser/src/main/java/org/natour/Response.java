@@ -1,16 +1,34 @@
 package org.natour;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.natour.entities.User;
 
 public class Response {
-    private String error_message;
+    private String message;
     private User user;
 
     public Response(){}
     public Response(String message) {
-        this.error_message = message;
+        this.message = message;
     }
     public Response(User user) {
+        this.user = user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
         this.user = user;
     }
 }
