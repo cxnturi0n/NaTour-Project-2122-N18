@@ -29,18 +29,27 @@ public class Function implements RequestHandler<Request, String> {
                     return getJsonResponse(e.getMessage(), null);
                 }
             case "POST":
+                //Signup(and return)
+                if (request.getUser() != null) {
+                    try {
+                        User new_user = request.getUser();
+
+                        Cognito.signUpUser(new_user.getEmail(), new_user.getPassword(), new_user.getUsername());
+
+                        user_dao.saveUser(request.getUser());
+                        return getJsonResponse("User saved successfully", null);
+                    } catch (PersistenceException e) {
+                        return getJsonResponse(e.getMessage(), null);
+                    }
+                }
+                //Confirm signup
                 try {
-                    String email = request.getUser().getEmail();
-                    String username = request.getUser().getUsername();
-                    String password = request.getUser().getPassword();
-
-                    Cognito.signUpUser(email, password, username);
-
-                    user_dao.saveUser(request.getUser());
-                    return getJsonResponse("User saved successfully", null);
+                    Cognito.confirmUser(request.getUsername(), request.getConfirmation_code());
+                    return getJsonResponse("User confirmed", null);
                 } catch (PersistenceException e) {
                     return getJsonResponse(e.getMessage(), null);
                 }
+
         }
         return null;
     }

@@ -10,12 +10,16 @@ public class Request {
 
     private User user;
 
+    private String confirmation_code;
+
     public Request(){}
 
-    public Request(String httpMethod, String username, User user) {
+    public Request(String httpMethod, String username, User user, String confirmation_code) {
         this.httpMethod = httpMethod;
         this.username = username;
         this.user = user;
+
+        this.confirmation_code = confirmation_code;
     }
 
     public String getHttpMethod() {
@@ -42,4 +46,11 @@ public class Request {
         this.user = user;
     }
 
+    public String getConfirmation_code() {
+        return confirmation_code;
+    }
+
+    public void setConfirmation_code(String confirmation_code) {
+        this.confirmation_code = confirmation_code;
+    }
 }

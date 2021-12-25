@@ -1,7 +1,5 @@
 package org.natour;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.natour.entities.User;
 
 public class Response {
