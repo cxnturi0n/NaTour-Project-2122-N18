@@ -4,8 +4,6 @@ import org.natour.entities.User;
 
 public class Request {
 
-    private String httpMethod;
-
     private User user;
 
     private String confirmation_code;
@@ -14,20 +12,12 @@ public class Request {
 
     public Request(){}
 
-    public Request(String httpMethod, User user, String confirmation_code, String action) {
-        this.httpMethod = httpMethod;
+    public Request(User user, String confirmation_code, String action) {
         this.user = user;
         this.confirmation_code = confirmation_code;
         this.action = action;
     }
 
-    public String getHttpMethod() {
-        return httpMethod;
-    }
-
-    public void setHttpMethod(String httpMethod) {
-        this.httpMethod = httpMethod;
-    }
 
     public User getUser() {
         return user;
@@ -53,12 +43,4 @@ public class Request {
         this.action = action;
     }
 
-    @Override
-    public String toString() {
-        return "Request{" +
-                "httpMethod='" + httpMethod + '\'' +
-                ", user=" + user.toString() +
-                ", confirmation_code='" + confirmation_code + '\'' +
-                '}';
-    }
 }
