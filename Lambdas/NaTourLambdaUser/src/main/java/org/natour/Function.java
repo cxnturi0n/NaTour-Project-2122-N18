@@ -2,69 +2,58 @@ package org.natour;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.natour.dao_factories.UserDAOFactory;
-import org.natour.daos.UserDAO;
 import org.natour.exceptions.PersistenceException;
-import org.natour.entities.User;
 import org.natour.idps.Cognito;
 
 public class Function implements RequestHandler<Request, String> {
     @Override
     public String handleRequest(Request request, Context context) {
-        UserDAO user_dao;
+     /*   UserDAO user_dao;
         try {
             user_dao = UserDAOFactory.getUserDAO("mysql");
         } catch (PersistenceException e) {
-            return getJsonResponse(e.getMessage(), null);
-        }
+            throw new RuntimeException(e.getMessage());
+        }*/
         switch (request.getHttpMethod()) {
-            case "GET":
+          /*  case "GET":
                 try {
-                    User user = user_dao.getUserByUsername(request.getUsername());
-                    return getJsonResponse(null, user);
-
+                    String username = request.getUser().getUsername();
+                    User user = user_dao.getUserByUsername(username);
+                    return user!=null ? username+" is already used" : "";
                 } catch (PersistenceException e) {
-                    return getJsonResponse(e.getMessage(), null);
-                }
+                    throw new RuntimeException(e.getMessage());
+                }*/
             case "POST":
                 //Signup(and return)
-                if (request.getUser() != null) {
+                if (request.getAction().equalsIgnoreCase("SIGNUP")) {
                     try {
-                        User new_user = request.getUser();
-
-                        Cognito.signUpUser(new_user.getEmail(), new_user.getPassword(), new_user.getUsername());
-
-                        user_dao.saveUser(request.getUser());
-                        return getJsonResponse("User saved successfully", null);
+                        Cognito.signUpUser(request.getUser());
+                        //user_dao.saveUser(new_user);
+                        return "User signed up successfully";
                     } catch (PersistenceException e) {
-                        return getJsonResponse(e.getMessage(), null);
+                        throw new RuntimeException(e.getMessage());
                     }
-                }
-                //Confirm signup
-                try {
-                    Cognito.confirmUser(request.getUsername(), request.getConfirmation_code());
-                    return getJsonResponse("User confirmed", null);
-                } catch (PersistenceException e) {
-                    return getJsonResponse(e.getMessage(), null);
-                }
+                } else if (request.getAction().equalsIgnoreCase("CONFIRM")) {
+                    //Confirm signup
+                    try {
+                        Cognito.confirmUser(request.getUser().getUsername(), request.getConfirmation_code());
+                        return "User confirmed";
+                    } catch (PersistenceException e) {
+                        throw new RuntimeException(e.getMessage());
+                    }
+                } else if (request.getAction().equalsIgnoreCase("SIGNIN")) {
+                    try {
+                        Cognito.signInUser(request.getUser().getUsername(), request.getUser().getPassword());
+                        return "User signed in successfully";
+                    } catch (PersistenceException e) {
+                        throw new RuntimeException(e.getMessage());
+                    }
+                } else if (request.getAction().equalsIgnoreCase("RESET_PWD")) {
 
+                }
         }
         return null;
     }
 
-    public String getJsonResponse(String message, User user) {
-        Response response = new Response();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json;
-        if (message != null)
-            response.setMessage(message);
-        if (user != null)
-            response.setUser(user);
-        json = gson.toJson(response);
-        return json;
-    }
 
 }
-

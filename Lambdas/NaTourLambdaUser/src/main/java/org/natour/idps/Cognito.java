@@ -1,7 +1,9 @@
 package org.natour.idps;
 
+import org.natour.entities.User;
 import org.natour.exceptions.PersistenceException;
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.cognitoidentity.model.CognitoIdentityProvider;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.*;
 
@@ -10,6 +12,8 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cognito {
 
@@ -20,7 +24,7 @@ public class Cognito {
 
     }
 
-    public static void signUpUser(String email, String password, String username) throws PersistenceException {
+    public static void signUpUser(User user) throws PersistenceException {
 
         //Creating cognito provider client
         CognitoIdentityProviderClient cognito_client = CognitoIdentityProviderClient.builder()
@@ -31,13 +35,13 @@ public class Cognito {
             //Setting up user attributes(in our case, only email is needed)
             AttributeType user_attributes = AttributeType.builder()
                     .name("email")
-                    .value(email)
+                    .value(user.getEmail())
                     .build();
 
             //Safe way to encode client id and secret id
-            String secret_hash = getSecretHash(username);
+            String secret_hash = getSecretHash(user.getUsername());
             //Setting up user request, specifying user pool id, username, password and attributes
-            SignUpRequest signup_request = SignUpRequest.builder().username(username).password(password).userAttributes(user_attributes).clientId(CLIENT_ID).secretHash(secret_hash).build();
+            SignUpRequest signup_request = SignUpRequest.builder().username(user.getUsername()).password(user.getPassword()).userAttributes(user_attributes).clientId(CLIENT_ID).secretHash(secret_hash).build();
 
             //Creating user
             cognito_client.signUp(signup_request);
@@ -70,6 +74,38 @@ public class Cognito {
         }
     }
 
+    public static void changeUserPassword(String username, String new_password, String old_password) throws PersistenceException {
+
+        CognitoIdentityProviderClient cognito_client = CognitoIdentityProviderClient.builder()
+                .region(Region.EU_CENTRAL_1)
+                .build();
+    }
+
+    public static void signInUser(String username, String password) throws PersistenceException {
+
+
+        CognitoIdentityProviderClient cognito_client = CognitoIdentityProviderClient.builder()
+                .region(Region.EU_CENTRAL_1)
+                .build();
+        try {
+            Map<String, String> auth_params = new HashMap<>();
+            auth_params.put("USERNAME", username);
+            auth_params.put("PASSWORD", password);
+            auth_params.put("SECRET_HASH", getSecretHash(username));
+
+            InitiateAuthRequest signin_request = InitiateAuthRequest.builder().authParameters(auth_params).
+                    clientId(CLIENT_ID).authFlow(AuthFlowType.USER_PASSWORD_AUTH).build();
+
+            cognito_client.initiateAuth(signin_request);
+
+        } catch (CognitoIdentityProviderException e) {
+            throw new PersistenceException(e.awsErrorDetails().errorMessage());
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     private static String getSecretHash(String username) throws NoSuchAlgorithmException, InvalidKeyException {
 
@@ -84,4 +120,5 @@ public class Cognito {
         byte[] rawHmac = mac.doFinal(CLIENT_ID.getBytes(StandardCharsets.UTF_8));
         return java.util.Base64.getEncoder().encodeToString(rawHmac);
     }
+
 }

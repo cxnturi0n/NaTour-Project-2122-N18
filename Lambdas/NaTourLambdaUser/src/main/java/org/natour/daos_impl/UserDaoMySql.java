@@ -52,4 +52,9 @@ public class UserDaoMySql implements UserDAO {
             throw new PersistenceException("An error has occurred while trying to fetch the user");
         }
     }
+
+    @Override
+    public User updateUserPassword(String username, String new_password) throws PersistenceException {
+        return null;
+    }
 }
