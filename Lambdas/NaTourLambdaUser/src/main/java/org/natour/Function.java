@@ -2,8 +2,9 @@ package org.natour;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import org.natour.exceptions.PersistenceException;
+import org.natour.exceptions.CognitoException;
 import org.natour.idps.Cognito;
+import software.amazon.awssdk.services.cognitoidentityprovider.model.CognitoIdentityProviderException;
 
 public class Function implements RequestHandler<Request, String> {
     @Override
@@ -16,35 +17,35 @@ public class Function implements RequestHandler<Request, String> {
                 try {
                     cognito.signUpUser(request.getUser());
                     return "User signed up successfully";
-                } catch (PersistenceException e) {
+                } catch (CognitoException e) {
                     throw new RuntimeException(e.getMessage());
                 }
             case "CONFIRM":
                 try {
                     cognito.confirmUser(request.getUser().getUsername(), request.getConfirmation_code());
                     return "User confirmed";
-                } catch (PersistenceException e) {
+                } catch (CognitoException e) {
                     throw new RuntimeException(e.getMessage());
                 }
             case "SIGNIN":
                 try {
                     cognito.signInUser(request.getUser().getUsername(), request.getUser().getPassword());
                     return "User signed in successfully";
-                } catch (PersistenceException e) {
+                } catch (CognitoException e) {
                     throw new RuntimeException(e.getMessage());
                 }
             case "FORGOT_PWD":
                 try {
                     cognito.initiateForgotPassword(request.getUser().getUsername());
                     return "A code has been sent to your mail";
-                } catch (PersistenceException e) {
+                } catch (CognitoException e) {
                     throw new RuntimeException(e.getMessage());
                 }
             case "RESET_PWD":
                 try {
                     cognito.resetPassword(request.getUser().getUsername(), request.getUser().getPassword(), request.getConfirmation_code());
                     return "Password changed successfully";
-                } catch (PersistenceException e) {
+                } catch (CognitoException e) {
                     throw new RuntimeException(e.getMessage());
                 }
             default:

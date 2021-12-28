@@ -77,5 +77,4 @@ public class SigninFragment extends Fragment {
 
     }
 
-
 }

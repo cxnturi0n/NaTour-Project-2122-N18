@@ -26,7 +26,6 @@ public class PinActivity extends AppCompatActivity {
         textvw_email = findViewById(R.id.activityPin_mail);
 
         String email = getIntent().getExtras().getString("email");
-        maskEmail(email);
 
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,18 +33,6 @@ public class PinActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-    }
-
-    private void maskEmail(String email) {
-
-        StringBuilder sb = new StringBuilder(email);
-        for (int i = 3; i < sb.length() && sb.charAt(i) != '@'; ++i) {
-            sb.setCharAt(i, '*');
-        }
-        email = sb.toString();
-
-        textvw_email.setText(email);
 
     }
 

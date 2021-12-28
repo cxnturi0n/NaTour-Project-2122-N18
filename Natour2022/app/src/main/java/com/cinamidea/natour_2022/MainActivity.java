@@ -5,10 +5,16 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+
+import io.getstream.chat.android.client.ChatClient;
+import io.getstream.chat.android.client.logger.ChatLogLevel;
+import io.getstream.chat.android.client.models.User;
+import io.getstream.chat.android.livedata.ChatDomain;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,12 +30,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        try {
+            ChatClient client = new ChatClient.Builder("nbcrsrs5wrj8", getApplicationContext())
+                    .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
+                    .build();
+            new ChatDomain.Builder(client, getApplicationContext()).build();
+
+            User user = new User();
+            user.setId("Fabio9161998");
+            user.setName("Fabiolino");
+
+            String token = client.devToken(user.getId());
+            client.connectUser(
+                    user,
+                    token
+            ).enqueue();
+        }catch(Exception e){
+            Log.e("ERRORR",e.getMessage());
+        }
+
         // Identifica le varie componenti assegnandole.
         setupViewComponents();
 
         //Avvia l'animazione iniziale
         runAnimation();
-
 
         /* Al touch di un button, viene effettuata l'animazione e avvia l'activity, passando
         * i parametri che serviranno successivamente a capire quale fragment utilizzare

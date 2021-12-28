@@ -1,9 +1,8 @@
 package org.natour.idps;
 
 import org.natour.entities.User;
-import org.natour.exceptions.PersistenceException;
+import org.natour.exceptions.CognitoException;
 import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.cognitoidentity.model.CognitoIdentityProvider;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.*;
 
@@ -17,8 +16,9 @@ import java.util.Map;
 
 public class Cognito {
 
-    private final String CLIENT_ID = "157v4iepuh9gof03tp1u4hh9fb";
-    private final String CLIENT_SECRET = "llqe93m3ekag6akhcmikopbtid99e9u677an6sstvov8q8p0psh";
+    private final String CLIENT_ID = "4ulpal8rtklpegf8g6dspl2ohf";
+    private final String CLIENT_SECRET = "u2ak5epv5vo30j20ml214vrbaju4u8s864laeh2g6qpmk1ojoe5";
+    private final String POOL_ID = "eu-central-1_p9SqKuadx";
     private CognitoIdentityProviderClient cognito_client;
 
     public Cognito() {
@@ -28,7 +28,7 @@ public class Cognito {
                 .build();
     }
 
-    public void signUpUser(User user) throws PersistenceException {
+    public void signUpUser(User user) throws CognitoException {
 
         try {
             //Setting up user attributes(in our case, only email is needed)
@@ -45,15 +45,14 @@ public class Cognito {
             //Creating user
             cognito_client.signUp(signup_request);
 
-
         } catch (CognitoIdentityProviderException e) {
-            throw new PersistenceException(e.awsErrorDetails().errorMessage());
+            throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new PersistenceException(e.getMessage());
+            throw new CognitoException(e.getMessage());
         }
     }
 
-    public void confirmUser(String username, String confirmation_code) throws PersistenceException {
+    public void confirmUser(String username, String confirmation_code) throws CognitoException {
 
         try {
             //Safe way to encode client id and secret id
@@ -63,14 +62,17 @@ public class Cognito {
             //Confirming user by confirmation_code(Sent via email after signup)
             cognito_client.confirmSignUp(c);
         } catch (CognitoIdentityProviderException e) {
-            throw new PersistenceException(e.awsErrorDetails().errorMessage());
+            throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new PersistenceException(e.getMessage());
+            throw new CognitoException(e.getMessage());
         }
     }
 
-    public void initiateForgotPassword(String username) throws PersistenceException {
+        public void initiateForgotPassword(String username) throws CognitoException {
         try {
+            if(checkUserExists(username) == false){
+                throw new CognitoException("User does not exist");
+            }
             String secret_hash = getSecretHash(username);
 
             ForgotPasswordRequest forgotpwd_request = ForgotPasswordRequest.builder().clientId(CLIENT_ID).secretHash(secret_hash).username(username).build();
@@ -78,13 +80,13 @@ public class Cognito {
             cognito_client.forgotPassword(forgotpwd_request);
 
         } catch (CognitoIdentityProviderException e) {
-            throw new PersistenceException(e.awsErrorDetails().errorMessage());
+            throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new PersistenceException(e.getMessage());
+            throw new CognitoException(e.getMessage());
         }
     }
 
-    public void resetPassword(String username, String new_password, String confirmation_code) throws PersistenceException {
+    public void resetPassword(String username, String new_password, String confirmation_code) throws CognitoException {
 
         try {
             String secret_hash = getSecretHash(username);
@@ -94,13 +96,13 @@ public class Cognito {
             cognito_client.confirmForgotPassword(confirm_forgotpwd_request);
 
         } catch (CognitoIdentityProviderException e) {
-            throw new PersistenceException(e.awsErrorDetails().errorMessage());
+            throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new PersistenceException(e.getMessage());
+            throw new CognitoException(e.getMessage());
         }
     }
 
-    public void signInUser(String username, String password) throws PersistenceException {
+    public void signInUser(String username, String password) throws CognitoException {
 
 
         try {
@@ -115,7 +117,7 @@ public class Cognito {
             cognito_client.initiateAuth(signin_request);
 
         } catch (CognitoIdentityProviderException e) {
-            throw new PersistenceException(e.awsErrorDetails().errorMessage());
+            throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
         }
@@ -137,4 +139,16 @@ public class Cognito {
         return java.util.Base64.getEncoder().encodeToString(rawHmac);
     }
 
+    public boolean checkUserExists(String username) {
+        try {
+            AdminGetUserRequest getuser_request = AdminGetUserRequest.builder().userPoolId(POOL_ID).username(username).build();
+
+            AdminGetUserResponse getuser_response = cognito_client.adminGetUser(getuser_request);
+
+            return getuser_response == null ? false : true;
+
+        } catch (CognitoIdentityProviderException e) {
+            return false;
+        }
+    }
 }

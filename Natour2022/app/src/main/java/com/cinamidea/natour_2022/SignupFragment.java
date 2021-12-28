@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class SignupFragment extends Fragment {
 
@@ -42,6 +44,7 @@ public class SignupFragment extends Fragment {
     private EditText edit_user;
     private EditText edit_email;
     private EditText edit_password;
+    private Handler signup_handler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +60,8 @@ public class SignupFragment extends Fragment {
         // Identifica le varie componenti assegnandole.
         setupViewComponents(view);
 
+        signup_handler = new Handler(Looper.getMainLooper());
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +72,6 @@ public class SignupFragment extends Fragment {
                 String password = edit_password.getText().toString();
                 buttonAnimator(button);
                 handleSignUp(username, email, password);
-                runIntent(intent);
-
             }
         });
 
@@ -84,7 +87,6 @@ public class SignupFragment extends Fragment {
         edit_password = view.findViewById(R.id.fragmentSignup_password);
 
         intent = new Intent(getActivity(), PinActivity.class);
-
     }
 
     private void buttonAnimator(Button button) {
@@ -118,10 +120,10 @@ public class SignupFragment extends Fragment {
 
         OkHttpClient client = new OkHttpClient();
 
-        String json = "{\"username\":"+username+",\"email\":"+email+",\"password\":"+password+"}";
+        String json = "{\"username\":"+username+",\"email\":"+email+",\"password\":"+password+",\"action\":\"SIGNUP\"}";
 
-        RequestBody body = RequestBody.create(
-                MediaType.parse("application/json"), json);
+
+        RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
 
         Request request = new Request.Builder()
                 .url(URL_POST)
@@ -129,20 +131,50 @@ public class SignupFragment extends Fragment {
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
+            Handler mainHandler = new Handler(Looper.getMainLooper());
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                //Se metto Toast per qualche motivo crasha, da risolvere
-                Log.e("HTTP_ERROR",e.getMessage());
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(),
+                                e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                //Qui va stampato il messaggio di avvenuta registrazione : response.body().string()
-                //Se metto Toast per qualche motivo crasha, da risolvere
-                Log.e("HTTP_RESPONSE",  response.body().string());
+
+                int response_code = response.code();
+                if(response_code == 200)
+                {
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            //SUCCESS SIGN UP
+                            runIntent(intent);
+                        }
+                    });
+                }
+                else if(response_code == 400){
+                    String body = response.body().string();
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            //FAILED SIGN UP
+                                Toast.makeText(getActivity(),
+                                        body,
+                                        Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
-
     }
+
+
 }
