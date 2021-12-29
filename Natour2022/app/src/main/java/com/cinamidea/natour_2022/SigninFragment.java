@@ -14,12 +14,15 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class SigninFragment extends Fragment {
 
     private Button button;
     private Animation anim_scale_up, anim_scale_down;
-    private Intent intent;
+    private Intent home_intent, forgotpwd_intent;
+    private TextView text_forgotpwd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,7 +42,17 @@ public class SigninFragment extends Fragment {
             public void onClick(View v) {
 
                 buttonAnimator(button);
-                runIntent(intent);
+                runIntent(home_intent);
+
+            }
+        });
+
+        text_forgotpwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(forgotpwd_intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
             }
         });
@@ -49,10 +62,12 @@ public class SigninFragment extends Fragment {
     private void setupViewComponents(View view) {
 
         button = view.findViewById(R.id.fragmentSignin_signin);
+        text_forgotpwd = view.findViewById(R.id.fragmentSignin_forgotpassword);
         anim_scale_up = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
         anim_scale_down = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_down);
 
-        intent = new Intent(getActivity(), HomeActivity.class);
+        home_intent = new Intent(getActivity(), HomeActivity.class);
+        forgotpwd_intent = new Intent(getActivity(), ForgotPwdActivity.class);
 
     }
     private void buttonAnimator(Button button) {
@@ -76,5 +91,4 @@ public class SigninFragment extends Fragment {
         },170);
 
     }
-
 }

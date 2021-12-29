@@ -77,15 +77,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activityPin_pin" />
 
-    <android.widget.Button
+    <TextView
         android:id="@+id/button2"
-        android:layout_width="50dp"
-        android:layout_height="20dp"
-        android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Resend"
-        android:stateListAnimator="@null"
+        android:clickable="true"
         android:textColor="@color/mygreen"
-        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

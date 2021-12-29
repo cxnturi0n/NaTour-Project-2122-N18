@@ -17,8 +17,8 @@
     <string name="activityAuth_orsigninwith">Or, sign in with</string>
     <string name="activityAuth_signup">Sign up</string>
     <string name="activityAuth_terms">By signing up, you agree to our Terms &amp; Privacy Policy.</string>
+    <string name="activityAuth_forgotpassword">Forgot your password?</string>
     <string name="activityAuth_alreadyhaveanaccount"><font color='#373737'>Already have an account?</font><font color='#88B27E'> Sign in</font></string>
-    <!-- TODO: Remove or change this placeholder text -->
 
     <!-- Activity_Pin -->
     <string name="activityPin_title">Email verification</string>
@@ -27,5 +27,11 @@
     <string name="activityPin_codemessage">Didn\'t receive code?</string>
     <string name="activityPin_verifyaccount">Verify account</string>
 
+    <!-- Activity_ResetPwd -->
+    <string name="activityForgotPwd_title">Reset your password</string>
+    <string name="activityForgotPwd_message">Enter the email associated with your account and we\'ll send an email with a code to reset your password</string>
+    <string name="activityForgotPwd_send">Send code</string>
+    <string name="activityForgotPwd_message2">Enter the code that was sent by email to reset your password.</string>
+    <string name="activityForgotPwd_reset">Reset your password</string>
 
 </resources>
