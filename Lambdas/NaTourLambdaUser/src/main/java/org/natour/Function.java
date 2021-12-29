@@ -4,7 +4,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.natour.exceptions.CognitoException;
 import org.natour.idps.Cognito;
-import software.amazon.awssdk.services.cognitoidentityprovider.model.CognitoIdentityProviderException;
 
 public class Function implements RequestHandler<Request, String> {
     @Override

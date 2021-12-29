@@ -44,7 +44,6 @@ public class SignupFragment extends Fragment {
     private EditText edit_user;
     private EditText edit_email;
     private EditText edit_password;
-    private Handler signup_handler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +59,6 @@ public class SignupFragment extends Fragment {
         // Identifica le varie componenti assegnandole.
         setupViewComponents(view);
 
-        signup_handler = new Handler(Looper.getMainLooper());
 
 
         button.setOnClickListener(new View.OnClickListener() {
