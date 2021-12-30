@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth_util.Authentication;
 
 import java.io.IOException;
 
@@ -46,9 +47,8 @@ public class SignupFragment extends CustomAuthFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Identifica le varie componenti assegnandole.
         setupViewComponents(view);
-        customListeners();
+        setListeners();
 
     }
 
@@ -66,7 +66,7 @@ public class SignupFragment extends CustomAuthFragment {
 
     }
 
-    private void customListeners() {
+    private void setListeners() {
 
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,72 +76,12 @@ public class SignupFragment extends CustomAuthFragment {
                 String email = edit_email.getText().toString();
                 String password = edit_password.getText().toString();
                 runAnimation(signup_button);
-                handleSignUp(username, email, password);
-            }
-        });
-
-    }
-
-
-    private void handleSignUp(String username, String email, String password) {
-
-
-        String URL_POST= "https://eagwqm6kz0.execute-api.eu-central-1.amazonaws.com/dev/user";
-
-        OkHttpClient client = new OkHttpClient();
-
-        String json = "{\"username\":"+username+",\"email\":"+email+",\"password\":"+password+",\"action\":\"SIGNUP\"}";
-
-
-        RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
-
-        Request request = new Request.Builder()
-                .url(URL_POST)
-                .post(body)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(),
-                                e.getMessage(),
-                                Toast.LENGTH_SHORT).show();
-                    }
+                intent.putExtra("username", username);
+                Authentication auth = new Authentication(getActivity());
+                auth.initiateSignUp(username, email, password);
+                auth.handleAuthentication(() -> {
+                   runHandledIntent(intent);
                 });
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
-                int response_code = response.code();
-                if(response_code == 200)
-                {
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            //SUCCESS SIGN UP
-                            intent.putExtra("email", edit_email.getText().toString());
-                            runHandledIntent(intent);
-                        }
-                    });
-                }
-                else if(response_code == 400){
-                    String body = response.body().string();
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //FAILED SIGN UP
-                                Toast.makeText(getActivity(),
-                                        body,
-                                        Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
             }
         });
 

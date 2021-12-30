@@ -15,8 +15,9 @@ import com.cinamidea.natour_2022.R;
 
 public class ResetCRCodeFragment extends Fragment {
 
-    private CallBackListener callBackListener;
+    private ResetCRFragmentSwitcher resetCRFragmentSwitcher;
     private Button button;
+    private com.chaos.view.PinView pin_view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,15 +30,14 @@ public class ResetCRCodeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        callBackListener = (CallBackListener) getActivity();
+        resetCRFragmentSwitcher = (ResetCRFragmentSwitcher) getActivity();
         button = view.findViewById(R.id.fragmentCR2_continue);
+        pin_view = view.findViewById(R.id.fragmentCR2_code);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                callBackListener.onContinueAfterCode();
-
+                resetCRFragmentSwitcher.switchToSigninFragment(pin_view.getText().toString());
             }
         });
 

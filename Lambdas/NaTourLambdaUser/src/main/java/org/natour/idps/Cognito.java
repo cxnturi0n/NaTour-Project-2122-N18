@@ -16,9 +16,9 @@ import java.util.Map;
 
 public class Cognito {
 
-    private final String CLIENT_ID = "4ulpal8rtklpegf8g6dspl2ohf";
-    private final String CLIENT_SECRET = "u2ak5epv5vo30j20ml214vrbaju4u8s864laeh2g6qpmk1ojoe5";
-    private final String POOL_ID = "eu-central-1_p9SqKuadx";
+    private final String CLIENT_ID = "76j5vv51mpjjc5eep0s5q1mihv";
+    private final String CLIENT_SECRET = "1a25lpng74h4kp8gd5lipe2humfnjb65s5352lnbdmpfuq0s4pop";
+    private final String POOL_ID = "eu-central-1_htxZs32be";
     private CognitoIdentityProviderClient cognito_client;
 
     public Cognito() {
@@ -70,9 +70,9 @@ public class Cognito {
 
         public void initiateForgotPassword(String username) throws CognitoException {
         try {
-            if(checkUserExists(username) == false){
+            /*if(checkUserExists(username) == false){
                 throw new CognitoException("User does not exist");
-            }
+            }*/
             String secret_hash = getSecretHash(username);
 
             ForgotPasswordRequest forgotpwd_request = ForgotPasswordRequest.builder().clientId(CLIENT_ID).secretHash(secret_hash).username(username).build();

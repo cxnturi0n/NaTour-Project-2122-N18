@@ -5,18 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth_util.Authentication;
 
 public class PinActivity extends AppCompatActivity {
 
     private ImageButton button_back;
+    private Intent intent;
+    private String username;
+    private com.chaos.view.PinView pin_view;
+    private Button button_verify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +32,20 @@ public class PinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pin);
 
         button_back = findViewById(R.id.activityPin_backbutton);
+        button_verify = findViewById(R.id.activityPin_button);
+        pin_view = findViewById(R.id.activityPin_pin);
+
+        username = getIntent().getExtras().getString("username");
+
+        intent = new Intent(this, HomeActivity.class);
+
+        setListeners();
 
     }
 
 
 
-    private void customListeners() {
+    private void setListeners() {
 
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +54,16 @@ public class PinActivity extends AppCompatActivity {
             }
         });
 
+        button_verify.setOnClickListener(view -> {
+            String confirmation_code = pin_view.getText().toString();
+            Authentication auth = new Authentication(this);
+            auth.initiateConfirmSignUp(username, confirmation_code);
+            auth.handleAuthentication(() -> {
+                startActivity(intent);
+            });
+        });
     }
+
+
 
 }

@@ -3,8 +3,14 @@ package com.cinamidea.natour_2022.auth;
 import android.os.Bundle;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth_util.Authentication;
 
-public class ResetCRActivity extends CustomAuthActivity implements CallBackListener {
+public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragmentSwitcher {
+
+    String username;
+    String password;
+    String code;
+    Authentication auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -12,32 +18,45 @@ public class ResetCRActivity extends CustomAuthActivity implements CallBackListe
         setContentView(R.layout.activity_resetcr);
 
         changeFragment(R.id.activityResetCR_framelayout, new ResetCRUserFragment());
-
+        setupViewComponents();
     }
 
     @Override
     protected void setupViewComponents() {
 
-    }
-
-    @Override
-    public void onContinueAfterUser() {
-
-        changeFragment(R.id.activityResetCR_framelayout, new ResetCRCodeFragment());
+        auth = new Authentication(this);
 
     }
 
     @Override
-    public void onContinueAfterCode() {
+    public void switchToResetCRPasswordFragment(String username) {
 
-        changeFragment(R.id.activityResetCR_framelayout, new ResetCRPasswordFragment());
+        this.username = username;
+        auth.initiateForgotPassword(username);
+        auth.handleAuthentication(() -> {
+            changeFragment(R.id.activityResetCR_framelayout, new ResetCRPasswordFragment());
+        });
+
 
     }
 
     @Override
-    public void onContinueAfterPassword() {
+    public void switchToSigninFragment(String confirmation_code) {
 
+        this.code = confirmation_code;
+        auth.initiateResetPassword(username, password, code);
+        auth.handleAuthentication(() -> {
+            changeFragment(R.id.activityResetCR_framelayout, new ResetCRPasswordFragment());
+        });
         finish();
+
+    }
+
+    @Override
+    public void switchToResetCRCodeFragment(String password) {
+
+        this.password = password;
+        changeFragment(R.id.activityResetCR_framelayout, new ResetCRCodeFragment());
 
     }
 

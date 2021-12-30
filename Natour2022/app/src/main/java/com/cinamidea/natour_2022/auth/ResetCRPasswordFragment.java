@@ -10,13 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.cinamidea.natour_2022.R;
 
 public class ResetCRPasswordFragment extends Fragment {
 
-    private CallBackListener callBackListener;
+    private ResetCRFragmentSwitcher resetCRFragmentSwitcher;
     private Button button;
+    private EditText et_password;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,14 +31,16 @@ public class ResetCRPasswordFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        callBackListener = (CallBackListener) getActivity();
+        resetCRFragmentSwitcher = (ResetCRFragmentSwitcher) getActivity();
         button = view.findViewById(R.id.fragmentCR3_continue);
+        et_password = view.findViewById(R.id.fragmentCR3_password);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                callBackListener.onContinueAfterPassword();
+
+                resetCRFragmentSwitcher.switchToResetCRCodeFragment(et_password.getText().toString());
 
             }
         });
