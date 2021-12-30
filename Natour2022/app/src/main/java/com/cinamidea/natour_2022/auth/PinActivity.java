@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022;
+package com.cinamidea.natour_2022.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,10 +12,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.cinamidea.natour_2022.R;
+
 public class PinActivity extends AppCompatActivity {
 
     private ImageButton button_back;
-    private TextView textvw_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +24,12 @@ public class PinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pin);
 
         button_back = findViewById(R.id.activityPin_backbutton);
-        textvw_email = findViewById(R.id.activityPin_mail);
 
-        String email = getIntent().getExtras().getString("email");
+    }
+
+
+
+    private void customListeners() {
 
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,12 +38,6 @@ public class PinActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
 }

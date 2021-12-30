@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022;
+package com.cinamidea.natour_2022.auth;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class AuthActivity extends AppCompatActivity {
+import com.cinamidea.natour_2022.R;
+
+public class AuthActivity extends CustomAuthActivity {
 
     private ImageView auth_image;
     private ImageButton button_back;
@@ -22,10 +24,13 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(R.layout.activity_auth);
 
         setupViewComponents();
-
-        // Prendo i parametri ricevuti tramite l'Intent e decido quale fragment utilizzare.
         setupFragment();
 
+        customListeners();
+
+    }
+
+    private void customListeners() {
 
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,30 +39,14 @@ public class AuthActivity extends AppCompatActivity {
             }
         });
 
-
-    }
-
-    private void setupViewComponents() {
-
-        auth_image = findViewById(R.id.activityAuth_image);
-        button_back = findViewById(R.id.activityAuth_back);
-
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    protected void setupViewComponents() {
+        auth_image = findViewById(R.id.activityAuth_image);
+        button_back = findViewById(R.id.activityAuth_back);
     }
 
-    private void changeFragment(Fragment fragment) {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activityAuth_framelayout, fragment);
-        fragmentTransaction.commit();
-
-    }
 
     private void setupFragment() {
 
@@ -65,14 +54,14 @@ public class AuthActivity extends AppCompatActivity {
         if(data.equals("signin")) {
 
             auth_image.setImageResource(R.drawable.image_signin);
-            changeFragment(new SigninFragment());
+            changeFragment(R.id.activityAuth_framelayout, new SigninFragment());
 
         }
 
         else {
 
             auth_image.setImageResource(R.drawable.image_signup);
-            changeFragment(new SignupFragment());
+            changeFragment(R.id.activityAuth_framelayout, new SignupFragment());
 
         }
 

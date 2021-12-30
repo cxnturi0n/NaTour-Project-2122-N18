@@ -11,6 +11,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
+import com.cinamidea.natour_2022.auth.AuthActivity;
+
 import io.getstream.chat.android.client.ChatClient;
 import io.getstream.chat.android.client.logger.ChatLogLevel;
 import io.getstream.chat.android.client.models.User;
@@ -18,17 +20,25 @@ import io.getstream.chat.android.livedata.ChatDomain;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button_signin;
-    private Button button_signup;
-    private Animation anim_scale_up;
-    private Animation anim_scale_down;
+    private Button button_signin, button_signup;
+    private Animation anim_scale_up, anim_scale_down;
     private Intent intent;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startup();
+
+        setupViewComponents();
+        runButtonListeners();
+
+    }
+
+    private void chat() {
 
         try {
             ChatClient client = new ChatClient.Builder("nbcrsrs5wrj8", getApplicationContext())
@@ -49,19 +59,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e("ERRORR",e.getMessage());
         }
 
-        // Identifica le varie componenti assegnandole.
-        setupViewComponents();
-
-        //Avvia l'animazione iniziale
-        runAnimation();
-
-        /* Al touch di un button, viene effettuata l'animazione e avvia l'activity, passando
-        * i parametri che serviranno successivamente a capire quale fragment utilizzare
-        * nella nuova activity. */
-        runButtonListeners();
-
-
-
     }
 
     private void setupViewComponents() {
@@ -74,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void runAnimation() {
+    private void startup() {
 
         MotionLayout ml = findViewById(R.id.motionlayout);
         Handler handler = new Handler();
@@ -86,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void buttonAnimator(Button button) {
+    private void runAnimation(Button button) {
 
         button.startAnimation(anim_scale_up);
         button.startAnimation(anim_scale_down);
@@ -95,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void runIntent(Intent intent) {
 
-        Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -114,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 intent.putExtra("key", "signin");
-                buttonAnimator(button_signin);
+                runAnimation(button_signin);
                 runIntent(intent);
 
             }
@@ -125,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 intent.putExtra("key", "signup");
-                buttonAnimator(button_signup);
+                runAnimation(button_signup);
                 runIntent(intent);
 
 

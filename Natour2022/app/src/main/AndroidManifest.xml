@@ -12,7 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Natour2022">
         <activity
-            android:name=".ForgotPwdActivity"
+            android:name=".auth.CustomAuthActivity"
+            android:exported="false" />
+        <activity
+            android:name=".auth.ResetCRActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
@@ -21,11 +24,11 @@
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".PinActivity"
+            android:name=".auth.PinActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".AuthActivity"
+            android:name=".auth.AuthActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity

@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022;
+package com.cinamidea.natour_2022.auth;
 
 import android.os.Bundle;
 
@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class ForgotPwdFirstFragment extends Fragment {
+import com.cinamidea.natour_2022.R;
+
+public class ResetCRCodeFragment extends Fragment {
 
     private CallBackListener callBackListener;
     private Button button;
@@ -20,7 +22,7 @@ public class ForgotPwdFirstFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forgotpwd_first, container, false);
+        return inflater.inflate(R.layout.fragment_resetcr_code, container, false);
     }
 
     @Override
@@ -28,13 +30,13 @@ public class ForgotPwdFirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         callBackListener = (CallBackListener) getActivity();
-        button = view.findViewById(R.id.activityForgotPwd_sendcode);
+        button = view.findViewById(R.id.fragmentCR2_continue);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                callBackListener.onSend();
+                callBackListener.onContinueAfterCode();
 
             }
         });

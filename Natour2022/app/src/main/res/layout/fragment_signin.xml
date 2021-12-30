@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".SigninFragment">
+    tools:context=".auth.SigninFragment">
 
     <TextView
         android:id="@+id/fragmentSignin_signintext"

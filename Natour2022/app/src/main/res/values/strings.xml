@@ -28,10 +28,13 @@
     <string name="activityPin_verifyaccount">Verify account</string>
 
     <!-- Activity_ResetPwd -->
-    <string name="activityForgotPwd_title">Reset your password</string>
-    <string name="activityForgotPwd_message">Enter the email associated with your account and we\'ll send an email with a code to reset your password</string>
-    <string name="activityForgotPwd_send">Send code</string>
-    <string name="activityForgotPwd_message2">Enter the code that was sent by email to reset your password.</string>
-    <string name="activityForgotPwd_reset">Reset your password</string>
+    <string name="ResetCR_message1">Enter your username and we will send you instructions to your email to reset your password</string>
+    <string name="ResetCR_continue">Continue</string>
+    <string name="ResetCR_backto">Back to sign in</string>
+    <string name="ResetCR_title2">Type your code</string>
+    <string name="ResetCR_password">New password</string>
+    <string name="ResetCR_message2">Enter the code that was sent by email to reset your account</string>
+    <string name="ResetCR_message3">Set your new password so you can login and access Pothub</string>
+    <string name="ResetCR_title3">Create new password</string>
 
 </resources>
