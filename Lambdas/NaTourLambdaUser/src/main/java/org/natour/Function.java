@@ -10,6 +10,7 @@ public class Function implements RequestHandler<Request, String> {
     public String handleRequest(Request request, Context context) {
 
         Cognito cognito = new Cognito();
+
         String action = request.getAction();
         switch (action) {
             case "SIGNUP":
