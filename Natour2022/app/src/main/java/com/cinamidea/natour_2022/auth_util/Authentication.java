@@ -102,6 +102,15 @@ public class Authentication {
                         public void run() {
 
                             //SUCCESS SIGN UP
+                            String body = null;
+                            try {
+                                body = response.body().string();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Toast.makeText(activity,
+                                    body,
+                                    Toast.LENGTH_SHORT).show();
                             switcher.act();
                         }
                     });

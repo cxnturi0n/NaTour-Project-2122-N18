@@ -16,9 +16,9 @@ import java.util.Map;
 
 public class Cognito {
 
-    private final String CLIENT_ID = "8n9n3nkuge7umc25ia3e8b006";
-    private final String CLIENT_SECRET = "mndk5iq9hjol3uere7rl3po29141b7p42b9r1foit11dr82crbr";
-    private final String POOL_ID = "eu-central-1_7XoEtc1jk";
+    private final String CLIENT_ID = "1sigg4esflld9dhip7p8qqq6gf";
+    private final String CLIENT_SECRET = "i2jp6s491muunjqf3osh9bk3qem0mv63pajrl1j3g3ho4dn7n15";
+    private final String POOL_ID = "eu-central-1_TvSkO1faz";
     private CognitoIdentityProviderClient cognito_client;
 
     public Cognito() {
@@ -31,9 +31,9 @@ public class Cognito {
     public void signUpUser(User user) throws CognitoException {
 
         try {
-            if(userExists(user.getEmail())){
+            if(userExistsByEmail(user.getEmail()))
                 throw new CognitoException("A user with this email already exists");
-            }
+
             //Setting up user attributes(in our case, only email is needed)
             AttributeType user_attributes = AttributeType.builder()
                     .name("email")
@@ -73,9 +73,10 @@ public class Cognito {
 
         public void initiateForgotPassword(String username) throws CognitoException {
         try {
-            if(!userExists(username)){
+
+            if(!userExistsByUsername(username))
                 throw new CognitoException("User does not exist");
-            }
+
             String secret_hash = getSecretHash(username);
 
             ForgotPasswordRequest forgotpwd_request = ForgotPasswordRequest.builder().clientId(CLIENT_ID).secretHash(secret_hash).username(username).build();
@@ -142,12 +143,31 @@ public class Cognito {
         return java.util.Base64.getEncoder().encodeToString(rawHmac);
     }
 
-    public boolean userExists(String email) throws CognitoException{
+    public boolean userExistsByEmail(String email) throws CognitoException{
         try {
 
             String filter = "email = \""+email+"\"";
 
             ListUsersRequest usersRequest = ListUsersRequest.builder()
+                    .userPoolId(POOL_ID).limit(1)
+                    .filter(filter)
+                    .build();
+
+            ListUsersResponse response = cognito_client.listUsers(usersRequest);
+
+            return !response.users().isEmpty();
+
+        } catch (CognitoIdentityProviderException e) {
+            throw new CognitoException(e.getMessage());
+        }
+    }
+
+    public boolean userExistsByUsername(String username) throws CognitoException{
+        try {
+
+            String filter = "username = \""+username+"\"";
+
+            ListUsersRequest usersRequest = ListUsersRequest.builder().limit(1)
                     .userPoolId(POOL_ID)
                     .filter(filter)
                     .build();
