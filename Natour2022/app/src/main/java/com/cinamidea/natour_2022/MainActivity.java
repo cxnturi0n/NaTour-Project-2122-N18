@@ -12,6 +12,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import io.getstream.chat.android.client.ChatClient;
 import io.getstream.chat.android.client.logger.ChatLogLevel;
@@ -29,36 +31,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        startup();
-
-        setupViewComponents();
-        runButtonListeners();
-
-    }
-
-    private void chat() {
-
-        try {
-            ChatClient client = new ChatClient.Builder("nbcrsrs5wrj8", getApplicationContext())
-                    .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
-                    .build();
-            new ChatDomain.Builder(client, getApplicationContext()).build();
-
-            User user = new User();
-            user.setId("Fabio9161998");
-            user.setName("Fabiolino");
-
-            String token = client.devToken(user.getId());
-            client.connectUser(
-                    user,
-                    token
-            ).enqueue();
-        }catch(Exception e){
-            Log.e("ERRORR",e.getMessage());
+/*        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account != null){
+            Log.e("s",account.getEmail());
+            intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
         }
+        else {*/
+            setContentView(R.layout.activity_main);
 
+            startup();
+
+            setupViewComponents();
+            runButtonListeners();
+        //}
     }
 
     private void setupViewComponents() {
@@ -67,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         button_signup =  findViewById(R.id.signup);
         anim_scale_up = AnimationUtils.loadAnimation(this, R.anim.scale_up);
         anim_scale_down = AnimationUtils.loadAnimation(this, R.anim.scale_down);
-        intent = new Intent(MainActivity.this, AuthActivity.class);
+        intent = new Intent(this, AuthActivity.class);
 
     }
 
@@ -75,11 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         MotionLayout ml = findViewById(R.id.motionlayout);
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                ml.transitionToEnd();
-            }
-        }, 1000);
+        handler.postDelayed(() -> ml.transitionToEnd(), 1000);
 
     }
 
@@ -92,40 +75,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void runIntent(Intent intent) {
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                startActivity(intent);
-
-            }
-        },170);
+        handler.postDelayed(() -> startActivity(intent),170);
 
     }
 
     private void runButtonListeners() {
 
-        button_signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button_signin.setOnClickListener(v -> {
 
-                intent.putExtra("key", "signin");
-                runAnimation(button_signin);
-                runIntent(intent);
+            intent.putExtra("key", "signin");
+            runAnimation(button_signin);
+            runIntent(intent);
 
-            }
         });
 
-        button_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button_signup.setOnClickListener(v -> {
 
-                intent.putExtra("key", "signup");
-                runAnimation(button_signup);
-                runIntent(intent);
+            intent.putExtra("key", "signup");
+            runAnimation(button_signup);
+            runIntent(intent);
 
 
-            }
         });
 
     }

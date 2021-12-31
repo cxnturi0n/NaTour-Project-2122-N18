@@ -38,21 +38,9 @@ public class ResetCRUserFragment extends Fragment {
         text_back = view.findViewById(R.id.fragmentCR1_back);
         et_username = view.findViewById(R.id.fragmentCR1_user);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        button.setOnClickListener(view1 -> resetCRFragmentSwitcher.switchToResetCRPasswordFragment(et_username.getText().toString()));
 
-                resetCRFragmentSwitcher.switchToResetCRPasswordFragment(et_username.getText().toString());
-
-            }
-        });
-
-        text_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().finish();
-            }
-        });
+        text_back.setOnClickListener(view12 -> getActivity().finish());
 
 
     }

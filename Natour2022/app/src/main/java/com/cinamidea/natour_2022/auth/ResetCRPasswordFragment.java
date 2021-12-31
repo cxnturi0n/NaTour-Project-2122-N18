@@ -35,15 +35,7 @@ public class ResetCRPasswordFragment extends Fragment {
         button = view.findViewById(R.id.fragmentCR3_continue);
         et_password = view.findViewById(R.id.fragmentCR3_password);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                resetCRFragmentSwitcher.switchToResetCRCodeFragment(et_password.getText().toString());
-
-            }
-        });
+        button.setOnClickListener(view1 -> resetCRFragmentSwitcher.switchToResetCRCodeFragment(et_password.getText().toString()));
 
 
 

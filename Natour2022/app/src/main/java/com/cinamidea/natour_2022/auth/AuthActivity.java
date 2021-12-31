@@ -32,12 +32,7 @@ public class AuthActivity extends CustomAuthActivity {
 
     private void customListeners() {
 
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        button_back.setOnClickListener(v -> finish());
 
     }
 

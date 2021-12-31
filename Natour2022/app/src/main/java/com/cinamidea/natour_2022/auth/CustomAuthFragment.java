@@ -39,27 +39,17 @@ public abstract class CustomAuthFragment extends Fragment {
 
     protected void runHandledIntent(Intent intent) {
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                startActivity(intent);
-
-            }
-        },170);
+        handler.postDelayed(() -> startActivity(intent),170);
 
     }
 
     protected void runHandledIntent(Intent intent, int enter_animation, int exit_animation) {
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        handler.postDelayed(() -> {
 
-                startActivity(intent);
-                getActivity().overridePendingTransition(enter_animation, exit_animation);
+            startActivity(intent);
+            getActivity().overridePendingTransition(enter_animation, exit_animation);
 
-            }
         },170);
 
     }

@@ -6,27 +6,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.Authentication;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
 
 public class SignupFragment extends CustomAuthFragment {
 
@@ -68,22 +55,19 @@ public class SignupFragment extends CustomAuthFragment {
 
     private void setListeners() {
 
-        signup_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        signup_button.setOnClickListener(v -> {
 
-                String username = edit_user.getText().toString();
-                String email = edit_email.getText().toString();
-                String password = edit_password.getText().toString();
-                runAnimation(signup_button);
-                intent.putExtra("username", username);
-                intent.putExtra("email", email);
-                Authentication auth = new Authentication(getActivity());
-                auth.initiateSignUp(username, email, password);
-                auth.handleAuthentication(() -> {
-                   runHandledIntent(intent);
-                });
-            }
+            String username = edit_user.getText().toString();
+            String email = edit_email.getText().toString();
+            String password = edit_password.getText().toString();
+            runAnimation(signup_button);
+            intent.putExtra("username", username);
+            intent.putExtra("email", email);
+            AWSCognitoAuthentication auth = new AWSCognitoAuthentication(getActivity());
+            auth.initiateSignUp(username, email, password);
+            auth.handleAuthentication(() -> {
+               runHandledIntent(intent);
+            });
         });
 
     }

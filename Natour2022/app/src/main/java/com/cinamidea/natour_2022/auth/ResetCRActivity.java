@@ -3,14 +3,14 @@ package com.cinamidea.natour_2022.auth;
 import android.os.Bundle;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.Authentication;
+import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
 
 public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragmentSwitcher {
 
     String username;
     String password;
     String code;
-    Authentication auth;
+    AWSCognitoAuthentication auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragme
     @Override
     protected void setupViewComponents() {
 
-        auth = new Authentication(this);
+        auth = new AWSCognitoAuthentication(this);
 
     }
 

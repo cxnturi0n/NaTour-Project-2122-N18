@@ -3,21 +3,15 @@ package com.cinamidea.natour_2022.auth;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.Authentication;
+import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
 
 public class PinActivity extends AppCompatActivity {
 
@@ -50,16 +44,11 @@ public class PinActivity extends AppCompatActivity {
 
     private void setListeners() {
 
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        button_back.setOnClickListener(v -> finish());
 
         button_verify.setOnClickListener(view -> {
             String confirmation_code = pin_view.getText().toString();
-            Authentication auth = new Authentication(this);
+            AWSCognitoAuthentication auth = new AWSCognitoAuthentication(this);
             auth.initiateConfirmSignUp(username, confirmation_code);
             auth.handleAuthentication(() -> {
                 startActivity(intent);

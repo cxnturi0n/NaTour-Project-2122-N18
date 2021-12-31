@@ -34,12 +34,7 @@ public class ResetCRCodeFragment extends Fragment {
         button = view.findViewById(R.id.fragmentCR2_continue);
         pin_view = view.findViewById(R.id.fragmentCR2_code);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resetCRFragmentSwitcher.switchToSigninFragment(pin_view.getText().toString());
-            }
-        });
+        button.setOnClickListener(view1 -> resetCRFragmentSwitcher.switchToSigninFragment(pin_view.getText().toString()));
 
 
 

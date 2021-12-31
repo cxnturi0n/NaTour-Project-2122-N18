@@ -17,7 +17,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Authentication {
+public class AWSCognitoAuthentication {
 
     OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30,TimeUnit.SECONDS)
@@ -34,7 +34,7 @@ public class Authentication {
     private String request_body;
 
 
-    public Authentication(Activity activity) {
+    public AWSCognitoAuthentication(Activity activity) {
         this.activity = activity;
     }
 
@@ -81,14 +81,9 @@ public class Authentication {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(activity,
-                                e.getMessage()+" ok",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                activity.runOnUiThread(() -> Toast.makeText(activity,
+                        e.getMessage(),
+                        Toast.LENGTH_SHORT).show());
             }
 
             @Override
@@ -97,45 +92,36 @@ public class Authentication {
 
                 int response_code = response.code();
                 if (response_code == 200) {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
+                    activity.runOnUiThread(() -> {
 
-                            //SUCCESS SIGN UP
-                            String body = null;
-                            try {
-                                body = response.body().string();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            Toast.makeText(activity,
-                                    body,
-                                    Toast.LENGTH_SHORT).show();
-                            switcher.act();
+                        //SUCCESS SIGN UP
+                        String body1 = null;
+                        try {
+                            body1 = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
+                        Toast.makeText(activity,
+                                body1,
+                                Toast.LENGTH_SHORT).show();
+                        switcher.act();
                     });
                 } else if (response_code == 400) {
                     String body = response.body().string();
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //FAILED SIGN UP
-                            Toast.makeText(activity,
-                                    body,
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    activity.runOnUiThread(() -> {
+                        //FAILED SIGN UP
+                        Toast.makeText(activity,
+                                body,
+                                Toast.LENGTH_LONG).show();
                     });
                 }
                 else if (response_code == 500) {
                     String body = response.body().string();
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //FAILED SIGN UP
-                            Toast.makeText(activity,
-                                    "INTERNAL SERVER ERROR",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    activity.runOnUiThread(() -> {
+                        //FAILED SIGN UP
+                        Toast.makeText(activity,
+                                "INTERNAL SERVER ERROR",
+                                Toast.LENGTH_SHORT).show();
                     });
                 }
             }

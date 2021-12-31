@@ -37,4 +37,6 @@
     <string name="ResetCR_message3">Set your new password so you can login and access Pothub</string>
     <string name="ResetCR_title3">Create new password</string>
 
+    <string name="server_client_id">556927589955-0jgcao4tfbrllnjie8c5b1qr8nlce0mo.apps.googleusercontent.com</string>
+
 </resources>

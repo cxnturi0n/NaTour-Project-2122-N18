@@ -21,12 +21,9 @@ public class HomeActivity extends AppCompatActivity {
 
         setupViewComponents();
 
-        imgbutton_avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
+        imgbutton_avatar.setOnClickListener(view -> {
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
 

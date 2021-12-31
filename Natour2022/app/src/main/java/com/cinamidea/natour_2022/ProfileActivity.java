@@ -22,27 +22,21 @@ public class ProfileActivity extends AppCompatActivity {
 
         button_menu = findViewById(R.id.activityProfile_menuButton);
 
-        button_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        button_menu.setOnClickListener(view -> {
 
-                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ProfileActivity.this, R.style.BottomSheetDialogTheme);
-                View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(
-                        R.layout.menu_bottom_layout,
-                        findViewById(R.id.menuLayout_container)
-                );
+            final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ProfileActivity.this, R.style.BottomSheetDialogTheme);
+            View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(
+                    R.layout.menu_bottom_layout,
+                    findViewById(R.id.menuLayout_container)
+            );
 
-                bottomSheetView.findViewById(R.id.menuLayout_settings).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText( ProfileActivity.this, "Settings...", Toast.LENGTH_SHORT).show();
-                        bottomSheetDialog.dismiss();
-                    }
-                });
-                bottomSheetDialog.setContentView(bottomSheetView);
-                bottomSheetDialog.show();
+            bottomSheetView.findViewById(R.id.menuLayout_settings).setOnClickListener(view1 -> {
+                Toast.makeText( ProfileActivity.this, "Settings...", Toast.LENGTH_SHORT).show();
+                bottomSheetDialog.dismiss();
+            });
+            bottomSheetDialog.setContentView(bottomSheetView);
+            bottomSheetDialog.show();
 
-            }
         });
 
 
