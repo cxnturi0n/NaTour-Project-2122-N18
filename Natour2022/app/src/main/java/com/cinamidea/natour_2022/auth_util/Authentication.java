@@ -7,6 +7,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -17,7 +19,9 @@ import okhttp3.Response;
 
 public class Authentication {
 
-    private OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30,TimeUnit.SECONDS)
+            .build();
 
     private final String URL_POST = "https://eagwqm6kz0.execute-api.eu-central-1.amazonaws.com/dev/user";
 
@@ -81,7 +85,7 @@ public class Authentication {
                     @Override
                     public void run() {
                         Toast.makeText(activity,
-                                e.getMessage(),
+                                e.getMessage()+" ok",
                                 Toast.LENGTH_SHORT).show();
                     }
                 });

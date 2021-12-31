@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class PinActivity extends AppCompatActivity {
     private String username;
     private com.chaos.view.PinView pin_view;
     private Button button_verify;
+    private TextView tw_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,9 @@ public class PinActivity extends AppCompatActivity {
         button_back = findViewById(R.id.activityPin_backbutton);
         button_verify = findViewById(R.id.activityPin_button);
         pin_view = findViewById(R.id.activityPin_pin);
-
-        username = getIntent().getExtras().getString("username");
+        tw_email = findViewById(R.id.activityPin_mail);
+        tw_email.setText(getIntent().getStringExtra("email"));
+        username = getIntent().getStringExtra("username");
 
         intent = new Intent(this, HomeActivity.class);
 

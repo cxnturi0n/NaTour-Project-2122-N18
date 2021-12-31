@@ -77,6 +77,7 @@ public class SignupFragment extends CustomAuthFragment {
                 String password = edit_password.getText().toString();
                 runAnimation(signup_button);
                 intent.putExtra("username", username);
+                intent.putExtra("email", email);
                 Authentication auth = new Authentication(getActivity());
                 auth.initiateSignUp(username, email, password);
                 auth.handleAuthentication(() -> {
