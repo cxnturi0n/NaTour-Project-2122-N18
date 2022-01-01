@@ -51,7 +51,7 @@ public class Cognito {
         } catch (CognitoIdentityProviderException e) {
             throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new CognitoException(e.getMessage());
+            throw new CognitoException("Server Error");
         }
     }
 
@@ -67,7 +67,7 @@ public class Cognito {
         } catch (CognitoIdentityProviderException e) {
             throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new CognitoException(e.getMessage());
+            throw new CognitoException("Server Error");
         }
     }
 
@@ -86,7 +86,7 @@ public class Cognito {
         } catch (CognitoIdentityProviderException e) {
             throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new CognitoException(e.getMessage());
+            throw new CognitoException("Server Error");
         }
     }
 
@@ -102,7 +102,7 @@ public class Cognito {
         } catch (CognitoIdentityProviderException e) {
             throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new CognitoException(e.getMessage());
+            throw new CognitoException("Server Error");
         }
     }
 
@@ -123,7 +123,7 @@ public class Cognito {
         } catch (CognitoIdentityProviderException e) {
             throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            e.printStackTrace();
+            throw new CognitoException("Server Error");
         }
 
     }
