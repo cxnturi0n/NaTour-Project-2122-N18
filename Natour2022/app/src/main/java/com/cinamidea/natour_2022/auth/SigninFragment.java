@@ -79,8 +79,12 @@ public class SigninFragment extends CustomAuthFragment {
         button_signin.setOnClickListener(v -> {
 
             runAnimation(button_signin);
+
             String username = edit_user.getText().toString();
             String password = edit_password.getText().toString();
+
+            home_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
             AWSCognitoAuthentication auth = new AWSCognitoAuthentication(getActivity());
             auth.initiateSignin(username, password);
             auth.handleAuthentication(() -> {

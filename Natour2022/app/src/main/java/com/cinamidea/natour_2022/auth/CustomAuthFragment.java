@@ -43,6 +43,7 @@ public abstract class CustomAuthFragment extends Fragment {
 
     }
 
+
     protected void runHandledIntent(Intent intent, int enter_animation, int exit_animation) {
 
         handler.postDelayed(() -> {

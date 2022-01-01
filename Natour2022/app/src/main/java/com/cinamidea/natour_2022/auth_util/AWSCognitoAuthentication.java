@@ -27,9 +27,6 @@ public class AWSCognitoAuthentication {
 
     private Activity activity;
 
-    private String username, email, password;
-
-    private String confirmation_code;
 
     private String request_body;
 
@@ -40,32 +37,22 @@ public class AWSCognitoAuthentication {
 
 
     public void initiateSignUp(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
         request_body = "{\"username\":" + username + ",\"email\":" + email + ",\"password\":" + password + ",\"action\":\"SIGNUP\"}";
     }
 
     public void initiateConfirmSignUp(String username, String confirmation_code) {
-        this.username = username;
-        this.confirmation_code = confirmation_code;
         request_body = "{\"username\":" + username + ",\"confirmation_code\":" + confirmation_code + ",\"action\":\"CONFIRM\"}";
     }
 
     public void initiateSignin(String username, String password) {
-        this.username = username;
-        this.password = password;
         request_body = "{\"username\":" + username + ",\"password\":" + password + ",\"action\":\"SIGNIN\"}";
     }
 
     public void initiateForgotPassword(String username) {
-        this.username = username;
         request_body = "{\"username\":" + username + ",\"action\":\"FORGOT_PWD\"}";
     }
 
     public void initiateResetPassword(String username, String password, String confirmation_code) {
-        this.username = username;
-        this.password = password;
         request_body = "{\"username\":" + username + ",\"password\":" + password + ",\"confirmation_code\":" + confirmation_code + ",\"action\":\"RESET_PWD\"}";
     }
 

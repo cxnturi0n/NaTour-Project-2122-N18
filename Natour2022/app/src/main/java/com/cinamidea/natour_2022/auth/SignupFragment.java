@@ -60,9 +60,13 @@ public class SignupFragment extends CustomAuthFragment {
             String username = edit_user.getText().toString();
             String email = edit_email.getText().toString();
             String password = edit_password.getText().toString();
+
             runAnimation(signup_button);
+
             intent.putExtra("username", username);
             intent.putExtra("email", email);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
             AWSCognitoAuthentication auth = new AWSCognitoAuthentication(getActivity());
             auth.initiateSignUp(username, email, password);
             auth.handleAuthentication(() -> {
@@ -71,6 +75,5 @@ public class SignupFragment extends CustomAuthFragment {
         });
 
     }
-
-
+    
 }

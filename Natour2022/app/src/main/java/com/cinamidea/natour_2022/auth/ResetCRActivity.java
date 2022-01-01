@@ -47,9 +47,8 @@ public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragme
         auth.initiateResetPassword(username, password, code);
         auth.handleAuthentication(() -> {
             changeFragment(R.id.activityResetCR_framelayout, new ResetCRPasswordFragment());
+            finish();
         });
-        finish();
-
     }
 
     @Override
