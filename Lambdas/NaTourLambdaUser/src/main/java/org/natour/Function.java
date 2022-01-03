@@ -12,7 +12,7 @@ public class Function implements RequestHandler<Request, String> {
         Cognito cognito = new Cognito();
         String action = request.getAction();
         switch (action) {
-            case "SIGNUP":
+            case "REGISTER":
                 try {
                     cognito.signUpUser(request.getUser());
 
@@ -32,24 +32,26 @@ public class Function implements RequestHandler<Request, String> {
                 } catch (CognitoException e) {
                     throw new RuntimeException(e.getMessage());
                 }
-            case "SIGNIN":
-                try {
-                    String tokens = cognito.signInUserAndGetTokens(request.getUser().getUsername(), request.getUser().getPassword());
 
-                    return tokens;
+            case "TOKEN_LOGIN":
+
+                cognito.verifyIdToken(request.getId_token());
+
+                return "Successfully signed in";
+
+            case "GET_TOKENS":
+                try {
+                    String json_tokens = cognito.signInUserAndGetTokens(request.getUser().getUsername(), request.getUser().getPassword());
+
+                    return json_tokens;
 
                 } catch (CognitoException e) {
 
                     throw new RuntimeException(e.getMessage());
 
                 }
-            case "SIGNIN_TOKEN":
 
-                cognito.verifyIdToken(request.getId_token());
-
-                return "Successfully signed in";
-
-            case "REFRESH":
+            case "REFRESH_TOKEN":
                 try {
                     String new_id_token = cognito.getNewIdToken(request.getRefresh_token(), request.getUser().getUsername());
 
@@ -80,7 +82,6 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
             default:
-
                 throw new RuntimeException("Wrong action");
         }
     }
