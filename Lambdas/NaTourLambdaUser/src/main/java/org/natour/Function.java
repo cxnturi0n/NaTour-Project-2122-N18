@@ -39,7 +39,7 @@ public class Function implements RequestHandler<Request, String> {
 
                 return "Successfully signed in";
 
-            case "GET_TOKENS":
+            case "PASSWORD":
                 try {
                     String json_tokens = cognito.signInUserAndGetTokens(request.getUser().getUsername(), request.getUser().getPassword());
 

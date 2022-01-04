@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
+import com.cinamidea.natour_2022.auth_util.AuthenticationCallback;
 
 public class SignupFragment extends CustomAuthFragment {
 
@@ -67,10 +68,33 @@ public class SignupFragment extends CustomAuthFragment {
             intent.putExtra("email", email);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            AWSCognitoAuthentication auth = new AWSCognitoAuthentication(getActivity());
-            auth.initiateSignUp(username, email, password);
-            auth.handleAuthentication(() -> {
-               runHandledIntent(intent);
+            AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+            auth.signUp(username, email, password);
+            auth.handleAuthentication(new AuthenticationCallback() {
+                @Override
+                public void handleStatus200(String response) {
+
+                }
+
+                @Override
+                public void handleStatus400(String response) {
+
+                }
+
+                @Override
+                public void handleStatus401(String response) {
+
+                }
+
+                @Override
+                public void handleStatus500(String response) {
+
+                }
+
+                @Override
+                public void handleRequestException(String message) {
+
+                }
             });
         });
 
