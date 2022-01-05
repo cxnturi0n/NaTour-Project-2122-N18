@@ -1,16 +1,18 @@
 package com.cinamidea.natour_2022.auth;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
+import com.cinamidea.natour_2022.auth_util.AuthenticationCallback;
+import com.cinamidea.natour_2022.auth_util.GetCodeForPasswordResetCallback;
+import com.cinamidea.natour_2022.auth_util.ResetPasswordCallback;
 
 public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragmentSwitcher {
 
     String username;
     String password;
-    String code;
-    AWSCognitoAuthentication auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,31 +26,25 @@ public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragme
     @Override
     protected void setupViewComponents() {
 
-        auth = new AWSCognitoAuthentication(this);
 
     }
 
     @Override
     public void switchToResetCRPasswordFragment(String username) {
 
+        Log.e("Error","1");
         this.username = username;
-        auth.initiateForgotPassword(username);
-        auth.handleAuthentication(() -> {
-            changeFragment(R.id.activityResetCR_framelayout, new ResetCRPasswordFragment());
-        });
 
+        AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
 
+        auth.getCodeForPasswordReset(username, new GetCodeForPasswordResetCallback(this));
     }
 
     @Override
     public void switchToSigninFragment(String confirmation_code) {
 
-        this.code = confirmation_code;
-        auth.initiateResetPassword(username, password, code);
-        auth.handleAuthentication(() -> {
-            changeFragment(R.id.activityResetCR_framelayout, new ResetCRPasswordFragment());
-            finish();
-        });
+        AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+        auth.resetPassword(username, password, confirmation_code, new ResetPasswordCallback(this));
     }
 
     @Override

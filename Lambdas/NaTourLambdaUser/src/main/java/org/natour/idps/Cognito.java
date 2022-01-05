@@ -5,6 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.RSAKeyProvider;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.natour.entities.User;
 import org.natour.exceptions.CognitoException;
 import software.amazon.awssdk.regions.Region;
@@ -129,7 +131,11 @@ public class Cognito {
 
             AuthenticationResultType auth_result = response.authenticationResult();
 
-            String json_tokens = "{\"id_token\":" + auth_result.idToken() + ",\"refresh_token\":" + auth_result.refreshToken() + "\"}";
+            Tokens tokens = new Tokens(auth_result.idToken(), auth_result.refreshToken());
+
+            Gson gson = new Gson();
+
+            String json_tokens = gson.toJson(tokens, Tokens.class);
 
             return json_tokens;
 
@@ -157,9 +163,14 @@ public class Cognito {
 
             AuthenticationResultType auth_result = response.authenticationResult();
 
-            String new_id_token = auth_result.idToken();
+            Tokens tokens = new Tokens(auth_result.idToken(), null);
 
-            return new_id_token;
+            Gson gson = new Gson();
+
+            String id_token = gson.toJson(tokens, Tokens.class);
+
+            return id_token;
+
         } catch (CognitoIdentityProviderException e) {
             throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
@@ -231,11 +242,11 @@ public class Cognito {
             jwtVerifier.verify(token);
         } catch (JWTVerificationException e) {
             //Se il token è scaduto allora uso il refresh token per ottenere un nuovo token, senza disturbare l utente (sloggarlo e chiedergli di ottenere un nuovo idtoken inserendo pwd e username)
-            if (e.getMessage().contains("The Token has expired on"))
+            if (e.getMessage().contains("expired"))
                 throw new RuntimeException(e.getMessage());
 
             //Se il token è stato manomesso o per qualche motivo non viene validato correttamente, allora lo user dovrà per forza di cose fare il signin nuovamente e ottenere un idtoken da capo
-            throw new RuntimeException("Invalid Session, please sign in again");
+            throw new RuntimeException("Invalid Session, please sign in again: "+e.getMessage());
         }
     }
 }

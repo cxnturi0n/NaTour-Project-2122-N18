@@ -38,7 +38,6 @@ public class ResetCRPasswordFragment extends Fragment {
         button.setOnClickListener(view1 -> resetCRFragmentSwitcher.switchToResetCRCodeFragment(et_password.getText().toString()));
 
 
-
     }
 
 }

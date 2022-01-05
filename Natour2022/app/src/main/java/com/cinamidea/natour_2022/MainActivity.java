@@ -3,6 +3,7 @@ package com.cinamidea.natour_2022;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -12,8 +13,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
+import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
+import com.cinamidea.natour_2022.auth_util.GetTokensCallback;
+import com.cinamidea.natour_2022.auth_util.TokenLoginCallback;
+import com.cinamidea.natour_2022.auth_util.Tokens;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 
 import io.getstream.chat.android.client.ChatClient;
 import io.getstream.chat.android.client.logger.ChatLogLevel;
@@ -45,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
             setupViewComponents();
             runButtonListeners();
+
+        //getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
+
         //}
     }
 
@@ -83,6 +92,18 @@ public class MainActivity extends AppCompatActivity {
 
         button_signin.setOnClickListener(v -> {
 
+            SharedPreferences user_details = getSharedPreferences("natour_tokens", MODE_PRIVATE);
+
+            String id_token = user_details.getString("id_token",null);
+
+            //If shared preferences are empty then fetch tokens
+            if(id_token != null){
+                AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+                auth.tokenLogin(id_token, new TokenLoginCallback(this));
+                return;
+            }
+
+            //otherwise signin with username and pwd
             intent.putExtra("key", "signin");
             runAnimation(button_signin);
             runIntent(intent);

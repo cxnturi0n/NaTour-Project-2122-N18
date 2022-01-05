@@ -11,15 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
 import com.cinamidea.natour_2022.auth_util.AuthenticationCallback;
+import com.cinamidea.natour_2022.auth_util.SignupCallback;
 
 public class SignupFragment extends CustomAuthFragment {
 
     private Button signup_button;
-    private Intent intent;
     private EditText edit_user;
     private EditText edit_email;
     private EditText edit_password;
@@ -50,7 +51,7 @@ public class SignupFragment extends CustomAuthFragment {
 
         setupAnimation();
 
-        intent = new Intent(getActivity(), PinActivity.class);
+
 
     }
 
@@ -64,38 +65,15 @@ public class SignupFragment extends CustomAuthFragment {
 
             runAnimation(signup_button);
 
+            Intent intent = new Intent(getActivity(), PinActivity.class);
+
             intent.putExtra("username", username);
-            intent.putExtra("email", email);
+
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
-            auth.signUp(username, email, password);
-            auth.handleAuthentication(new AuthenticationCallback() {
-                @Override
-                public void handleStatus200(String response) {
+            auth.signUp(username, email, password, new SignupCallback(username, getContext()));
 
-                }
-
-                @Override
-                public void handleStatus400(String response) {
-
-                }
-
-                @Override
-                public void handleStatus401(String response) {
-
-                }
-
-                @Override
-                public void handleStatus500(String response) {
-
-                }
-
-                @Override
-                public void handleRequestException(String message) {
-
-                }
-            });
         });
 
     }

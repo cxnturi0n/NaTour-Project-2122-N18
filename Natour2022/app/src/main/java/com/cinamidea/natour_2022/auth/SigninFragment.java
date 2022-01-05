@@ -12,18 +12,23 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
+import com.cinamidea.natour_2022.auth_util.Tokens;
 import com.cinamidea.natour_2022.auth_util.AuthenticationCallback;
+import com.cinamidea.natour_2022.auth_util.GetTokensCallback;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
+import com.cinamidea.natour_2022.auth_util.TokenLoginCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -91,72 +96,7 @@ public class SigninFragment extends CustomAuthFragment {
 
             AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
 
-            SharedPreferences userDetails = getContext().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-
-            String id_token = userDetails.getString("id_token",null);
-
-            //If shared preferences are empty then fetch tokens
-            if(id_token == null){
-                auth.getIdNRefreshTokens(username, password);
-                auth.handleAuthentication(new AuthenticationCallback() {
-                    @Override
-                    public void handleStatus200(String response) {
-
-                    }
-
-                    @Override
-                    public void handleStatus400(String response) {
-
-                    }
-
-                    @Override
-                    public void handleStatus401(String response) {
-
-                    }
-
-                    @Override
-                    public void handleStatus500(String response) {
-
-                    }
-
-                    @Override
-                    public void handleRequestException(String message) {
-
-                    }
-                });
-                return;
-            }
-
-            //If shared preferences are not empty then user can login with id_token
-            // if it is expired(error 401) then new tokens are fetched
-            // if it is invalid(error 401), go back to login fragment and delete tokens
-            auth.tokenLogin(id_token);
-            auth.handleAuthentication(new AuthenticationCallback() {
-                @Override
-                public void handleStatus200(String response) {
-
-                }
-
-                @Override
-                public void handleStatus400(String response) {
-
-                }
-
-                @Override
-                public void handleStatus401(String response) {
-
-                }
-
-                @Override
-                public void handleStatus500(String response) {
-
-                }
-
-                @Override
-                public void handleRequestException(String message) {
-
-                }
-            });
+            auth.getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
 
         });
 
@@ -167,6 +107,8 @@ public class SigninFragment extends CustomAuthFragment {
         });
 
     }
+
+
 
 
 }
