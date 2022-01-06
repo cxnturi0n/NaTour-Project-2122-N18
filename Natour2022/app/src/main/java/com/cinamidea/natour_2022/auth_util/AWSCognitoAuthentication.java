@@ -51,18 +51,6 @@ public class AWSCognitoAuthentication {
                     case 200 :
                         Log.e("200", response_body);
                         callback.handleStatus200(response_body);
-
-                        //Creo l'utente nella chat
-                        User chat_user = new User();
-                        if (SignupFragment.chat_username != null) {
-                            chat_user.setId(SignupFragment.chat_username);
-                            chat_user.setName(SignupFragment.chat_username);
-                            SigninFragment.chat_username = SignupFragment.chat_username;
-                        }else{
-                            chat_user.setId(SigninFragment.chat_username);
-                            chat_user.setName(SigninFragment.chat_username);
-                        }
-
                         break;
                     case 400 :
                         Log.e("400", response_body);

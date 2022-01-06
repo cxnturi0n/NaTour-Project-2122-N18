@@ -75,7 +75,7 @@ public class SignupFragment extends CustomAuthFragment {
 
             AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
             chat_username=username;
-            auth.signUp(username, email, password, new SignupCallback(username, getContext()));
+            auth.signUp(username, email, password, new SignupCallback(username, getActivity()));
 
         });
 
