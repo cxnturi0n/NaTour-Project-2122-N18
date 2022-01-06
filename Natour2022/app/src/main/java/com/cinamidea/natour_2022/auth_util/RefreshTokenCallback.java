@@ -3,15 +3,11 @@ package com.cinamidea.natour_2022.auth_util;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.MainActivity;
-import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;

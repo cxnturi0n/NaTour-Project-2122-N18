@@ -1,7 +1,6 @@
 package com.cinamidea.natour_2022.auth_util;
 
 import android.app.Activity;
-import android.content.Context;
 
 public class ResetPasswordCallback implements AuthenticationCallback{
 

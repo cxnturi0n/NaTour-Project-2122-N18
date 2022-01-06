@@ -31,6 +31,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_menu_icon" />
 
+    <ImageButton
+        android:id="@+id/activityProfile_chatbutton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@null"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_chat" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/activityProfile_avatar"
         android:layout_width="120dp"

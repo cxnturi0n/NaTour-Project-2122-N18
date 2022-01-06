@@ -3,20 +3,14 @@ package com.cinamidea.natour_2022.auth_util;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.HomeActivity;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.URLDecoder;
 
 
 public class GetTokensCallback implements AuthenticationCallback{
@@ -37,7 +31,10 @@ public class GetTokensCallback implements AuthenticationCallback{
 
         setTokensInSharedPreferences(natour_tokens, response);
 
-        activity.startActivity(new Intent(activity, HomeActivity.class));
+        Intent intent = new Intent(activity, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        activity.startActivity(intent);
 
     }
 

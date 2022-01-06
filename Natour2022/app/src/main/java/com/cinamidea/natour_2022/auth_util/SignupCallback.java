@@ -1,9 +1,7 @@
 package com.cinamidea.natour_2022.auth_util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.auth.PinActivity;

@@ -1,8 +1,5 @@
 package com.cinamidea.natour_2022.auth_util;
 
-import android.app.Activity;
-import android.util.Log;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;

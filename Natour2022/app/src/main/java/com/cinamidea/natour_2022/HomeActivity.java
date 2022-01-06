@@ -1,11 +1,12 @@
 package com.cinamidea.natour_2022;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
-import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.cinamidea.natour_2022.auth.SigninFragment;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -13,6 +14,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private CircleImageView imgbutton_avatar;
     private Intent intent;
+    private TextView textview_username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,9 @@ public class HomeActivity extends AppCompatActivity {
     private void setupViewComponents() {
 
         imgbutton_avatar = findViewById(R.id.activityHome_avatar);
+        textview_username = findViewById(R.id.activityHome_usernameText);
 
+        textview_username.setText(SigninFragment.chat_username);
         intent = new Intent(HomeActivity.this, ProfileActivity.class);
 
     }

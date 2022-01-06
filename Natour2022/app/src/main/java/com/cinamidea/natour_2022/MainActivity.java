@@ -1,30 +1,20 @@
 package com.cinamidea.natour_2022;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
+
 import com.cinamidea.natour_2022.auth.AuthActivity;
+import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
-import com.cinamidea.natour_2022.auth_util.GetTokensCallback;
 import com.cinamidea.natour_2022.auth_util.TokenLoginCallback;
-import com.cinamidea.natour_2022.auth_util.Tokens;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-
-
-import io.getstream.chat.android.client.ChatClient;
-import io.getstream.chat.android.client.logger.ChatLogLevel;
-import io.getstream.chat.android.client.models.User;
-import io.getstream.chat.android.livedata.ChatDomain;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        getSharedPreferences();
 /*        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null){
             Log.e("s",account.getEmail());
@@ -63,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         button_signup =  findViewById(R.id.signup);
         anim_scale_up = AnimationUtils.loadAnimation(this, R.anim.scale_up);
         anim_scale_down = AnimationUtils.loadAnimation(this, R.anim.scale_down);
+
         intent = new Intent(this, AuthActivity.class);
 
     }
@@ -92,17 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         button_signin.setOnClickListener(v -> {
 
-            SharedPreferences user_details = getSharedPreferences("natour_tokens", MODE_PRIVATE);
-
-            String id_token = user_details.getString("id_token",null);
-
-            //If shared preferences are empty then fetch tokens
-            if(id_token != null){
-                AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
-                auth.tokenLogin(id_token, new TokenLoginCallback(this));
-                return;
-            }
-
             //otherwise signin with username and pwd
             intent.putExtra("key", "signin");
             runAnimation(button_signin);
@@ -118,6 +99,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+
+    }
+
+    private void getSharedPreferences() {
+
+        SharedPreferences user_details = getSharedPreferences("natour_tokens", MODE_PRIVATE);
+
+        String id_token = user_details.getString("id_token",null);
+
+        //If shared preferences are empty then fetch tokens
+        if(id_token != null){
+            AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+            auth.tokenLogin(id_token, new TokenLoginCallback(this));
+            SigninFragment.chat_username = user_details.getString("username",null);
+            return;
+        }
+
 
     }
 

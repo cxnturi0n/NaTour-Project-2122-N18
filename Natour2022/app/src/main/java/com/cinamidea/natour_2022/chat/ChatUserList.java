@@ -57,7 +57,9 @@ public class ChatUserList extends AppCompatActivity {
 
                 client.createChannel(channelType, members).enqueue(result -> {
                     if (result.isSuccess()) {
-                        startActivity(new Intent(ChatUserList.this, HomeChatActivity.class));
+                        Intent intent = new Intent(ChatUserList.this, HomeChatActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     } else {
                         // Handle result.error()
                         Log.e(TAG, "ChatUserList: Errore creazione canale");

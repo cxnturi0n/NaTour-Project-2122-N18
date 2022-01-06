@@ -5,13 +5,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth.SignupFragment;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import io.getstream.chat.android.client.models.User;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;

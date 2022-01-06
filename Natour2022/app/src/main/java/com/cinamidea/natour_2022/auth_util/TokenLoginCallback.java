@@ -3,17 +3,12 @@ package com.cinamidea.natour_2022.auth_util;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.MainActivity;
-import com.cinamidea.natour_2022.auth.AuthActivity;
-import com.google.gson.Gson;
 
 public class TokenLoginCallback implements AuthenticationCallback{
 
@@ -25,7 +20,10 @@ public class TokenLoginCallback implements AuthenticationCallback{
     @Override
     public void handleStatus200(String response) {
 
-        activity.startActivity(new Intent(activity, HomeActivity.class));
+        Intent intent = new Intent(activity, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        activity.startActivity(intent);
 
     }
 

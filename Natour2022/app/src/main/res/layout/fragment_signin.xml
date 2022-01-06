@@ -19,6 +19,7 @@
         android:text="@string/activityRun_signin"
         android:textColor="#373737"
         android:textSize="48sp"
+        android:paddingEnd="16dp"
         app:layout_constraintBottom_toTopOf="@+id/fragmentSignin_username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,6 +34,7 @@
         android:drawableStart="@drawable/icon_user"
         android:drawablePadding="16dp"
         android:hint="@string/activityAuth_username"
+        android:paddingEnd="16dp"
         android:inputType="text"
         android:minHeight="48dp"
         android:paddingStart="16dp"
@@ -46,6 +48,7 @@
     <EditText
         android:id="@+id/fragmentSignin_password"
         android:layout_width="fill_parent"
+        android:maxLength="32"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="17dp"
