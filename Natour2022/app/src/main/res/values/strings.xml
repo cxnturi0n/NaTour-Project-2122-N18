@@ -39,4 +39,8 @@
 
     <string name="server_client_id">556927589955-0jgcao4tfbrllnjie8c5b1qr8nlce0mo.apps.googleusercontent.com</string>
 
+    <!-- Activity_HomeChatActivity -->
+    <string name="chat_api_key">nbcrsrs5wrj8</string>
+
+
 </resources>

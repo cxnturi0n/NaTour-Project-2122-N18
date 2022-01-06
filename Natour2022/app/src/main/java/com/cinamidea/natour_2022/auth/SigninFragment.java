@@ -45,6 +45,7 @@ public class SigninFragment extends CustomAuthFragment {
     private EditText edit_password;
     private Button button_googlesignin;
     private Intent googlesignin_intent;
+    public static String chat_username;
 
     private GoogleAuthentication google_auth = new GoogleAuthentication(this);
 
@@ -97,7 +98,8 @@ public class SigninFragment extends CustomAuthFragment {
             AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
 
             auth.getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
-
+            //Set username per l'utente della chat
+            chat_username = username;
         });
 
         text_forgotpwd.setOnClickListener(view -> runHandledIntent(forgotpwd_intent));

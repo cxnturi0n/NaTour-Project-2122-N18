@@ -12,6 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Natour2022">
         <activity
+            android:name=".chat.ChatUserList"
+            android:exported="false" />
+        <activity
+            android:name=".chat.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".chat.HomeChatActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".auth.CustomAuthActivity"
             android:exported="false"
             android:launchMode="singleTask"/>

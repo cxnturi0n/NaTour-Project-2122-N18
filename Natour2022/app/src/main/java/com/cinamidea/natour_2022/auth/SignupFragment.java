@@ -25,6 +25,8 @@ public class SignupFragment extends CustomAuthFragment {
     private EditText edit_email;
     private EditText edit_password;
 
+    public static String chat_username;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class SignupFragment extends CustomAuthFragment {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+            chat_username=username;
             auth.signUp(username, email, password, new SignupCallback(username, getContext()));
 
         });
