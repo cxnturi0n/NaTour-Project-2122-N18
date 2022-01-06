@@ -28,7 +28,21 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        getSharedPreferences();
+
+        SharedPreferences user_details = getSharedPreferences("natour_tokens", MODE_PRIVATE);
+
+        String id_token = user_details.getString("id_token",null);
+
+
+        //If shared preferences are empty then fetch tokens
+        if(id_token != null){
+            AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+            auth.tokenLogin(id_token, new TokenLoginCallback(this));
+            SigninFragment.chat_username = user_details.getString("username",null);
+            return;
+        }
+
+
 /*        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null){
             Log.e("s",account.getEmail());
@@ -99,23 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
-
-    }
-
-    private void getSharedPreferences() {
-
-        SharedPreferences user_details = getSharedPreferences("natour_tokens", MODE_PRIVATE);
-
-        String id_token = user_details.getString("id_token",null);
-
-        //If shared preferences are empty then fetch tokens
-        if(id_token != null){
-            AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
-            auth.tokenLogin(id_token, new TokenLoginCallback(this));
-            SigninFragment.chat_username = user_details.getString("username",null);
-            return;
-        }
-
 
     }
 

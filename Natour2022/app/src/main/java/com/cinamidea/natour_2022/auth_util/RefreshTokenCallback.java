@@ -5,7 +5,6 @@ import static android.content.Context.MODE_PRIVATE;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import com.cinamidea.natour_2022.MainActivity;
 import com.google.gson.Gson;
@@ -42,10 +41,6 @@ public class RefreshTokenCallback implements AuthenticationCallback{
     public void handleStatus401(String response) {
 
         //Sessione scaduta, cancello i token e torno alla main activity
-
-        activity.runOnUiThread(() -> Toast.makeText(activity,
-                "Session timed out, please sign in again",
-                Toast.LENGTH_SHORT).show());
 
         activity.getSharedPreferences("natour_tokens",MODE_PRIVATE).edit().clear().commit();
 

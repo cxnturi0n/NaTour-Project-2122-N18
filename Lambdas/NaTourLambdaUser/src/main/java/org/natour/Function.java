@@ -12,17 +12,36 @@ public class Function implements RequestHandler<Request, String> {
         Cognito cognito = new Cognito();
         String action = request.getAction();
         switch (action) {
-            case "REGISTER":
-                try {
-                    cognito.signUpUser(request.getUser());
 
-                    return "User signed up successfully";
+            case "REGISTER":
+
+                String password = request.getUser().getPassword();
+                if (password != null) {
+                    try {
+
+                        cognito.signUpUser(request.getUser());
+
+                        return "User signed in successfully";
+
+                    } catch (CognitoException e) {
+
+                        throw new RuntimeException(e.getMessage());
+
+                    }
+                }
+
+                try {
+                    //Used for registering user signed in with google
+                    cognito.createUserWithRandomPassword(request.getUser());
+
+                    return "User created successfully";
 
                 } catch (CognitoException e) {
 
                     throw new RuntimeException(e.getMessage());
 
                 }
+
             case "CONFIRM":
                 try {
                     cognito.confirmUser(request.getUser().getUsername(), request.getConfirmation_code());

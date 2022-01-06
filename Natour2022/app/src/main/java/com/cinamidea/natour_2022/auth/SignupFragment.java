@@ -69,7 +69,7 @@ public class SignupFragment extends CustomAuthFragment {
             if(!password.equals(retype_password)) {
 
                 Toast.makeText(getActivity(), "Errore password test", Toast.LENGTH_LONG).show();
-
+                return;
             }
 
             String username = edit_user.getText().toString();

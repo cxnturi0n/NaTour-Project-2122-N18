@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+
 import com.cinamidea.natour_2022.R;
 
-public class ResetCRCodeFragment extends CustomAuthFragment {
+public class ResetCRCodeFragment extends Fragment {
 
     private ResetCRFragmentSwitcher resetCRFragmentSwitcher;
     private Button button;
@@ -35,7 +37,6 @@ public class ResetCRCodeFragment extends CustomAuthFragment {
 
     }
 
-    @Override
     protected void setupViewComponents(View view) {
 
         resetCRFragmentSwitcher = (ResetCRFragmentSwitcher) getActivity();

@@ -9,6 +9,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.natour.entities.User;
 import org.natour.exceptions.CognitoException;
+import org.passay.CharacterRule;
+import org.passay.EnglishCharacterData;
+import org.passay.PasswordGenerator;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.*;
@@ -143,8 +146,6 @@ public class Cognito {
             throw new CognitoException(e.awsErrorDetails().errorMessage());
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new CognitoException("Server Error");
-        } catch (Exception e) {
-            throw new CognitoException("E");
         }
 
     }
@@ -176,6 +177,39 @@ public class Cognito {
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public void createUserWithRandomPassword(User user) throws CognitoException {
+
+        CharacterRule alphabets = new CharacterRule(EnglishCharacterData.Alphabetical);
+        CharacterRule digits = new CharacterRule(EnglishCharacterData.Digit);
+        CharacterRule special = new CharacterRule(EnglishCharacterData.Special);
+
+        PasswordGenerator passwordGenerator = new PasswordGenerator();
+        String password = passwordGenerator.generatePassword(10, alphabets, digits, special);
+
+
+        AttributeType user_attributes = AttributeType.builder()
+                .name("email")
+                .value(user.getEmail())
+                .build();
+
+        try {
+
+            AdminCreateUserRequest create_user_request = AdminCreateUserRequest.builder().userPoolId(POOL_ID).username(user.getUsername()).userAttributes(user_attributes).temporaryPassword(password).build();
+
+            cognito_client.adminCreateUser(create_user_request);
+
+            AdminSetUserPasswordRequest user_password_request = AdminSetUserPasswordRequest.builder().userPoolId(POOL_ID).password(password).permanent(true).username(user.getUsername()).build();
+
+            cognito_client.adminSetUserPassword(user_password_request);
+
+        } catch (CognitoIdentityProviderException e) {
+
+            throw new CognitoException(e.awsErrorDetails().errorMessage());
+
+        }
+
     }
 
 
@@ -246,7 +280,7 @@ public class Cognito {
                 throw new RuntimeException(e.getMessage());
 
             //Se il token è stato manomesso o per qualche motivo non viene validato correttamente, allora lo user dovrà per forza di cose fare il signin nuovamente e ottenere un idtoken da capo
-            throw new RuntimeException("Invalid Session, please sign in again: "+e.getMessage());
+            throw new RuntimeException("Invalid Session, please sign in again: " + e.getMessage());
         }
     }
 }

@@ -1,9 +1,14 @@
 package com.cinamidea.natour_2022.auth_util;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.PinActivity;
 
 public class SignupCallback implements AuthenticationCallback{
@@ -30,10 +35,12 @@ public class SignupCallback implements AuthenticationCallback{
     @Override
     public void handleStatus400(String response) {
         activity.runOnUiThread(() -> {
-            Toast toast = Toast.makeText(activity,
-                    response,
-                    Toast.LENGTH_SHORT);
-            toast.show();
+            Dialog dialog = new Dialog(activity);
+            dialog.setContentView(R.layout.error_message_layout);
+            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.message_notification_background));
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ((TextView) dialog.findViewById(R.id.messageError_message)).setText(response);
+            dialog.show();
         });
     }
 

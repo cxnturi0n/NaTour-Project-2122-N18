@@ -3,11 +3,15 @@ package com.cinamidea.natour_2022.auth_util;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.HomeActivity;
+import com.cinamidea.natour_2022.R;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -40,9 +44,14 @@ public class GetTokensCallback implements AuthenticationCallback{
 
     @Override
     public void handleStatus400(String response) {
-        activity.runOnUiThread(() -> Toast.makeText(activity,
-                response,
-                Toast.LENGTH_SHORT).show());
+        activity.runOnUiThread(() -> {
+            Dialog dialog = new Dialog(activity);
+            dialog.setContentView(R.layout.error_message_layout);
+            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.message_notification_background));
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ((TextView) dialog.findViewById(R.id.messageError_message)).setText(response);
+            dialog.show();
+        });
     }
 
     @Override

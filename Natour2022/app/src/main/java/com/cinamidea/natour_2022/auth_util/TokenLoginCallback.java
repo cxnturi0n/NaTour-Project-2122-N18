@@ -3,12 +3,16 @@ package com.cinamidea.natour_2022.auth_util;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.MainActivity;
+import com.cinamidea.natour_2022.R;
 
 public class TokenLoginCallback implements AuthenticationCallback{
 
@@ -48,9 +52,14 @@ public class TokenLoginCallback implements AuthenticationCallback{
         }
 
         //Se la sessione non è valida..
-        activity.runOnUiThread(() -> Toast.makeText(activity,
-                "Session timed out, please sign in again",
-                Toast.LENGTH_SHORT).show());
+        activity.runOnUiThread(() -> {
+            Dialog dialog = new Dialog(activity);
+            dialog.setContentView(R.layout.error_message_layout);
+            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.message_notification_background));
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ((TextView) dialog.findViewById(R.id.messageError_message)).setText("Session timed out, please sign in again");
+            dialog.show();
+        });
 
         //cancello i token..
         activity.getSharedPreferences("natour_tokens",MODE_PRIVATE).edit().clear().commit();
