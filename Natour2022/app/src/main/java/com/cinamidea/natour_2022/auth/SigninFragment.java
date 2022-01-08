@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
+import com.cinamidea.natour_2022.auth_util.Authentication;
 import com.cinamidea.natour_2022.auth_util.GetTokensCallback;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
 
@@ -24,13 +26,13 @@ public class SigninFragment extends CustomAuthFragment {
     private Button button_googlesignin;
 
     public static String chat_username;
-
-    private GoogleAuthentication google_auth = new GoogleAuthentication(this);
+    GoogleAuthentication google_auth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        google_auth = new GoogleAuthentication((AppCompatActivity) getActivity());
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_signin, container, false);
     }
@@ -70,7 +72,7 @@ public class SigninFragment extends CustomAuthFragment {
             String username = edit_user.getText().toString();
             String password = edit_password.getText().toString();
 
-            AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+            Authentication auth = new Authentication();
 
             auth.getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
 
@@ -81,7 +83,8 @@ public class SigninFragment extends CustomAuthFragment {
         text_forgotpwd.setOnClickListener(view -> runHandledIntent(new Intent(getActivity(), ResetCRActivity.class)));
 
         button_googlesignin.setOnClickListener(view -> {
-            google_auth.signIn(new Intent(getActivity(), HomeActivity.class));
+
+            google_auth.silentSignIn();
         });
 
     }

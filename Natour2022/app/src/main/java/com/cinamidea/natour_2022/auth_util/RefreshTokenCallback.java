@@ -27,7 +27,7 @@ public class RefreshTokenCallback implements AuthenticationCallback{
 
         String id_token = natour_tokens.getString("id_token",null);
 
-        AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+        Authentication auth = new Authentication();
 
         auth.tokenLogin(id_token, new TokenLoginCallback(activity));
     }

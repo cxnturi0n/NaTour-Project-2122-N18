@@ -13,8 +13,11 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
+import com.cinamidea.natour_2022.auth_util.Authentication;
+import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
 import com.cinamidea.natour_2022.auth_util.TokenLoginCallback;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-
         SharedPreferences user_details = getSharedPreferences("natour_tokens", MODE_PRIVATE);
 
         String id_token = user_details.getString("id_token",null);
@@ -36,30 +37,31 @@ public class MainActivity extends AppCompatActivity {
 
         //If shared preferences are empty then fetch tokens
         if(id_token != null){
-            AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+            Authentication auth = new Authentication();
             auth.tokenLogin(id_token, new TokenLoginCallback(this));
             SigninFragment.chat_username = user_details.getString("username",null);
             return;
         }
 
 
-/*        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        GoogleAuthentication google_auth = new GoogleAuthentication(this);
+
+        //Se L utente ha gia loggato precedentemente con google allora accedo in background (Senza mostrare la gui di google, altrimenti l utente è libero di fare signin regolarmente)
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null){
-            Log.e("s",account.getEmail());
-            intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
+            google_auth.silentSignIn();
+            return;
         }
-        else {*/
-            setContentView(R.layout.activity_main);
 
-            startup();
+        setContentView(R.layout.activity_main);
 
-            setupViewComponents();
-            runButtonListeners();
+        startup();
+
+        setupViewComponents();
+        runButtonListeners();
 
         //getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
 
-        //}
     }
 
     private void setupViewComponents() {

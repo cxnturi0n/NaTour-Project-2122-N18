@@ -4,6 +4,10 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.natour.exceptions.CognitoException;
 import org.natour.idps.Cognito;
+import org.natour.idps.GoogleAuth;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class Function implements RequestHandler<Request, String> {
     @Override
@@ -98,6 +102,13 @@ public class Function implements RequestHandler<Request, String> {
                     return "Password changed successfully";
 
                 } catch (CognitoException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+            case "GOOGLE_TOKEN":
+
+                try {
+                    return GoogleAuth.getAccountParams(request.getId_token()).get("username");
+                } catch (GeneralSecurityException | IOException e) {
                     throw new RuntimeException(e.getMessage());
                 }
             default:

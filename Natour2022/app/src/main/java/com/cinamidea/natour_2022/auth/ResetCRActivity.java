@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
+import com.cinamidea.natour_2022.auth_util.Authentication;
 import com.cinamidea.natour_2022.auth_util.GetCodeForPasswordResetCallback;
 import com.cinamidea.natour_2022.auth_util.ResetPasswordCallback;
 
@@ -34,7 +34,7 @@ public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragme
         Log.e("Error","1");
         this.username = username;
 
-        AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+        Authentication auth = new Authentication();
 
         auth.getCodeForPasswordReset(username, new GetCodeForPasswordResetCallback(this));
     }
@@ -42,7 +42,7 @@ public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragme
     @Override
     public void switchToSigninFragment(String confirmation_code) {
 
-        AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+        Authentication auth = new Authentication();
         auth.resetPassword(username, password, confirmation_code, new ResetPasswordCallback(this));
     }
 

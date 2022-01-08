@@ -36,7 +36,6 @@ public class ResetCRPasswordFragment extends Fragment {
 
         });
 
-
     }
 
     protected void setupViewComponents(View view) {

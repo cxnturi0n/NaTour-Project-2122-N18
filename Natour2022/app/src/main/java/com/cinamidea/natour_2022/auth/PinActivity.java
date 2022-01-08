@@ -7,7 +7,7 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
+import com.cinamidea.natour_2022.auth_util.Authentication;
 import com.cinamidea.natour_2022.auth_util.ConfirmSignupCallback;
 
 public class PinActivity extends AppCompatActivity {
@@ -45,7 +45,7 @@ public class PinActivity extends AppCompatActivity {
         button_verify.setOnClickListener(view -> {
             String confirmation_code = pin_view.getText().toString();
 
-            AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+            Authentication auth = new Authentication();
 
             auth.confirmSignUp(username,confirmation_code, new ConfirmSignupCallback(this));
 

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.MainActivity;
@@ -46,7 +45,7 @@ public class TokenLoginCallback implements AuthenticationCallback{
             String username = natour_tokens.getString("username", null);
             String refresh_token = natour_tokens.getString("refresh_token",null);
 
-            AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+            Authentication auth = new Authentication();
             auth.refreshToken(username, refresh_token, new RefreshTokenCallback(activity));
             return;
         }

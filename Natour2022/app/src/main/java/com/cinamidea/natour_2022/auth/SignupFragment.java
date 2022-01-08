@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.AWSCognitoAuthentication;
+import com.cinamidea.natour_2022.auth_util.Authentication;
 import com.cinamidea.natour_2022.auth_util.SignupCallback;
 
 public class SignupFragment extends CustomAuthFragment {
@@ -48,8 +48,6 @@ public class SignupFragment extends CustomAuthFragment {
 
         setupAnimation();
 
-
-
     }
 
     private void setListeners() {
@@ -70,6 +68,7 @@ public class SignupFragment extends CustomAuthFragment {
 
                 Toast.makeText(getActivity(), "Errore password test", Toast.LENGTH_LONG).show();
                 return;
+
             }
 
             String username = edit_user.getText().toString();
@@ -80,7 +79,7 @@ public class SignupFragment extends CustomAuthFragment {
             intent.putExtra("username", username);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            AWSCognitoAuthentication auth = new AWSCognitoAuthentication();
+            Authentication auth = new Authentication();
             auth.signUp(username, email, password, new SignupCallback(username, getActivity()));
 
             SigninFragment.chat_username=username;
