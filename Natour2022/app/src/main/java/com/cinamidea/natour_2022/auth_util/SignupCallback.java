@@ -27,8 +27,7 @@ public class SignupCallback implements AuthenticationCallback{
 
         Intent intent = new Intent(activity, PinActivity.class);
         intent.putExtra("username", username);
-
-         activity.startActivity(intent);
+        activity.startActivity(intent);
 
     }
 

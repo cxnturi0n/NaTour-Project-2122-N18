@@ -25,6 +25,17 @@ public class MainActivity extends AppCompatActivity {
     private Animation anim_scale_up, anim_scale_down;
     private Intent intent;
     private Handler handler = new Handler();
+    GoogleAuthentication googleAuthentication;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null)
+            googleAuthentication.silentSignIn();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,25 +43,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences user_details = getSharedPreferences("natour_tokens", MODE_PRIVATE);
 
-        String id_token = user_details.getString("id_token",null);
+        googleAuthentication = new GoogleAuthentication(this);
+
+        String id_token = user_details.getString("id_token", null);
 
 
         //If shared preferences are empty then fetch tokens
-        if(id_token != null){
+        if (id_token != null) {
             Authentication auth = new Authentication();
             auth.tokenLogin(id_token, new TokenLoginCallback(this));
-            SigninFragment.chat_username = user_details.getString("username",null);
+            SigninFragment.chat_username = user_details.getString("username", null);
             return;
         }
-
 
         GoogleAuthentication google_auth = new GoogleAuthentication(this);
 
         //Se L utente ha gia loggato precedentemente con google allora accedo in background (Senza mostrare la gui di google, altrimenti l utente è libero di fare signin regolarmente)
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(account != null){
+        if (account != null) {
             google_auth.silentSignIn();
-            return;
+
         }
 
         setContentView(R.layout.activity_main);
@@ -66,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewComponents() {
 
-        button_signin =  findViewById(R.id.signin);
-        button_signup =  findViewById(R.id.signup);
+        button_signin = findViewById(R.id.signin);
+        button_signup = findViewById(R.id.signup);
         anim_scale_up = AnimationUtils.loadAnimation(this, R.anim.scale_up);
         anim_scale_down = AnimationUtils.loadAnimation(this, R.anim.scale_down);
 
@@ -92,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void runIntent(Intent intent) {
 
-        handler.postDelayed(() -> startActivity(intent),170);
+        handler.postDelayed(() -> startActivity(intent), 170);
 
     }
 
@@ -117,5 +129,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
 }

@@ -2,7 +2,9 @@ package com.cinamidea.natour_2022.auth_util;
 
 import android.accounts.Account;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -10,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.HomeActivity;
+import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -39,7 +42,9 @@ public class GoogleAuthentication {
         });
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail().requestIdToken("556927589955-6560abd2gt8mm470tn1v4jlpmag213lt.apps.googleusercontent.com").build();
+                .requestEmail()
+                .requestIdToken("1032347632012-5man0b8dpe27fq4hfbafqg6ncq6ga3lc.apps.googleusercontent.com")
+                .build();
 
 
         googlesignin_client = GoogleSignIn.getClient(activity, gso);
@@ -48,7 +53,6 @@ public class GoogleAuthentication {
     }
 
     public void signIn() {
-
         Intent signin_intent = googlesignin_client.getSignInIntent();
         start_activity_for_result.launch(signin_intent);
 
@@ -60,24 +64,25 @@ public class GoogleAuthentication {
 
             //Se l id token non è scaduto
             GoogleSignInAccount signInAccount = task.getResult();
-
-            Log.e("Welcome back", signInAccount.getDisplayName());
+            SigninFragment.chat_username = signInAccount.getGivenName();
             activity.startActivity(new Intent(activity, HomeActivity.class));
 
-            Log.e("token1", signInAccount.getIdToken());
-            Log.e("email1", signInAccount.getEmail());
+
+
         } else {
             //Se l id token è scaduto allora automaticamente lo refresha, e salvalo nelle shared preferences
             task.addOnCompleteListener(task1 -> {
                 try {
 
                     GoogleSignInAccount signInAccount = task1.getResult(ApiException.class);
+                    SigninFragment.chat_username = signInAccount.getGivenName();
 
-                    Log.e("Welcome back", signInAccount.getDisplayName());
+                    //Salviamo il token di google nelle shared preferences
+                    SharedPreferences sharedPreferences = activity.getSharedPreferences("google_token", Context.MODE_PRIVATE);
+                    sharedPreferences.edit().putString("id_token",signInAccount.getIdToken()).commit();
+
                     activity.startActivity(new Intent(activity, HomeActivity.class));
 
-                    Log.e("token2", signInAccount.getIdToken());
-                    Log.e("email2", signInAccount.getEmail());
 
 
                 } catch (ApiException apiException) {
@@ -117,6 +122,14 @@ public class GoogleAuthentication {
         String username = completed_task.getResult().getDisplayName();
         String email = completed_task.getResult().getEmail();
         //cognito.signUp(username,email);
+
+        //Salviamo il token di google nelle shared preferences
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("google_token", Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString("id_token",completed_task.getResult().getIdToken()).commit();
+
+        //Teniamo traccia dell'username per la chat
+        SigninFragment.chat_username=completed_task.getResult().getGivenName();
+
         activity.startActivity(new Intent(activity, HomeActivity.class));
     }
 
