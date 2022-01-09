@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
+import com.cinamidea.natour_2022.map.MapActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -37,6 +38,10 @@ public class ProfileActivity extends AppCompatActivity {
             bottomSheetView.findViewById(R.id.menuLayout_settings).setOnClickListener(view1 -> {
                 Toast.makeText( ProfileActivity.this, "Settings...", Toast.LENGTH_SHORT).show();
                 bottomSheetDialog.dismiss();
+            });
+            bottomSheetView.findViewById(R.id.menuLayout_openMap).setOnClickListener(view1 -> {
+                bottomSheetDialog.dismiss();
+                startActivity(new Intent(this, MapActivity.class));
             });
             bottomSheetDialog.setContentView(bottomSheetView);
             bottomSheetDialog.show();

@@ -8,4 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="mygreen">#88B27E</color>
+
+    <color name="natour_green">#43DE70</color>
+    <color name="natour_black">#000000</color>
+    <color name="natour_transparent">#00000000</color>
+    <color name="natour_grey">#C4C4C4</color>
+    <color name="natour_white">#FFFFFFFF</color>
+    <color name="natour_red">#FF5959</color>
+
 </resources>

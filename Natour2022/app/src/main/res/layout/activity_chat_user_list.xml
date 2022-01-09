@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/users_menu"
-        app:navigationIcon="@drawable/button_back"
+        app:navigationIcon="@drawable/ic_back"
         app:title="Users" />
 
     <ListView

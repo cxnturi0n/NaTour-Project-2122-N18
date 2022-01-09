@@ -4,14 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/menu_bottom_background">
+    android:background="@drawable/background_profile_menu">
 
     <View
         android:layout_width="100dp"
         android:layout_height="4dp"
         android:layout_marginTop="16dp"
         android:layout_gravity="center"
-        android:background="@drawable/rounded_line"/>
+        android:background="@drawable/drawable_rounded_line"/>
 
     <android.widget.Button
         android:id="@+id/menuLayout_settings"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@null"
-        android:drawableStart="@drawable/icon_settings"
+        android:drawableStart="@drawable/ic_settings"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
         android:paddingStart="16dp"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:layout_marginTop="8dp"
-        android:drawableStart="@drawable/icon_addpath"
+        android:drawableStart="@drawable/ic_add_road"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
         android:paddingStart="16dp"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@null"
-        android:drawableStart="@drawable/icon_openmap"
+        android:drawableStart="@drawable/ic_globe"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
         android:paddingStart="16dp"
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@null"
-        android:drawableStart="@drawable/icon_favouritepaths"
+        android:drawableStart="@drawable/ic_favouritepaths"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
         android:paddingStart="16dp"
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:layout_marginTop="8dp"
-        android:drawableStart="@drawable/icon_savedpaths"
+        android:drawableStart="@drawable/ic_savedpaths"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
         android:paddingStart="16dp"

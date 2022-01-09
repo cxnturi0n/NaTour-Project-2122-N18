@@ -54,7 +54,7 @@ public class TokenLoginCallback implements AuthenticationCallback{
         activity.runOnUiThread(() -> {
             Dialog dialog = new Dialog(activity);
             dialog.setContentView(R.layout.error_message_layout);
-            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.message_notification_background));
+            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.background_alert_dialog));
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             ((TextView) dialog.findViewById(R.id.messageError_message)).setText("Session timed out, please sign in again");
             dialog.show();

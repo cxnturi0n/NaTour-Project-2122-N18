@@ -5,7 +5,7 @@
     <!-- Activity_Run -->
     <string name="activityRun_slogan"><font color='#373737'>Adventure awaits, go find it!</font></string>
     <string name="activityRun_signin">Sign in</string>
-    <string name="activityRun_noaccountyet"><font color='#373737'>No account yet?</font><font color='#88B27E'> Sign up</font></string>
+    <string name="activityRun_noaccountyet"><font color='#373737'>No account yet?</font><font color='#43DE70'> Sign up</font></string>
 
     <!-- Activity_Auth -->
     <string name="activityAuth_username">Username</string>
@@ -41,6 +41,9 @@
 
     <!-- Activity_HomeChatActivity -->
     <string name="chat_api_key">nbcrsrs5wrj8</string>
+    <string name="title_activity_map">MapActivity</string>
+
+    <!-- Activity_MapActivity -->
 
 
 </resources>

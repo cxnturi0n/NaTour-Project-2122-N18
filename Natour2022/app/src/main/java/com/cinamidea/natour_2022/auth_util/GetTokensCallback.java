@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.R;
@@ -47,7 +46,7 @@ public class GetTokensCallback implements AuthenticationCallback{
         activity.runOnUiThread(() -> {
             Dialog dialog = new Dialog(activity);
             dialog.setContentView(R.layout.error_message_layout);
-            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.message_notification_background));
+            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.background_alert_dialog));
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             ((TextView) dialog.findViewById(R.id.messageError_message)).setText(response);
             dialog.show();

@@ -23,7 +23,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@null"
-                app:srcCompat="@drawable/button_back"
+                app:srcCompat="@drawable/ic_back"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <ImageView

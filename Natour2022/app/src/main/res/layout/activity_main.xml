@@ -12,7 +12,7 @@
         android:id="@+id/logo"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        app:srcCompat="@drawable/icon_logo"
+        app:srcCompat="@drawable/ic_logo"
         tools:layout_editor_absoluteX="105dp"
         tools:layout_editor_absoluteY="161dp" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/titillium_bold"
         android:text="@string/app_name"
-        android:textColor="#373737"
+        android:textColor="@color/natour_black"
         android:textSize="48sp"
         tools:layout_editor_absoluteX="116dp"
         tools:layout_editor_absoluteY="372dp" />
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:text="@string/activityRun_slogan"
-        android:textColor="#373737"
+        android:textColor="@color/natour_black"
         android:textSize="24sp"
         tools:layout_editor_absoluteX="61dp"
         tools:layout_editor_absoluteY="441dp" />
@@ -44,7 +44,7 @@
         android:layout_height="61dp"
         android:alpha="0"
         android:stateListAnimator="@null"
-        android:background="@drawable/button_signin"
+        android:background="@drawable/background_button_signin"
         android:fontFamily="@font/roboto_regular"
         android:text="@string/activityRun_signin"
         android:textAllCaps="false"
@@ -58,7 +58,7 @@
         android:layout_width="348dp"
         android:layout_height="61dp"
         android:alpha="0"
-        android:background="@drawable/button_signup"
+        android:background="@drawable/background_button_signup"
         android:fontFamily="@font/roboto_regular"
         android:stateListAnimator="@null"
         android:text="@string/activityRun_noaccountyet"

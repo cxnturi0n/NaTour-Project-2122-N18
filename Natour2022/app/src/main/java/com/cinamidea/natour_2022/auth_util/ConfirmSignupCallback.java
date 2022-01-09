@@ -7,9 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
@@ -48,7 +46,7 @@ public class ConfirmSignupCallback implements AuthenticationCallback {
         activity.runOnUiThread(() -> {
             Dialog dialog = new Dialog(activity);
             dialog.setContentView(R.layout.error_message_layout);
-            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.message_notification_background));
+            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.background_alert_dialog));
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             ((TextView) dialog.findViewById(R.id.messageError_message)).setText(response);
             dialog.show();
@@ -68,7 +66,7 @@ public class ConfirmSignupCallback implements AuthenticationCallback {
         activity.runOnUiThread(() -> {
             Dialog dialog = new Dialog(activity);
             dialog.setContentView(R.layout.error_message_layout);
-            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.message_notification_background));
+            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.background_alert_dialog));
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             ((TextView) dialog.findViewById(R.id.messageError_message)).setText(message);
             dialog.show();
