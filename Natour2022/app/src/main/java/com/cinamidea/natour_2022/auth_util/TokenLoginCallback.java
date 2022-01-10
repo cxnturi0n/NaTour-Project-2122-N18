@@ -25,7 +25,6 @@ public class TokenLoginCallback implements AuthenticationCallback{
 
         Intent intent = new Intent(activity, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-
         activity.startActivity(intent);
 
     }
@@ -45,8 +44,7 @@ public class TokenLoginCallback implements AuthenticationCallback{
             String username = natour_tokens.getString("username", null);
             String refresh_token = natour_tokens.getString("refresh_token",null);
 
-            Authentication auth = new Authentication();
-            auth.refreshToken(username, refresh_token, new RefreshTokenCallback(activity));
+            Authentication.refreshToken(username, refresh_token, new RefreshTokenCallback(activity));
             return;
         }
 

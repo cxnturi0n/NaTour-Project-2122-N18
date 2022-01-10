@@ -19,17 +19,13 @@ import okhttp3.Response;
 
 public class Authentication {
 
-    OkHttpClient client = new OkHttpClient.Builder()
+    private static final OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .build();
 
-    private Request request;
+    private static Request request;
 
-    public Authentication() {
-    }
-
-
-    private void handleAuthentication(AuthenticationCallback callback) {
+    private static void handleAuthentication(AuthenticationCallback callback) {
 
 
         client.newCall(request).enqueue(new Callback() {
@@ -43,6 +39,7 @@ public class Authentication {
 
                 int response_code = response.code();
                 String response_body = response.body().string();
+                Log.e("Body", response_body);
                 switch(response_code){
                     case 200 :
                         Log.e("200", response_body);
@@ -67,65 +64,80 @@ public class Authentication {
     }
 
 
-    public void signUp(String username, String email, String password, AuthenticationCallback callback) {
+    public static void signUp(String username, String email, String password, AuthenticationCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users";
 
         String request_body = "{\"username\":" + username + ",\"email\":" + email + ",\"password\":" + password + "}";
 
-        request = getPostRequest(url, request_body);
+        request = getPostRequest(url, request_body, null);
 
         handleAuthentication(callback);
 
     }
 
-    public void confirmSignUp(String username, String confirmation_code, AuthenticationCallback callback) {
+    public static void googleSignUp(String username, String email, String id_token, AuthenticationCallback callback) {
+
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/google/users";
+
+        String request_body = "{\"username\":" + username +", \"email\":" + email +"}";
+
+        Headers header = new Headers.Builder().add("Authorization", "\""+id_token+"\"").build();
+
+        request = getPostRequest(url, request_body, header);
+
+        handleAuthentication(callback);
+
+    }
+
+    public static void confirmSignUp(String username, String confirmation_code, AuthenticationCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/confirmation";
 
         String request_body = "{\"confirmation_code\":" + confirmation_code +"}";
 
-        request = getPostRequest(url, request_body);
+        request = getPostRequest(url, request_body, null);
 
         handleAuthentication(callback);
     }
 
-    public void tokenLogin(String id_token, AuthenticationCallback callback) {
+    public static void tokenLogin(String id_token, AuthenticationCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/token/validation";
 
-        Headers headers = new Headers.Builder().add("Authorization", "\""+id_token+"\"").build();
+        Headers header = new Headers.Builder().add("Authorization", "\""+id_token+"\"").build();
 
-        request = getGetRequest(url, headers);
+        request = getGetRequest(url, header);
 
         handleAuthentication(callback);
 
 
     }
 
-    public void getIdNRefreshTokens(String username, String password, AuthenticationCallback callback) {
+    public static void getIdNRefreshTokens(String username, String password, AuthenticationCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/token";
 
         String request_body = "{\"username\":" + username + ",\"password\":" + password + ",\"grant_type\":\"PASSWORD\"}";
 
-        request = getPostRequest(url, request_body);
+        request = getPostRequest(url, request_body, null);
 
         handleAuthentication(callback);
     }
 
-    public void refreshToken(String username, String refresh_token, AuthenticationCallback callback) {
+    public static void refreshToken(String username, String refresh_token, AuthenticationCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/token";
 
         String request_body = "{\"username\":" + username + ",\"refresh_token\":"+refresh_token +",\"grant_type\":\"REFRESH_TOKEN\"}";
 
-        request = getPostRequest(url, request_body);
+        request = getPostRequest(url, request_body, null);
 
         handleAuthentication(callback);
     }
 
-    public void getCodeForPasswordReset(String username, AuthenticationCallback callback) {
+    public static void getCodeForPasswordReset(String username, AuthenticationCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/password/reset-code";
 
@@ -134,7 +146,7 @@ public class Authentication {
         handleAuthentication(callback);
     }
 
-    public void resetPassword(String username, String password, String confirmation_code, AuthenticationCallback callback) {
+    public static void resetPassword(String username, String password, String confirmation_code, AuthenticationCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/password";
 
@@ -146,18 +158,21 @@ public class Authentication {
 
     }
 
-    public Request getPostRequest(String url, String request_body) {
+    public static Request getPostRequest(String url, String request_body, Headers headers) {
 
         RequestBody body = RequestBody.create(request_body, MediaType.parse("application/json"));
 
-        return new Request.Builder()
+        return headers != null ? new Request.Builder()
+                .url(url)
+                .post(body).headers(headers)
+                .build() : new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
 
     }
 
-    public Request getPutRequest(String url, String request_body) {
+    public static Request getPutRequest(String url, String request_body) {
 
         RequestBody body = RequestBody.create(request_body, MediaType.parse("application/json"));
 
@@ -168,7 +183,7 @@ public class Authentication {
 
     }
 
-    public Request getGetRequest(String url, Headers headers) {
+    public static Request getGetRequest(String url, Headers headers) {
 
         return headers!=null ? new Request.Builder().url(url).headers(headers).build() : new Request.Builder().url(url).build();
     }

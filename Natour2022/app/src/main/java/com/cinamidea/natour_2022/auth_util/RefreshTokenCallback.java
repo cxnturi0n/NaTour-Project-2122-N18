@@ -27,9 +27,7 @@ public class RefreshTokenCallback implements AuthenticationCallback{
 
         String id_token = natour_tokens.getString("id_token",null);
 
-        Authentication auth = new Authentication();
-
-        auth.tokenLogin(id_token, new TokenLoginCallback(activity));
+        Authentication.tokenLogin(id_token, new TokenLoginCallback(activity));
     }
 
     @Override

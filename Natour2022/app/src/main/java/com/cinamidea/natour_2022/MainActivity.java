@@ -1,9 +1,11 @@
 package com.cinamidea.natour_2022;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -23,17 +25,23 @@ public class MainActivity extends AppCompatActivity {
 
     private Button button_signin, button_signup;
     private Animation anim_scale_up, anim_scale_down;
-    private Intent intent;
     private Handler handler = new Handler();
-    GoogleAuthentication googleAuthentication;
+    private GoogleAuthentication google_auth;
+    private SharedPreferences natour_shared_pref;
 
 
     @Override
     protected void onResume() {
+
         super.onResume();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account != null)
-            googleAuthentication.silentSignIn();
+
+        String id_token = natour_shared_pref.getString("id_token", null);
+
+        if (id_token != null)
+            cognitoSilentLogin();
+
+        else if (GoogleSignIn.getLastSignedInAccount(this) != null)
+            googleSilentLogin();
 
     }
 
@@ -41,29 +49,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        SharedPreferences user_details = getSharedPreferences("natour_tokens", MODE_PRIVATE);
 
-        googleAuthentication = new GoogleAuthentication(this);
+        google_auth = new GoogleAuthentication(this);
 
-        String id_token = user_details.getString("id_token", null);
+        natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
 
+        String id_token = natour_shared_pref.getString("id_token", null);
 
-        //If shared preferences are empty then fetch tokens
-        if (id_token != null) {
-            Authentication auth = new Authentication();
-            auth.tokenLogin(id_token, new TokenLoginCallback(this));
-            SigninFragment.chat_username = user_details.getString("username", null);
+        //Controllo se l utente puo loggare in automatico(o con cognito o con google). Se no, allora alloca le componenti dell' activity (Non richiamo direttamente il metodo (Ho fatto i controlli per evitare di ripetere due volte
+        //il silent sign in visto che l onresume parte in ogni caso dopo l oncreate
+
+        if (id_token != null || GoogleSignIn.getLastSignedInAccount(this) != null)
             return;
-        }
-
-        GoogleAuthentication google_auth = new GoogleAuthentication(this);
-
-        //Se L utente ha gia loggato precedentemente con google allora accedo in background (Senza mostrare la gui di google, altrimenti l utente è libero di fare signin regolarmente)
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account != null) {
-            google_auth.silentSignIn();
-
-        }
 
         setContentView(R.layout.activity_main);
 
@@ -83,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         anim_scale_up = AnimationUtils.loadAnimation(this, R.anim.scale_up);
         anim_scale_down = AnimationUtils.loadAnimation(this, R.anim.scale_down);
 
-        intent = new Intent(this, AuthActivity.class);
 
     }
 
@@ -113,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         button_signin.setOnClickListener(v -> {
 
             //otherwise signin with username and pwd
+            Intent intent = new Intent(this, AuthActivity.class);
             intent.putExtra("key", "signin");
             runAnimation(button_signin);
             runIntent(intent);
@@ -121,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         button_signup.setOnClickListener(v -> {
 
+            Intent intent = new Intent(this, AuthActivity.class);
             intent.putExtra("key", "signup");
             runAnimation(button_signup);
             runIntent(intent);
@@ -130,5 +128,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    private void cognitoSilentLogin() {
+
+        String id_token = natour_shared_pref.getString("id_token", null);
+        Authentication.tokenLogin(id_token, new TokenLoginCallback(this));
+        SigninFragment.chat_username = natour_shared_pref.getString("username", null);
+
+    }
+
+    private void googleSilentLogin() {
+
+        //Se L utente ha gia loggato precedentemente con google allora accedo in background (Senza mostrare la gui di google, altrimenti l utente è libero di fare signin regolarmente)
+        google_auth.silentSignIn();
+
+    }
 
 }

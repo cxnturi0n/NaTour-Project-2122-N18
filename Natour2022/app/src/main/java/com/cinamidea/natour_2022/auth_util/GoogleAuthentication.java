@@ -43,7 +43,7 @@ public class GoogleAuthentication {
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestIdToken("1032347632012-5man0b8dpe27fq4hfbafqg6ncq6ga3lc.apps.googleusercontent.com")
+                .requestIdToken(("556927589955-6560abd2gt8mm470tn1v4jlpmag213lt.apps.googleusercontent.com"))
                 .build();
 
 
@@ -67,8 +67,6 @@ public class GoogleAuthentication {
             SigninFragment.chat_username = signInAccount.getGivenName();
             activity.startActivity(new Intent(activity, HomeActivity.class));
 
-
-
         } else {
             //Se l id token è scaduto allora automaticamente lo refresha, e salvalo nelle shared preferences
             task.addOnCompleteListener(task1 -> {
@@ -76,6 +74,7 @@ public class GoogleAuthentication {
 
                     GoogleSignInAccount signInAccount = task1.getResult(ApiException.class);
                     SigninFragment.chat_username = signInAccount.getGivenName();
+
 
                     //Salviamo il token di google nelle shared preferences
                     SharedPreferences sharedPreferences = activity.getSharedPreferences("google_token", Context.MODE_PRIVATE);
@@ -117,20 +116,16 @@ public class GoogleAuthentication {
 
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completed_task) {/**/
+    private void handleSignInResult(Task<GoogleSignInAccount> completed_task) {
 
-        String username = completed_task.getResult().getDisplayName();
-        String email = completed_task.getResult().getEmail();
-        //cognito.signUp(username,email);
 
-        //Salviamo il token di google nelle shared preferences
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("google_token", Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString("id_token",completed_task.getResult().getIdToken()).commit();
+        GoogleSignInAccount google_account = completed_task.getResult();
 
-        //Teniamo traccia dell'username per la chat
-        SigninFragment.chat_username=completed_task.getResult().getGivenName();
+        String username = google_account.getDisplayName().replace(" ","");
+        String email = google_account.getEmail();
+        String id_token = google_account.getIdToken();
+        Authentication.googleSignUp(username,email, id_token, new GoogleSignUpCallback(activity, username, id_token, this));
 
-        activity.startActivity(new Intent(activity, HomeActivity.class));
     }
 
     public void signOut() {

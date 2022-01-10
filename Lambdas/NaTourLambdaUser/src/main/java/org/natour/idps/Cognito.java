@@ -18,8 +18,10 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.*;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -179,7 +181,21 @@ public class Cognito {
         }
     }
 
-    public void createUserWithRandomPassword(User user) throws CognitoException {
+   public boolean createGoogleUser(User user, String id_token) throws CognitoException, GeneralSecurityException, IOException {
+
+
+        int action = getGoogleSignInAction(user.getEmail());
+        //Action = 1 : If user had already registered with google, he is free to sign in if token is valid, otherwise an exception is thrown
+        if(action == 1) {
+            if (GoogleAuth.isIdTokenValid(id_token))
+                return false;
+            throw new RuntimeException("User not authorized, please sign in again");
+        }
+        //Action = 2 : A user (signed up regularly) is already registered with that email, so an exception is thrown
+        else if(action == 2)
+            throw new CognitoException("Email already used, please sign in regularly");
+
+        //Action = 0 : User with the given email does not exist, so a new user is registered in the userpool
 
         CharacterRule alphabets = new CharacterRule(EnglishCharacterData.Alphabetical);
         CharacterRule digits = new CharacterRule(EnglishCharacterData.Digit);
@@ -204,12 +220,13 @@ public class Cognito {
 
             cognito_client.adminSetUserPassword(user_password_request);
 
+            return true;
+
         } catch (CognitoIdentityProviderException e) {
 
             throw new CognitoException(e.awsErrorDetails().errorMessage());
 
         }
-
     }
 
 
@@ -245,6 +262,32 @@ public class Cognito {
             throw new CognitoException(e.getMessage());
         }
     }
+
+
+    public int getGoogleSignInAction(String email) throws CognitoException {
+        try {
+
+            String filter = "email = \"" + email + "\"";
+
+            ListUsersRequest usersRequest = ListUsersRequest.builder()
+                    .userPoolId(POOL_ID).limit(1)
+                    .filter(filter)
+                    .build();
+
+            ListUsersResponse response = cognito_client.listUsers(usersRequest);
+
+            if(response.users().isEmpty())
+                return 0;
+            else if(response.users().get(0).attributes().get(1).value().equals("true"))
+                return 2;
+            else
+                return 1;
+
+        } catch (CognitoIdentityProviderException e) {
+            throw new CognitoException(e.getMessage());
+        }
+    }
+
 
     public boolean userExistsByUsername(String username) throws CognitoException {
         try {

@@ -20,6 +20,7 @@ public class Function implements RequestHandler<Request, String> {
             case "REGISTER":
 
                 String password = request.getUser().getPassword();
+                //Pure Cognito User
                 if (password != null) {
                     try {
 
@@ -34,17 +35,6 @@ public class Function implements RequestHandler<Request, String> {
                     }
                 }
 
-                try {
-                    //Used for registering user signed in with google
-                    cognito.createUserWithRandomPassword(request.getUser());
-
-                    return "User created successfully";
-
-                } catch (CognitoException e) {
-
-                    throw new RuntimeException(e.getMessage());
-
-                }
 
             case "CONFIRM":
                 try {
@@ -53,6 +43,18 @@ public class Function implements RequestHandler<Request, String> {
                     return "User confirmed";
 
                 } catch (CognitoException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+
+            case "GOOGLE_REGISTER":
+                try {
+                    //Google User
+                    boolean isGoogleUserRegistered = cognito.createGoogleUser(request.getUser(), request.getId_token());
+
+                    return isGoogleUserRegistered ?  "User successfully signed up" : "User successfully signed in";
+
+                } catch (CognitoException | GeneralSecurityException | IOException e) {
+
                     throw new RuntimeException(e.getMessage());
                 }
 
