@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.cinamidea.natour_2022.MainActivity;
+import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -42,7 +43,7 @@ public class RefreshTokenCallback implements AuthenticationCallback{
 
         activity.getSharedPreferences("natour_tokens",MODE_PRIVATE).edit().clear().commit();
 
-        activity.startActivity(new Intent(activity, MainActivity.class));
+        activity.startActivity(new Intent(activity, AuthActivity.class));
 
     }
 

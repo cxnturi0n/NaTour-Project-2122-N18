@@ -1,25 +1,27 @@
 package com.cinamidea.natour_2022.map;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.CustomAuthActivity;
+import com.google.android.gms.maps.GoogleMap;
 
-public class MapActivity extends CustomAuthActivity {
-
+public class MapActivity extends AppCompatActivity {
 
     private ImageButton button_back;
-    private Button button_addpath, button_importgpx, button_allpaths, button_help;
-    private Fragment add_path_fragment, gpx_fragment, visualize_map_fragment;
-
-
+    private Button button_addpath, button_importgpx, button_allpaths;
+    private Fragment fragment_add_path, fragment_gpx, fragment_all_paths;
+    private FragmentManager fragmentManager;
+    private GPXFragment gpx_fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +31,31 @@ public class MapActivity extends CustomAuthActivity {
         setupViewComponents();
         mainListeners();
         button_allpaths.setClickable(false);
-        addPathListeners();
 
+        fragmentManager = getSupportFragmentManager();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.map, fragment_all_paths);
+        fragmentTransaction.add(R.id.map, fragment_gpx);
+        fragmentTransaction.add(R.id.map, fragment_add_path);
+        fragmentTransaction.hide(fragment_gpx);
+        fragmentTransaction.hide(fragment_add_path);
+        fragmentTransaction.commit();
 
     }
 
+    protected void setupViewComponents() {
+        button_back = findViewById(R.id.activityMap_backbutton);
+        button_addpath = findViewById(R.id.activityMap_addpath);
+        button_importgpx = findViewById(R.id.activityMap_importgpx);
+        button_allpaths = findViewById(R.id.activityMap_allpaths);
+
+        fragment_add_path = new AddPathFragment();
+        fragment_all_paths = new AllPathsFragment();
+        fragment_gpx = new GPXFragment();
+        gpx_fragment = (GPXFragment) fragment_gpx;
+
+    }
 
     private void mainListeners() {
 
@@ -43,88 +65,85 @@ public class MapActivity extends CustomAuthActivity {
 
             button_addpath.setClickable(false);
 
-            if (!button_allpaths.isClickable()) {
+            if(!button_allpaths.isClickable()) {
                 button_allpaths.setClickable(true);
-                button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe), null, null);
-            } else {
+                button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe), null , null);
+            }else{
                 button_importgpx.setClickable(true);
-                button_importgpx.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_file), null, null);
+                button_importgpx.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_file), null , null);
             }
 
-            button_help.setVisibility(View.VISIBLE);
-            button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road_active), null, null);
-            changeFragment(R.id.map, add_path_fragment);
+            button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road_active), null , null);
+            changeFragment(fragment_add_path);
+
         });
 
         button_allpaths.setOnClickListener(view -> {
 
             button_allpaths.setClickable(false);
 
-            if (!button_addpath.isClickable()) {
+            if(!button_addpath.isClickable()) {
                 button_addpath.setClickable(true);
-                button_help.setVisibility(View.GONE);
-                button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road), null, null);
-            } else {
+                button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road), null , null);
+            }else {
                 button_importgpx.setClickable(true);
-                button_importgpx.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_file), null, null);
+                button_importgpx.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_file), null , null);
             }
 
-            button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe_active), null, null);
-            changeFragment(R.id.map, visualize_map_fragment);
+            button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe_active), null , null);
+            changeFragment(fragment_all_paths);
+
         });
 
         button_importgpx.setOnClickListener(view -> {
 
             button_importgpx.setClickable(false);
 
-            if (!button_addpath.isClickable()) {
+            if(!button_addpath.isClickable()) {
                 button_addpath.setClickable(true);
-                button_help.setVisibility(View.GONE);
-                button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road), null, null);
-            } else {
+                button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road), null , null);
+            }else {
                 button_allpaths.setClickable(true);
-                button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe), null, null);
+                button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe), null , null);
             }
 
-            button_importgpx.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_file_active), null, null);
-            changeFragment(R.id.map,gpx_fragment);
-
-
-
+            button_importgpx.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_file_active), null , null);
+            changeFragment(fragment_gpx);
+            gpx_fragment.openFile();
 
         });
 
 
+    }
+
+    protected void changeFragment(Fragment fragment) {
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if(fragment instanceof GPXFragment) {
+
+            fragmentTransaction.hide(fragment_add_path);
+            fragmentTransaction.show(fragment_gpx);
+            fragmentTransaction.hide(fragment_all_paths);
+
+        }
+        else if(fragment instanceof AllPathsFragment) {
+
+            fragmentTransaction.hide(fragment_add_path);
+            fragmentTransaction.hide(fragment_gpx);
+            fragmentTransaction.show(fragment_all_paths);
+
+        }
+        else if(fragment instanceof AddPathFragment) {
+
+            fragmentTransaction.show(fragment_add_path);
+            fragmentTransaction.hide(fragment_gpx);
+            fragmentTransaction.hide(fragment_all_paths);
+
+        }
+        fragmentTransaction.commit();
 
 
     }
-
-
-
-    private void addPathListeners() {
-
-        button_help.setOnClickListener(view -> {
-
-            Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_SHORT).show();
-
-        });
-
-    }
-
-
-    @Override
-    protected void setupViewComponents() {
-        button_back = findViewById(R.id.activityMap_backbutton);
-        button_addpath = findViewById(R.id.activityMap_addpath);
-        button_importgpx = findViewById(R.id.activityMap_importgpx);
-        button_allpaths = findViewById(R.id.activityMap_allpaths);
-        button_help = findViewById(R.id.activityMap_help);
-
-        gpx_fragment = new GpxFragment();
-        add_path_fragment = new AddPathFragment();
-        visualize_map_fragment = new VisualizeMapFragment();
-
-    }
-
 
 }

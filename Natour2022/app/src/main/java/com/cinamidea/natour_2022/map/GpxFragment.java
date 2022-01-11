@@ -1,9 +1,5 @@
 package com.cinamidea.natour_2022.map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,15 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.databinding.ActivityGpxBinding;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -36,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class GpxFragment extends Fragment {
+public class GPXFragment extends Fragment {
 
     private GoogleMap gpx_map;
     public int FILE_REQUEST_CODE = 1;
@@ -44,15 +40,6 @@ public class GpxFragment extends Fragment {
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
         @Override
         public void onMapReady(GoogleMap googleMap) {
             gpx_map=googleMap;
@@ -64,7 +51,7 @@ public class GpxFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_gpx2, container, false);
+        return inflater.inflate(R.layout.fragment_g_p_x, container, false);
     }
 
     @Override
@@ -75,8 +62,6 @@ public class GpxFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
-
-        openFile();
     }
 
 
@@ -94,7 +79,6 @@ public class GpxFragment extends Fragment {
             Uri uri = data.getData();
 
             try {
-                Log.e("GPX","1");
                 gpx_content = readTextFromUri(uri);
                 List<LatLng> punti_gpx = new ArrayList<>();
                 XmlPullParser xpp = getParser();
@@ -143,7 +127,6 @@ public class GpxFragment extends Fragment {
     }
 
     public String readTextFromUri(Uri uri) throws IOException {
-        Log.e("GPX","2");
         StringBuilder stringBuilder = new StringBuilder();
         try (InputStream inputStream =
                      getActivity().getContentResolver().openInputStream(uri);
@@ -159,14 +142,12 @@ public class GpxFragment extends Fragment {
     }
 
     public InputStream convertStringToInputStream(String string) {
-        Log.e("GPX","4");
         InputStream inputStream = new ByteArrayInputStream(string.getBytes());
         return inputStream;
 
     }
 
     public XmlPullParser getParser() {
-        Log.e("GPX","3");
         XmlPullParserFactory factory = null;
         try {
             factory = XmlPullParserFactory.newInstance();
@@ -185,7 +166,6 @@ public class GpxFragment extends Fragment {
     }
 
     public void addMarkerFromGpx(InputStream inputStream, List<LatLng> latLngs, XmlPullParser parser) {
-        Log.e("GPX","5");
         try {
             latLngs = GpxParser(parser, inputStream);
         } catch (XmlPullParserException e) {
