@@ -39,11 +39,11 @@ public final class HomeChatActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        // Step 1 - Set up the client for API calls and the domain for offline storage
         ChatClient client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
                 .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
                 .build();
         new ChatDomain.Builder(client, getApplicationContext()).build();
+
 
         User user = new User();
         user.setId(SigninFragment.chat_username);
@@ -55,9 +55,7 @@ public final class HomeChatActivity extends AppCompatActivity {
                 token
         ).enqueue();
 
-        // Step 3 - Set the channel list filter and order
-        // This can be read as requiring only channels whose "type" is "messaging" AND
-        // whose "members" include our "user.id"
+
         FilterObject filter = Filters.and(
                 Filters.eq("type", "messaging"),
                 Filters.in("members", singletonList(user.getId()))
@@ -71,8 +69,7 @@ public final class HomeChatActivity extends AppCompatActivity {
         ChannelListViewModel channelsViewModel =
                 new ViewModelProvider(this, factory).get(ChannelListViewModel.class);
 
-        // Step 4 - Connect the ChannelListViewModel to the ChannelListView, loose
-        //          coupling makes it easy to customize
+
         ChannelListViewModelBinding.bind(channelsViewModel, binding.channelListView, this);
         binding.channelListView.setChannelItemClickListener(
                 channel -> startActivity(ChatActivity.newIntent(this, channel))
@@ -83,7 +80,7 @@ public final class HomeChatActivity extends AppCompatActivity {
         cerca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeChatActivity.this,ChatUserList.class));
+                startActivity(new Intent(HomeChatActivity.this, ChatUserList.class));
             }
         });
 

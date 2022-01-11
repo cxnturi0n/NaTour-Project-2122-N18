@@ -42,6 +42,7 @@
     <!-- Activity_HomeChatActivity -->
     <string name="chat_api_key">nbcrsrs5wrj8</string>
     <string name="title_activity_map">MapActivity</string>
+    <string name="title_activity_gpx">GpxActivity</string>
 
     <!-- Activity_MapActivity -->
 

@@ -48,24 +48,14 @@ public class ChatUserList extends AppCompatActivity {
 
         queryAllUsers();
 
+        //Quando l'utente clicca su un elemento della lista degli utenti verrà creata la chat tra i due utenti
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String channelType = "messaging";
                 User item = (User) parent.getItemAtPosition(position);
                 List<String> members = Arrays.asList(client.getCurrentUser().getId(), item.getId());
-
-                client.createChannel(channelType, members).enqueue(result -> {
-                    if (result.isSuccess()) {
-                        Intent intent = new Intent(ChatUserList.this, HomeChatActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    } else {
-                        // Handle result.error()
-                        Log.e(TAG, "ChatUserList: Errore creazione canale");
-                    }
-                });
-
+                createChannel(channelType, members);
 
             }
         });
@@ -76,9 +66,8 @@ public class ChatUserList extends AppCompatActivity {
                 startActivity(new Intent(ChatUserList.this, HomeChatActivity.class));
             }
         });
-
-
     }
+
 
 
     @Override
@@ -90,7 +79,7 @@ public class ChatUserList extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (!query.isEmpty())
-                    cercaUtente(query);
+                    searchUser(query);
                 return true;
             }
 
@@ -103,7 +92,8 @@ public class ChatUserList extends AppCompatActivity {
         return true;
     }
 
-    private void cercaUtente(String query) {
+    //Ricerca di un singolo utente
+    private void searchUser(String query) {
 
         FilterObject filter = Filters.in("name", query);
         int offset = 0;
@@ -125,7 +115,7 @@ public class ChatUserList extends AppCompatActivity {
 
     }
 
-
+    //Ricerca di tutti gli utenti
     private void queryAllUsers() {
         FilterObject filter = Filters.ne("id", client.getCurrentUser().getId());
         int offset = 0;
@@ -145,5 +135,16 @@ public class ChatUserList extends AppCompatActivity {
             }
         });
 
+    }
+
+    //Creazione di una canale chat tra due utenti
+    private void createChannel(String channelType, List<String> members) {
+        client.createChannel(channelType, members).enqueue(result -> {
+            if (result.isSuccess()) {
+                Intent intent = new Intent(ChatUserList.this, HomeChatActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
     }
 }
