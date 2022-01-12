@@ -2,22 +2,29 @@ package com.cinamidea.natour_2022.map;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -28,6 +35,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,11 +43,12 @@ import java.util.Objects;
 public class GPXFragment extends Fragment {
 
     private GoogleMap gpx_map;
-    public int FILE_REQUEST_CODE = 1;
-    public String gpx_content;
+    private int FILE_REQUEST_CODE = 1;
+    private String gpx_content;
+    private List<LatLng> path;
+    private ImageButton button_add, button_cancel, button_success;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
-
         @Override
         public void onMapReady(GoogleMap googleMap) {
             gpx_map=googleMap;
@@ -62,6 +71,13 @@ public class GPXFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+
+        button_add = view.findViewById(R.id.activityMapGPX_plus);
+        button_success = view.findViewById(R.id.activityMapGPX_success);
+        button_cancel = view.findViewById(R.id.activityMapGPX_cancel);
+
+        setListeners();
+
     }
 
 
@@ -77,13 +93,22 @@ public class GPXFragment extends Fragment {
             }
 
             Uri uri = data.getData();
+            if(!checkGPX(uri)) {
+
+                Toast.makeText(getContext(), "Error GPX", Toast.LENGTH_LONG).show();
+                return;
+            }
 
             try {
                 gpx_content = readTextFromUri(uri);
                 List<LatLng> punti_gpx = new ArrayList<>();
                 XmlPullParser xpp = getParser();
                 InputStream gpxIn = convertStringToInputStream(gpx_content);
+                path = new ArrayList<>();
                 addMarkerFromGpx(gpxIn, punti_gpx, xpp);
+                button_add.setVisibility(View.GONE);
+                button_cancel.setVisibility(View.VISIBLE);
+                button_success.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -95,14 +120,14 @@ public class GPXFragment extends Fragment {
     }
 
 
-    public void openFile() {
+    private void openFile() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         startActivityForResult(intent, FILE_REQUEST_CODE);
     }
 
 
-    public  List<LatLng> GpxParser(XmlPullParser parser, InputStream gpxIn) throws XmlPullParserException, IOException {
+    private  List<LatLng> GpxParser(XmlPullParser parser, InputStream gpxIn) throws XmlPullParserException, IOException {
         // We use a List<> as we need subList for paging later
         List<LatLng> latLngs = new ArrayList<>();
         parser.setInput(gpxIn, null);
@@ -126,7 +151,7 @@ public class GPXFragment extends Fragment {
 
     }
 
-    public String readTextFromUri(Uri uri) throws IOException {
+    private String readTextFromUri(Uri uri) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         try (InputStream inputStream =
                      getActivity().getContentResolver().openInputStream(uri);
@@ -141,13 +166,13 @@ public class GPXFragment extends Fragment {
         return stringBuilder.toString();
     }
 
-    public InputStream convertStringToInputStream(String string) {
+    private InputStream convertStringToInputStream(String string) {
         InputStream inputStream = new ByteArrayInputStream(string.getBytes());
         return inputStream;
 
     }
 
-    public XmlPullParser getParser() {
+    private XmlPullParser getParser() {
         XmlPullParserFactory factory = null;
         try {
             factory = XmlPullParserFactory.newInstance();
@@ -165,7 +190,7 @@ public class GPXFragment extends Fragment {
         return xpp;
     }
 
-    public void addMarkerFromGpx(InputStream inputStream, List<LatLng> latLngs, XmlPullParser parser) {
+    private void addMarkerFromGpx(InputStream inputStream, List<LatLng> latLngs, XmlPullParser parser) {
         try {
             latLngs = GpxParser(parser, inputStream);
         } catch (XmlPullParserException e) {
@@ -178,8 +203,55 @@ public class GPXFragment extends Fragment {
         for (LatLng punto : latLngs) {
             //MarkerOptions options = new MarkerOptions().position(punto).icon(BitmapDescriptorFactory.defaultMarker());
             //gpx_map.addMarker(options);
+            path.add(punto);
+            if (punto == latLngs.get(latLngs.size()-1)){
+                MarkerOptions options = new MarkerOptions().position(punto).icon(BitmapDescriptorFactory.defaultMarker());
+                gpx_map.addMarker(options);
+
+            } else if(punto == latLngs.get(0)){
+                MarkerOptions options = new MarkerOptions().position(punto).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                gpx_map.addMarker(options);
+            }
+
+            else{
+                PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
+                gpx_map.addPolyline(opts);
+            }
 
         }
+    }
+
+    private void setListeners() {
+
+        button_add.setOnClickListener(view -> {
+
+            openFile();
+
+        });
+
+        button_cancel.setOnClickListener(view -> {
+
+            button_add.setVisibility(View.VISIBLE);
+            button_cancel.setVisibility(View.GONE);
+            button_success.setVisibility(View.GONE);
+            path.clear();
+            gpx_map.clear();
+        });
+
+        button_success.setOnClickListener(view -> {
+
+        });
+
+    }
+
+    private boolean checkGPX(Uri uri) {
+
+        String file_name = DocumentFile.fromSingleUri(getContext(), uri).getName();
+        String extension = file_name.substring(file_name.lastIndexOf("."));
+        Log.e("TAG", extension);
+
+        return (extension.equals(".gpx")) ? true : false;
+
     }
 
 

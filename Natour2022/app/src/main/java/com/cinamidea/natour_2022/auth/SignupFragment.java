@@ -79,8 +79,7 @@ public class SignupFragment extends CustomAuthFragment {
             intent.putExtra("username", username);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            Authentication auth = new Authentication();
-            auth.signUp(username, email, password, new SignupCallback(username, getActivity()));
+            Authentication.signUp(username, email, password, new SignupCallback(username, getActivity()));
 
             SigninFragment.chat_username=username;
 

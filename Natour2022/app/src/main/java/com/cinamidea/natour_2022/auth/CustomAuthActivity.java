@@ -13,7 +13,7 @@ public abstract class CustomAuthActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(layout, fragment).addToBackStack(null);
+        fragmentTransaction.replace(layout, fragment);
         fragmentTransaction.commit();
 
     }

@@ -4,12 +4,14 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cinamidea.natour_2022.HomeActivity;
+import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.google.gson.Gson;
 
@@ -43,14 +45,7 @@ public class GetTokensCallback implements AuthenticationCallback{
 
     @Override
     public void handleStatus400(String response) {
-        activity.runOnUiThread(() -> {
-            Dialog dialog = new Dialog(activity);
-            dialog.setContentView(R.layout.error_message_layout);
-            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.background_alert_dialog));
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            ((TextView) dialog.findViewById(R.id.messageError_message)).setText(response);
-            dialog.show();
-        });
+        setupErrorDialog(response);
     }
 
     @Override
@@ -86,6 +81,32 @@ public class GetTokensCallback implements AuthenticationCallback{
     private String removeQuotesAndUnescape(String uncleanJson) {
         String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
         return StringEscapeUtils.unescapeJava(noQuotes);
+    }
+
+    private void setupErrorDialog(String message) {
+
+        activity.runOnUiThread(() -> {
+            Dialog dialog = new Dialog(activity);
+            dialog.setContentView(R.layout.error_message_layout);
+            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.background_alert_dialog));
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ((TextView) dialog.findViewById(R.id.messageError_message)).setText(message);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+
+            dialog.findViewById(R.id.messageError_button).setOnClickListener(view -> {
+                dialog.hide();
+            });
+
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    dialog.hide();
+                }
+            });
+
+        });
+
     }
 
 

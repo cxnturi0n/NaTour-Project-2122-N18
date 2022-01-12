@@ -63,21 +63,16 @@ public class SigninFragment extends CustomAuthFragment {
 
         button_signin.setOnClickListener(v -> {
 
-
             runAnimation(button_signin);
-
-            Intent home_intent = new Intent(getActivity(), HomeActivity.class);
-            home_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             String username = edit_user.getText().toString();
             String password = edit_password.getText().toString();
 
-            Authentication auth = new Authentication();
-
-            auth.getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
+            Authentication.getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
 
             //Set username per l'utente della chat
             chat_username = username;
+
         });
 
         text_forgotpwd.setOnClickListener(view -> runHandledIntent(new Intent(getActivity(), ResetCRActivity.class)));

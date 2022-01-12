@@ -45,9 +45,7 @@ public class PinActivity extends AppCompatActivity {
         button_verify.setOnClickListener(view -> {
             String confirmation_code = pin_view.getText().toString();
 
-            Authentication auth = new Authentication();
-
-            auth.confirmSignUp(username,confirmation_code, new ConfirmSignupCallback(this));
+            Authentication.confirmSignUp(username,confirmation_code, new ConfirmSignupCallback(this));
 
         });
     }

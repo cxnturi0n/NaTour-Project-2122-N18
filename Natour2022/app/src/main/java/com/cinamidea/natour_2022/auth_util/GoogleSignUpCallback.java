@@ -1,18 +1,16 @@
 package com.cinamidea.natour_2022.auth_util;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.HomeActivity;
-import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
@@ -46,31 +44,13 @@ public class GoogleSignUpCallback implements AuthenticationCallback{
     @Override
     public void handleStatus400(String response) {
 
-        activity.runOnUiThread(() -> {
-            Dialog dialog = new Dialog(activity);
-            dialog.setContentView(R.layout.error_message_layout);
-            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.background_alert_dialog));
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            ((TextView) dialog.findViewById(R.id.messageError_message)).setText(response);
-            dialog.show();
-        });
-        google_auth.signOut();
-        activity.startActivity(new Intent(activity, AuthActivity.class));
+        setupErrorDialog(response, 400);
     }
 
     @Override
     public void handleStatus401(String response) {
 
-        activity.runOnUiThread(() -> {
-            Dialog dialog = new Dialog(activity);
-            dialog.setContentView(R.layout.error_message_layout);
-            dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.background_alert_dialog));
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            ((TextView) dialog.findViewById(R.id.messageError_message)).setText(response);
-            dialog.show();
-        });
-        google_auth.signOut();
-        activity.startActivity(new Intent(activity, AuthActivity.class));
+        setupErrorDialog(response, 400);
 
     }
 
@@ -82,14 +62,46 @@ public class GoogleSignUpCallback implements AuthenticationCallback{
     @Override
     public void handleRequestException(String message) {
 
+        setupErrorDialog(message, 0);
+
+    }
+
+    private void setupErrorDialog(String message, int error_type) {
+
         activity.runOnUiThread(() -> {
             Dialog dialog = new Dialog(activity);
             dialog.setContentView(R.layout.error_message_layout);
             dialog.getWindow().setBackgroundDrawable(activity.getDrawable(R.drawable.background_alert_dialog));
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             ((TextView) dialog.findViewById(R.id.messageError_message)).setText(message);
+            dialog.setCanceledOnTouchOutside(true);
             dialog.show();
+
+            dialog.findViewById(R.id.messageError_button).setOnClickListener(view -> {
+                dialog.hide();
+                if(error_type==400) {
+
+                    google_auth.signOut();
+                    activity.startActivity(new Intent(activity, AuthActivity.class));
+
+                }
+            });
+
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    dialog.hide();
+                    if(error_type==400) {
+
+                        google_auth.signOut();
+                        activity.startActivity(new Intent(activity, AuthActivity.class));
+
+                    }
+                }
+            });
+
         });
 
     }
+
 }

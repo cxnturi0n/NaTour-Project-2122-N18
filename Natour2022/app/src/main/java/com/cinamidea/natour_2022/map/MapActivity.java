@@ -21,7 +21,6 @@ public class MapActivity extends AppCompatActivity {
     private Button button_addpath, button_importgpx, button_allpaths;
     private Fragment fragment_add_path, fragment_gpx, fragment_all_paths;
     private FragmentManager fragmentManager;
-    private GPXFragment gpx_fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,6 @@ public class MapActivity extends AppCompatActivity {
         fragment_add_path = new AddPathFragment();
         fragment_all_paths = new AllPathsFragment();
         fragment_gpx = new GPXFragment();
-        gpx_fragment = (GPXFragment) fragment_gpx;
 
     }
 
@@ -109,7 +107,6 @@ public class MapActivity extends AppCompatActivity {
 
             button_importgpx.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_file_active), null , null);
             changeFragment(fragment_gpx);
-            gpx_fragment.openFile();
 
         });
 

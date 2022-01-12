@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/messageError_image"
+        android:id="@+id/messageSuccess_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/ic_ok" />
 
     <TextView
-        android:id="@+id/messageError_title"
+        android:id="@+id/messageSuccess_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -32,33 +32,33 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messageError_image" />
+        app:layout_constraintTop_toBottomOf="@+id/messageSuccess_image" />
 
     <TextView
-        android:id="@+id/messageError_message"
+        android:id="@+id/messageSuccess_message"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:text="Insert here your error message."
+        android:text="Insert here your success message."
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messageError_title" />
+        app:layout_constraintTop_toBottomOf="@+id/messageSuccess_title" />
 
 
     <android.widget.Button
-        android:id="@+id/messageNotification_button"
+        android:id="@+id/messageSuccess_button"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/background_button_signup"
+        android:background="@drawable/background_button_signin"
         android:stateListAnimator="@null"
         android:text="Okay"
         android:textAllCaps="false"
-        android:textColor="#373737"
+        android:textColor="@color/natour_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messageError_message" />
+        app:layout_constraintTop_toBottomOf="@+id/messageSuccess_message" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
