@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cinamidea.natour_2022.HomeActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth_util.Authentication;
 import com.cinamidea.natour_2022.auth_util.GetTokensCallback;

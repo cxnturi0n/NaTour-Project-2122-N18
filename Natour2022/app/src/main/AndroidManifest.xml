@@ -59,11 +59,7 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".HomeActivity"
-            android:exported="false"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".ProfileActivity"
+            android:name=".navigation.HomeActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity

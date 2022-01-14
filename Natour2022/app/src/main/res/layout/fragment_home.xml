@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".navigation.HomeFragment">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="8dp"
+        android:scrollbarThumbHorizontal="@null"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.widget.Button
+                android:id="@+id/fragmentHome_all"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/background_home_filters"
+                android:fontFamily="sans-serif"
+                android:text="All"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <android.widget.Button
+                android:id="@+id/fragmentHome_easy"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/background_filter_off"
+                android:fontFamily="sans-serif"
+                android:text="Easy"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:textColor="#C4C4C4"
+                android:textSize="18sp" />
+
+            <android.widget.Button
+                android:id="@+id/fragmentHome_medium"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/background_filter_off"
+                android:fontFamily="sans-serif"
+                android:text="Medium"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:textColor="#C4C4C4"
+                android:textSize="18sp" />
+
+            <android.widget.Button
+                android:id="@+id/fragmentHome_hard"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/background_filter_off"
+                android:fontFamily="sans-serif"
+                android:text="Hard"
+                android:textAllCaps="false"
+                android:stateListAnimator="@null"
+                android:textColor="#C4C4C4"
+                android:textSize="18sp" />
+
+            <android.widget.Button
+                android:id="@+id/fragmentHome_extreme"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/background_filter_off"
+                android:fontFamily="sans-serif"
+                android:text="Extreme"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:textColor="#C4C4C4"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+</FrameLayout>

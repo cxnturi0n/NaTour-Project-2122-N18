@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cinamidea.natour_2022.HomeActivity;
+import com.cinamidea.natour_2022.navigation.HomeActivity;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 

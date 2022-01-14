@@ -1,152 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    android:orientation="vertical"
+    tools:context=".navigation.HomeActivity">
 
-    <TextView
-        android:id="@+id/activityHome_welcomeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Welcome back,"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/activityHome_usernameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:fontFamily="sans-serif"
-        android:text="Umberto"
-        android:textColor="@color/natour_black"
-        android:textSize="28sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityHome_welcomeText" />
-
-    <TextView
-        android:id="@+id/activityHome_titleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
-        android:fontFamily="sans-serif"
-        android:text="Near paths"
-        android:textColor="@color/natour_black"
-        android:textSize="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityHome_usernameText" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/activityHome_avatar"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:clickable="true"
-        android:src="@color/natour_green"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/activityHome_usernameText"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.eldersoss.elderssearchview.EldersSearchView
-        android:id="@+id/activityHome_searchbar"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:esvBackground="@drawable/background_searchbar"
-        app:esvElevation="0dp"
-        app:esvHintText="Search your path"
-        app:esvSearchViewHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityHome_titleText"
-        app:esvSuggestionsEnabled="false" />
-
-    <HorizontalScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/activityHome_searchbar"
-        android:scrollbarThumbHorizontal="@null"
-        android:overScrollMode="never">
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="16dp"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/activityHome_avatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+
+            android:layout_marginVertical="16dp"
+            android:clickable="true"
+            android:src="@color/natour_green"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/activityHome_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <android.widget.Button
+            <TextView
+                android:id="@+id/activityHome_welcomeText"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:background="@drawable/background_home_filters"
-                android:fontFamily="sans-serif"
-                android:text="All"
-                android:stateListAnimator="@null"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <android.widget.Button
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@null"
-                android:fontFamily="sans-serif"
-                android:text="Easy"
-                android:stateListAnimator="@null"
-                android:textAllCaps="false"
-                android:textColor="#C4C4C4"
-                android:textSize="18sp" />
+                android:fontFamily="sans-serif-light"
+                android:text="Welcome back,"
+                android:textSize="14sp" />
 
-            <android.widget.Button
+            <TextView
+                android:id="@+id/activityHome_usernameText"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@null"
                 android:fontFamily="sans-serif"
-                android:text="Moderate"
-                android:stateListAnimator="@null"
-                android:textAllCaps="false"
-                android:textColor="#C4C4C4"
-                android:textSize="18sp" />
-
-            <android.widget.Button
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:background="@null"
-                android:fontFamily="sans-serif"
-                android:text="Difficult"
-                android:textAllCaps="false"
-                android:stateListAnimator="@null"
-                android:textColor="#C4C4C4"
-                android:textSize="18sp" />
-
-            <android.widget.Button
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:background="@null"
-                android:fontFamily="sans-serif"
-                android:text="Extreme"
-                android:stateListAnimator="@null"
-                android:textAllCaps="false"
-                android:textColor="#C4C4C4"
-                android:textSize="18sp" />
+                android:text="Umberto"
+                android:textColor="@color/natour_black"
+                android:textSize="20sp"/>
 
         </LinearLayout>
 
-    </HorizontalScrollView>
+        <ImageButton
+            android:id="@+id/activityHome_openMap"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_openmap"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/activityHome_search"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_search"/>
+
+        <ImageButton
+            android:id="@+id/activityHome_chat_or_menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_menu"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/drawable_divider_line"
+        android:layout_alignBottom="@+id/activityHome_header"/>
+
+    <RelativeLayout
+        android:id="@+id/activityHome_fragmentcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/drawable_divider_line"
+        android:layout_alignTop="@+id/activityHome_bottom"/>
+
+    <LinearLayout
+        android:id="@+id/activityHome_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/activityHome_home"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_home_active"/>
+
+        <ImageButton
+            android:id="@+id/activityHome_profile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="120dp"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_profile_inactive"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
