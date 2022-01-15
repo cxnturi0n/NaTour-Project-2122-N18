@@ -17,10 +17,10 @@ public class Function implements RequestHandler<Request, String> {
         String action = request.getAction();
         switch (action) {
 
+            //Pure Cognito User Registration
             case "REGISTER":
 
                 String password = request.getUser().getPassword();
-                //Pure Cognito User
                 if (password != null) {
                     try {
 
@@ -36,6 +36,7 @@ public class Function implements RequestHandler<Request, String> {
                 }
 
 
+                //Confirm signup with confirmation code sent via email
             case "CONFIRM":
                 try {
                     cognito.confirmUser(request.getUser().getUsername(), request.getConfirmation_code());
@@ -46,9 +47,10 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
+                //Google User Registration
             case "GOOGLE_REGISTER":
                 try {
-                    //Google User
+
                     boolean isGoogleUserRegistered = cognito.createGoogleUser(request.getUser(), request.getId_token());
 
                     return isGoogleUserRegistered ?  "User successfully signed up" : "User successfully signed in";
@@ -58,12 +60,14 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
+                //Cognito Token Validation
             case "TOKEN_LOGIN":
 
                 cognito.verifyIdToken(request.getId_token());
 
                 return "Successfully signed in";
 
+                //Get cognito id and refresh tokens by username and password
             case "PASSWORD":
                 try {
                     String json_tokens = cognito.signInUserAndGetTokens(request.getUser().getUsername(), request.getUser().getPassword());
@@ -76,6 +80,7 @@ public class Function implements RequestHandler<Request, String> {
 
                 }
 
+                //Get cognito id token by refresh token
             case "REFRESH_TOKEN":
                 try {
                     String new_id_token = cognito.getNewIdToken(request.getRefresh_token(), request.getUser().getUsername());
@@ -86,6 +91,7 @@ public class Function implements RequestHandler<Request, String> {
 
                     throw new RuntimeException(e.getMessage());
                 }
+                //Initiate forgot password flow, an email will eventually be sent to the user
             case "FORGOT_PWD":
                 try {
                     cognito.initiateForgotPassword(request.getUser().getUsername());
@@ -97,6 +103,7 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
 
                 }
+                //Password reset via confirmation code sent previously via email
             case "RESET_PWD":
                 try {
                     cognito.resetPassword(request.getUser().getUsername(), request.getUser().getPassword(), request.getConfirmation_code());
@@ -106,13 +113,14 @@ public class Function implements RequestHandler<Request, String> {
                 } catch (CognitoException e) {
                     throw new RuntimeException(e.getMessage());
                 }
-            case "GOOGLE_TOKEN":
+                //Google id token validation
+         /*   case "GOOGLE_TOKEN":
 
                 try {
                     return GoogleAuth.getAccountParams(request.getId_token()).get("username");
                 } catch (GeneralSecurityException | IOException e) {
                     throw new RuntimeException(e.getMessage());
-                }
+                }*/
             default:
                 throw new RuntimeException("Wrong action");
         }

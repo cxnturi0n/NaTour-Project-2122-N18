@@ -212,7 +212,7 @@ public class Cognito {
 
         try {
 
-            AdminCreateUserRequest create_user_request = AdminCreateUserRequest.builder().userPoolId(POOL_ID).username(user.getUsername()).userAttributes(user_attributes).temporaryPassword(password).build();
+            AdminCreateUserRequest create_user_request = AdminCreateUserRequest.builder().userPoolId(POOL_ID).username(user.getUsername()).messageAction("SUPPRESS").userAttributes(user_attributes).temporaryPassword(password).build();
 
             cognito_client.adminCreateUser(create_user_request);
 
