@@ -10,7 +10,7 @@ public interface RouteDAO {
 
     public void insert(Route route) throws PersistenceException;
 
-    public List<LatLng> getAll(Route route) throws PersistenceException;
+    public List<LatLng> getUserRoutes(String username) throws PersistenceException;
 
 
 }

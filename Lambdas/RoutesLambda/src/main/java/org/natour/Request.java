@@ -29,4 +29,17 @@ public class Request {
     public Route getRoute() {
         return route;
     }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public void setId_token(String id_token) {
+        this.id_token = id_token;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
 }

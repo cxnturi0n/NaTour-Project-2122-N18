@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.Authentication;
-import com.cinamidea.natour_2022.auth_util.GetCodeForPasswordResetCallback;
-import com.cinamidea.natour_2022.auth_util.ResetPasswordCallback;
+import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
+import com.cinamidea.natour_2022.auth_callbacks.GetCodeForPasswordResetCallback;
+import com.cinamidea.natour_2022.auth_callbacks.ResetPasswordCallback;
 
 public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragmentSwitcher {
 
@@ -34,7 +34,7 @@ public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragme
         Log.e("Error","1");
         this.username = username;
 
-        Authentication auth = new Authentication();
+        AuthenticationHTTP auth = new AuthenticationHTTP();
 
         auth.getCodeForPasswordReset(username, new GetCodeForPasswordResetCallback(this));
     }
@@ -42,7 +42,7 @@ public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragme
     @Override
     public void switchToSigninFragment(String confirmation_code) {
 
-        Authentication auth = new Authentication();
+        AuthenticationHTTP auth = new AuthenticationHTTP();
         auth.resetPassword(username, password, confirmation_code, new ResetPasswordCallback(this));
     }
 

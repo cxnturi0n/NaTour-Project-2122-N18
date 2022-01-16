@@ -1,6 +1,5 @@
 package org.natour.entities;
 
-import java.util.Date;
 import java.util.List;
 
 public class Route {
@@ -24,6 +23,7 @@ public class Route {
     public Route(){
 
     }
+
 
     public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, List <LatLng> coordinates) {
 
@@ -72,4 +72,33 @@ public class Route {
     public void setCoordinates(List<LatLng> coordinates) {
         this.coordinates = coordinates;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCreator_username(String creator_username) {
+        this.creator_username = creator_username;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public void setDuration(float duration) {
+        this.duration = duration;
+    }
+
+    public void setReport_count(int report_count) {
+        this.report_count = report_count;
+    }
+
+    public void setDisability_access(boolean disability_access) {
+        this.disability_access = disability_access;
+    }
+
 }

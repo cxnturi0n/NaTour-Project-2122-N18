@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.Authentication;
-import com.cinamidea.natour_2022.auth_util.SignupCallback;
+import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
+import com.cinamidea.natour_2022.auth_callbacks.SignupCallback;
 
 public class SignupFragment extends CustomAuthFragment {
 
@@ -79,7 +79,7 @@ public class SignupFragment extends CustomAuthFragment {
             intent.putExtra("username", username);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            Authentication.signUp(username, email, password, new SignupCallback(username, getActivity()));
+            AuthenticationHTTP.signUp(username, email, password, new SignupCallback(username, getActivity()));
 
             SigninFragment.chat_username=username;
 

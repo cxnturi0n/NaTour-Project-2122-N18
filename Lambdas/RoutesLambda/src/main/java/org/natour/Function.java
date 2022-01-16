@@ -4,26 +4,24 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.natour.daos.RouteDAO;
 import org.natour.daosimpl.RouteDAOMySql;
-import org.natour.entities.LatLng;
 import org.natour.entities.Route;
 import org.natour.exceptions.PersistenceException;
+
 
 public class Function implements RequestHandler<Request, String> {
     @Override
     public String handleRequest(Request request, Context context) {
 
+        RouteDAO r = new RouteDAOMySql();
+
         Route route = request.getRoute();
-
-        return request.getAction()+request.getId_token();
-
-        /*RouteDAO r = new RouteDAOMySql();
 
         try {
             r.insert(route);
         } catch (PersistenceException e) {
             System.out.println(e.getMessage());
         }
-        return null;*/
+        return null;
     }
 }
 

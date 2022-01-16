@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.Authentication;
-import com.cinamidea.natour_2022.auth_util.GetTokensCallback;
+import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
+import com.cinamidea.natour_2022.auth_callbacks.GetTokensCallback;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
 
 public class SigninFragment extends CustomAuthFragment {
@@ -67,7 +67,7 @@ public class SigninFragment extends CustomAuthFragment {
             String username = edit_user.getText().toString();
             String password = edit_password.getText().toString();
 
-            Authentication.getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
+            AuthenticationHTTP.getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
 
             //Set username per l'utente della chat
             chat_username = username;

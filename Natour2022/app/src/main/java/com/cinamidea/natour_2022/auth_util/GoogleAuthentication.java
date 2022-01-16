@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cinamidea.natour_2022.auth_callbacks.GoogleSignUpCallback;
 import com.cinamidea.natour_2022.navigation.HomeActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -123,7 +124,7 @@ public class GoogleAuthentication {
         String username = google_account.getDisplayName().replace(" ","");
         String email = google_account.getEmail();
         String id_token = google_account.getIdToken();
-        Authentication.googleSignUp(username,email, id_token, new GoogleSignUpCallback(activity, username, id_token, this));
+        AuthenticationHTTP.googleSignUp(username,email, id_token, new GoogleSignUpCallback(activity, username, id_token, this));
 
     }
 

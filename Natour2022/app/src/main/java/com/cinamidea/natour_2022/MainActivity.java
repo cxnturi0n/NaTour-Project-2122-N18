@@ -1,11 +1,9 @@
 package com.cinamidea.natour_2022;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -15,11 +13,16 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth_util.Authentication;
+import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
-import com.cinamidea.natour_2022.auth_util.TokenLoginCallback;
+import com.cinamidea.natour_2022.auth_callbacks.TokenLoginCallback;
+import com.cinamidea.natour_2022.routes_util.Route;
+import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        List<LatLng> list = new ArrayList<>();
+        list.add(new LatLng(90,180));
+        list.add(new LatLng(12,32));
 
         google_auth = new GoogleAuthentication(this);
 
@@ -132,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
     private void cognitoSilentLogin() {
 
         String id_token = natour_shared_pref.getString("id_token", null);
-        Authentication.tokenLogin(id_token, new TokenLoginCallback(this));
+        AuthenticationHTTP.tokenLogin(id_token, new TokenLoginCallback(this));
         SigninFragment.chat_username = natour_shared_pref.getString("username", null);
 
     }
