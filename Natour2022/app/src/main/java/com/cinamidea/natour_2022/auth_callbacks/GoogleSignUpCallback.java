@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cinamidea.natour_2022.auth_callbacks.AuthenticationCallback;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
 import com.cinamidea.natour_2022.navigation.HomeActivity;
 import com.cinamidea.natour_2022.R;

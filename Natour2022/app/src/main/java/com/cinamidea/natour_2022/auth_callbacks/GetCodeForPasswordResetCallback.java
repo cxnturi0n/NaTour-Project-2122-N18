@@ -6,9 +6,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.ResetCRPasswordFragment;
-import com.cinamidea.natour_2022.auth_callbacks.AuthenticationCallback;
 
-public class GetCodeForPasswordResetCallback implements AuthenticationCallback {
+public class GetCodeForPasswordResetCallback implements AuthenticationCallback{
 
     private AppCompatActivity activity;
 

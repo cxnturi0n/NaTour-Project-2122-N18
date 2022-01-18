@@ -79,12 +79,6 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/drawable_divider_line"
-        android:layout_alignBottom="@+id/activityHome_header"/>
-
     <RelativeLayout
         android:id="@+id/activityHome_fragmentcontainer"
         android:layout_width="match_parent"

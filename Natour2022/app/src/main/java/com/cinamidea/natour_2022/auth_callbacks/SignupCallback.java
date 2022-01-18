@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.PinActivity;
-import com.cinamidea.natour_2022.auth_callbacks.AuthenticationCallback;
 
 public class SignupCallback implements AuthenticationCallback {
 

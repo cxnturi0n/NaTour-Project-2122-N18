@@ -1,6 +1,8 @@
 package com.cinamidea.natour_2022.navigation;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +11,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.AddPathFragment;
 import com.cinamidea.natour_2022.map.AllPathsFragment;
@@ -51,6 +57,9 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
         button_home.performClick();
+
+        //Richiesta permessi
+        getLocationPermission();
 
     }
 
@@ -152,8 +161,53 @@ public class HomeActivity extends AppCompatActivity {
                 R.layout.menu_bottom_layout,
                 findViewById(R.id.menuLayout_container)
         );
+        bottomSheetView.findViewById(R.id.menuLayout_logout).setOnClickListener(view1 -> {
+            bottomSheetDialog.dismiss();
+            logout();
+        });
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
+
+    }
+
+    //Check permessi
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            AllPathsFragment.locationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    AllPathsFragment.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+        }
+    }
+
+    private void logout() {
+
+        SharedPreferences natour_shared_pref;
+
+        natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
+        String id_token = natour_shared_pref.getString("id_token", null);
+
+        if(id_token!=null) natour_shared_pref.edit().clear().commit();
+        else {
+
+            GoogleAuthentication googleAuthentication = new GoogleAuthentication(this);
+            googleAuthentication.signOut();
+
+        }
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
 
     }
 

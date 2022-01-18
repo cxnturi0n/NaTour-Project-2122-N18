@@ -3,6 +3,7 @@ package com.cinamidea.natour_2022.map;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Criteria;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +19,12 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -35,7 +38,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,6 +49,8 @@ public class GPXFragment extends Fragment {
     private String gpx_content;
     private List<LatLng> path;
     private ImageButton button_add, button_cancel, button_success;
+
+    private List<LatLng> punti_gpx;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
@@ -101,14 +105,15 @@ public class GPXFragment extends Fragment {
 
             try {
                 gpx_content = readTextFromUri(uri);
-                List<LatLng> punti_gpx = new ArrayList<>();
+                punti_gpx = new ArrayList<>();
                 XmlPullParser xpp = getParser();
                 InputStream gpxIn = convertStringToInputStream(gpx_content);
                 path = new ArrayList<>();
-                addMarkerFromGpx(gpxIn, punti_gpx, xpp);
+                punti_gpx=drawFromGpx(gpxIn, punti_gpx, xpp);
                 button_add.setVisibility(View.GONE);
                 button_cancel.setVisibility(View.VISIBLE);
                 button_success.setVisibility(View.VISIBLE);
+                moveCameraOnGpxRoute();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -190,7 +195,7 @@ public class GPXFragment extends Fragment {
         return xpp;
     }
 
-    private void addMarkerFromGpx(InputStream inputStream, List<LatLng> latLngs, XmlPullParser parser) {
+    private List<LatLng> drawFromGpx(InputStream inputStream, List<LatLng> latLngs, XmlPullParser parser) {
         try {
             latLngs = GpxParser(parser, inputStream);
         } catch (XmlPullParserException e) {
@@ -219,6 +224,8 @@ public class GPXFragment extends Fragment {
             }
 
         }
+        return  latLngs;
+
     }
 
     private void setListeners() {
@@ -240,6 +247,8 @@ public class GPXFragment extends Fragment {
 
         button_success.setOnClickListener(view -> {
 
+            startActivity(new Intent(getActivity(), CreatePathActivity.class));
+
         });
 
     }
@@ -251,6 +260,19 @@ public class GPXFragment extends Fragment {
         Log.e("TAG", extension);
 
         return (extension.equals(".gpx")) ? true : false;
+
+    }
+
+    private void moveCameraOnGpxRoute() {
+        Criteria criteria = new Criteria();
+
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(punti_gpx.get(5).latitude,punti_gpx.get(5).longitude))
+                .zoom(12)
+                .tilt(40)
+                .build();
+        gpx_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
 
     }
 

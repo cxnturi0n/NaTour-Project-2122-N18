@@ -40,7 +40,7 @@ dependencies {
 
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
 //Thanks for using https://jar-download.com
-
+    implementation 'me.gujun.android.taggroup:library:1.4@aar'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
     implementation "com.squareup.okhttp3:okhttp:4.9.0"

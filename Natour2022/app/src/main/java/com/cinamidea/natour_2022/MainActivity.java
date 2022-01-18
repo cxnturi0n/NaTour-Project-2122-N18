@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -14,17 +13,10 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth_callbacks.ChangePasswordCallback;
 import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
 import com.cinamidea.natour_2022.auth_callbacks.TokenLoginCallback;
-import com.cinamidea.natour_2022.routes_util.Route;
-import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private GoogleAuthentication google_auth;
     private SharedPreferences natour_shared_pref;
+
 
     @Override
     protected void onResume() {
@@ -49,12 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
 
         google_auth = new GoogleAuthentication(this);
 
@@ -75,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewComponents();
         runButtonListeners();
 
+        //getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
 
     }
 
