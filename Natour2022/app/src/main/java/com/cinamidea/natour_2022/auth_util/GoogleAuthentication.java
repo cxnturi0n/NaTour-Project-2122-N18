@@ -43,7 +43,7 @@ public class GoogleAuthentication {
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestIdToken(("556927589955-6560abd2gt8mm470tn1v4jlpmag213lt.apps.googleusercontent.com"))
+                .requestIdToken(("556927589955-pahgt8na4l8de0985mvlc9gugfltbkef.apps.googleusercontent.com"))
                 .build();
 
 

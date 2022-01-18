@@ -14,14 +14,20 @@ public class Request {
 
     private String refresh_token;
 
+    private String access_token;
+
+    private String old_password;
+
     public Request(){}
 
-    public Request(User user, String confirmation_code, String action, String id_token, String refresh_token) {
+    public Request(User user, String confirmation_code, String action, String id_token, String refresh_token, String access_token, String old_password) {
         this.user = user;
         this.confirmation_code = confirmation_code;
         this.action = action;
         this.id_token = id_token;
         this.refresh_token = refresh_token;
+        this.access_token = access_token;
+        this.old_password = old_password;
     }
 
     public User getUser() {
@@ -62,5 +68,21 @@ public class Request {
 
     public void setRefresh_token(String refresh_token) {
         this.refresh_token = refresh_token;
+    }
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
+    }
+
+    public String getOld_password() {
+        return old_password;
+    }
+
+    public void setOld_password(String old_password) {
+        this.old_password = old_password;
     }
 }

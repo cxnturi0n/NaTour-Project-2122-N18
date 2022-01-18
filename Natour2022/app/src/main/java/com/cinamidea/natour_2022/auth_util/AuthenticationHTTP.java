@@ -159,6 +159,18 @@ public class AuthenticationHTTP {
 
     }
 
+    public static void changePassword(String username, String old_password, String new_password, String access_token, AuthenticationCallback callback) {
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/password";
+
+        String request_body = "{\"old_password\":" + old_password + ",\"password\":" + new_password +",\"confirmation_code\":" + null+ ",\"access_token\":" + access_token + "}";
+
+        request = getPutRequest(url, request_body);
+
+        handleAuthentication(callback);
+
+    }
+
     public static Request getPostRequest(String url, String request_body, Headers headers) {
 
         RequestBody body = RequestBody.create(request_body, MediaType.parse("application/json"));

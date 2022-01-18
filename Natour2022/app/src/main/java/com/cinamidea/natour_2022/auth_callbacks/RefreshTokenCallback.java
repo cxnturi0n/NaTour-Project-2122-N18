@@ -69,6 +69,9 @@ public class RefreshTokenCallback implements AuthenticationCallback {
         SharedPreferences.Editor editor = user_details.edit();
 
         editor.putString("id_token", tokens.getId_token());
+
+        editor.putString("access_token", tokens.getAccess_token());
+
         editor.commit();
     }
 

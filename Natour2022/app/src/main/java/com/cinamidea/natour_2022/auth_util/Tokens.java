@@ -6,9 +6,12 @@ public class Tokens {
 
     private String refresh_token;
 
-    public Tokens(String id_token, String refresh_token) {
+    private String access_token;
+
+    public Tokens(String id_token, String refresh_token, String access_token) {
         this.id_token = id_token;
         this.refresh_token = refresh_token;
+        this.access_token = access_token;
     }
 
     public String getId_token() {
@@ -25,5 +28,13 @@ public class Tokens {
 
     public void setRefresh_token(String refresh_token) {
         this.refresh_token = refresh_token;
+    }
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 }

@@ -15,27 +15,22 @@ public class Function implements RequestHandler<Request, String> {
 
         Cognito cognito = new Cognito();
         String action = request.getAction();
+
         switch (action) {
 
             //Pure Cognito User Registration
             case "REGISTER":
+                try {
 
-                String password = request.getUser().getPassword();
-                if (password != null) {
-                    try {
+                    cognito.signUpUser(request.getUser());
 
-                        cognito.signUpUser(request.getUser());
+                    return "User signed in successfully";
 
-                        return "User signed in successfully";
+                } catch (CognitoException e) {
 
-                    } catch (CognitoException e) {
+                    throw new RuntimeException(e.getMessage());
 
-                        throw new RuntimeException(e.getMessage());
-
-                    }
                 }
-
-
                 //Confirm signup with confirmation code sent via email
             case "CONFIRM":
                 try {
@@ -53,7 +48,7 @@ public class Function implements RequestHandler<Request, String> {
 
                     boolean isGoogleUserRegistered = cognito.createGoogleUser(request.getUser(), request.getId_token());
 
-                    return isGoogleUserRegistered ?  "User successfully signed up" : "User successfully signed in";
+                    return isGoogleUserRegistered ? "User successfully signed up" : "User successfully signed in";
 
                 } catch (CognitoException | GeneralSecurityException | IOException e) {
 
@@ -67,7 +62,7 @@ public class Function implements RequestHandler<Request, String> {
 
                 return "Successfully signed in";
 
-                //Get cognito id and refresh tokens by username and password
+            //Get cognito id and refresh tokens by username and password
             case "PASSWORD":
                 try {
                     String json_tokens = cognito.signInUserAndGetTokens(request.getUser().getUsername(), request.getUser().getPassword());
@@ -106,10 +101,12 @@ public class Function implements RequestHandler<Request, String> {
                 //Password reset via confirmation code sent previously via email
             case "RESET_PWD":
                 try {
-                    cognito.resetPassword(request.getUser().getUsername(), request.getUser().getPassword(), request.getConfirmation_code());
-
+                    if (request.getConfirmation_code() != null) {
+                        cognito.resetPassword(request.getUser().getUsername(), request.getUser().getPassword(), request.getConfirmation_code());
+                    } else {
+                        cognito.changePassword(request.getOld_password(), request.getUser().getPassword(), request.getAccess_token());
+                    }
                     return "Password changed successfully";
-
                 } catch (CognitoException e) {
                     throw new RuntimeException(e.getMessage());
                 }

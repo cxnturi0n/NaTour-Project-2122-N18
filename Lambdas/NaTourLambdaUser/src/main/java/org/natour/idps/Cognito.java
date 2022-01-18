@@ -120,6 +120,19 @@ public class Cognito {
         }
     }
 
+    public void changePassword(String old_password, String new_password, String access_token) throws CognitoException{
+
+        try {
+            ChangePasswordRequest change_password_request = ChangePasswordRequest.builder().accessToken(access_token).previousPassword(old_password).proposedPassword(new_password).build();
+
+            cognito_client.changePassword(change_password_request);
+
+        } catch (CognitoIdentityProviderException e) {
+            throw new CognitoException(e.awsErrorDetails().errorMessage());
+        }
+
+    }
+
     public String signInUserAndGetTokens(String username, String password) throws CognitoException {
 
 
@@ -136,7 +149,7 @@ public class Cognito {
 
             AuthenticationResultType auth_result = response.authenticationResult();
 
-            Tokens tokens = new Tokens(auth_result.idToken(), auth_result.refreshToken());
+            Tokens tokens = new Tokens(auth_result.idToken(), auth_result.refreshToken(), auth_result.accessToken());
 
             Gson gson = new Gson();
 
@@ -166,7 +179,7 @@ public class Cognito {
 
             AuthenticationResultType auth_result = response.authenticationResult();
 
-            Tokens tokens = new Tokens(auth_result.idToken(), null);
+            Tokens tokens = new Tokens(auth_result.idToken(), null, auth_result.accessToken());
 
             Gson gson = new Gson();
 

@@ -74,6 +74,7 @@ public class GetTokensCallback implements AuthenticationCallback {
 
         editor.putString("id_token", tokens.getId_token());
         editor.putString("refresh_token", tokens.getRefresh_token());
+        editor.putString("access_token", tokens.getAccess_token());
         editor.putString("username", username);
 
         editor.commit();
