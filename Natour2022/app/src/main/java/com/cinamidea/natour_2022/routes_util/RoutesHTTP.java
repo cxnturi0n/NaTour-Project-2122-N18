@@ -41,6 +41,7 @@ public class RoutesHTTP {
 
                 int response_code = response.code();
                 String response_body = response.body().string();
+                Log.e("DB",response_body);
                 switch(response_code){
                     case 200 :
                         Log.e("200", response_body);
@@ -64,7 +65,8 @@ public class RoutesHTTP {
         });
     }
 
-    public static void insertRoute(Route route, String id_token, RoutesCallback callback) {
+    //user_type:Cognito/Google, action:INSERT
+    public static void insertRoute(String user_type,String action,Route route, String id_token, RoutesCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
@@ -72,7 +74,7 @@ public class RoutesHTTP {
 
         String json_coords = gson.toJson(route.getCoordinates());
 
-        String request_body = "{\"name\":" + route.getName() + ",\"description\":" + route.getDescription() + ",\"level\":" + route.getLevel() +
+        String request_body = "{\"name\":" + route.getName() + ",\"user_type\":" + user_type +  ",\"action\":" + action + ",\"description\":" + route.getDescription() + ",\"level\":" + route.getLevel() +
                 ",\"duration\":" + route.getDuration() + ",\"report_count\":" + route.getReport_count() +",\"disability_access\":" + route.isDisability_access() +
                 ",\"creator_username\":" + route.getCreator_username() +",\"coordinates\":" + json_coords+"}";
 
@@ -101,6 +103,27 @@ public class RoutesHTTP {
     public static Request getGetRequest(String url, Headers headers) {
 
         return headers!=null ? new Request.Builder().url(url).headers(headers).build() : new Request.Builder().url(url).build();
+    }
+
+
+    //action:GET_ALL
+    public static void readRoute(String user_type,String action, String id_token, RoutesCallback callback){
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+        Gson gson = new Gson();
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type +  ",\"action\":" + action + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+
+
+
+
+
     }
 
 }

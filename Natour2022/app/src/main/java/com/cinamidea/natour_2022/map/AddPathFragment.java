@@ -2,30 +2,23 @@ package com.cinamidea.natour_2022.map;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import static com.cinamidea.natour_2022.map.AllPathsFragment.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
 import com.cinamidea.natour_2022.routes_callbacks.InsertRouteCallback;
-import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,16 +34,19 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//TODO:Controllare se l'user type e l'action siano validi.
 public class AddPathFragment extends Fragment {
 
     private GoogleMap add_path_map;
-    private ArrayList<Marker>markers = new ArrayList<Marker>(2);
-    private ArrayList<Marker>AllMarkers = new ArrayList<Marker>();
+    private ArrayList<Marker> markers = new ArrayList<Marker>(2);
+    private ArrayList<Marker> AllMarkers = new ArrayList<Marker>();
     private List<LatLng> path = new ArrayList<>();
     private ImageButton button_success, button_cancel;
     private int check_long_press_map_click = 0;
 
     public ProgressDialog dialog;
+
 
     @Nullable
     @Override
@@ -80,7 +76,7 @@ public class AddPathFragment extends Fragment {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            add_path_map=googleMap;
+            add_path_map = googleMap;
 
             add_path_map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 MarkerOptions options = new MarkerOptions();
@@ -95,7 +91,7 @@ public class AddPathFragment extends Fragment {
                         button_cancel.setVisibility(View.VISIBLE);
                         check_long_press_map_click = 1;
 
-                    } else if(check_long_press_map_click==1) {
+                    } else if (check_long_press_map_click == 1) {
                         //IL secondo marker il colore rosso
                         Marker marker = add_path_map.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                         markers.add(marker);
@@ -115,7 +111,7 @@ public class AddPathFragment extends Fragment {
                 @Override
                 public void onMapLongClick(@NonNull LatLng latLng) {
 
-                    if(check_long_press_map_click==1) {
+                    if (check_long_press_map_click == 1) {
 
                         Marker end_marker = add_path_map.addMarker(new MarkerOptions()
                                 .position(latLng)
@@ -127,7 +123,7 @@ public class AddPathFragment extends Fragment {
                         Polyline polyline = add_path_map.addPolyline(opts);
 
 
-                        polyline=add_path_map.addPolyline(opts);
+                        polyline = add_path_map.addPolyline(opts);
                         removeAllMarkers();
 
                         check_long_press_map_click = 2;
@@ -139,12 +135,11 @@ public class AddPathFragment extends Fragment {
             });
 
 
-
         }
     };
 
     private void removeAllMarkers() {
-        for (Marker mLocationMarker: AllMarkers) {
+        for (Marker mLocationMarker : AllMarkers) {
             mLocationMarker.remove();
         }
         AllMarkers.clear();
@@ -156,7 +151,7 @@ public class AddPathFragment extends Fragment {
         button_cancel.setOnClickListener(view -> {
 
             button_cancel.setVisibility(View.GONE);
-            if(button_success.getVisibility()==View.VISIBLE)
+            if (button_success.getVisibility() == View.VISIBLE)
                 button_success.setVisibility(View.GONE);
 
             add_path_map.clear();
@@ -165,7 +160,6 @@ public class AddPathFragment extends Fragment {
             check_long_press_map_click = 0;
 
         });
-
 
 
         button_success.setOnClickListener(view -> {
@@ -188,13 +182,25 @@ public class AddPathFragment extends Fragment {
 
     }
 
+
     private void insertRouteOnDb(List<LatLng> path) {
-        Route route = new Route("Sentiero 1", "Sentiero lungo la valle della morte",
+
+        Route route = new Route("Sentiero 4", "Sentiero lungo la valle della morte",
                 SigninFragment.chat_username, "Extreme", 7.8f, 0, false, path);
 
+        String user_type;
         SharedPreferences sharedPreferences;
+
         sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        RoutesHTTP.insertRoute(route, sharedPreferences.getString("id_token", null), new InsertRouteCallback(getActivity(), dialog));
+        String id_token = sharedPreferences.getString("id_token", null);
+        if (id_token != null)
+            user_type = "Cognito";
+        else {
+            id_token = getActivity().getSharedPreferences("google_tokens", MODE_PRIVATE).getString("id_token", null);
+            user_type = "Google";
+        }
+
+        RoutesHTTP.insertRoute(user_type, "INSERT", route, id_token, new InsertRouteCallback(getActivity(), dialog));
 
     }
 

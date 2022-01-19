@@ -13,9 +13,9 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth_callbacks.TokenLoginCallback;
 import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
-import com.cinamidea.natour_2022.auth_callbacks.TokenLoginCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 
 public class MainActivity extends AppCompatActivity {
