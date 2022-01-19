@@ -23,17 +23,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cinamidea.natour_2022.R;
+<<<<<<< Updated upstream
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.routes_callbacks.InsertRouteCallback;
 import com.cinamidea.natour_2022.routes_callbacks.ReadRouteCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.maps.CameraUpdateFactory;
+=======
+>>>>>>> Stashed changes
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
@@ -51,6 +52,10 @@ public class AllPathsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
+<<<<<<< Updated upstream
+=======
+            map.setMapType(2);
+>>>>>>> Stashed changes
             getLocationPermission();
             updateLocationUI();
 

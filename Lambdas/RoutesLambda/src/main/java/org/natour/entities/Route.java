@@ -1,5 +1,6 @@
 package org.natour.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Route {
@@ -36,6 +37,20 @@ public class Route {
         this.disability_access = disability_access;
         this.coordinates = coordinates;
     }
+
+    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access) {
+
+        this.name = name;
+        this.description = description;
+        this.creator_username = creator_username;
+        this.level = level;
+        this.duration = duration;
+        this.report_count = report_count;
+        this.disability_access = disability_access;
+        coordinates = new ArrayList<>();
+    }
+
+
 
     public String getName() {
         return name;
@@ -101,4 +116,17 @@ public class Route {
         this.disability_access = disability_access;
     }
 
+    @Override
+    public String toString() {
+        return "Route{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", creator_username='" + creator_username + '\'' +
+                ", level='" + level + '\'' +
+                ", duration=" + duration +
+                ", report_count=" + report_count +
+                ", disability_access=" + disability_access +
+                ", coordinates=" + coordinates.toString() +
+                '}';
+    }
 }

@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences natour_shared_pref;
 
 
-    @Override
+   @Override
     protected void onResume() {
 
         super.onResume();
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewComponents();
         runButtonListeners();
+
 
         //getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
 

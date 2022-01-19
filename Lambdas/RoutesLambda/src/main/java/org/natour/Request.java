@@ -7,15 +7,17 @@ public class Request {
     private String action;
     private String id_token;
     private Route route;
+    private String user_type;
 
     public Request(){
 
     }
 
-    public Request(String action, String id_token, Route route) {
+    public Request(String action, String id_token, Route route, String user_type) {
         this.action = action;
         this.id_token = id_token;
         this.route = route;
+        this.user_type = user_type;
     }
 
     public String getAction() {
@@ -42,4 +44,11 @@ public class Request {
         this.route = route;
     }
 
+    public String getUser_type() {
+        return user_type;
+    }
+
+    public void setUser_type(String user_type) {
+        this.user_type = user_type;
+    }
 }
