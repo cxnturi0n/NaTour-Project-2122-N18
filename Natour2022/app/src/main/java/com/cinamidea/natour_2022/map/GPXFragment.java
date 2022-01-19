@@ -1,7 +1,11 @@
 package com.cinamidea.natour_2022.map;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.net.Uri;
@@ -19,6 +23,10 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.routes_callbacks.InsertRouteCallback;
+import com.cinamidea.natour_2022.routes_util.Route;
+import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -51,6 +59,7 @@ public class GPXFragment extends Fragment {
     private ImageButton button_add, button_cancel, button_success;
 
     private List<LatLng> punti_gpx;
+    private ProgressDialog dialog;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
@@ -64,6 +73,7 @@ public class GPXFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        dialog= new ProgressDialog(getContext());
         return inflater.inflate(R.layout.fragment_g_p_x, container, false);
     }
 
@@ -246,8 +256,10 @@ public class GPXFragment extends Fragment {
         });
 
         button_success.setOnClickListener(view -> {
-
-            startActivity(new Intent(getActivity(), CreatePathActivity.class));
+            dialog.setMessage("Wait");
+            dialog.show();
+            insertGpxRouteOnDb(path);
+            //startActivity(new Intent(getActivity(), CreatePathActivity.class));
 
         });
 
@@ -273,6 +285,27 @@ public class GPXFragment extends Fragment {
                 .build();
         gpx_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+
+    }
+
+    private void insertGpxRouteOnDb(List<LatLng> path) {
+
+        Route route = new Route("Sentiero 1", "Gpx",
+                SigninFragment.chat_username, "Extreme", 7.8f, 0, false, path);
+
+        String user_type;
+        SharedPreferences sharedPreferences;
+
+        sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
+        String id_token = sharedPreferences.getString("id_token", null);
+        if (id_token != null)
+            user_type = "Cognito";
+        else {
+            id_token = getActivity().getSharedPreferences("google_tokens", MODE_PRIVATE).getString("id_token", null);
+            user_type = "Google";
+        }
+
+        RoutesHTTP.insertRoute(user_type, "INSERT", route, id_token, new InsertRouteCallback(getActivity(), dialog));
 
     }
 
