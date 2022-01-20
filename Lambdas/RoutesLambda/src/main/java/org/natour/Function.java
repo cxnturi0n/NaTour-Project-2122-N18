@@ -15,7 +15,7 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 
-/*public class Function implements RequestHandler<Request, String> {
+public class Function implements RequestHandler<Request, String> {
 
     @Override
     public String handleRequest(Request request, Context context) {
@@ -74,23 +74,28 @@ import java.util.List;
         }
 
     }
-}*/
+}
 
 
 
+/*
 public class Function{
 
     public static void main(String [] args){
 
 
-
         RouteDAOMySql r = new RouteDAOMySql();
         try {
-            List<Route> l = r.getN(0,3);
+            r.insertToVisit("MarcoAurelio","Sentiero 2");
+            r = new RouteDAOMySql();
+            System.out.println(r.getUserToVisit("MarcoAurelio").get(0).toString());
+           */
+/* List<Route> l = r.getUserRoutes("angelino98");
 
             for (Route x : l){
                 System.out.println(x.toString());
-            }
+            }*//*
+
 
         } catch (PersistenceException e) {
             System.out.println(e.getMessage());
@@ -99,4 +104,5 @@ public class Function{
     }
 
 }
+*/
 

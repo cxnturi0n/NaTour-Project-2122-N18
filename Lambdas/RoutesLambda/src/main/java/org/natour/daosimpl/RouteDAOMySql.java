@@ -127,10 +127,17 @@ public class RouteDAOMySql implements RouteDAO {
 
             throw new PersistenceException(e.getMessage());
 
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                return null;
+            }
         }
 
     }
-    //0-10
+
+    @Override
     public List<Route> getN(int start, int end) throws PersistenceException {
 
         String query_routes = "SELECT * FROM Routes LIMIT "+start+", "+end;
@@ -138,7 +145,6 @@ public class RouteDAOMySql implements RouteDAO {
         PreparedStatement prepared_statement = null;
 
         List<Route> routes = new ArrayList<>();
-
 
 
         try {
@@ -170,13 +176,200 @@ public class RouteDAOMySql implements RouteDAO {
 
         } catch (SQLException e) {
             throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                return null;
+            }
         }
 
     }
-    
-    public List<LatLng> getUserRoutes(String username) throws PersistenceException {
-        return null;
+
+    @Override
+    public List<Route> getUserRoutes(String username) throws PersistenceException {
+
+        String query = "SELECT * FROM Routes WHERE creator_username="+"\""+username+"\"";
+
+        List<Route> routes = new ArrayList<>();
+
+        try{
+            Statement statement = connection.createStatement();
+
+            ResultSet rs = statement.executeQuery(query);
+
+            while(rs.next()){
+
+                String route_name = rs.getString("name");
+                Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
+                        rs.getInt("report_count"), rs.getBoolean("disability_access"));
+
+                List<LatLng> coordinates = route.getCoordinates();
+
+                String query_coordinates = "SELECT latitude, longitude FROM Coordinates WHERE route_name = "+"\""+route_name+"\""+" ORDER BY seq_num,route_name";
+
+                PreparedStatement prepared_statement_1 = connection.prepareStatement(query_coordinates);
+
+                ResultSet rs1 = prepared_statement_1.executeQuery();
+
+                while(rs1.next())
+                    coordinates.add(new LatLng(rs1.getFloat("latitude"),rs1.getFloat("longitude")));
+
+                routes.add(route);
+            }
+
+            return routes;
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return null;
+            }
+        }
+
     }
 
+    @Override
+    public List<Route> getUserFavourites(String username) throws PersistenceException {
+
+        String query = "SELECT * FROM Favourites JOIN Routes ON Favourites.route_name=Routes.name WHERE Favourites.username="+"\""+username+"\"";
+
+        List<Route> routes = new ArrayList<>();
+
+        try{
+            Statement statement = connection.createStatement();
+
+            ResultSet rs = statement.executeQuery(query);
+
+            while(rs.next()){
+
+                String route_name = rs.getString("name");
+                Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
+                        rs.getInt("report_count"), rs.getBoolean("disability_access"));
+
+                List<LatLng> coordinates = route.getCoordinates();
+
+                String query_coordinates = "SELECT latitude, longitude FROM Coordinates WHERE route_name = "+"\""+route_name+"\""+" ORDER BY seq_num,route_name";
+
+                PreparedStatement prepared_statement_1 = connection.prepareStatement(query_coordinates);
+
+                ResultSet rs1 = prepared_statement_1.executeQuery();
+
+                while(rs1.next())
+                    coordinates.add(new LatLng(rs1.getFloat("latitude"),rs1.getFloat("longitude")));
+
+                routes.add(route);
+            }
+
+            return routes;
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return null;
+            }
+        }
+    }
+
+
+    @Override
+    public void insertFavourite(String username, String route_name) throws PersistenceException {
+
+        String query_route = "INSERT INTO Favourites (username, route_name) VALUES (?,?)";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query_route);
+
+            statement.setString(1, username);
+            statement.setString(2, route_name);
+
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return;
+            }
+        }
+    }
+
+    @Override
+    public List<Route> getUserToVisit(String username) throws PersistenceException {
+
+        String query = "SELECT * FROM ToVisit JOIN Routes ON ToVisit.route_name=Routes.name WHERE ToVisit.username="+"\""+username+"\"";
+
+        List<Route> routes = new ArrayList<>();
+
+        try{
+            Statement statement = connection.createStatement();
+
+            ResultSet rs = statement.executeQuery(query);
+
+            while(rs.next()){
+
+                String route_name = rs.getString("name");
+                Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
+                        rs.getInt("report_count"), rs.getBoolean("disability_access"));
+
+                List<LatLng> coordinates = route.getCoordinates();
+
+                String query_coordinates = "SELECT latitude, longitude FROM Coordinates WHERE route_name = "+"\""+route_name+"\""+" ORDER BY seq_num,route_name";
+
+                PreparedStatement prepared_statement_1 = connection.prepareStatement(query_coordinates);
+
+                ResultSet rs1 = prepared_statement_1.executeQuery();
+
+                while(rs1.next())
+                    coordinates.add(new LatLng(rs1.getFloat("latitude"),rs1.getFloat("longitude")));
+
+                routes.add(route);
+            }
+
+            return routes;
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return null;
+            }
+        }
+    }
+
+
+    @Override
+    public void insertToVisit(String username, String route_name) throws PersistenceException {
+
+        String query_route = "INSERT INTO ToVisit (username, route_name) VALUES (?,?)";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query_route);
+
+            statement.setString(1, username);
+            statement.setString(2, route_name);
+
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return;
+            }
+        }
+    }
 
 }
