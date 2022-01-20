@@ -15,7 +15,7 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 
-public class Function implements RequestHandler<Request, String> {
+/*public class Function implements RequestHandler<Request, String> {
 
     @Override
     public String handleRequest(Request request, Context context) {
@@ -74,19 +74,19 @@ public class Function implements RequestHandler<Request, String> {
         }
 
     }
-}
+}*/
 
 
 
-/*public class Function{
+public class Function{
 
     public static void main(String [] args){
 
 
 
-        RouteDAO r = new RouteDAOMySql();
+        RouteDAOMySql r = new RouteDAOMySql();
         try {
-            List<Route> l = r.getAll();
+            List<Route> l = r.getN(0,3);
 
             for (Route x : l){
                 System.out.println(x.toString());
@@ -98,5 +98,5 @@ public class Function implements RequestHandler<Request, String> {
 
     }
 
-}*/
+}
 

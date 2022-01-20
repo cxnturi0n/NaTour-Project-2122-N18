@@ -6,10 +6,7 @@ import org.natour.entities.LatLng;
 import org.natour.entities.Route;
 import org.natour.exceptions.PersistenceException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +91,6 @@ public class RouteDAOMySql implements RouteDAO {
 
             ResultSet rs = prepared_statement.executeQuery();
 
-
             while(rs.next()) //Scorro riga per riga
             {
                 new_route_name = rs.getString("name");
@@ -103,7 +99,6 @@ public class RouteDAOMySql implements RouteDAO {
 
                     //L oggetto route è gia stato creato, devo solo aggiungere le coordinate
                     coordinates.add(new LatLng(rs.getFloat("latitude"), rs.getFloat("longitude")));
-
 
                 }else{//Se iniziano i record di un itinerario diverso
 
@@ -124,26 +119,61 @@ public class RouteDAOMySql implements RouteDAO {
 
                 old_route_name = new_route_name;
 
-        }
+            }
 
             return routes;
 
-    } catch (SQLException e) {
+        } catch (SQLException e) {
 
             throw new PersistenceException(e.getMessage());
 
         }
 
     }
+    //0-10
+    public List<Route> getN(int start, int end) throws PersistenceException {
 
-    public List<Route> getN(int n) throws PersistenceException {
+        String query_routes = "SELECT * FROM Routes LIMIT "+start+", "+end;
 
-        String query = "select * from Coordinates order by route_name,seq_num";
+        PreparedStatement prepared_statement = null;
 
-        return null;
+        List<Route> routes = new ArrayList<>();
+
+
+
+        try {
+            prepared_statement = connection.prepareStatement(query_routes);
+
+            ResultSet rs = prepared_statement.executeQuery();
+
+            while(rs.next()){
+
+                String route_name = rs.getString("name");
+                Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
+                        rs.getInt("report_count"), rs.getBoolean("disability_access"));
+
+                List<LatLng> coordinates = route.getCoordinates();
+
+                String query_coordinates = "SELECT latitude, longitude FROM Coordinates WHERE route_name = "+"\""+route_name+"\""+" ORDER BY seq_num,route_name";
+
+                PreparedStatement prepared_statement_1 = connection.prepareStatement(query_coordinates);
+
+                ResultSet rs1 = prepared_statement_1.executeQuery();
+
+                while(rs1.next())
+                    coordinates.add(new LatLng(rs1.getFloat("latitude"),rs1.getFloat("longitude")));
+
+                routes.add(route);
+            }
+
+            return routes;
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        }
+
     }
-
-
+    
     public List<LatLng> getUserRoutes(String username) throws PersistenceException {
         return null;
     }
