@@ -120,10 +120,6 @@ public class RoutesHTTP {
 
         handleHttpRequest(callback);
 
-
-
-
-
     }
 
 }

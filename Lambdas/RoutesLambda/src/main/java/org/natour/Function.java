@@ -41,18 +41,6 @@ public class Function implements RequestHandler<Request, String> {
 
         switch (action) {
 
-            case "INSERT":
-
-                Route route = request.getRoute();
-                try {
-                    r.insert(route);
-
-                    return "Route inserted successfully";
-
-                } catch (PersistenceException e) {
-                    return e.getMessage();
-                }
-
             case "GET_ALL":
 
                 try {
@@ -63,6 +51,103 @@ public class Function implements RequestHandler<Request, String> {
                     String json_routes = gson.toJson(routes);
 
                     return json_routes;
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "GET_N":
+
+                try {
+
+                    Gson gson = new Gson();
+                    List<Route> routes = r.getN(request.getStart(), request.getEnd());
+
+                    String json_routes = gson.toJson(routes);
+
+                    return json_routes;
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "GET_PERSONAL":
+
+                try {
+
+                    Gson gson = new Gson();
+                    List<Route> routes = r.getUserRoutes(request.getRoute().getCreator_username());
+
+                    String json_routes = gson.toJson(routes);
+
+                    return json_routes;
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "GET_PERSONAL_FAVOURITES":
+
+                try {
+
+                    Gson gson = new Gson();
+                    List<Route> routes = r.getUserFavourites(request.getUsername());
+
+                    String json_routes = gson.toJson(routes);
+
+                    return json_routes;
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "GET_PERSONAL_TOVISIT":
+
+                try {
+
+                    Gson gson = new Gson();
+                    List<Route> routes = r.getUserToVisit(request.getUsername());
+
+                    String json_routes = gson.toJson(routes);
+
+                    return json_routes;
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "INSERT":
+
+                try {
+
+                    Route route = request.getRoute();
+                    r.insert(route);
+
+                    return "Route inserted successfully";
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "INSERT_FAVOURITE":
+
+                try {
+
+                    r.insertFavourite(request.getUsername(), request.getRoute().getName());
+
+                    return "Route inserted successfully";
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "INSERT_TOVISIT":
+
+                try {
+
+                    r.insertToVisit(request.getUsername(), request.getRoute().getName());
+
+                    return "Route inserted successfully";
 
                 } catch (PersistenceException e) {
                     return e.getMessage();

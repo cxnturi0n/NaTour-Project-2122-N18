@@ -277,31 +277,6 @@ public class RouteDAOMySql implements RouteDAO {
         }
     }
 
-
-    @Override
-    public void insertFavourite(String username, String route_name) throws PersistenceException {
-
-        String query_route = "INSERT INTO Favourites (username, route_name) VALUES (?,?)";
-
-        try {
-            PreparedStatement statement = connection.prepareStatement(query_route);
-
-            statement.setString(1, username);
-            statement.setString(2, route_name);
-
-            statement.execute();
-
-        } catch (SQLException e) {
-            throw new PersistenceException(e.getMessage());
-        }finally{
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                return;
-            }
-        }
-    }
-
     @Override
     public List<Route> getUserToVisit(String username) throws PersistenceException {
 
@@ -347,6 +322,31 @@ public class RouteDAOMySql implements RouteDAO {
         }
     }
 
+
+
+    @Override
+    public void insertFavourite(String username, String route_name) throws PersistenceException {
+
+        String query_route = "INSERT INTO Favourites (username, route_name) VALUES (?,?)";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query_route);
+
+            statement.setString(1, username);
+            statement.setString(2, route_name);
+
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return;
+            }
+        }
+    }
 
     @Override
     public void insertToVisit(String username, String route_name) throws PersistenceException {
