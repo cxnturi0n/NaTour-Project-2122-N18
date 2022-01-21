@@ -169,11 +169,18 @@ public class RoutesHTTP {
         String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_PERSONAL_TOVISIT" +
                 ",\"username\":" + username + "}";
 
+<<<<<<< HEAD
         request = getPostRequest(url, request_body, header);
 
         handleHttpRequest(callback);
 =======
 >>>>>>> eb9c063d902366021b75b43940b1b6cbf10eecaa
+=======
+
+
+
+
+>>>>>>> parent of eb9c063 (Update RoutesLambda)
     }
 
     public static void getUserRoutes(String user_type, String creator_username, String id_token, RoutesCallback callback){
