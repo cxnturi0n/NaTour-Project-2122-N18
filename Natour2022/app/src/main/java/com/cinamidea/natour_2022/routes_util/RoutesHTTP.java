@@ -41,21 +41,21 @@ public class RoutesHTTP {
 
                 int response_code = response.code();
                 String response_body = response.body().string();
-                Log.e("DB",response_body);
-                switch(response_code){
-                    case 200 :
+                Log.e("DB", response_body);
+                switch (response_code) {
+                    case 200:
                         Log.e("200", response_body);
                         callback.handleStatus200(response_body);
                         break;
-                    case 400 :
+                    case 400:
                         Log.e("400", response_body);
                         callback.handleStatus400(response_body);
                         break;
-                    case 401 :
+                    case 401:
                         Log.e("401", response_body);
                         callback.handleStatus401(response_body);
                         break;
-                    case 500 :
+                    case 500:
                         callback.handleStatus500(response_body);
                         break;
                     default:
@@ -65,8 +65,9 @@ public class RoutesHTTP {
         });
     }
 
+
     //user_type:Cognito/Google, action:INSERT
-    public static void insertRoute(String user_type,String action,Route route, String id_token, RoutesCallback callback) {
+    public static void insertRoute(String user_type, Route route, String id_token, RoutesCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
@@ -74,17 +75,119 @@ public class RoutesHTTP {
 
         String json_coords = gson.toJson(route.getCoordinates());
 
-        String request_body = "{\"name\":" + route.getName() + ",\"user_type\":" + user_type +  ",\"action\":" + action + ",\"description\":" + route.getDescription() + ",\"level\":" + route.getLevel() +
-                ",\"duration\":" + route.getDuration() + ",\"report_count\":" + route.getReport_count() +",\"disability_access\":" + route.isDisability_access() +
-                ",\"creator_username\":" + route.getCreator_username() +",\"coordinates\":" + json_coords+"}";
+        String request_body = "{\"name\":" + route.getName() + ",\"user_type\":" + user_type + ",\"action\":" + "INSERT"
+                + ",\"description\":" + route.getDescription() + ",\"level\":" + route.getLevel() +
+                ",\"duration\":" + route.getDuration() + ",\"report_count\":" + route.getReport_count() + ",\"disability_access\":"
+                + route.isDisability_access() + ",\"creator_username\":" + route.getCreator_username() +
+                ",\"coordinates\":" + json_coords + "}";
 
-        Headers header = new Headers.Builder().add("Authorization", "\""+id_token+"\"").build();
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
         request = getPostRequest(url, request_body, header);
 
         handleHttpRequest(callback);
 
     }
+
+    //action:GET_ALL
+    public static void getAllRoutes(String user_type, String id_token, RoutesCallback callback) {
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_ALL" + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+
+
+    }
+
+    public static void getNRoutes(String user_type, String id_token, int start, int end, RoutesCallback callback) {
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_N" +
+                ",\"start\":" + start + ",\"end\":" + end + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+
+    }
+
+
+    public static void insertFavouriteRoute(String user_type, String route_name, String username, String id_token, RoutesCallback callback) {
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "INSERT_FAVOURITE" +
+                ",\"username\":" + username + ",\"name\":" + route_name + "}";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+    }
+
+    public static void insertToVisitRoute(String user_type, String route_name, String username, String id_token, RoutesCallback callback) {
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "INSERT_TOVISIT" +
+                ",\"username\":" + username + ",\"name\":" + route_name + "}";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+    }
+
+    public static void getFavouriteRoutes(String user_type, String username, String id_token, RoutesCallback callback) {
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_PERSONAL_FAVOURITES" +
+                ",\"username\":" + username + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+    }
+
+<<<<<<< HEAD
+    public static void getToVisitRoutes(String user_type, String username, String id_token, RoutesCallback callback) {
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_PERSONAL_TOVISIT" +
+                ",\"username\":" + username + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+=======
+>>>>>>> eb9c063d902366021b75b43940b1b6cbf10eecaa
+    }
+
+    public static void getUserRoutes(String user_type, String creator_username, String id_token, RoutesCallback callback){
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_PERSONAL" + ",\"creator_username\":" + creator_username + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+    }
+
 
     public static Request getPostRequest(String url, String request_body, Headers headers) {
 
@@ -102,24 +205,8 @@ public class RoutesHTTP {
 
     public static Request getGetRequest(String url, Headers headers) {
 
-        return headers!=null ? new Request.Builder().url(url).headers(headers).build() : new Request.Builder().url(url).build();
+        return headers != null ? new Request.Builder().url(url).headers(headers).build() : new Request.Builder().url(url).build();
     }
 
-
-    //action:GET_ALL
-    public static void readRoute(String user_type,String action, String id_token, RoutesCallback callback){
-        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
-
-        Gson gson = new Gson();
-
-        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
-
-        String request_body = "{\"user_type\":" + user_type +  ",\"action\":" + action + "}";
-
-        request = getPostRequest(url, request_body, header);
-
-        handleHttpRequest(callback);
-
-    }
 
 }

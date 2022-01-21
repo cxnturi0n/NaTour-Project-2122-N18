@@ -23,15 +23,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cinamidea.natour_2022.R;
-<<<<<<< Updated upstream
+
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.routes_callbacks.InsertRouteCallback;
 import com.cinamidea.natour_2022.routes_callbacks.ReadRouteCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.maps.CameraUpdateFactory;
-=======
->>>>>>> Stashed changes
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -52,10 +51,9 @@ public class AllPathsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
-<<<<<<< Updated upstream
-=======
+
             map.setMapType(2);
->>>>>>> Stashed changes
+
             getLocationPermission();
             updateLocationUI();
 
@@ -164,7 +162,7 @@ public class AllPathsFragment extends Fragment {
     private void readRouteFromDb(String action,String user_type) {
         SharedPreferences sharedPreferences;
         sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        RoutesHTTP.readRoute(user_type,action, sharedPreferences.getString("id_token", null), new ReadRouteCallback(getActivity(),dialog));
+        //RoutesHTTP.getAll(user_type, sharedPreferences.getString("id_token", null), new ReadRouteCallback(getActivity(),dialog));
 
     }
 
