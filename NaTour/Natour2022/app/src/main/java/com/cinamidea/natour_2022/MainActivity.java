@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -17,8 +16,6 @@ import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.auth_callbacks.TokenLoginCallback;
 import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
-import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
-import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,40 +52,6 @@ public class MainActivity extends AppCompatActivity {
         natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
 
         String id_token = natour_shared_pref.getString("id_token", null);
-
-
-        RoutesHTTP.getUserRoutes("Cognito", "angelino98", id_token, new RoutesCallback() {
-            @Override
-            public void handleStatus200(String response) {
-                Log.e("GET USER ROUTE",response);
-            }
-
-            @Override
-            public void handleStatus400(String response) {
-
-            }
-
-            @Override
-            public void handleStatus401(String response) {
-
-            }
-
-            @Override
-            public void handleStatus500(String response) {
-
-            }
-
-            @Override
-            public void handleRequestException(String message) {
-
-            }
-        });
-
-
-
-
-
-
 
         //Controllo se l utente puo loggare in automatico(o con cognito o con google). Se no, allora alloca le componenti dell' activity (Non richiamo direttamente il metodo (Ho fatto i controlli per evitare di ripetere due volte
         //il silent sign in visto che l onresume parte in ogni caso dopo l oncreate

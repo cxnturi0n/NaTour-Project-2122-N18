@@ -305,7 +305,7 @@ public class GPXFragment extends Fragment {
             user_type = "Google";
         }
 
-        RoutesHTTP.insertRoute(user_type, route, id_token, new InsertRouteCallback(getActivity(), dialog));
+        RoutesHTTP.insertRoute(user_type, "INSERT", route, id_token, new InsertRouteCallback(getActivity(), dialog));
 
     }
 
