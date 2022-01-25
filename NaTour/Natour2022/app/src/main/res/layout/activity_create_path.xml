@@ -68,14 +68,15 @@
                 android:textSize="18sp"/>
 
             <EditText
+                android:id="@+id/activityCreatePath_title"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="16dp"
-                android:inputType="text"
-                android:fontFamily="sans-serif-light"
                 android:layout_marginHorizontal="32dp"
-                android:background="@drawable/background_edit_text"/>
+                android:layout_marginTop="8dp"
+                android:background="@drawable/background_edit_text"
+                android:fontFamily="sans-serif-light"
+                android:inputType="text"
+                android:paddingHorizontal="16dp" />
 
             <TextView
                 android:layout_marginTop="16dp"
@@ -86,18 +87,20 @@
                 android:fontFamily="sans-serif"
                 android:textColor="@color/natour_black"
                 android:textSize="18sp"/>
+
             <EditText
+                android:id="@+id/activityCreatePath_description"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:inputType="textMultiLine"
-                android:singleLine="false"
-                android:gravity="top|left"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:fontFamily="sans-serif-light"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/background_edit_text"/>
+                android:background="@drawable/background_edit_text"
+                android:fontFamily="sans-serif-light"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:singleLine="false" />
 
             <TextView
                 android:layout_marginTop="16dp"
@@ -172,19 +175,20 @@
             </LinearLayout>
 
             <CheckBox
+                android:id="@+id/activityCreatePath_disability"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:layout_height="wrap_content"
-                android:checked="false"
                 android:background="@color/natour_transparent"
                 android:button="@null"
-                android:text="Accessibilità ai disabili"
-                android:fontFamily="sans-serif"
-                android:textColor="@color/natour_black"
-                android:textSize="18sp"
+                android:checked="false"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                 android:drawablePadding="16dp"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"/>
+                android:fontFamily="sans-serif"
+                android:text="Accessibilità ai disabili"
+                android:textColor="@color/natour_black"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

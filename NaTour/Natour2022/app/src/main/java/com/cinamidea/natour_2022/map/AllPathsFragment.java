@@ -13,22 +13,45 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.routes_callbacks.InsertRouteCallback;
+import com.cinamidea.natour_2022.routes_callbacks.ReadRouteCallback;
+import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
+import com.cinamidea.natour_2022.routes_util.Route;
+import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
+import com.google.android.gms.maps.CameraUpdateFactory;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AllPathsFragment extends Fragment {
 
     private GoogleMap map;
     private ProgressDialog dialog;
+    private List<LatLng> path;
 
 
     public static boolean locationPermissionGranted;
@@ -39,14 +62,13 @@ public class AllPathsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
+
             map.setMapType(2);
 
-            getLocationPermission();
-            updateLocationUI();
-
+            readRouteFromDb("Cognito");
             //TODO:Caricamento di attesa
             dialog.setMessage("Loading all routes, please wait.....");
-            //dialog.show();
+            dialog.show();
         }
     };
 
@@ -57,7 +79,7 @@ public class AllPathsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         dialog = new ProgressDialog(getContext());
-        if (!gpsIsEnabled()){
+        if (!gpsIsEnabled()) {
             showGPSDisabledDialog();
         }
 
@@ -98,12 +120,14 @@ public class AllPathsFragment extends Fragment {
         }
         try {
             if (locationPermissionGranted) {
-                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                    return;
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(true);
             } else {
                 getLocationPermission();
-                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                    return;
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(true);
 
@@ -115,11 +139,11 @@ public class AllPathsFragment extends Fragment {
     }
 
 
-    private boolean gpsIsEnabled(){
+    private boolean gpsIsEnabled() {
         LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -145,12 +169,73 @@ public class AllPathsFragment extends Fragment {
     }
 
 
-   /* //TODO:Completare la read dal db
-    private void readRouteFromDb(String action,String user_type) {
+    //TODO:Completare la read dal db
+    private void readRouteFromDb(String user_type) {
         SharedPreferences sharedPreferences;
         sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        RoutesHTTP.readRoute(user_type,action, sharedPreferences.getString("id_token", null), new ReadRouteCallback(getActivity(),dialog));
+        RoutesHTTP.getAllRoutes(user_type, sharedPreferences.getString("id_token", null), new RoutesCallback() {
+            @Override
+            public void handleStatus200(String response) {
+                dialog.dismiss();
 
-    }*/
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Route[] routes = jsonToRoutesParsing(response);
+                        drawRoutes(path,routes);
+                        getLocationPermission();
+                        updateLocationUI();
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void handleStatus400(String response) {
+
+            }
+
+            @Override
+            public void handleStatus401(String response) {
+
+            }
+
+            @Override
+            public void handleStatus500(String response) {
+
+            }
+
+            @Override
+            public void handleRequestException(String message) {
+
+            }
+        });
+
+    }
+
+    private Route[] jsonToRoutesParsing(String response) {
+        Gson gson = new Gson();
+        Route[] routes = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
+        return routes;
+
+    }
+
+    private String removeQuotesAndUnescape(String uncleanJson) {
+        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
+        return StringEscapeUtils.unescapeJava(noQuotes);
+    }
+
+    private void drawRoutes(List<LatLng> path, Route[] routes) {
+        for (int i = 0; i < routes.length; i++) {
+            path = routes[i].getCoordinates();
+            map.addMarker(new MarkerOptions().position(path.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            map.addMarker(new MarkerOptions().position(path.get(path.size() - 1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
+            Polyline polyline = map.addPolyline(opts);
+        }
+
+    }
 
 }

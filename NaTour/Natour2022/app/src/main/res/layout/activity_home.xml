@@ -46,7 +46,7 @@
                 android:fontFamily="sans-serif"
                 android:text="Umberto"
                 android:textColor="@color/natour_black"
-                android:textSize="20sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 

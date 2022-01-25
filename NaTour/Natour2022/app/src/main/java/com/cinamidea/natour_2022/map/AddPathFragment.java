@@ -3,9 +3,11 @@ package com.cinamidea.natour_2022.map;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,15 +47,13 @@ public class AddPathFragment extends Fragment {
     private ImageButton button_success, button_cancel;
     private int check_long_press_map_click = 0;
 
-    public ProgressDialog dialog;
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        dialog = new ProgressDialog(getContext());
+
         return inflater.inflate(R.layout.fragment_add_path, container, false);
     }
 
@@ -163,12 +163,13 @@ public class AddPathFragment extends Fragment {
 
 
         button_success.setOnClickListener(view -> {
-            insertRouteOnDb(path);
-            dialog.setMessage("Caricamento.....");
-            dialog.show();
-            path.clear();
-            button_success.setVisibility(View.GONE);
             markers.clear();
+            button_success.setVisibility(View.GONE);
+            Intent intent = new Intent();
+            intent.putParcelableArrayListExtra("path",(ArrayList<? extends Parcelable>) path);
+            intent.setClass(getContext(),CreatePathActivity.class);
+            startActivity(intent);
+
 
         });
 
@@ -179,28 +180,6 @@ public class AddPathFragment extends Fragment {
         add_path_map.clear();
         markers.clear();
         path.clear();
-
-    }
-
-
-    private void insertRouteOnDb(List<LatLng> path) {
-
-        Route route = new Route("Sentiero 4", "Sentiero lungo la valle della morte",
-                SigninFragment.chat_username, "Extreme", 7.8f, 0, false, path);
-
-        String user_type;
-        SharedPreferences sharedPreferences;
-
-        sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        String id_token = sharedPreferences.getString("id_token", null);
-        if (id_token != null)
-            user_type = "Cognito";
-        else {
-            id_token = getActivity().getSharedPreferences("google_tokens", MODE_PRIVATE).getString("id_token", null);
-            user_type = "Google";
-        }
-
-        //RoutesHTTP.insertRoute(user_type, "INSERT", route, id_token, new InsertRouteCallback(getActivity(), dialog));
 
     }
 

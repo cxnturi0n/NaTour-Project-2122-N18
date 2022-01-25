@@ -64,7 +64,7 @@ public class GPXFragment extends Fragment {
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            gpx_map=googleMap;
+            gpx_map = googleMap;
         }
     };
 
@@ -73,7 +73,7 @@ public class GPXFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        dialog= new ProgressDialog(getContext());
+        dialog = new ProgressDialog(getContext());
         return inflater.inflate(R.layout.fragment_g_p_x, container, false);
     }
 
@@ -95,7 +95,6 @@ public class GPXFragment extends Fragment {
     }
 
 
-
     //Metodi gpx
 
     @Override
@@ -107,7 +106,7 @@ public class GPXFragment extends Fragment {
             }
 
             Uri uri = data.getData();
-            if(!checkGPX(uri)) {
+            if (!checkGPX(uri)) {
 
                 Toast.makeText(getContext(), "Error GPX", Toast.LENGTH_LONG).show();
                 return;
@@ -119,7 +118,7 @@ public class GPXFragment extends Fragment {
                 XmlPullParser xpp = getParser();
                 InputStream gpxIn = convertStringToInputStream(gpx_content);
                 path = new ArrayList<>();
-                punti_gpx=drawFromGpx(gpxIn, punti_gpx, xpp);
+                punti_gpx = drawFromGpx(gpxIn, punti_gpx, xpp);
                 button_add.setVisibility(View.GONE);
                 button_cancel.setVisibility(View.VISIBLE);
                 button_success.setVisibility(View.VISIBLE);
@@ -134,7 +133,6 @@ public class GPXFragment extends Fragment {
 
     }
 
-
     private void openFile() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
@@ -142,7 +140,7 @@ public class GPXFragment extends Fragment {
     }
 
 
-    private  List<LatLng> GpxParser(XmlPullParser parser, InputStream gpxIn) throws XmlPullParserException, IOException {
+    private List<LatLng> GpxParser(XmlPullParser parser, InputStream gpxIn) throws XmlPullParserException, IOException {
         // We use a List<> as we need subList for paging later
         List<LatLng> latLngs = new ArrayList<>();
         parser.setInput(gpxIn, null);
@@ -153,7 +151,7 @@ public class GPXFragment extends Fragment {
                 continue;
             }
 
-            if (parser.getName().equals("trkpt")) {
+            if (parser.getName().equals("trkpt") || parser.getName().equals("rtept")) {
                 // Save the discovered latitude/longitude attributes in each <trkpt>.
                 latLngs.add(new LatLng(
                         Double.valueOf(parser.getAttributeValue(null, "lat")),
@@ -219,22 +217,21 @@ public class GPXFragment extends Fragment {
             //MarkerOptions options = new MarkerOptions().position(punto).icon(BitmapDescriptorFactory.defaultMarker());
             //gpx_map.addMarker(options);
             path.add(punto);
-            if (punto == latLngs.get(latLngs.size()-1)){
+            if (punto == latLngs.get(0)) {
+                MarkerOptions options = new MarkerOptions().position(punto).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                gpx_map.addMarker(options);
+
+            } else if (punto == latLngs.get(latLngs.size() - 1)) {
                 MarkerOptions options = new MarkerOptions().position(punto).icon(BitmapDescriptorFactory.defaultMarker());
                 gpx_map.addMarker(options);
 
-            } else if(punto == latLngs.get(0)){
-                MarkerOptions options = new MarkerOptions().position(punto).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                gpx_map.addMarker(options);
-            }
-
-            else{
+            } else {
                 PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
                 gpx_map.addPolyline(opts);
             }
 
         }
-        return  latLngs;
+        return latLngs;
 
     }
 
@@ -266,7 +263,6 @@ public class GPXFragment extends Fragment {
     }
 
     private boolean checkGPX(Uri uri) {
-
         String file_name = DocumentFile.fromSingleUri(getContext(), uri).getName();
         String extension = file_name.substring(file_name.lastIndexOf("."));
         Log.e("TAG", extension);
@@ -279,7 +275,7 @@ public class GPXFragment extends Fragment {
         Criteria criteria = new Criteria();
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(punti_gpx.get(5).latitude,punti_gpx.get(5).longitude))
+                .target(new LatLng(punti_gpx.get(5).latitude, punti_gpx.get(5).longitude))
                 .zoom(12)
                 .tilt(40)
                 .build();
@@ -290,7 +286,7 @@ public class GPXFragment extends Fragment {
 
     private void insertGpxRouteOnDb(List<LatLng> path) {
 
-        Route route = new Route("Sentiero 1", "Gpx",
+        Route route = new Route("GPX", "Gpx",
                 SigninFragment.chat_username, "Extreme", 7.8f, 0, false, path);
 
         String user_type;
@@ -305,7 +301,7 @@ public class GPXFragment extends Fragment {
             user_type = "Google";
         }
 
-        //RoutesHTTP.insertRoute(user_type, "INSERT", route, id_token, new InsertRouteCallback(getActivity(), dialog));
+        RoutesHTTP.insertRoute(user_type, "INSERT", route, id_token, new InsertRouteCallback(getActivity(), dialog));
 
     }
 

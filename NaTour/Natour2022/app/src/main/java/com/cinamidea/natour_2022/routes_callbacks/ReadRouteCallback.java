@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.util.Log;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class ReadRouteCallback implements RoutesCallback {
 
@@ -18,8 +19,9 @@ public class ReadRouteCallback implements RoutesCallback {
     @Override
     public void handleStatus200(String response) {
         activity.runOnUiThread(() -> {
-            //progress_dialog.dismiss();
-            Log.e("DB",response);
+            progress_dialog.dismiss();
+            System.out.println(response);
+            Toast.makeText(activity, "Route read successfully", Toast.LENGTH_SHORT).show();
 
 
         });
