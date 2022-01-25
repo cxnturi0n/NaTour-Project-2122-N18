@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -22,9 +21,7 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
-import com.cinamidea.natour_2022.map.AddPathFragment;
 import com.cinamidea.natour_2022.map.AllPathsFragment;
-import com.cinamidea.natour_2022.map.GPXFragment;
 import com.cinamidea.natour_2022.map.MapActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 

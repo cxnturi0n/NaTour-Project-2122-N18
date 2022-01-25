@@ -21,12 +21,24 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
-        android:elevation="10dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/background_back_button"
+        android:elevation="10dp"
         android:fontFamily="sans-serif-medium"
         android:text="\?"
         android:textSize="20sp" />
+
+    <ImageButton
+        android:id="@+id/activityMap_gpx"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:elevation="10dp"
+        android:layout_below="@id/activityMap_help"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/background_back_button"
+        app:srcCompat="@drawable/ic_gpx" />
 
     <ImageButton
         android:id="@+id/activityMap_cancel"

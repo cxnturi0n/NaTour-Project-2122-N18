@@ -64,27 +64,6 @@ public class RoutesHTTP {
         });
     }
 
-    //user_type:Cognito/Google, action:INSERT
-    public static void insertRoute(String user_type, String action, Route route, String id_token, RoutesCallback callback) {
-
-        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
-
-        Gson gson = new Gson();
-
-        String json_coords = gson.toJson(route.getCoordinates());
-
-        String request_body = "{\"name\":" + route.getName() + ",\"user_type\":" + user_type + ",\"action\":" + action + ",\"description\":" + route.getDescription() + ",\"level\":" + route.getLevel() +
-                ",\"duration\":" + route.getDuration() + ",\"report_count\":" + route.getReport_count() + ",\"disability_access\":" + route.isDisability_access() +
-                ",\"creator_username\":" + route.getCreator_username() + ",\"coordinates\":" + json_coords + "}";
-
-        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
-
-        request = getPostRequest(url, request_body, header);
-
-        handleHttpRequest(callback);
-
-    }
-
     public static Request getPostRequest(String url, String request_body, Headers headers) {
 
         RequestBody body = RequestBody.create(request_body, MediaType.parse("application/json"));
@@ -108,6 +87,7 @@ public class RoutesHTTP {
     public static void insertRoute(String user_type, Route route, String id_token, RoutesCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+        String tags = (route.getTags().length()>0) ? route.getTags() : null;
 
         Gson gson = new Gson();
 
@@ -117,7 +97,7 @@ public class RoutesHTTP {
                 + ",\"description\":" + route.getDescription() + ",\"level\":" + route.getLevel() +
                 ",\"duration\":" + route.getDuration() + ",\"report_count\":" + route.getReport_count() + ",\"disability_access\":"
                 + route.isDisability_access() + ",\"creator_username\":" + route.getCreator_username() +
-                ",\"coordinates\":" + json_coords + "}";
+                ",\"coordinates\":" + json_coords + ",\"tags\":" + tags + "}";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 

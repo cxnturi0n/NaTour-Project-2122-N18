@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -14,8 +13,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +27,6 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.getstream.chat.android.common.state.Edit;
 import me.gujun.android.taggroup.TagGroup;
 
 public class CreatePathActivity extends AppCompatActivity {
@@ -203,12 +199,12 @@ public class CreatePathActivity extends AppCompatActivity {
     }
 
 
-   private void insertRouteOnDb(List<LatLng> path) {
+    private void insertRouteOnDb(List<LatLng> path) {
         String level = checkLevel();
         if (checkLevel() != "error") {
 
             Route route = new Route(title.getText().toString(), description.getText().toString(),
-                    SigninFragment.chat_username, level, 7.8f, 0, checkDisabilityAccess(), path);
+                    SigninFragment.chat_username, level, 7.8f, 0, checkDisabilityAccess(), path, tokenizedTags(tags));
 
             String user_type;
             SharedPreferences sharedPreferences;
@@ -221,11 +217,11 @@ public class CreatePathActivity extends AppCompatActivity {
                 id_token = this.getSharedPreferences("google_tokens", MODE_PRIVATE).getString("id_token", null);
                 user_type = "Google";
             }
-            RoutesHTTP.insertRoute(user_type,route,id_token,new InsertRouteCallback(this,dialog));
+            RoutesHTTP.insertRoute(user_type, route, id_token, new InsertRouteCallback(this, dialog));
         }
     }
 
-   private String checkLevel() {
+    private String checkLevel() {
         if (rb_easy.isChecked())
             return "Easy";
         if (rb_extreme.isChecked())
@@ -244,6 +240,25 @@ public class CreatePathActivity extends AppCompatActivity {
             return true;
         else
             return false;
+    }
+
+    private String tokenizedTags(List<String> tags) {
+
+        if (tags.size()==0) return "";
+
+        String tokenized_tags = "";
+
+        for(String tag : tags) {
+
+            tokenized_tags += tag + ";";
+
+        }
+
+        tokenized_tags = tokenized_tags.substring(0, tokenized_tags.length()-1);
+
+
+        return tokenized_tags;
+
     }
 
 

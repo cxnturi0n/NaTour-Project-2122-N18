@@ -71,14 +71,11 @@ public class ConfirmSignupCallback implements AuthenticationCallback {
                 activity.startActivity(intent);
             });
 
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    dialog.hide();
-                    Intent intent = new Intent(activity, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    activity.startActivity(intent);
-                }
+            dialog.setOnCancelListener(dialogInterface -> {
+                dialog.hide();
+                Intent intent = new Intent(activity, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.startActivity(intent);
             });
 
         });
@@ -100,12 +97,7 @@ public class ConfirmSignupCallback implements AuthenticationCallback {
                 dialog.hide();
             });
 
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    dialog.hide();
-                }
-            });
+            dialog.setOnCancelListener(dialogInterface -> dialog.hide());
 
         });
 

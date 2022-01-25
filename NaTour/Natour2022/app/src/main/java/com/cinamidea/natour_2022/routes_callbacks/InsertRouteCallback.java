@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.cinamidea.natour_2022.map.CreatePathActivity;
 import com.cinamidea.natour_2022.map.MapActivity;
+import com.cinamidea.natour_2022.navigation.HomeActivity;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -32,7 +33,7 @@ public class InsertRouteCallback implements RoutesCallback{
             progress_dialog.dismiss();
             Toast.makeText(activity, "Route added", Toast.LENGTH_SHORT).show();
             //TODO:Dopo l'inserimento andare nel schermata di dettaglio del sentiero appena creato
-            activity.startActivity(new Intent(activity.getApplicationContext(), MapActivity.class));
+            activity.startActivity(new Intent(activity.getApplicationContext(), HomeActivity.class));
         });
 
     }

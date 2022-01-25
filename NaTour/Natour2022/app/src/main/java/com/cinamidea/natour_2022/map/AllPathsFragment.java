@@ -2,16 +2,9 @@ package com.cinamidea.natour_2022.map;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,19 +12,21 @@ import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.routes_callbacks.InsertRouteCallback;
-import com.cinamidea.natour_2022.routes_callbacks.ReadRouteCallback;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
-import com.google.android.gms.maps.CameraUpdateFactory;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -44,7 +39,6 @@ import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AllPathsFragment extends Fragment {
@@ -63,11 +57,10 @@ public class AllPathsFragment extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
 
-            map.setMapType(2);
-
             readRouteFromDb("Cognito");
             //TODO:Caricamento di attesa
             dialog.setMessage("Loading all routes, please wait.....");
+            dialog.setCancelable(false);
             dialog.show();
         }
     };
@@ -78,22 +71,29 @@ public class AllPathsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        dialog = new ProgressDialog(getContext());
-        if (!gpsIsEnabled()) {
-            showGPSDisabledDialog();
-        }
-
         return inflater.inflate(R.layout.fragment_all_paths, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        dialog = new ProgressDialog(getContext());
+
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+
+        dialog.setOnDismissListener(dialogInterface -> {
+
+            if (!gpsIsEnabled()) {
+                showGPSDisabledDialog();
+            }
+
+        });
+
     }
 
     private void getLocationPermission() {
@@ -153,16 +153,8 @@ public class AllPathsFragment extends Fragment {
         builder.setTitle("GPS Disabled");
         builder.setMessage("Gps is disabled, in order to use the application properly you need to enable GPS of your device");
 
-        builder.setPositiveButton("Enable GPS", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-            }
-        }).setNegativeButton("No, Just Exit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
+        builder.setPositiveButton("Enable GPS", (dialog, which) ->
+                startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)).setNegativeButton("No, Just Exit", (dialog, which) -> {
         });
         AlertDialog mGPSDialog = builder.create();
         mGPSDialog.show();
@@ -178,15 +170,12 @@ public class AllPathsFragment extends Fragment {
             public void handleStatus200(String response) {
                 dialog.dismiss();
 
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Route[] routes = jsonToRoutesParsing(response);
-                        drawRoutes(path,routes);
-                        getLocationPermission();
-                        updateLocationUI();
+                getActivity().runOnUiThread(() -> {
+                    Route[] routes = jsonToRoutesParsing(response);
+                    drawRoutes(routes);
+                    getLocationPermission();
+                    updateLocationUI();
 
-                    }
                 });
 
 
@@ -218,6 +207,13 @@ public class AllPathsFragment extends Fragment {
     private Route[] jsonToRoutesParsing(String response) {
         Gson gson = new Gson();
         Route[] routes = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
+
+        for(int i = 0; i < routes.length;i++) {
+
+            Log.e("Log", routes[i].getTags());
+
+        }
+
         return routes;
 
     }
@@ -227,7 +223,7 @@ public class AllPathsFragment extends Fragment {
         return StringEscapeUtils.unescapeJava(noQuotes);
     }
 
-    private void drawRoutes(List<LatLng> path, Route[] routes) {
+    private void drawRoutes(Route[] routes) {
         for (int i = 0; i < routes.length; i++) {
             path = routes[i].getCoordinates();
             map.addMarker(new MarkerOptions().position(path.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
