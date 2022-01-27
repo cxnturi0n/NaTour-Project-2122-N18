@@ -162,6 +162,10 @@ public class HomeActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
             logout();
         });
+        bottomSheetView.findViewById(R.id.menuLayout_changePassword).setOnClickListener(view -> {
+            bottomSheetDialog.dismiss();
+            startActivity(new Intent(this, ChangePasswordActivity.class));
+        });
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
 

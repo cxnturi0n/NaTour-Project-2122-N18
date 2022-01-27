@@ -83,5 +83,11 @@
     <string name="dialogSuccess_success">Success</string>
     <string name="dialog_ok">Okay</string>
 
+    <!-- Activity Change password -->
+    <string name="activityChangePwd_title">Change password</string>
+    <string name="activityChangePwd_current">Current password</string>
+    <string name="activityChangePwd_new">New password</string>
+    <string name="activityChangePwd_confirm">Confirm new password</string>
+    <string name="activityChangePwd_submit">Submit</string>
 
 </resources>

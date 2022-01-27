@@ -20,6 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Natour2022">
+        <activity
+            android:name=".navigation.ChangePasswordActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -28,8 +31,8 @@
         <activity
             android:name=".map.CreatePathActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateHidden"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".map.MapActivity"
             android:exported="false"
