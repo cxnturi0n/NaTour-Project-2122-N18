@@ -7,13 +7,6 @@ import java.util.Properties;
 
 public class MySqlDB {
 
-/*    String myDriver = "org.gjt.mm.mysql.Driver";
-    String myUrl = "jdbc:mysql://localhost/test";
-    Class.forName(myDriver);
-
-    Connection conn = DriverManager.getConnection(myUrl, "root", "");*/
-        // The newInstance() call is a work around for some
-        // broken Java implementations
 public static Connection getConnection() {
     try {
 
@@ -23,8 +16,6 @@ public static Connection getConnection() {
         info.put( "password", "cinamidea2022" );
         Connection conn = DriverManager.getConnection(URL, info);
         return conn;
-        // Do something with the Connection
-
     } catch (SQLException ex) {
         return null;
     }

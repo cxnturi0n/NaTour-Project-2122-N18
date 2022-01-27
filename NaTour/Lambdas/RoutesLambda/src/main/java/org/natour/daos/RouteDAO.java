@@ -1,6 +1,5 @@
 package org.natour.daos;
 
-import org.natour.entities.LatLng;
 import org.natour.entities.Route;
 import org.natour.exceptions.PersistenceException;
 

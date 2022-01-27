@@ -21,13 +21,16 @@ public class Route {
 
     private List<LatLng> coordinates;
 
+    private String tags;
+
+    private String image_base64;
+
     public Route(){
 
     }
 
 
-    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, List <LatLng> coordinates) {
-
+    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, List<LatLng> coordinates, String tags, String image_base64) {
         this.name = name;
         this.description = description;
         this.creator_username = creator_username;
@@ -36,10 +39,11 @@ public class Route {
         this.report_count = report_count;
         this.disability_access = disability_access;
         this.coordinates = coordinates;
+        this.tags = tags;
+        this.image_base64 = image_base64;
     }
 
-    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access) {
-
+    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, String tags) {
         this.name = name;
         this.description = description;
         this.creator_username = creator_username;
@@ -47,37 +51,76 @@ public class Route {
         this.duration = duration;
         this.report_count = report_count;
         this.disability_access = disability_access;
-        coordinates = new ArrayList<>();
+        this.tags = tags;
     }
 
+    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, String tags, String image_base64) {
+        this.name = name;
+        this.description = description;
+        this.creator_username = creator_username;
+        this.level = level;
+        this.duration = duration;
+        this.report_count = report_count;
+        this.disability_access = disability_access;
+        this.tags = tags;
+        this.image_base64 = image_base64;
+    }
 
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCreator_username() {
         return creator_username;
     }
 
+    public void setCreator_username(String creator_username) {
+        this.creator_username = creator_username;
+    }
+
     public String getLevel() {
         return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public float getDuration() {
         return duration;
     }
 
+    public void setDuration(float duration) {
+        this.duration = duration;
+    }
+
     public int getReport_count() {
         return report_count;
     }
 
+    public void setReport_count(int report_count) {
+        this.report_count = report_count;
+    }
+
     public boolean isDisability_access() {
         return disability_access;
+    }
+
+    public void setDisability_access(boolean disability_access) {
+        this.disability_access = disability_access;
     }
 
     public List<LatLng> getCoordinates() {
@@ -88,45 +131,19 @@ public class Route {
         this.coordinates = coordinates;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getTags() {
+        return tags;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
-    public void setCreator_username(String creator_username) {
-        this.creator_username = creator_username;
+    public String getImage_base64() {
+        return image_base64;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public void setDuration(float duration) {
-        this.duration = duration;
-    }
-
-    public void setReport_count(int report_count) {
-        this.report_count = report_count;
-    }
-
-    public void setDisability_access(boolean disability_access) {
-        this.disability_access = disability_access;
-    }
-
-    @Override
-    public String toString() {
-        return "Route{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", creator_username='" + creator_username + '\'' +
-                ", level='" + level + '\'' +
-                ", duration=" + duration +
-                ", report_count=" + report_count +
-                ", disability_access=" + disability_access +
-                ", coordinates=" + coordinates.toString() +
-                '}';
+    public void setImage_base64(String image_base64) {
+        this.image_base64 = image_base64;
     }
 }

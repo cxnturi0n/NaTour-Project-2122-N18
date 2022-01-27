@@ -1,21 +1,22 @@
 package org.natour;
 
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.google.gson.Gson;
-import org.natour.daos.RouteDAO;
-import org.natour.daosimpl.RouteDAOMySql;
-import org.natour.entities.Route;
+import org.apache.commons.io.FileUtils;
 import org.natour.exceptions.PersistenceException;
-import org.natour.tokens.CognitoTokens;
-import org.natour.tokens.GoogleAuth;
+import org.natour.s3.NatourS3Bucket;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Random;
 
 
-public class Function implements RequestHandler<Request, String> {
+/*public class Function implements RequestHandler<Request, String> {
+
 
     @Override
     public String handleRequest(Request request, Context context) {
@@ -30,7 +31,7 @@ public class Function implements RequestHandler<Request, String> {
             try {
                 if (!GoogleAuth.isIdTokenValid(id_token))
                     throw new RuntimeException("Invalid Session");
-            }catch (GeneralSecurityException | IOException e) {
+            } catch (GeneralSecurityException | IOException e) {
                 throw new RuntimeException(e.getMessage());
             }
         }
@@ -159,35 +160,49 @@ public class Function implements RequestHandler<Request, String> {
         }
 
     }
-}
+}*/
 
 
 
-/*
+
+
 public class Function{
 
-    public static void main(String [] args){
+    public static void main(String [] args) throws IOException {
+
+        //NatourS3Bucket s = new NatourS3Bucket();
+/*
+        Random rd = new Random();
+        byte[] arr = new byte[100000];
+        rd.nextBytes(arr);
+
+        //Convert image to byte array
+        BufferedImage bImage = ImageIO.read(new File("C:/Users/Utente/Desktop/okey.png"));
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", bos );
+        byte [] data = bos.toByteArray();
+
+        String encoded = Base64.getEncoder().encodeToString(data);
+        System.out.println(encoded.length());
 
 
-        RouteDAOMySql r = new RouteDAOMySql();
+        ByteArrayInputStream bis = new ByteArrayInputStream(data);
+        BufferedImage bImage2 = ImageIO.read(bis);
+        ImageIO.write(bImage2, "jpg", new File("output.jpg"));
+*/
+
+
+
+      /*  ByteArrayInputStream bais = new ByteArrayInputStream(s.fetchImage("mrincredible.jpg"));
         try {
-            r.insertToVisit("MarcoAurelio","Sentiero 2");
-            r = new RouteDAOMySql();
-            System.out.println(r.getUserToVisit("MarcoAurelio").get(0).toString());
-           */
-/* List<Route> l = r.getUserRoutes("angelino98");
-
-            for (Route x : l){
-                System.out.println(x.toString());
-            }*//*
-
-
-        } catch (PersistenceException e) {
-            System.out.println(e.getMessage());
-        }
+            BufferedImage image = ImageIO.read(bais);
+            File outputfile = new File("C:/Users/Utente/Desktop/okey.png");
+            ImageIO.write(image, "jpg", outputfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
 
     }
-
 }
-*/
+
 
