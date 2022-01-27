@@ -82,7 +82,7 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Resend"
+        android:text="@string/activityPin_resend"
         android:fontFamily="sans-serif"
         android:clickable="true"
         android:textColor="@color/natour_green"

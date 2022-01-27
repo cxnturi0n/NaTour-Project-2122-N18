@@ -23,9 +23,10 @@
     <!-- Activity_Pin -->
     <string name="activityPin_title">Email verification</string>
     <string name="activityPin_message">We have sent code to your email:</string>
-    <string name="activityPin_mail">ang**cinic@gmail.com</string>
+    <string name="activityPin_mail">email@email.x</string>
     <string name="activityPin_codemessage">Didn\'t receive code?</string>
     <string name="activityPin_verifyaccount">Verify account</string>
+    <string name="activityPin_resend">Resend</string>
 
     <!-- Activity_ResetPwd -->
     <string name="ResetCR_message1">Enter your username and we will send you instructions to your email to reset your password</string>
@@ -34,18 +35,53 @@
     <string name="ResetCR_title2">Type your code</string>
     <string name="ResetCR_password">New password</string>
     <string name="ResetCR_message2">Enter the code that was sent by email to reset your account</string>
-    <string name="ResetCR_message3">Set your new password so you can login and access Pothub</string>
+    <string name="ResetCR_message3">Set your new password so you can login and access Natour</string>
     <string name="ResetCR_title3">Create new password</string>
 
     <string name="server_client_id">556927589955-0jgcao4tfbrllnjie8c5b1qr8nlce0mo.apps.googleusercontent.com</string>
 
-    <!-- Activity_HomeChatActivity -->
-    <string name="chat_api_key">nbcrsrs5wrj8</string>
+    <!-- Activity home -->
+    <string name="activityHome_welcome">Welcome back,</string>
+    <string name="activityHome_username">username</string>
+    <string name="activityHome_myroutes">My routes</string>
+    <string name="activityHome_favorites">Favorites</string>
+    <string name="activityHome_tovisit">To visit</string>
+    <string name="activityHome_routecollection">Route collection</string>
+    <string name="activityHome_editprofilephoto">Edit profile photo</string>
+    <string name="activityHome_changepassword">Change password</string>
+    <string name="activityHome_logout">Logout</string>
+
+
+    <!-- Activity_Chat -->
+    <string name="chat_api_key">6um8t68vm8e7</string>
     <string name="title_activity_map">MapActivity</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="activityChat_users">Users</string>
+
+    <!-- Activity Create path -->
+    <string name="activityCreateRoute_create">Create route</string>
+    <string name="activityCreateRoute_message">Fill in the fields to create your route.</string>
+    <string name="activityCreateRoute_name">Route name</string>
+    <string name="activityCreateRoute_description">Description</string>
+    <string name="activityCreateRoute_difficulty">Select the difficulty</string>
+    <string name="activityCreateRoute_disableOption">Accessibility for the disabled</string>
+    <string name="activityCreateRoute_tags">Tags</string>
+    <string name="activityCreateRoute_all">All</string>
+    <string name="activityCreateRoute_easy">Easy</string>
+    <string name="activityCreateRoute_medium">Medium</string>
+    <string name="activityCreateRoute_hard">Hard</string>
+    <string name="activityCreateRoute_extreme">Extreme</string>
+    <string name="activityCreateRoute_addtag">Add tag</string>
+    <string name="activityCreateRoute_duration">Duration</string>
+    <string name="activityCreateRoute_continue">Continue</string>
 
     <!-- Activity_MapActivity -->
+    <string name="activityMap_addroute">Add route</string>
+    <string name="activityMap_viewroutes">View routes</string>
+
+    <!-- Success / Error Dialog -->
+    <string name="dialogError_error">Error</string>
+    <string name="dialogSuccess_success">Success</string>
+    <string name="dialog_ok">Okay</string>
 
 
 </resources>

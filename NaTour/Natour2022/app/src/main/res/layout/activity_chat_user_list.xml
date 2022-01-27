@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/users_menu"
         app:navigationIcon="@drawable/ic_back"
-        app:title="Users" />
+        app:title="@string/activityChat_users" />
 
     <ListView
         android:id="@+id/list"

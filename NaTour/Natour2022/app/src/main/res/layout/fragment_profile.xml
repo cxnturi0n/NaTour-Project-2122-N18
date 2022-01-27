@@ -17,19 +17,19 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I miei sentieri"
+            android:text="@string/activityHome_myroutes"
             android:icon="@drawable/ic_myroads"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Preferiti"
+            android:text="@string/activityHome_favorites"
             android:icon="@drawable/ic_preferredroads"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Da visitare"
+            android:text="@string/activityHome_tovisit"
             android:icon="@drawable/ic_roadstovisit"/>
 
     </com.google.android.material.tabs.TabLayout>

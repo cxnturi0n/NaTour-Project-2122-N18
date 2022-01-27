@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif-light"
-                android:text="Welcome back,"
+                android:text="@string/activityHome_welcome"
                 android:textSize="14sp" />
 
             <TextView
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="sans-serif"
-                android:text="Umberto"
+                android:text="@string/activityHome_username"
                 android:textColor="@color/natour_black"
                 android:textSize="14sp" />
 

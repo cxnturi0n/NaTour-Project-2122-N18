@@ -25,7 +25,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crea il sentiero"
+        android:text="@string/activityCreateRoute_create"
         android:gravity="center"
         android:fontFamily="sans-serif-medium"
         android:textSize="36sp"
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_marginHorizontal="32dp"
         android:layout_height="wrap_content"
-        android:text="Compila i seguenti campi per creare il tuo sentiero."
+        android:text="@string/activityCreateRoute_message"
         android:gravity="center"
         android:fontFamily="sans-serif-light"
         android:textSize="18sp"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:text="Nome del sentiero"
+                android:text="@string/activityCreateRoute_name"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/natour_black"
                 android:textSize="18sp"/>
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:text="Descrizione"
+                android:text="@string/activityCreateRoute_description"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/natour_black"
                 android:textSize="18sp"/>
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:text="Seleziona la difficoltà"
+                android:text="@string/activityCreateRoute_difficulty"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/natour_black"
                 android:textSize="18sp"/>
@@ -124,7 +124,7 @@
                         android:layout_width="130dp"
                         android:layout_height="30dp"
                         android:background="@drawable/background_radiobutton"
-                        android:text="Easy"
+                        android:text="@string/activityCreateRoute_easy"
                         android:checked="true"
                         android:textColor="@color/natour_white"
                         android:textAlignment="center"
@@ -137,7 +137,7 @@
                         android:layout_height="30dp"
                         android:layout_marginStart="32dp"
                         android:background="@drawable/background_radiobutton"
-                        android:text="Medium"
+                        android:text="@string/activityCreateRoute_medium"
                         android:textAlignment="center"
                         android:textSize="18sp"
                         android:button="@null"/>
@@ -156,7 +156,7 @@
                     android:layout_width="130dp"
                     android:layout_height="30dp"
                     android:background="@drawable/background_radiobutton"
-                    android:text="Hard"
+                    android:text="@string/activityCreateRoute_hard"
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:button="@null"/>
@@ -167,7 +167,7 @@
                     android:layout_height="30dp"
                     android:layout_marginStart="32dp"
                     android:background="@drawable/background_radiobutton"
-                    android:text="Extreme"
+                    android:text="@string/activityCreateRoute_extreme"
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:button="@null"/>
@@ -186,7 +186,7 @@
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                 android:drawablePadding="16dp"
                 android:fontFamily="sans-serif"
-                android:text="Accessibilità ai disabili"
+                android:text="@string/activityCreateRoute_disableOption"
                 android:textColor="@color/natour_black"
                 android:textSize="18sp" />
 
@@ -200,7 +200,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
-                    android:text="Tags"
+                    android:text="@string/activityCreateRoute_tags"
                     android:fontFamily="sans-serif"
                     android:textColor="@color/natour_black"
                     android:textSize="18sp"/>
@@ -212,7 +212,7 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:background="@drawable/background_add_tag"
-                    android:hint="Add tag"
+                    android:hint="@string/activityCreateRoute_addtag"
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:paddingHorizontal="12dp"
@@ -241,7 +241,7 @@
                 android:background="@drawable/background_button_signin"
                 android:fontFamily="sans-serif"
                 android:stateListAnimator="@null"
-                android:text="Continua"
+                android:text="@string/activityCreateRoute_continue"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
