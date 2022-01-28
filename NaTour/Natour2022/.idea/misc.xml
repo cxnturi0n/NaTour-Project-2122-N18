@@ -116,6 +116,8 @@
         <entry key="..\:/Users/angel/Desktop/NaTour-Project/Natour2022/app/src/main/res/layout/activity_home.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/angel/Desktop/NaTour-Project/Natour2022/app/src/main/res/layout/adapter_chat_list.xml" value="0.17753623188405798" />
         <entry key="..\:/Users/angel/Desktop/NaTour-Project/Natour2022/app/src/main/res/layout/chat_list_users.xml" value="0.4" />
+        <entry key="..\:/Users/angel/Documents/GitHub/NaTour-Project-2122-N18/NaTour/Natour2022/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Users/angel/Documents/GitHub/NaTour-Project-2122-N18/NaTour/Natour2022/app/src/main/res/layout/post.xml" value="0.16576086956521738" />
         <entry key="..\:/Users/angel/Documents/GitHub/NaTour-Project-2122-N18/Natour2022/app/src/main/res/layout/activity_home.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/angel/Documents/GitHub/NaTour-Project-2122-N18/Natour2022/app/src/main/res/layout/adapter_chat_list.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/angel/Documents/GitHub/NaTour-Project-2122-N18/Natour2022/app/src/main/res/layout/chat_list_users.xml" value="0.3333333333333333" />
@@ -140,7 +142,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

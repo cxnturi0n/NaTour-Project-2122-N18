@@ -1,5 +1,9 @@
 package com.cinamidea.natour_2022.navigation;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,15 +12,22 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
+import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 
@@ -55,16 +66,72 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragmentHome_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ProgressBar dialog = view.findViewById(R.id.fragmentHome_progress);
 
         routes = new ArrayList<>();
-        recyclerViewAdapter = new RecyclerViewAdapter(getContext(), routes);
-        recyclerView.setAdapter(recyclerViewAdapter);
-        Route myroute = new Route("La mia strada", "La mia descrizione","Gesù", "Medium", 5, true);
-        routes.add(myroute);
-        routes.add(myroute);
-        routes.add(myroute);
+
+
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
+        String id_token=sharedPreferences.getString("id_token", null);
+        RoutesHTTP.getAllRoutes("Cognito", id_token, new RoutesCallback() {
+            @Override
+            public void handleStatus200(String response) {
+                jsonToRoutesParsing(response);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.setVisibility(View.GONE);
+                        recyclerViewAdapter = new RecyclerViewAdapter(getContext(), routes);
+                        recyclerView.setAdapter(recyclerViewAdapter);
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void handleStatus400(String response) {
+
+            }
+
+            @Override
+            public void handleStatus401(String response) {
+
+            }
+
+            @Override
+            public void handleStatus500(String response) {
+
+            }
+
+            @Override
+            public void handleRequestException(String message) {
+
+            }
+        });
+
+
+
 
     }
+
+    private void jsonToRoutesParsing(String response) {
+        Gson gson = new Gson();
+        Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
+        for(int i = 0; i < routes_array.length;i++) {
+
+            routes.add(routes_array[i]);
+        }
+    }
+
+    private String removeQuotesAndUnescape(String uncleanJson) {
+        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
+        return StringEscapeUtils.unescapeJava(noQuotes);
+    }
+
+
 
     private void filterListeners() {
 
@@ -77,6 +144,7 @@ public class HomeFragment extends Fragment {
         button_easy.setOnClickListener(view -> {
 
             setupFilterButton(button_easy);
+            //TODO:Prendere route facili
 
         });
 

@@ -77,10 +77,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.description.setText(route.getDescription());
         holder.difficulty.setText(route.getLevel());
 
-        if(route.isDisability_access())
+        if (route.isDisability_access())
             holder.handicap.setVisibility(View.VISIBLE);
 
-        holder.like.setOnClickListener(view -> Toast.makeText(context, holder.username.getText().toString(), Toast.LENGTH_LONG).show());
+        holder.like.setOnClickListener(view -> {
+            Toast.makeText(context, holder.username.getText().toString(), Toast.LENGTH_LONG).show();
+            //TODO:MI PIACE
+
+        });
 
 
     }
