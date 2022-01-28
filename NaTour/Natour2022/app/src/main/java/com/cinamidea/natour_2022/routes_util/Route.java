@@ -40,6 +40,15 @@ public class Route {
         this.tags = tags;
     }
 
+    public Route(String name, String description, String creator_username, String level, float duration, boolean disability_access) {
+        this.name = name;
+        this.description = description;
+        this.creator_username = creator_username;
+        this.level = level;
+        this.duration = duration;
+        this.disability_access = disability_access;
+    }
+
     public String getName() {
         return name;
     }
