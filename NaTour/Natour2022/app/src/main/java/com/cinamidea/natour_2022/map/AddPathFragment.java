@@ -103,7 +103,7 @@ public class AddPathFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             add_path_map = googleMap;
-
+            add_path_map.getUiSettings().setCompassEnabled(false);
             add_path_map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 MarkerOptions options = new MarkerOptions();
 

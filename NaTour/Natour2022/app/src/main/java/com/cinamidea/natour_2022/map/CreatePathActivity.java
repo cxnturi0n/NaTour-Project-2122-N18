@@ -1,21 +1,30 @@
 package com.cinamidea.natour_2022.map;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.routes_callbacks.InsertRouteCallback;
@@ -23,7 +32,11 @@ import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import me.gujun.android.taggroup.TagGroup;
@@ -41,9 +54,14 @@ public class CreatePathActivity extends AppCompatActivity {
     private Button button_continue;
     private EditText title;
     private EditText description;
+    private EditText duration;
+    private Button button_addimage;
+    private ImageView image;
+    private TextView txt_image;
     private CheckBox disability_access;
     private List<LatLng> path;
     private ProgressDialog dialog;
+    String image_base64;
 
 
     @Override
@@ -79,8 +97,11 @@ public class CreatePathActivity extends AppCompatActivity {
         button_continue = findViewById(R.id.activityCreatePath_continue);
         title = findViewById(R.id.activityCreatePath_title);
         description = findViewById(R.id.activityCreatePath_description);
+        duration = findViewById(R.id.activityCreatePath_duration);
+        button_addimage = findViewById(R.id.activityCreatePath_addimage);
+        image = findViewById(R.id.activityCreatePath_image);
+        txt_image = findViewById(R.id.activityCreatePath_imagetext);
         disability_access = findViewById(R.id.activityCreatePath_disability);
-
 
     }
 
@@ -131,6 +152,12 @@ public class CreatePathActivity extends AppCompatActivity {
             insertRouteOnDb(path);
             dialog.setMessage("Please wait...");
             dialog.show();
+
+        });
+
+        button_addimage.setOnClickListener(view -> {
+
+            openFile();
 
         });
 
@@ -200,10 +227,11 @@ public class CreatePathActivity extends AppCompatActivity {
 
     private void insertRouteOnDb(List<LatLng> path) {
         String level = checkLevel();
-        if (checkLevel() != "error") {
+
+        if (!checkLevel().equals("error")) {
 
             Route route = new Route(title.getText().toString(), description.getText().toString(),
-                    SigninFragment.current_username, level, 7.8f, 0, checkDisabilityAccess(), path, tokenizedTags(tags),"",1.56f);
+                    SigninFragment.current_username, level, Integer.valueOf(duration.getText().toString()),0, checkDisabilityAccess(), path, tokenizedTags(tags),image_base64,getRouteLength(path));
 
             String user_type;
             SharedPreferences sharedPreferences;
@@ -260,5 +288,58 @@ public class CreatePathActivity extends AppCompatActivity {
 
     }
 
+    private void openFile() {
+        Intent intent;
+        intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, 12);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 12 && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                return;
+            }
+
+            Uri uri = data.getData();
+            InputStream iStream = null;
+            try {
+                iStream = getContentResolver().openInputStream(uri);
+                byte[] image_as_byte_array = getBytes(iStream);
+                Glide.with(this).load(image_as_byte_array).into(image);
+                image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
+                button_addimage.setVisibility(View.GONE);
+                txt_image.setVisibility(View.VISIBLE);
+                image.setVisibility(View.VISIBLE);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+    private float getRouteLength(List<LatLng> path){
+        float[] results = new float[1];
+        Location.distanceBetween(path.get(0).latitude,path.get(0).longitude,
+                path.get(path.size()-1).latitude,path.get(path.size()-1).longitude,results);
+        return results[0];
+    }
 
 }

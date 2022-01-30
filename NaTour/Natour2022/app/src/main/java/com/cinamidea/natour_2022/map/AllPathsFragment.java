@@ -56,7 +56,7 @@ public class AllPathsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
-
+            map.getUiSettings().setCompassEnabled(false);
             readRouteFromDb("Cognito");
             //TODO:Caricamento di attesa
             dialog.setMessage("Loading all routes, please wait.....");

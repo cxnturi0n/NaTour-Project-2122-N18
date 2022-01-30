@@ -61,6 +61,9 @@
     <string name="activityCreateRoute_create">Create route</string>
     <string name="activityCreateRoute_message">Fill in the fields to create your route.</string>
     <string name="activityCreateRoute_name">Route name</string>
+    <string name="activityCreateRoute_length">Route duration (Format hh:mm)</string>
+    <string name="activityCreateRoute_addimage">Add route image</string>
+    <string name="activityCreateRoute_image">Image</string>
     <string name="activityCreateRoute_description">Description</string>
     <string name="activityCreateRoute_difficulty">Select the difficulty</string>
     <string name="activityCreateRoute_disableOption">Accessibility for the disabled</string>

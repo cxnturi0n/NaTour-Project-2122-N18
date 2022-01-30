@@ -98,7 +98,7 @@ public class RoutesHTTP {
                 + ",\"description\":" + route.getDescription() + ",\"level\":" + route.getLevel() +
                 ",\"duration\":" + route.getDuration() + ",\"report_count\":" + route.getReport_count() + ",\"disability_access\":"
                 + route.isDisability_access() + ",\"creator_username\":" + route.getCreator_username() +
-                ",\"coordinates\":" + json_coords + ",\"tags\":" + tags + ",\"image_base64\":" + route.getImage_base64()+"}";
+                ",\"coordinates\":" + json_coords + ",\"tags\":" + tags + ",\"image_base64\":" + route.getImage_base64()+ ",\"length\":" + route.getLength() + "}";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
@@ -218,6 +218,7 @@ public class RoutesHTTP {
 
         handleHttpRequest(callback);
     }
+
 
 
 }

@@ -89,6 +89,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.username.setText(route.getCreator_username());
         holder.title.setText(route.getName());
         holder.description.setText(route.getDescription());
+        holder.duration.setText(getFormattedTime(route.getDuration()));
+        holder.length.setText(getKm(route.getLength()));
         holder.difficulty.setText(route.getLevel());
         byte[] image_array = Base64.getDecoder().decode(route.getImage_base64());
         Glide.with(context).load(image_array).into(holder.image);
@@ -153,6 +155,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         return routes.size();
+    }
+
+    private String getKm(float meters) {
+
+        return String.valueOf(meters/1000);
+
+    }
+
+    private String getFormattedTime(int time) {
+
+        int hours = time / 60; //since both are ints, you get an int
+        int minutes = time % 60;
+
+        String formattedTime = hours + "h" + minutes + "m";
+
+        return formattedTime;
+
     }
 
 }
