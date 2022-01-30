@@ -24,7 +24,7 @@ public class SigninFragment extends CustomAuthFragment {
     private EditText edit_password;
     private Button button_googlesignin;
 
-    public static String chat_username;
+    public static String current_username;
     GoogleAuthentication google_auth;
 
     @Override
@@ -70,7 +70,7 @@ public class SigninFragment extends CustomAuthFragment {
             AuthenticationHTTP.getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
 
             //Set username per l'utente della chat
-            chat_username = username;
+            current_username = username;
 
         });
 

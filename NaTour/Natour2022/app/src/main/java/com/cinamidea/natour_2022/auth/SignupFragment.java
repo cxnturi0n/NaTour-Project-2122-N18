@@ -81,7 +81,7 @@ public class SignupFragment extends CustomAuthFragment {
 
             AuthenticationHTTP.signUp(username, email, password, new SignupCallback(username, getActivity()));
 
-            SigninFragment.chat_username=username;
+            SigninFragment.current_username =username;
 
         });
 

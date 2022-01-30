@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.google.gson.Gson;
 
@@ -97,13 +98,27 @@ public class RoutesHTTP {
                 + ",\"description\":" + route.getDescription() + ",\"level\":" + route.getLevel() +
                 ",\"duration\":" + route.getDuration() + ",\"report_count\":" + route.getReport_count() + ",\"disability_access\":"
                 + route.isDisability_access() + ",\"creator_username\":" + route.getCreator_username() +
-                ",\"coordinates\":" + json_coords + ",\"tags\":" + tags + "}";
+                ",\"coordinates\":" + json_coords + ",\"tags\":" + tags + ",\"image_base64\":" + route.getImage_base64()+"}";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
         request = getPostRequest(url, request_body, header);
 
         handleHttpRequest(callback);
+
+    }
+
+    public static void addLike(String user_type,Route route, String id_token, RoutesCallback callback){
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"name\":" + route.getName() + ",\"user_type\":" + user_type + ",\"action\":UPDATE_LIKES"
+                + ",\"username\":"+ SigninFragment.current_username + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+
 
     }
 

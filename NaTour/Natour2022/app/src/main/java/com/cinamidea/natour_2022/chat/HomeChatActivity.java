@@ -44,8 +44,8 @@ public final class HomeChatActivity extends AppCompatActivity {
         new ChatDomain.Builder(client, getApplicationContext()).build();
 
         User user = new User();
-        user.setId(SigninFragment.chat_username);
-        user.setName(SigninFragment.chat_username);
+        user.setId(SigninFragment.current_username);
+        user.setName(SigninFragment.current_username);
 
         String token = client.devToken(user.getId());
         client.connectUser(

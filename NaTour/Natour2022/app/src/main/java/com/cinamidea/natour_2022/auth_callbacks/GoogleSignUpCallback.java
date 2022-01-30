@@ -37,7 +37,7 @@ public class GoogleSignUpCallback implements AuthenticationCallback {
         sharedPreferences.edit().putString("id_token",id_token).commit();
 
         //Teniamo traccia dell'username per la chat
-        SigninFragment.chat_username=username;
+        SigninFragment.current_username =username;
 
         activity.startActivity(new Intent(activity, HomeActivity.class));
     }

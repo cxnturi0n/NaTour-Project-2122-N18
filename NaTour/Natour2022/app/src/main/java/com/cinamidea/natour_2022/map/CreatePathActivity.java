@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -204,7 +203,7 @@ public class CreatePathActivity extends AppCompatActivity {
         if (checkLevel() != "error") {
 
             Route route = new Route(title.getText().toString(), description.getText().toString(),
-                    SigninFragment.chat_username, level, 7.8f, 0, checkDisabilityAccess(), path, tokenizedTags(tags));
+                    SigninFragment.current_username, level, 7.8f, 0, checkDisabilityAccess(), path, tokenizedTags(tags),"",1.56f);
 
             String user_type;
             SharedPreferences sharedPreferences;

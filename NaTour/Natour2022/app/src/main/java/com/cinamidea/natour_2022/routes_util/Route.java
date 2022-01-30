@@ -24,11 +24,17 @@ public class Route {
 
     private String tags;
 
+    private String image_base64;
+
+    private float length;
+
+    private int likes;
+
     public Route(){
 
     }
 
-    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, List<LatLng> coordinates, String tags) {
+    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, List<LatLng> coordinates, String tags, String image_base64, float length) {
         this.name = name;
         this.description = description;
         this.creator_username = creator_username;
@@ -38,15 +44,26 @@ public class Route {
         this.disability_access = disability_access;
         this.coordinates = coordinates;
         this.tags = tags;
+        this.image_base64 = image_base64;
+        this.length = length;
+
     }
 
-    public Route(String name, String description, String creator_username, String level, float duration, boolean disability_access) {
+    public Route(String name, String description, String creator_username, String level, float duration, boolean disability_access, String image_base64,float length) {
         this.name = name;
         this.description = description;
         this.creator_username = creator_username;
         this.level = level;
         this.duration = duration;
         this.disability_access = disability_access;
+        this.length = length;
+        this.image_base64 = image_base64;
+
+    }
+
+
+    public int getLikes(){
+        return likes;
     }
 
     public String getName() {
@@ -119,5 +136,21 @@ public class Route {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getImage_base64() {
+        return image_base64;
+    }
+
+    public void setImage_base64(String image_base64) {
+        this.image_base64 = image_base64;
+    }
+
+    public float getLength() {
+        return length;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
     }
 }

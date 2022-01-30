@@ -1,6 +1,13 @@
 package com.cinamidea.natour_2022.navigation;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +17,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
+import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
@@ -68,6 +81,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
@@ -76,15 +90,62 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.title.setText(route.getName());
         holder.description.setText(route.getDescription());
         holder.difficulty.setText(route.getLevel());
+        byte[] image_array = Base64.getDecoder().decode(route.getImage_base64());
+        Glide.with(context).load(image_array).into(holder.image);
 
         if (route.isDisability_access())
             holder.handicap.setVisibility(View.VISIBLE);
 
+
         holder.like.setOnClickListener(view -> {
             Toast.makeText(context, holder.username.getText().toString(), Toast.LENGTH_LONG).show();
-            //TODO:MI PIACE
+
+            SharedPreferences sharedPreferences;
+            sharedPreferences = context.getSharedPreferences("natour_tokens", MODE_PRIVATE);
+            String id_token=sharedPreferences.getString("id_token", null);
+            String user_type;
+            if (id_token != null)
+                user_type = "Cognito";
+            else {
+                id_token = context.getSharedPreferences("google_tokens", MODE_PRIVATE).getString("id_token", null);
+                user_type = "Google";
+            }
+            RoutesHTTP.addLike(user_type, route, id_token, new RoutesCallback() {
+                @Override
+                public void handleStatus200(String response) {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.like.setBackgroundColor(Color.RED);
+                        }
+                    });
+
+                }
+
+                @Override
+                public void handleStatus400(String response) {
+
+                }
+
+                @Override
+                public void handleStatus401(String response) {
+
+                }
+
+                @Override
+                public void handleStatus500(String response) {
+
+                }
+
+                @Override
+                public void handleRequestException(String message) {
+
+                }
+            });
 
         });
+
+
 
 
     }

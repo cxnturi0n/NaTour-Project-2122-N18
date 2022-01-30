@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
         String id_token = natour_shared_pref.getString("id_token", null);
         AuthenticationHTTP.tokenLogin(id_token, new TokenLoginCallback(this));
-        SigninFragment.chat_username = natour_shared_pref.getString("username", null);
+        SigninFragment.current_username = natour_shared_pref.getString("username", null);
 
     }
 

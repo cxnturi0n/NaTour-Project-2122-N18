@@ -64,7 +64,7 @@ public class GoogleAuthentication {
 
             //Se l id token non è scaduto
             GoogleSignInAccount signInAccount = task.getResult();
-            SigninFragment.chat_username = signInAccount.getGivenName();
+            SigninFragment.current_username = signInAccount.getGivenName();
             activity.startActivity(new Intent(activity, HomeActivity.class));
 
         } else {
@@ -73,7 +73,7 @@ public class GoogleAuthentication {
                 try {
 
                     GoogleSignInAccount signInAccount = task1.getResult(ApiException.class);
-                    SigninFragment.chat_username = signInAccount.getGivenName();
+                    SigninFragment.current_username = signInAccount.getGivenName();
 
 
                     //Salviamo il token di google nelle shared preferences

@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
         button_search = findViewById(R.id.activityHome_search);
         button_openmap = findViewById(R.id.activityHome_openMap);
 
-        textview_username.setText(SigninFragment.chat_username);
+        textview_username.setText(SigninFragment.current_username);
 
 
     }

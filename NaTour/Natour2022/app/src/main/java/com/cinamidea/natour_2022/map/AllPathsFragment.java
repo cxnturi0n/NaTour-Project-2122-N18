@@ -207,13 +207,6 @@ public class AllPathsFragment extends Fragment {
     private Route[] jsonToRoutesParsing(String response) {
         Gson gson = new Gson();
         Route[] routes = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
-
-        for(int i = 0; i < routes.length;i++) {
-
-            Log.e("Log", routes[i].getTags());
-
-        }
-
         return routes;
 
     }

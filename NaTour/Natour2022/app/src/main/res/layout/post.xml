@@ -135,7 +135,8 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:layout_marginTop="16dp"
-            android:background="@color/natour_grey"/>
+            android:background="@color/natour_grey"
+            android:scaleType="fitXY"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
