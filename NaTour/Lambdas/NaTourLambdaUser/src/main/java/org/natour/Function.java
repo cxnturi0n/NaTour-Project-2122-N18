@@ -9,6 +9,7 @@ import org.natour.idps.GoogleAuth;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+
 public class Function implements RequestHandler<Request, String> {
     @Override
     public String handleRequest(Request request, Context context) {
@@ -110,16 +111,20 @@ public class Function implements RequestHandler<Request, String> {
                 } catch (CognitoException e) {
                     throw new RuntimeException(e.getMessage());
                 }
-                //Google id token validation
-         /*   case "GOOGLE_TOKEN":
 
+            case "CHANGE_PASSWORD":
                 try {
-                    return GoogleAuth.getAccountParams(request.getId_token()).get("username");
-                } catch (GeneralSecurityException | IOException e) {
+                    cognito.changePassword(request.getOld_password(), request.getUser().getPassword(), request.getAccess_token());
+                    return "Password changed successully";
+
+                } catch (CognitoException e) {
+
                     throw new RuntimeException(e.getMessage());
-                }*/
+
+                }
             default:
                 throw new RuntimeException("Wrong action");
         }
     }
 }
+

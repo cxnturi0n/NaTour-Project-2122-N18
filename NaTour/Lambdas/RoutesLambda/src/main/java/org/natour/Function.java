@@ -1,21 +1,21 @@
 package org.natour;
 
-import org.apache.commons.io.FileUtils;
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.google.gson.Gson;
+import org.natour.daos.RouteDAO;
+import org.natour.daosimpl.RouteDAOMySql;
+import org.natour.entities.Route;
 import org.natour.exceptions.PersistenceException;
-import org.natour.s3.NatourS3Bucket;
+import org.natour.tokens.CognitoTokens;
+import org.natour.tokens.GoogleAuth;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.Random;
+import java.security.GeneralSecurityException;
+import java.util.List;
 
 
-/*public class Function implements RequestHandler<Request, String> {
+public class Function implements RequestHandler<Request, String> {
 
 
     @Override
@@ -154,21 +154,33 @@ import java.util.Random;
                     return e.getMessage();
                 }
 
+            case "UPDATE_LIKES":
+
+                try {
+
+                    r.updateLikes(request.getUsername(), request.getRoute().getName());
+
+                    return "Likes update successfully";
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
             default:
                 return "WRONG ACTION";
 
         }
 
     }
-}*/
+}
 
 
 
 
 
-public class Function{
+//public class Function{
 
-    public static void main(String [] args) throws IOException {
+ //   public static void main(String [] args) throws IOException {
 
         //NatourS3Bucket s = new NatourS3Bucket();
 /*
@@ -202,7 +214,7 @@ public class Function{
             e.printStackTrace();
         }*/
 
-    }
-}
+/*    }
+}*/
 
 

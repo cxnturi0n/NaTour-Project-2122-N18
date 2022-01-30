@@ -13,6 +13,8 @@ public interface RouteDAO {
 
     public void insertToVisit(String username, String route_name) throws PersistenceException;
 
+    public void insertUserLiked(String username, String route_name) throws PersistenceException;
+
     public List<Route> getAll() throws PersistenceException;
 
     public List<Route> getN(int start, int end) throws PersistenceException;
@@ -22,5 +24,11 @@ public interface RouteDAO {
     public List<Route> getUserFavourites(String username) throws PersistenceException;
 
     public List<Route> getUserToVisit(String username) throws PersistenceException;
+
+    public List<Route> getUserLiked(String username) throws PersistenceException;
+
+    public void updateLikes(String username, String route_name) throws PersistenceException;
+
+    public boolean hasUserAlreadyLiked(String username, String route_name) throws PersistenceException;
 
 }

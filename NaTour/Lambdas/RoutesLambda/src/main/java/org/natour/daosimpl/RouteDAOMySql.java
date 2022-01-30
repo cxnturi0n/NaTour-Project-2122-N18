@@ -28,7 +28,7 @@ public class RouteDAOMySql implements RouteDAO {
     @Override
     public void insert(Route route) throws PersistenceException {
 
-        String query_route = "INSERT INTO Routes (name,creator_username,description,level, duration,report_count,disability_access, tags)" + "VALUES (?,?,?,?,?,?,?,?)";
+        String query_route = "INSERT INTO Routes (name,creator_username,description,level, duration,report_count,disability_access, tags, length)" + "VALUES (?,?,?,?,?,?,?,?,?)";
 
         String query_coordinates = "INSERT INTO Coordinates (latitude, longitude, route_name, seq_num) VALUES (?,?,?,?)";
 
@@ -50,6 +50,7 @@ public class RouteDAOMySql implements RouteDAO {
             prepared_statement.setInt(6, route.getReport_count());
             prepared_statement.setBoolean(7, route.isDisability_access());
             prepared_statement.setString(8, route.getTags());
+            prepared_statement.setFloat(9, route.getLength());
 
             byte decoded_image[] = Base64.getDecoder().decode(route.getImage_base64());
 
@@ -99,9 +100,9 @@ public class RouteDAOMySql implements RouteDAO {
 
         try {
 
-            Statement statement = connection.createStatement();
+            PreparedStatement statement = connection.prepareStatement(query);
 
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = statement.executeQuery();
 
             while (rs.next()) //Scorro riga per riga
             {
@@ -122,8 +123,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                     //Creo l oggetto route
                     route = new Route(new_route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
-                            rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64);
-
+                            rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64, rs.getFloat("length"), rs.getInt("likes"));
 
                     //coordinates punta all array list interno dell oggetto route appena creato
                     coordinates = route.getCoordinates();
@@ -182,7 +182,7 @@ public class RouteDAOMySql implements RouteDAO {
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
                 Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
-                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64);
+                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64, rs.getFloat("length"), rs.getInt("likes"));
 
                 List<LatLng> coordinates = route.getCoordinates();
 
@@ -212,6 +212,7 @@ public class RouteDAOMySql implements RouteDAO {
 
     }
 
+
     @Override
     public List<Route> getUserRoutes(String username) throws PersistenceException {
 
@@ -235,7 +236,7 @@ public class RouteDAOMySql implements RouteDAO {
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
                 Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
-                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64);
+                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64, rs.getFloat("length"), rs.getInt("likes"));
 
 
                 List<LatLng> coordinates = route.getCoordinates();
@@ -286,10 +287,13 @@ public class RouteDAOMySql implements RouteDAO {
 
                 byte image_as_byte_array[] = natour_bucket.fetchImage(route_name);
 
-                String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
+                String image_base64 = "";
+
+                if(image_as_byte_array!=null)
+                    image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
                 Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
-                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64);
+                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64, rs.getFloat("length"), rs.getInt("likes"));
 
                 List<LatLng> coordinates = route.getCoordinates();
 
@@ -342,7 +346,7 @@ public class RouteDAOMySql implements RouteDAO {
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
                 Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
-                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64);
+                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64, rs.getFloat("length"), rs.getInt("likes"));
 
                 List<LatLng> coordinates = route.getCoordinates();
 
@@ -371,6 +375,58 @@ public class RouteDAOMySql implements RouteDAO {
         }
     }
 
+    @Override
+    public List<Route> getUserLiked(String username) throws PersistenceException {
+
+        String query = "SELECT * FROM Liked JOIN Routes ON Liked.route_name=Routes.name WHERE Liked.username=" + "\"" + username + "\"";
+
+        List<Route> routes = new ArrayList<>();
+
+        try {
+            Statement statement = connection.createStatement();
+
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+
+                String route_name = rs.getString("name");
+
+
+                NatourS3Bucket natour_bucket = new NatourS3Bucket();
+
+                byte[] image_as_byte_array = natour_bucket.fetchImage(route_name);
+
+                String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
+
+                Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
+                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64, rs.getFloat("length"), rs.getInt("likes"));
+
+                List<LatLng> coordinates = route.getCoordinates();
+
+                String query_coordinates = "SELECT latitude, longitude FROM Coordinates WHERE route_name = " + "\"" + route_name + "\"" + " ORDER BY seq_num,route_name";
+
+                PreparedStatement prepared_statement_1 = connection.prepareStatement(query_coordinates);
+
+                ResultSet rs1 = prepared_statement_1.executeQuery();
+
+                while (rs1.next())
+                    coordinates.add(new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude")));
+
+                routes.add(route);
+            }
+
+            return routes;
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return null;
+            }
+        }
+    }
 
     @Override
     public void insertFavourite(String username, String route_name) throws PersistenceException {
@@ -407,6 +463,78 @@ public class RouteDAOMySql implements RouteDAO {
             statement.setString(1, username);
             statement.setString(2, route_name);
 
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void insertUserLiked(String username, String route_name) throws PersistenceException {
+
+        String query_route = "INSERT INTO Liked (username, route_name) VALUES (?,?)";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query_route);
+
+            statement.setString(1, username);
+            statement.setString(2, route_name);
+
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return;
+            }
+        }
+    }
+
+    public boolean hasUserAlreadyLiked(String username, String route_name) throws PersistenceException{
+
+        String query = "SELECT * FROM Liked WHERE username =? AND route_name =?";
+
+        try{
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1,username);
+            statement.setString(2,route_name);
+
+            ResultSet rs = statement.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException e) {
+        throw new PersistenceException(e.getMessage());
+    }
+
+    }
+
+    public void updateLikes(String username, String route_name) throws PersistenceException{
+
+        if(hasUserAlreadyLiked(username, route_name))
+            return;
+
+        String insert = "INSERT INTO Liked VALUES (?,?)";
+        String update = "UPDATE Routes SET likes=likes + 1 WHERE name =?";
+
+        try{
+            PreparedStatement statement = connection.prepareStatement(update);
+            statement.setString(1,route_name);
+            statement.executeUpdate();
+
+            statement = connection.prepareStatement(insert);
+            statement.setString(1, username);
+            statement.setString(2, route_name);
             statement.execute();
 
         } catch (SQLException e) {

@@ -25,36 +25,17 @@ public class Route {
 
     private String image_base64;
 
+    private float length;
+
+    private int likes;
+
     public Route(){
 
     }
 
 
-    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, List<LatLng> coordinates, String tags, String image_base64) {
-        this.name = name;
-        this.description = description;
-        this.creator_username = creator_username;
-        this.level = level;
-        this.duration = duration;
-        this.report_count = report_count;
-        this.disability_access = disability_access;
-        this.coordinates = coordinates;
-        this.tags = tags;
-        this.image_base64 = image_base64;
-    }
 
-    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, String tags) {
-        this.name = name;
-        this.description = description;
-        this.creator_username = creator_username;
-        this.level = level;
-        this.duration = duration;
-        this.report_count = report_count;
-        this.disability_access = disability_access;
-        this.tags = tags;
-    }
-
-    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, String tags, String image_base64) {
+    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, String tags, String image_base64, float length, int likes) {
         this.name = name;
         this.description = description;
         this.creator_username = creator_username;
@@ -64,6 +45,9 @@ public class Route {
         this.disability_access = disability_access;
         this.tags = tags;
         this.image_base64 = image_base64;
+        this.length = length;
+        this.coordinates = new ArrayList<>();
+        this.likes = likes;
     }
 
 
@@ -145,5 +129,21 @@ public class Route {
 
     public void setImage_base64(String image_base64) {
         this.image_base64 = image_base64;
+    }
+
+    public float getLength() {
+        return length;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 }

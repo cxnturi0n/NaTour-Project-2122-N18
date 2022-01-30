@@ -12,7 +12,6 @@ import org.natour.exceptions.PersistenceException;
 import software.amazon.awssdk.services.s3.model.S3Exception;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 public class NatourS3Bucket {
 
@@ -54,7 +53,7 @@ public class NatourS3Bucket {
 
         try {
             return IOUtils.toByteArray(image.getObjectContent());
-        } catch (IOException e) {
+        } catch (Exception e) {
             return null;
         }
     }

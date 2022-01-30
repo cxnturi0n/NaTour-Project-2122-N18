@@ -38,6 +38,12 @@
       <version>1.33.0</version>
     </dependency>
 
+      <dependency>
+        <groupId>com.sun.mail</groupId>
+        <artifactId>javax.mail</artifactId>
+        <version>1.6.2</version>
+      </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.passay/passay -->
     <dependency>
       <groupId>org.passay</groupId>
