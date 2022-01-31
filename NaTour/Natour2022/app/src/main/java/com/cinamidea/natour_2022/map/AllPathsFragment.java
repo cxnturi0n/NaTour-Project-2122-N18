@@ -56,6 +56,8 @@ public class AllPathsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
+            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
             map.getUiSettings().setCompassEnabled(false);
             readRouteFromDb("Cognito");
             //TODO:Caricamento di attesa

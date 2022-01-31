@@ -96,5 +96,6 @@
     <string name="activityChangePwd_new">New password</string>
     <string name="activityChangePwd_confirm">Confirm new password</string>
     <string name="activityChangePwd_submit">Submit</string>
+    <string name="title_activity_detailed_map">DetailedMap</string>
 
 </resources>

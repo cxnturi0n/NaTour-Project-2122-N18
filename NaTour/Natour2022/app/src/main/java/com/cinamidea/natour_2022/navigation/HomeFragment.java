@@ -2,9 +2,13 @@ package com.cinamidea.natour_2022.navigation;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,19 +16,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;

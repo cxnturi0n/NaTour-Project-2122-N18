@@ -8,8 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.os.Build;
+import android.os.Parcelable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -32,11 +34,15 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.chat.ChatUserList;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
+import com.cinamidea.natour_2022.map.CreatePathActivity;
+import com.cinamidea.natour_2022.map.DetailedMap;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -108,7 +114,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Route route = routes.get(position);
 
         SpannableStringBuilder sb = new SpannableStringBuilder(route.getCreator_username() + " " + route.getDescription());
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, route.getCreator_username().length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        sb.setSpan(new StyleSpan(Typeface.BOLD), 0, route.getCreator_username().length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
         holder.username.setText(route.getCreator_username());
         holder.title.setText(route.getName());
@@ -136,7 +142,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 ArrayList<String> members = new ArrayList<>();
                 members.add(SigninFragment.current_username);
                 members.add(holder.username.getText().toString());
-
                 Intent chat_intent = new Intent(context, HomeChatActivity.class);
                 chat_intent.putStringArrayListExtra("members", members);
                 context.startActivity(chat_intent);
@@ -147,6 +152,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.open_map.setOnClickListener(view -> {
 
             //TODO: Apertura del sentiero su una nuova map activity (da fare)
+            Intent map_detail = new Intent(context, DetailedMap.class);
+            map_detail.putParcelableArrayListExtra("route",(ArrayList<? extends Parcelable>) route.getCoordinates());
+            context.startActivity(map_detail);
+
 
         });
 

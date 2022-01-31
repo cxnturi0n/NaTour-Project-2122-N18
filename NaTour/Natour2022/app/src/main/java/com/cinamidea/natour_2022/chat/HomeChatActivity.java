@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -95,10 +96,21 @@ public final class HomeChatActivity extends AppCompatActivity {
         Intent chat_intent = getIntent();
         if (chat_intent.getStringArrayListExtra("members") != null) {
             ArrayList<String> members = chat_intent.getStringArrayListExtra("members");
-            client.createChannel("messaging", members);
+            createChannel(members);
         }
 
 
+    }
+
+    private void createChannel(ArrayList<String> members){
+        client.createChannel("messaging", members).enqueue(result -> {
+            if (result.isSuccess()) {
+                Toast.makeText(this, "Nuova chat creata", Toast.LENGTH_SHORT).show();
+            } else {
+                // Handle result.error()
+                Log.e(TAG, "ChatUserList: Errore creazione canale");
+            }
+        });
     }
 
 

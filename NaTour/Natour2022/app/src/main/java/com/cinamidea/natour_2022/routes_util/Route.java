@@ -2,9 +2,10 @@ package com.cinamidea.natour_2022.routes_util;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Route {
+public class Route{
 
     private String name;
 
