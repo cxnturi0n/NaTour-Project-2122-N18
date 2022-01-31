@@ -166,6 +166,8 @@ public class HomeActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
             startActivity(new Intent(this, ChangePasswordActivity.class));
         });
+
+
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
 

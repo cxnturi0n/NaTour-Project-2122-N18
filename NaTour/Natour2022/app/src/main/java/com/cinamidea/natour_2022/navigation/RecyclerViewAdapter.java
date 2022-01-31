@@ -142,16 +142,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 ArrayList<String> members = new ArrayList<>();
                 members.add(SigninFragment.current_username);
                 members.add(holder.username.getText().toString());
+                Log.e("Members",members.toString());
                 Intent chat_intent = new Intent(context, HomeChatActivity.class);
                 chat_intent.putStringArrayListExtra("members", members);
                 context.startActivity(chat_intent);
+
             }
 
         });
 
         holder.open_map.setOnClickListener(view -> {
 
-            //TODO: Apertura del sentiero su una nuova map activity (da fare)
+
             Intent map_detail = new Intent(context, DetailedMap.class);
             map_detail.putParcelableArrayListExtra("route",(ArrayList<? extends Parcelable>) route.getCoordinates());
             context.startActivity(map_detail);

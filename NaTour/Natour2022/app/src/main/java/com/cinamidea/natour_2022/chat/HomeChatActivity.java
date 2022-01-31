@@ -60,6 +60,7 @@ public final class HomeChatActivity extends AppCompatActivity {
                 token
         ).enqueue();
 
+
         // Step 3 - Set the channel list filter and order
         // This can be read as requiring only channels whose "type" is "messaging" AND
         // whose "members" include our "user.id"
@@ -92,27 +93,26 @@ public final class HomeChatActivity extends AppCompatActivity {
             }
         });
 
-
         Intent chat_intent = getIntent();
         if (chat_intent.getStringArrayListExtra("members") != null) {
             ArrayList<String> members = chat_intent.getStringArrayListExtra("members");
+            Log.e("Members", members.toString());
             createChannel(members);
         }
 
 
     }
 
-    private void createChannel(ArrayList<String> members){
+    private void createChannel(ArrayList<String> members) {
         client.createChannel("messaging", members).enqueue(result -> {
             if (result.isSuccess()) {
                 Toast.makeText(this, "Nuova chat creata", Toast.LENGTH_SHORT).show();
             } else {
                 // Handle result.error()
-                Log.e(TAG, "ChatUserList: Errore creazione canale");
+                Log.e(TAG, "HomeChat: Errore creazione canale");
             }
         });
     }
-
 
 
 }

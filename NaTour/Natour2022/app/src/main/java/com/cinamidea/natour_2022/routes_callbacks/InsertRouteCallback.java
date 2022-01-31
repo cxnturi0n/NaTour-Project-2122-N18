@@ -32,7 +32,6 @@ public class InsertRouteCallback implements RoutesCallback{
         activity.runOnUiThread(() -> {
             progress_dialog.dismiss();
             Toast.makeText(activity, "Route added", Toast.LENGTH_SHORT).show();
-            //TODO:Dopo l'inserimento andare nel schermata di dettaglio del sentiero appena creato
             activity.startActivity(new Intent(activity.getApplicationContext(), HomeActivity.class));
         });
 
