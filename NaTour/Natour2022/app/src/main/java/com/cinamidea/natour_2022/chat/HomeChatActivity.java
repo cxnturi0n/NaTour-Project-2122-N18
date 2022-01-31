@@ -1,9 +1,11 @@
 package com.cinamidea.natour_2022.chat;
 
+import static android.content.ContentValues.TAG;
 import static java.util.Collections.singletonList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,6 +17,9 @@ import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.databinding.ActivityHomeChatBinding;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.getstream.chat.android.client.ChatClient;
 import io.getstream.chat.android.client.api.models.FilterObject;
@@ -29,6 +34,7 @@ import io.getstream.chat.android.ui.channel.list.viewmodel.factory.ChannelListVi
 
 public final class HomeChatActivity extends AppCompatActivity {
 
+    private ChatClient client;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +44,7 @@ public final class HomeChatActivity extends AppCompatActivity {
 
 
         // Step 1 - Set up the client for API calls and the domain for offline storage
-        ChatClient client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
+        client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
                 .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
                 .build();
         new ChatDomain.Builder(client, getApplicationContext()).build();
@@ -81,9 +87,20 @@ public final class HomeChatActivity extends AppCompatActivity {
         cerca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeChatActivity.this,ChatUserList.class));
+                startActivity(new Intent(HomeChatActivity.this, ChatUserList.class));
             }
         });
 
+
+        Intent chat_intent = getIntent();
+        if (chat_intent.getStringArrayListExtra("members") != null) {
+            ArrayList<String> members = chat_intent.getStringArrayListExtra("members");
+            client.createChannel("messaging", members);
+        }
+
+
     }
+
+
+
 }

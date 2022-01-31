@@ -1,9 +1,11 @@
 package com.cinamidea.natour_2022.navigation;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.Image;
@@ -12,6 +14,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +29,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.chat.ChatUserList;
+import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
@@ -116,12 +124,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (route.isDisability_access())
             holder.handicap.setVisibility(View.VISIBLE);
 
-        if (route.getReport_count()>=3)
+        if (route.getReport_count() >= 3)
             holder.isreported.setVisibility(View.VISIBLE);
 
         holder.chat.setOnClickListener(view -> {
 
-            //TODO: Apertura della chat con l'utente del post
+            if (SigninFragment.current_username.equals(holder.username.getText())) {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+
+            } else {
+                ArrayList<String> members = new ArrayList<>();
+                members.add(SigninFragment.current_username);
+                members.add(holder.username.getText().toString());
+
+                Intent chat_intent = new Intent(context, HomeChatActivity.class);
+                chat_intent.putStringArrayListExtra("members", members);
+                context.startActivity(chat_intent);
+            }
 
         });
 
@@ -138,7 +157,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             SharedPreferences sharedPreferences;
             sharedPreferences = context.getSharedPreferences("natour_tokens", MODE_PRIVATE);
-            String id_token=sharedPreferences.getString("id_token", null);
+            String id_token = sharedPreferences.getString("id_token", null);
             String user_type;
             if (id_token != null)
                 user_type = "Cognito";
@@ -182,8 +201,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
 
-
-
     }
 
     @Override
@@ -193,7 +210,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private String getKm(float meters) {
 
-        return String.valueOf(meters/1000);
+        return String.valueOf(meters / 1000);
 
     }
 
