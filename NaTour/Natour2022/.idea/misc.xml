@@ -42,12 +42,16 @@
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_info_circle.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_length.xml" value="0.2601851851851852" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_like.xml" value="0.2638888888888889" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_lock.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_logo.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_menu.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_menu_icon.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_ok.xml" value="0.2703125" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_openpostmap.xml" value="0.2638888888888889" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_plus.xml" value="0.2703125" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_profile_inactive.xml" value="0.2638888888888889" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_report.xml" value="0.2638888888888889" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_savedpaths.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_settings.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_user.xml" value="0.2703125" />
@@ -103,7 +107,8 @@
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/message_notification_ayout.xml" value="0.4" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/message_notification_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/ok_message_layout.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/post.xml" value="0.264" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/post.xml" value="0.4" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/post_options.xml" value="0.264" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/success_message_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.15185185185185185" />
         <entry key="..\:/Users/Utente/Documents/GitHub/NaTour-Project-2122-N18/Natour2022/app/src/main/res/drawable/background_edit_text.xml" value="0.29010416666666666" />

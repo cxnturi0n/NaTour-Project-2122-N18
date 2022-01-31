@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/post_options_container"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_profile_menu">
+
+    <View
+        android:layout_width="64dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:background="@drawable/drawable_rounded_line"/>
+
+    <android.widget.Button
+        android:id="@+id/post_addtovisit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="32dp"
+        android:drawableStart="@drawable/ic_add_tovisit"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingStart="16dp"
+        android:stateListAnimator="@null"
+        android:text="@string/post_addtovisit"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="32dp" />
+
+    <android.widget.Button
+        android:id="@+id/post_reportinaccuracy"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_report"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingStart="16dp"
+        android:stateListAnimator="@null"
+        android:text="@string/post_reportinaccuracy"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="32dp" />
+
+    <android.widget.Button
+        android:id="@+id/post_reportoutofdate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_report"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingStart="16dp"
+        android:stateListAnimator="@null"
+        android:text="@string/post_reportoutofdate"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="32dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:background="@color/white"/>
+
+</LinearLayout>

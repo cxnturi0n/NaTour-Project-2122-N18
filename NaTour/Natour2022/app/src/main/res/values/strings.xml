@@ -50,6 +50,10 @@
     <string name="activityHome_editprofilephoto">Edit profile photo</string>
     <string name="activityHome_changepassword">Change password</string>
     <string name="activityHome_logout">Logout</string>
+    <string name="post_addtovisit">Add to the routes to visit</string>
+    <string name="post_reportinaccuracy">Report for inaccuracy</string>
+    <string name="post_reportoutofdate">Report for out of date</string>
+    <string name="post_reported">Reported</string>
 
 
     <!-- Activity_Chat -->

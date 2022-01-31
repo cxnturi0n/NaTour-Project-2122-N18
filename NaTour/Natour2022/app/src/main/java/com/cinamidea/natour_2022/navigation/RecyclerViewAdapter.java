@@ -6,8 +6,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Build;
-import android.util.Log;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +25,11 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
-
-import org.w3c.dom.Text;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -45,7 +47,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ImageView image;
         TextView duration, length;
         ImageView handicap;
-        ImageButton like, favourite, tovisit;
+        ImageButton favourite;
+        ViewGroup options_container;
+        ImageButton options;
+        ImageButton chat;
+        TextView favourites_number;
+        ImageView isreported;
+        ImageButton open_map;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,9 +66,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             duration = itemView.findViewById(R.id.post_duration);
             length = itemView.findViewById(R.id.post_length);
             handicap = itemView.findViewById(R.id.post_handicap);
-            like = itemView.findViewById(R.id.post_like);
             favourite = itemView.findViewById(R.id.post_favourite);
-            tovisit = itemView.findViewById(R.id.post_tovisit);
+            options = itemView.findViewById(R.id.post_options);
+            isreported = itemView.findViewById(R.id.post_isreported);
+            favourites_number = itemView.findViewById(R.id.post_numberoffavourites);
+            options_container = itemView.findViewById(R.id.post_options_container);
+            chat = itemView.findViewById(R.id.post_chat);
+            open_map = itemView.findViewById(R.id.post_map);
 
 
         }
@@ -86,20 +98,42 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Route route = routes.get(position);
+
+        SpannableStringBuilder sb = new SpannableStringBuilder(route.getCreator_username() + " " + route.getDescription());
+        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, route.getCreator_username().length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
         holder.username.setText(route.getCreator_username());
         holder.title.setText(route.getName());
-        holder.description.setText(route.getDescription());
+        holder.description.setText(sb);
         holder.duration.setText(getFormattedTime(route.getDuration()));
-        holder.length.setText(getKm(route.getLength()));
+        holder.length.setText(getKm(route.getLength()) + "km");
         holder.difficulty.setText(route.getLevel());
         byte[] image_array = Base64.getDecoder().decode(route.getImage_base64());
         Glide.with(context).load(image_array).into(holder.image);
+        holder.favourites_number.setText(route.getLikes() + " likes");
+
 
         if (route.isDisability_access())
             holder.handicap.setVisibility(View.VISIBLE);
 
+        if (route.getReport_count()>=3)
+            holder.isreported.setVisibility(View.VISIBLE);
 
-        holder.like.setOnClickListener(view -> {
+        holder.chat.setOnClickListener(view -> {
+
+            //TODO: Apertura della chat con l'utente del post
+
+        });
+
+        holder.open_map.setOnClickListener(view -> {
+
+            //TODO: Apertura del sentiero su una nuova map activity (da fare)
+
+        });
+
+        holder.options.setOnClickListener(view -> openMenu(holder.options_container));
+
+        holder.favourite.setOnClickListener(view -> {
             Toast.makeText(context, holder.username.getText().toString(), Toast.LENGTH_LONG).show();
 
             SharedPreferences sharedPreferences;
@@ -118,7 +152,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            holder.like.setBackgroundColor(Color.RED);
+                            holder.favourite.setBackgroundColor(Color.RED);
                         }
                     });
 
@@ -165,13 +199,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private String getFormattedTime(int time) {
 
-        int hours = time / 60; //since both are ints, you get an int
+        int hours = time / 60;
         int minutes = time % 60;
 
         String formattedTime = hours + "h" + minutes + "m";
 
         return formattedTime;
 
+    }
+
+    private void openMenu(ViewGroup options_container) {
+
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
+        View bottomSheetView = LayoutInflater.from(context).inflate(
+                R.layout.post_options, options_container);
+        bottomSheetView.findViewById(R.id.post_addtovisit).setOnClickListener(view1 -> {
+            bottomSheetDialog.dismiss();
+        });
+        bottomSheetView.findViewById(R.id.post_reportinaccuracy).setOnClickListener(view -> {
+            bottomSheetDialog.dismiss();
+        });
+        bottomSheetView.findViewById(R.id.post_reportoutofdate).setOnClickListener(view -> {
+            bottomSheetDialog.dismiss();
+        });
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
     }
 
 }
