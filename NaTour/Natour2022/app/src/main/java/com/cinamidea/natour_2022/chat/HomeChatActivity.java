@@ -35,7 +35,7 @@ import io.getstream.chat.android.ui.channel.list.viewmodel.factory.ChannelListVi
 
 public final class HomeChatActivity extends AppCompatActivity {
 
-    private ChatClient client;
+
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +45,7 @@ public final class HomeChatActivity extends AppCompatActivity {
 
 
         // Step 1 - Set up the client for API calls and the domain for offline storage
-        client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
+        ChatClient client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
                 .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
                 .build();
         new ChatDomain.Builder(client, getApplicationContext()).build();
@@ -97,13 +97,13 @@ public final class HomeChatActivity extends AppCompatActivity {
         if (chat_intent.getStringArrayListExtra("members") != null) {
             ArrayList<String> members = chat_intent.getStringArrayListExtra("members");
             Log.e("Members", members.toString());
-            createChannel(members);
+            createChannel(members,client);
         }
 
 
     }
 
-    private void createChannel(ArrayList<String> members) {
+    private void createChannel(ArrayList<String> members,ChatClient client) {
         client.createChannel("messaging", members).enqueue(result -> {
             if (result.isSuccess()) {
                 Toast.makeText(this, "Nuova chat creata", Toast.LENGTH_SHORT).show();
