@@ -290,7 +290,7 @@ public class CreatePathActivity extends AppCompatActivity {
 
     private void openFile() {
         Intent intent;
-        intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, 12);
     }

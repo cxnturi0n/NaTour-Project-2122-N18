@@ -35,7 +35,7 @@ import io.getstream.chat.android.ui.channel.list.viewmodel.factory.ChannelListVi
 
 public final class HomeChatActivity extends AppCompatActivity {
 
-
+    private ChatClient client = ChatClient.instance();
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,10 +45,10 @@ public final class HomeChatActivity extends AppCompatActivity {
 
 
         // Step 1 - Set up the client for API calls and the domain for offline storage
-        ChatClient client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
+        /*ChatClient client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
                 .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
                 .build();
-        new ChatDomain.Builder(client, getApplicationContext()).build();
+        new ChatDomain.Builder(client, getApplicationContext()).build();*/
 
         User user = new User();
         user.setId(SigninFragment.current_username);
