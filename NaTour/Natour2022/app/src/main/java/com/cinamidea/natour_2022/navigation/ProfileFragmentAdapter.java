@@ -28,7 +28,7 @@ public class ProfileFragmentAdapter extends FragmentStateAdapter {
         switch (position) {
 
             case 1:
-                return new ProfileMyRoadsFragment();
+                return new ProfilePreferredRoadsFragment();
             case 2:
                 return new ProfileRoadsToVisitFragment();
 

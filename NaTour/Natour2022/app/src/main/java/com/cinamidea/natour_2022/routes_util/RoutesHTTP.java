@@ -108,20 +108,6 @@ public class RoutesHTTP {
 
     }
 
-    public static void addLike(String user_type,Route route, String id_token, RoutesCallback callback){
-        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
-        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
-
-        String request_body = "{\"name\":" + route.getName() + ",\"user_type\":" + user_type + ",\"action\":UPDATE_LIKES"
-                + ",\"username\":"+ SigninFragment.current_username + "}";
-
-        request = getPostRequest(url, request_body, header);
-
-        handleHttpRequest(callback);
-
-
-    }
-
     //action:GET_ALL
     public static void getAllRoutes(String user_type, String id_token, RoutesCallback callback) {
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
@@ -191,6 +177,52 @@ public class RoutesHTTP {
         request = getPostRequest(url, request_body, header);
 
         handleHttpRequest(callback);
+    }
+
+    public static void getFavouriteRoutesName(String user_type, String username, String id_token, RoutesCallback callback) {
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_PERSONAL_FAVOURITES_NAMES" +
+                ",\"username\":" + username + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+    }
+
+    public static void deleteFavouriteRoute(String user_type, String username, String id_token, String route_name, RoutesCallback callback) {
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "DELETE_FAVOURITE" +
+                ",\"username\":" + username + ",\"name\":" + route_name + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+
+    }
+
+    public static void deleteToVisitRoute(String user_type, String username, String id_token, String route_name, RoutesCallback callback) {
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "DELETE_TOVISIT" +
+                ",\"username\":" + username + ",\"name\":" + route_name + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+
     }
 
     public static void getToVisitRoutes(String user_type, String username, String id_token, RoutesCallback callback) {

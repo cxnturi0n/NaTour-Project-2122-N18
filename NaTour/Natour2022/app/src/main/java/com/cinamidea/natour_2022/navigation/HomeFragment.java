@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.routes_callbacks.GetNRoutesCallback;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
@@ -25,6 +27,7 @@ import com.google.gson.Gson;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -32,7 +35,6 @@ public class HomeFragment extends Fragment {
     private Button position_button;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private ArrayList<Route> routes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,69 +63,15 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragmentHome_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ProgressBar dialog = view.findViewById(R.id.fragmentHome_progress);
-
-        routes = new ArrayList<>();
+        ProgressBar progressBar = view.findViewById(R.id.fragmentHome_progress);
 
 
         SharedPreferences sharedPreferences;
         sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        String id_token=sharedPreferences.getString("id_token", null);
-        RoutesHTTP.getAllRoutes("Cognito", id_token, new RoutesCallback() {
-            @Override
-            public void handleStatus200(String response) {
-                jsonToRoutesParsing(response);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.setVisibility(View.GONE);
-                        recyclerViewAdapter = new RecyclerViewAdapter(getContext(), routes);
-                        recyclerView.setAdapter(recyclerViewAdapter);
-                    }
-                });
+        String id_token = sharedPreferences.getString("id_token", null);
+        RoutesHTTP.getAllRoutes("Cognito", id_token,
+                new GetNRoutesCallback("Cognito", SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
-
-
-            }
-
-            @Override
-            public void handleStatus400(String response) {
-
-            }
-
-            @Override
-            public void handleStatus401(String response) {
-
-            }
-
-            @Override
-            public void handleStatus500(String response) {
-
-            }
-
-            @Override
-            public void handleRequestException(String message) {
-
-            }
-        });
-
-
-
-
-    }
-
-    private void jsonToRoutesParsing(String response) {
-        Gson gson = new Gson();
-        Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
-        for(int i = 0; i < routes_array.length;i++) {
-
-            routes.add(routes_array[i]);
-        }
-    }
-
-    private String removeQuotesAndUnescape(String uncleanJson) {
-        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
-        return StringEscapeUtils.unescapeJava(noQuotes);
     }
 
 

@@ -143,6 +143,26 @@ public class Route{
         return image_base64;
     }
 
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", creator_username='" + creator_username + '\'' +
+                ", level='" + level + '\'' +
+                ", duration=" + duration +
+                ", report_count=" + report_count +
+                ", disability_access=" + disability_access +
+                ", tags='" + tags + '\'' +
+                ", length=" + length +
+                ", likes=" + likes +
+                '}';
+    }
+
     public void setImage_base64(String image_base64) {
         this.image_base64 = image_base64;
     }

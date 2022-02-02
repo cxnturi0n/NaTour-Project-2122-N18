@@ -153,6 +153,7 @@
                     android:layout_width="48dp"
                     android:layout_marginStart="8dp"
                     android:layout_height="48dp"
+                    android:tag="0"
                     android:background="@null"
                     app:srcCompat="@drawable/ic_like" />
 
