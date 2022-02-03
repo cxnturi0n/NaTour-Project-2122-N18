@@ -65,7 +65,7 @@ public class AddPathFragment extends Fragment {
     private ImageButton button_success, button_cancel, button_add_gpx;
     private int check_long_press_map_click = 0;
 
-    //TODO:GPX
+
     private int FILE_REQUEST_CODE = 1;
     private String gpx_content;
 

@@ -9,6 +9,7 @@ import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -88,7 +89,7 @@ public class RoutesHTTP {
     public static void insertRoute(String user_type, Route route, String id_token, RoutesCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
-        String tags = (route.getTags().length()>0) ? route.getTags() : null;
+        String tags = (route.getTags().length() > 0) ? route.getTags() : null;
 
         Gson gson = new Gson();
 
@@ -98,7 +99,7 @@ public class RoutesHTTP {
                 + ",\"description\":" + route.getDescription() + ",\"level\":" + route.getLevel() +
                 ",\"duration\":" + route.getDuration() + ",\"report_count\":" + route.getReport_count() + ",\"disability_access\":"
                 + route.isDisability_access() + ",\"creator_username\":" + route.getCreator_username() +
-                ",\"coordinates\":" + json_coords + ",\"tags\":" + tags + ",\"image_base64\":" + route.getImage_base64()+ ",\"length\":" + route.getLength() + "}";
+                ",\"coordinates\":" + json_coords + ",\"tags\":" + tags + ",\"image_base64\":" + route.getImage_base64() + ",\"length\":" + route.getLength() + "}";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
@@ -251,6 +252,35 @@ public class RoutesHTTP {
         handleHttpRequest(callback);
     }
 
+
+    public static void getRoutesByLevel(String user_type, String id_token, String level, RoutesCallback callback) {
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_BY_LEVEL" +
+                ",\"level\":" + level + "}";
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+
+    }
+
+    //TODO:Put immagine nel bucket
+    /*public static void putImageInBucket(String user_type, String id_token, Base64 image,RoutesCallback callback){
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_BY_LEVEL" +
+                ",\"level\":" + level + "}";
+
+
+    }
+
+
+     */
 
 
 }

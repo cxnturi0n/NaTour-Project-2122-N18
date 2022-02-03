@@ -85,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+
     private void setupViewComponents() {
 
         fragment_profile = new ProfileFragment();
@@ -100,6 +101,9 @@ public class HomeActivity extends AppCompatActivity {
 
         textview_username.setText(SigninFragment.current_username);
 
+        //TODO:Check bucket per l'immagine
+        //byte[] image_array = Base64.getDecoder().decode(route.getImage_base64());
+        //Glide.with(this).load(image_array).circleCrop().into(imgbutton_avatar);
 
 
     }
@@ -225,7 +229,8 @@ public class HomeActivity extends AppCompatActivity {
                 iStream = getContentResolver().openInputStream(uri);
                 byte[] image_as_byte_array = getBytes(iStream);
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
-                //TODO:Per salvare nello stream l'immagine
+                //TODO:Per salvare l'immagine
+
                 Glide.with(this).load(image_as_byte_array).circleCrop().into(imgbutton_avatar);
             } catch (IOException e) {
                 e.printStackTrace();

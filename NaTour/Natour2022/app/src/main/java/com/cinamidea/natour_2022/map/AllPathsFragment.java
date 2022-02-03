@@ -2,6 +2,7 @@ package com.cinamidea.natour_2022.map;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Geocoder;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -27,10 +30,12 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -40,6 +45,7 @@ import com.google.gson.Gson;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.List;
+import java.util.Locale;
 
 public class AllPathsFragment extends Fragment {
 
@@ -50,6 +56,8 @@ public class AllPathsFragment extends Fragment {
 
     public static boolean locationPermissionGranted;
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
+    private LocationManager locationManager;
+    private Location current_location;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -60,18 +68,21 @@ public class AllPathsFragment extends Fragment {
 
             map.getUiSettings().setCompassEnabled(false);
             readRouteFromDb("Cognito");
-            //TODO:Caricamento di attesa
+
             dialog.setMessage("Loading all routes, please wait.....");
             dialog.setCancelable(false);
             dialog.show();
         }
     };
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        locationManager = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
 
         return inflater.inflate(R.layout.fragment_all_paths, container, false);
     }
@@ -113,6 +124,7 @@ public class AllPathsFragment extends Fragment {
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
+
         }
     }
 
@@ -122,16 +134,20 @@ public class AllPathsFragment extends Fragment {
         }
         try {
             if (locationPermissionGranted) {
-                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                    return;
+                //if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                  //  return;
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(true);
+                //TODO:Zoom sulla mappa
+                zoomBasedOnCurrentLocation();
             } else {
                 getLocationPermission();
-                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                    return;
+                //if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                  //  return;
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(true);
+                //TODO:Zoom sulla mappa
+                zoomBasedOnCurrentLocation();
 
 
             }
@@ -227,6 +243,21 @@ public class AllPathsFragment extends Fragment {
             Polyline polyline = map.addPolyline(opts);
         }
 
+    }
+
+    private Location getCurrentLocation() {
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        current_location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+        return current_location;
+    }
+
+    private void zoomBasedOnCurrentLocation(){
+        Location location = getCurrentLocation();
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(location.getLatitude(), location.getLongitude()))
+                .zoom(8)
+                .build();
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
 }

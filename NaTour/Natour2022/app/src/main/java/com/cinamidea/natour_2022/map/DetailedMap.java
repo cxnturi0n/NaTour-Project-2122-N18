@@ -59,12 +59,9 @@ public class DetailedMap extends FragmentActivity implements OnMapReadyCallback 
 
 
     private void moveCameraOnRoute(ArrayList<LatLng> path) {
-        Criteria criteria = new Criteria();
-
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(path.get(0).latitude, path.get(1).longitude))
-                .zoom(12)
-                .tilt(40)
+                .target(new LatLng(path.get(0).latitude, path.get(0).longitude))
+                .zoom(13)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
