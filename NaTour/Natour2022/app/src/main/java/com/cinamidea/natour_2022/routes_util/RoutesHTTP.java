@@ -111,6 +111,7 @@ public class RoutesHTTP {
 
     //action:GET_ALL
     public static void getAllRoutes(String user_type, String id_token, RoutesCallback callback) {
+
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
@@ -125,6 +126,7 @@ public class RoutesHTTP {
     }
 
     public static void getNRoutes(String user_type, String id_token, int start, int end, RoutesCallback callback) {
+
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
@@ -140,6 +142,7 @@ public class RoutesHTTP {
 
 
     public static void insertFavouriteRoute(String user_type, String route_name, String username, String id_token, RoutesCallback callback) {
+
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
 
@@ -154,6 +157,7 @@ public class RoutesHTTP {
     }
 
     public static void insertToVisitRoute(String user_type, String route_name, String username, String id_token, RoutesCallback callback) {
+
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
         String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "INSERT_TOVISIT" +
@@ -167,8 +171,8 @@ public class RoutesHTTP {
     }
 
     public static void getFavouriteRoutes(String user_type, String username, String id_token, RoutesCallback callback) {
-        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
@@ -181,8 +185,8 @@ public class RoutesHTTP {
     }
 
     public static void getFavouriteRoutesName(String user_type, String username, String id_token, RoutesCallback callback) {
-        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
@@ -197,7 +201,6 @@ public class RoutesHTTP {
     public static void deleteFavouriteRoute(String user_type, String username, String id_token, String route_name, RoutesCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
-
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
@@ -214,7 +217,6 @@ public class RoutesHTTP {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
-
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
         String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "DELETE_TOVISIT" +
@@ -227,6 +229,7 @@ public class RoutesHTTP {
     }
 
     public static void getToVisitRoutes(String user_type, String username, String id_token, RoutesCallback callback) {
+
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
@@ -241,6 +244,7 @@ public class RoutesHTTP {
     }
 
     public static void getUserRoutes(String user_type, String creator_username, String id_token, RoutesCallback callback) {
+
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
@@ -254,6 +258,7 @@ public class RoutesHTTP {
 
 
     public static void getRoutesByLevel(String user_type, String id_token, String level, RoutesCallback callback) {
+
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
