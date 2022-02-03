@@ -30,7 +30,7 @@ public class NatourS3Bucket {
     private final String bucket_name = "natour-android";
 
 
-    public void putImage(String image_name, byte[] bytes) throws PersistenceException {
+    public void putRouteImage(String image_name, byte[] bytes) throws PersistenceException {
 
         String key = "Routes/Images/" + image_name;
 
@@ -45,7 +45,36 @@ public class NatourS3Bucket {
         }
     }
 
-    public byte[] fetchImage(String image_name) {
+    public void putUserProfileImage(String username, byte[] bytes) throws PersistenceException {
+
+        String key = "Users/ProfilePics/" + username;
+
+        try {
+
+            s3_client.putObject(bucket_name, key, new ByteArrayInputStream(bytes), null);
+
+        } catch (S3Exception e) {
+
+            throw new PersistenceException(e.getMessage());
+
+        }
+    }
+
+    public byte[] fetchUserProfileImage(String username) {
+
+        String key = "Users/ProfilePics/" + username;
+
+        S3Object image = s3_client.getObject(bucket_name, key);
+
+        try {
+            return IOUtils.toByteArray(image.getObjectContent());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+    public byte[] fetchRouteImage(String image_name) {
 
         String key = "Routes/Images/" + image_name;
 
@@ -57,5 +86,6 @@ public class NatourS3Bucket {
             return null;
         }
     }
+
 
 }

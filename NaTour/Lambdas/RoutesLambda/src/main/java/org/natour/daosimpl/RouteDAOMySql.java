@@ -54,7 +54,7 @@ public class RouteDAOMySql implements RouteDAO {
 
             byte decoded_image[] = Base64.getDecoder().decode(route.getImage_base64());
 
-            natour_bucket.putImage(route.getName(), decoded_image);
+            natour_bucket.putRouteImage(route.getName(), decoded_image);
 
             prepared_statement.execute();
 
@@ -117,7 +117,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                     NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
-                    byte image_as_byte_array[] = natour_bucket.fetchImage(new_route_name);
+                    byte image_as_byte_array[] = natour_bucket.fetchRouteImage(new_route_name);
 
                     String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
@@ -177,7 +177,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                 NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
-                byte image_as_byte_array[] = natour_bucket.fetchImage(route_name);
+                byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
@@ -231,7 +231,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                 NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
-                byte image_as_byte_array[] = natour_bucket.fetchImage(route_name);
+                byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
@@ -285,11 +285,11 @@ public class RouteDAOMySql implements RouteDAO {
 
                 NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
-                byte image_as_byte_array[] = natour_bucket.fetchImage(route_name);
+                byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
                 String image_base64 = "";
 
-                if(image_as_byte_array!=null)
+                if (image_as_byte_array != null)
                     image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
                 Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
@@ -305,6 +305,42 @@ public class RouteDAOMySql implements RouteDAO {
 
                 while (rs1.next())
                     coordinates.add(new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude")));
+
+                routes.add(route);
+            }
+
+            return routes;
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return null;
+            }
+        }
+    }
+
+    @Override
+    public List<Route> getUserFavouritesNames(String username) throws PersistenceException {
+
+        String query = "SELECT name FROM Favourites JOIN Routes ON Favourites.route_name=Routes.name WHERE Favourites.username=" + "\"" + username + "\"";
+
+        List<Route> routes = new ArrayList<>();
+
+        try {
+            Statement statement = connection.createStatement();
+
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+
+                String route_name = rs.getString("name");
+
+                Route route = new Route();
+
+                route.setName(route_name);
 
                 routes.add(route);
             }
@@ -341,7 +377,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                 NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
-                byte image_as_byte_array[] = natour_bucket.fetchImage(route_name);
+                byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
@@ -376,27 +412,31 @@ public class RouteDAOMySql implements RouteDAO {
     }
 
     @Override
-    public List<Route> getUserLiked(String username) throws PersistenceException {
+    public List<Route> getRoutesByLevel(String level) throws PersistenceException {
 
-        String query = "SELECT * FROM Liked JOIN Routes ON Liked.route_name=Routes.name WHERE Liked.username=" + "\"" + username + "\"";
+        String query = "SELECT * FROM Routes WHERE level=?";
 
         List<Route> routes = new ArrayList<>();
 
         try {
-            Statement statement = connection.createStatement();
+            PreparedStatement statement = connection.prepareStatement(query);
 
-            ResultSet rs = statement.executeQuery(query);
+            statement.setString(1, level);
+
+            ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
 
                 String route_name = rs.getString("name");
 
-
                 NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
-                byte[] image_as_byte_array = natour_bucket.fetchImage(route_name);
+                byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
-                String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
+                String image_base64 = "";
+
+                if (image_as_byte_array != null)
+                    image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
 
                 Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getFloat("duration"),
                         rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), image_base64, rs.getFloat("length"), rs.getInt("likes"));
@@ -428,18 +468,20 @@ public class RouteDAOMySql implements RouteDAO {
         }
     }
 
-    @Override
-    public void insertFavourite(String username, String route_name) throws PersistenceException {
+    public void deleteFavourite(String username, String route_name) throws PersistenceException{
 
-        String query_route = "INSERT INTO Favourites (username, route_name) VALUES (?,?)";
+        String delete_route = "DELETE FROM Favourites WHERE username=? AND route_name=?";
+        String update = "UPDATE Routes SET likes=likes - 1 WHERE name =?";
 
         try {
-            PreparedStatement statement = connection.prepareStatement(query_route);
-
+            PreparedStatement statement = connection.prepareStatement(delete_route);
             statement.setString(1, username);
             statement.setString(2, route_name);
+            statement.executeUpdate();
 
-            statement.execute();
+            statement = connection.prepareStatement(update);
+            statement.setString(1, route_name);
+            statement.executeUpdate();
 
         } catch (SQLException e) {
             throw new PersistenceException(e.getMessage());
@@ -450,6 +492,29 @@ public class RouteDAOMySql implements RouteDAO {
                 return;
             }
         }
+
+    }
+
+    public void deleteToVisit(String username, String route_name) throws PersistenceException{
+
+        String delete_route = "DELETE FROM ToVisit WHERE username=? AND route_name=?";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(delete_route);
+            statement.setString(1, username);
+            statement.setString(2, route_name);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new PersistenceException(e.getMessage());
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                return;
+            }
+        }
+
     }
 
     @Override
@@ -476,60 +541,33 @@ public class RouteDAOMySql implements RouteDAO {
         }
     }
 
+    public boolean hasUserAlreadyLiked(String username, String route_name) throws SQLException {
+
+        String query = "SELECT * FROM Favourites WHERE username =? AND route_name =?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, username);
+        statement.setString(2, route_name);
+
+        ResultSet rs = statement.executeQuery();
+
+        return rs.next();
+
+    }
+
     @Override
-    public void insertUserLiked(String username, String route_name) throws PersistenceException {
+    public void insertFavourite(String username, String route_name) throws PersistenceException {
 
-        String query_route = "INSERT INTO Liked (username, route_name) VALUES (?,?)";
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(query_route);
-
-            statement.setString(1, username);
-            statement.setString(2, route_name);
-
-            statement.execute();
-
-        } catch (SQLException e) {
-            throw new PersistenceException(e.getMessage());
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                return;
-            }
-        }
-    }
-
-    public boolean hasUserAlreadyLiked(String username, String route_name) throws PersistenceException{
-
-        String query = "SELECT * FROM Liked WHERE username =? AND route_name =?";
-
-        try{
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1,username);
-            statement.setString(2,route_name);
-
-            ResultSet rs = statement.executeQuery();
-
-            return rs.next();
-
-        } catch (SQLException e) {
-        throw new PersistenceException(e.getMessage());
-    }
-
-    }
-
-    public void updateLikes(String username, String route_name) throws PersistenceException{
-
-        if(hasUserAlreadyLiked(username, route_name))
-            return;
-
-        String insert = "INSERT INTO Liked VALUES (?,?)";
+        String insert = "INSERT INTO Favourites VALUES (?,?)";
         String update = "UPDATE Routes SET likes=likes + 1 WHERE name =?";
 
-        try{
+        try {
+
+            if (hasUserAlreadyLiked(username, route_name))
+                return;
+
             PreparedStatement statement = connection.prepareStatement(update);
-            statement.setString(1,route_name);
+            statement.setString(1, route_name);
             statement.executeUpdate();
 
             statement = connection.prepareStatement(insert);
@@ -537,7 +575,7 @@ public class RouteDAOMySql implements RouteDAO {
             statement.setString(2, route_name);
             statement.execute();
 
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             throw new PersistenceException(e.getMessage());
         } finally {
             try {
@@ -546,6 +584,7 @@ public class RouteDAOMySql implements RouteDAO {
                 return;
             }
         }
+
     }
 
 }

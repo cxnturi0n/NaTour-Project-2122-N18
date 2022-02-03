@@ -7,11 +7,13 @@ import org.natour.daos.RouteDAO;
 import org.natour.daosimpl.RouteDAOMySql;
 import org.natour.entities.Route;
 import org.natour.exceptions.PersistenceException;
+import org.natour.s3.NatourS3Bucket;
 import org.natour.tokens.CognitoTokens;
 import org.natour.tokens.GoogleAuth;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Base64;
 import java.util.List;
 
 
@@ -102,6 +104,37 @@ public class Function implements RequestHandler<Request, String> {
                     return e.getMessage();
                 }
 
+            case "GET_BY_LEVEL":
+
+                try {
+
+                    Gson gson = new Gson();
+
+                    List<Route> routes = r.getRoutesByLevel(request.getRoute().getLevel());
+
+                    String json_routes = gson.toJson(routes);
+
+                    return json_routes;
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "GET_PERSONAL_FAVOURITES_NAMES":
+
+                try {
+
+                    Gson gson = new Gson();
+                    List<Route> routes = r.getUserFavouritesNames(request.getUsername());
+
+                    String json_routes = gson.toJson(routes);
+
+                    return json_routes;
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
             case "GET_PERSONAL_TOVISIT":
 
                 try {
@@ -114,6 +147,36 @@ public class Function implements RequestHandler<Request, String> {
                     return json_routes;
 
                 } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "INSERT_USER_PROFILE_IMAGE":
+
+                try{
+
+                    NatourS3Bucket bucket = new NatourS3Bucket();
+
+                    byte image_as_byte_array[] = Base64.getDecoder().decode(request.getRoute().getImage_base64());
+
+                    bucket.putUserProfileImage(request.getUsername(), image_as_byte_array);
+
+                    return "User profile image inserted successfully";
+
+                }catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+            case "GET_USER_PROFILE_IMAGE":
+
+                try{
+
+                    NatourS3Bucket bucket = new NatourS3Bucket();
+
+                    byte image_as_byte_array [] = bucket.fetchUserProfileImage(request.getUsername());
+
+                    return Base64.getEncoder().encodeToString(image_as_byte_array);
+
+                }catch (Exception e) {
                     return e.getMessage();
                 }
 
@@ -154,17 +217,31 @@ public class Function implements RequestHandler<Request, String> {
                     return e.getMessage();
                 }
 
-            case "UPDATE_LIKES":
+            case "DELETE_FAVOURITE" :
 
                 try {
 
-                    r.updateLikes(request.getUsername(), request.getRoute().getName());
+                    r.deleteFavourite(request.getUsername(), request.getRoute().getName());
 
-                    return "Likes update successfully";
+                    return "Favourite route deleted successfully";
 
                 } catch (PersistenceException e) {
                     return e.getMessage();
                 }
+
+            case "DELETE_TOVISIT" :
+
+                try {
+
+                    r.deleteToVisit(request.getUsername(), request.getRoute().getName());
+
+                    return "Favourite route deleted successfully";
+
+                } catch (PersistenceException e) {
+                    return e.getMessage();
+                }
+
+
 
             default:
                 return "WRONG ACTION";

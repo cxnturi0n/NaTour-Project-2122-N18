@@ -3,6 +3,7 @@ package org.natour.daos;
 import org.natour.entities.Route;
 import org.natour.exceptions.PersistenceException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface RouteDAO {
@@ -13,8 +14,6 @@ public interface RouteDAO {
 
     public void insertToVisit(String username, String route_name) throws PersistenceException;
 
-    public void insertUserLiked(String username, String route_name) throws PersistenceException;
-
     public List<Route> getAll() throws PersistenceException;
 
     public List<Route> getN(int start, int end) throws PersistenceException;
@@ -23,12 +22,16 @@ public interface RouteDAO {
 
     public List<Route> getUserFavourites(String username) throws PersistenceException;
 
+    public List<Route> getUserFavouritesNames(String username) throws PersistenceException;
+
     public List<Route> getUserToVisit(String username) throws PersistenceException;
 
-    public List<Route> getUserLiked(String username) throws PersistenceException;
+    public List<Route> getRoutesByLevel(String level) throws PersistenceException;
 
-    public void updateLikes(String username, String route_name) throws PersistenceException;
+    public boolean hasUserAlreadyLiked(String username, String route_name) throws PersistenceException, SQLException;
 
-    public boolean hasUserAlreadyLiked(String username, String route_name) throws PersistenceException;
+    public void deleteFavourite(String username, String route_name) throws PersistenceException;
+
+    public void deleteToVisit(String username, String route_name) throws PersistenceException;
 
 }
