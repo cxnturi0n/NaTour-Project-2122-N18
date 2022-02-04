@@ -54,6 +54,7 @@
     <string name="post_reportinaccuracy">Report for inaccuracy</string>
     <string name="post_reportoutofdate">Report for out of date</string>
     <string name="post_reported">Reported</string>
+    <string name="post_likes">likes</string>
 
 
     <!-- Activity_Chat -->

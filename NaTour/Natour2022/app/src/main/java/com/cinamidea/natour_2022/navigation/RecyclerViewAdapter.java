@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth_util.UserType;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.DetailedMap;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
@@ -124,7 +125,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.difficulty.setText(route.getLevel());
         byte[] image_array = Base64.getDecoder().decode(route.getImage_base64());
         Glide.with(context).load(image_array).into(holder.image);
-        holder.favourites_number.setText(route.getLikes() + " likes");
+        holder.favourites_number.setText(route.getLikes() + " " + holder.favourites_number.getText().toString());
 
         if (holder.username.getText().toString().equals(SigninFragment.current_username))
             holder.chat.setVisibility(View.GONE);
@@ -185,40 +186,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.options.setOnClickListener(view -> {
 
-            SharedPreferences sharedPreferences;
-            sharedPreferences = context.getSharedPreferences("natour_tokens", MODE_PRIVATE);
-            String id_token = sharedPreferences.getString("id_token", null);
-            String user_type;
-            if (id_token != null)
-                user_type = "Cognito";
-            else {
-                id_token = context.getSharedPreferences("google_tokens", MODE_PRIVATE).getString("id_token", null);
-                user_type = "Google";
-            }
-            openMenu(holder.options_container, holder, user_type, route, id_token, position);
+            UserType user_type = new UserType(context);
+            openMenu(holder.options_container, holder, user_type.getUser_type(), route, user_type.getId_token(), position);
 
         });
 
         holder.favourite.setOnClickListener(view -> {
 
-            SharedPreferences sharedPreferences;
-            sharedPreferences = context.getSharedPreferences("natour_tokens", MODE_PRIVATE);
-            String id_token = sharedPreferences.getString("id_token", null);
-            String user_type;
-            if (id_token != null)
-                user_type = "Cognito";
-            else {
-                id_token = context.getSharedPreferences("google_tokens", MODE_PRIVATE).getString("id_token", null);
-                user_type = "Google";
-            }
+            UserType user_type = new UserType(context);
+            holder.favourite.setClickable(false);
 
             if (holder.favourite.getTag().equals(1)) {
-                deleteFavourite(holder, user_type, route, id_token, position);
-                Log.e("Tag1", "1");
+                deleteFavourite(holder, user_type.getUser_type(), route, user_type.getId_token(), position);
             }
             else {
-                insertFavourite(holder, user_type, route, id_token);
-                Log.e("Tag2", "2");
+                insertFavourite(holder, user_type.getUser_type(), route, user_type.getId_token());
             }
 
 
@@ -284,7 +266,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void handleStatus200(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setTag(1);
+                    route.setLikes(route.getLikes()+1);
+                    holder.favourites_number.setText(route.getLikes() + " " + context.getResources().getString(R.string.post_likes));
+                    holder.favourite.setClickable(true);
                 });
+                HomeActivity.is_updated = true;
+                for(int i=0; i<3; i++)
+                    HomeActivity.counter_updated[i] = false;
 
             }
 
@@ -292,6 +280,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void handleStatus400(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setImageResource(R.drawable.ic_like);
+                    holder.favourite.setClickable(true);
                 });
             }
 
@@ -299,6 +288,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void handleStatus401(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setImageResource(R.drawable.ic_like);
+                    holder.favourite.setClickable(true);
                 });
             }
 
@@ -306,6 +296,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void handleStatus500(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setImageResource(R.drawable.ic_like);
+                    holder.favourite.setClickable(true);
                 });
             }
 
@@ -313,6 +304,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void handleRequestException(String message) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setImageResource(R.drawable.ic_like);
+                    holder.favourite.setClickable(true);
                 });
             }
         });
@@ -327,6 +319,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void handleStatus200(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setTag(0);
+                    route.setLikes(route.getLikes()-1);
+                    holder.favourites_number.setText(route.getLikes() + " " + context.getResources().getString(R.string.post_likes));
+                    holder.favourite.setClickable(true);
                     if(is_favourite_fragment) {
                         routes.remove(route);
                         notifyItemRemoved(position);
@@ -335,12 +330,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     }
                 });
+                HomeActivity.is_updated = true;
+                for(int i=0; i<3; i++)
+                    HomeActivity.counter_updated[i] = false;
             }
 
             @Override
             public void handleStatus400(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setImageResource(R.drawable.ic_liked);
+                    holder.favourite.setClickable(true);
                 });
             }
 
@@ -348,6 +347,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void handleStatus401(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setImageResource(R.drawable.ic_liked);
+                    holder.favourite.setClickable(true);
                 });
             }
 
@@ -355,6 +355,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void handleStatus500(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setImageResource(R.drawable.ic_liked);
+                    holder.favourite.setClickable(true);
                 });
             }
 
@@ -362,6 +363,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void handleRequestException(String message) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setImageResource(R.drawable.ic_liked);
+                    holder.favourite.setClickable(true);
                 });
             }
         });
@@ -373,7 +375,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         RoutesHTTP.insertToVisitRoute(user_type, route.getName(), SigninFragment.current_username, id_token, new RoutesCallback() {
             @Override
             public void handleStatus200(String response) {
-
+                HomeActivity.counter_updated[2] = false;
             }
 
             @Override

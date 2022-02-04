@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth_util.UserType;
 import com.cinamidea.natour_2022.routes_callbacks.InsertRouteCallback;
 import com.cinamidea.natour_2022.routes_util.Route;
 import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
@@ -233,18 +234,9 @@ public class CreatePathActivity extends AppCompatActivity {
             Route route = new Route(title.getText().toString(), description.getText().toString(),
                     SigninFragment.current_username, level, Integer.valueOf(duration.getText().toString()),0, checkDisabilityAccess(), path, tokenizedTags(tags),image_base64,getRouteLength(path));
 
-            String user_type;
-            SharedPreferences sharedPreferences;
+            UserType user_type = new UserType(this);
 
-            sharedPreferences = this.getSharedPreferences("natour_tokens", MODE_PRIVATE);
-            String id_token = sharedPreferences.getString("id_token", null);
-            if (id_token != null)
-                user_type = "Cognito";
-            else {
-                id_token = this.getSharedPreferences("google_tokens", MODE_PRIVATE).getString("id_token", null);
-                user_type = "Google";
-            }
-            RoutesHTTP.insertRoute(user_type, route, id_token, new InsertRouteCallback(this, dialog));
+            RoutesHTTP.insertRoute(user_type.getUser_type(), route, user_type.getId_token(), new InsertRouteCallback(this, dialog));
         }
     }
 

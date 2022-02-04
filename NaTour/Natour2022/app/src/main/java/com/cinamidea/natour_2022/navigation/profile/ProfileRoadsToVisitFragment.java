@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth_util.UserType;
+import com.cinamidea.natour_2022.navigation.HomeActivity;
 import com.cinamidea.natour_2022.navigation.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.routes_callbacks.GetFavouritesCallback;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
@@ -33,18 +35,28 @@ public class ProfileRoadsToVisitFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
+    private View view;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_roads_to_visit, container, false);
+        view = inflater.inflate(R.layout.fragment_profile_roads_to_visit, container, false);
+        setupViewComponents(view);
+        return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setupViewComponents(view);
+    public void onResume() {
+        super.onResume();
+        if(!HomeActivity.counter_updated[2]) {
+            recyclerView.setAdapter(null);
+            progressBar.setVisibility(View.VISIBLE);
+            loadRoutes();
+            HomeActivity.is_updated = false;
+            HomeActivity.counter_updated[2] = true;
+        }
     }
 
     private void setupViewComponents(View view) {
@@ -52,16 +64,37 @@ public class ProfileRoadsToVisitFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragmentToVisit_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ProgressBar progressBar = view.findViewById(R.id.fragmentToVisit_progress);
+        progressBar = view.findViewById(R.id.fragmentToVisit_progress);
+        loadRoutes();
 
-        SharedPreferences sharedPreferences;
-        sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        String id_token = sharedPreferences.getString("id_token", null);
-        RoutesHTTP.getToVisitRoutes("Cognito", SigninFragment.current_username, id_token,
+    }
+
+    private ArrayList<Route> jsonToRoutesParsing(String response) {
+        Gson gson = new Gson();
+        ArrayList<Route> routes = new ArrayList<>();
+        Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
+        for(int i = 0; i < routes_array.length;i++) {
+
+            routes.add(routes_array[i]);
+        }
+
+        return routes;
+
+    }
+
+    private String removeQuotesAndUnescape(String uncleanJson) {
+        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
+        return StringEscapeUtils.unescapeJava(noQuotes);
+    }
+
+    private void loadRoutes() {
+
+        UserType user_type = new UserType(getActivity());
+        RoutesHTTP.getToVisitRoutes(user_type.getUser_type(), SigninFragment.current_username, user_type.getId_token(),
                 new RoutesCallback() {
                     @Override
                     public void handleStatus200(String response) {
-                        RoutesHTTP.getFavouriteRoutes("Cognito", SigninFragment.current_username, id_token, new GetFavouritesCallback(recyclerView, recyclerViewAdapter, getActivity(), progressBar, true, jsonToRoutesParsing(response)));
+                        RoutesHTTP.getFavouriteRoutes("Cognito", SigninFragment.current_username, user_type.getId_token(), new GetFavouritesCallback(recyclerView, recyclerViewAdapter, getActivity(), progressBar, true, jsonToRoutesParsing(response)));
                     }
 
                     @Override
@@ -85,24 +118,6 @@ public class ProfileRoadsToVisitFragment extends Fragment {
                     }
                 });
 
-    }
-
-    private ArrayList<Route> jsonToRoutesParsing(String response) {
-        Gson gson = new Gson();
-        ArrayList<Route> routes = new ArrayList<>();
-        Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
-        for(int i = 0; i < routes_array.length;i++) {
-
-            routes.add(routes_array[i]);
-        }
-
-        return routes;
 
     }
-
-    private String removeQuotesAndUnescape(String uncleanJson) {
-        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
-        return StringEscapeUtils.unescapeJava(noQuotes);
-    }
-
 }

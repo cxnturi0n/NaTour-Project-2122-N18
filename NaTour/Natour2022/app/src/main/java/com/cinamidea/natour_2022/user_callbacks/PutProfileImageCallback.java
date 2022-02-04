@@ -1,6 +1,5 @@
 package com.cinamidea.natour_2022.user_callbacks;
 
-
 import android.app.Activity;
 import android.os.Build;
 import android.util.Log;
@@ -17,14 +16,16 @@ import java.util.Base64;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class GetProfileImageCallback implements UsersCallback{
+public class PutProfileImageCallback implements UsersCallback{
 
     private Activity activity;
     private CircleImageView avatar;
+    private byte[] image_as_byte_array;
 
-    public GetProfileImageCallback(Activity activity, CircleImageView avatar) {
+    public PutProfileImageCallback(Activity activity, CircleImageView avatar, byte[] image_as_byte_array) {
         this.activity = activity;
         this.avatar = avatar;
+        this.image_as_byte_array = image_as_byte_array;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -33,8 +34,7 @@ public class GetProfileImageCallback implements UsersCallback{
 
         activity.runOnUiThread(() -> {
 
-            byte[] image_array = Base64.getDecoder().decode(removeQuotesAndUnescape(response));
-            Glide.with(activity).load(image_array).circleCrop().into(avatar);
+            Glide.with(activity).load(image_as_byte_array).circleCrop().into(avatar);
 
         });
 
