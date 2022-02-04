@@ -56,7 +56,7 @@ public class Function implements RequestHandler<Request, String> {
                     return json_routes;
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "GET_N":
@@ -71,7 +71,7 @@ public class Function implements RequestHandler<Request, String> {
                     return json_routes;
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "GET_PERSONAL":
@@ -86,7 +86,7 @@ public class Function implements RequestHandler<Request, String> {
                     return json_routes;
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "GET_PERSONAL_FAVOURITES":
@@ -101,7 +101,7 @@ public class Function implements RequestHandler<Request, String> {
                     return json_routes;
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "GET_BY_LEVEL":
@@ -117,7 +117,7 @@ public class Function implements RequestHandler<Request, String> {
                     return json_routes;
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "GET_PERSONAL_FAVOURITES_NAMES":
@@ -132,7 +132,7 @@ public class Function implements RequestHandler<Request, String> {
                     return json_routes;
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "GET_PERSONAL_TOVISIT":
@@ -147,7 +147,7 @@ public class Function implements RequestHandler<Request, String> {
                     return json_routes;
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "INSERT_USER_PROFILE_IMAGE":
@@ -156,14 +156,14 @@ public class Function implements RequestHandler<Request, String> {
 
                     NatourS3Bucket bucket = new NatourS3Bucket();
 
-                    byte image_as_byte_array[] = Base64.getDecoder().decode(request.getRoute().getImage_base64());
+                    byte image_as_byte_array[] = Base64.getDecoder().decode(request.getProfile_image_base64());
 
                     bucket.putUserProfileImage(request.getUsername(), image_as_byte_array);
 
                     return "User profile image inserted successfully";
 
                 }catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "GET_USER_PROFILE_IMAGE":
@@ -176,8 +176,8 @@ public class Function implements RequestHandler<Request, String> {
 
                     return Base64.getEncoder().encodeToString(image_as_byte_array);
 
-                }catch (Exception e) {
-                    return e.getMessage();
+                }catch (PersistenceException e) {
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "INSERT":
@@ -190,7 +190,7 @@ public class Function implements RequestHandler<Request, String> {
                     return "Route inserted successfully";
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "INSERT_FAVOURITE":
@@ -202,7 +202,7 @@ public class Function implements RequestHandler<Request, String> {
                     return "Route inserted successfully";
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "INSERT_TOVISIT":
@@ -214,7 +214,7 @@ public class Function implements RequestHandler<Request, String> {
                     return "Route inserted successfully";
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "DELETE_FAVOURITE" :
@@ -226,7 +226,7 @@ public class Function implements RequestHandler<Request, String> {
                     return "Favourite route deleted successfully";
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
 
             case "DELETE_TOVISIT" :
@@ -238,9 +238,8 @@ public class Function implements RequestHandler<Request, String> {
                     return "Favourite route deleted successfully";
 
                 } catch (PersistenceException e) {
-                    return e.getMessage();
+                    throw new RuntimeException(e.getMessage());
                 }
-
 
 
             default:

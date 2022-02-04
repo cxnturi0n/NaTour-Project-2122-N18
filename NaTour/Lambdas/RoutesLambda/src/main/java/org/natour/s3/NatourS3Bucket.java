@@ -60,9 +60,12 @@ public class NatourS3Bucket {
         }
     }
 
-    public byte[] fetchUserProfileImage(String username) {
+    public byte[] fetchUserProfileImage(String username) throws PersistenceException {
 
         String key = "Users/ProfilePics/" + username;
+
+         if(!s3_client.doesObjectExist(bucket_name, key))
+             throw new PersistenceException("Image does not exist");
 
         S3Object image = s3_client.getObject(bucket_name, key);
 
@@ -74,9 +77,12 @@ public class NatourS3Bucket {
     }
 
 
-    public byte[] fetchRouteImage(String image_name) {
+    public byte[] fetchRouteImage(String image_name) throws PersistenceException {
 
         String key = "Routes/Images/" + image_name;
+
+        if(!s3_client.doesObjectExist(bucket_name, key))
+            throw new PersistenceException("Image does not exist");
 
         S3Object image = s3_client.getObject(bucket_name, key);
 

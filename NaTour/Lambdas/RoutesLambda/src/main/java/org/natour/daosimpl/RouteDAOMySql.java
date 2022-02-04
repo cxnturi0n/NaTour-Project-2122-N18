@@ -568,7 +568,7 @@ public class RouteDAOMySql implements RouteDAO {
 
             PreparedStatement statement = connection.prepareStatement(update);
             statement.setString(1, route_name);
-            statement.executeUpdate();
+            statement.execute();
 
             statement = connection.prepareStatement(insert);
             statement.setString(1, username);
