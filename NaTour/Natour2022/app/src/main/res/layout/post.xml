@@ -188,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
-            android:text="1,424 likes"
+            android:text="@string/post_likes"
             android:textStyle="bold"
             android:textColor="@color/natour_black"
             android:gravity="center"

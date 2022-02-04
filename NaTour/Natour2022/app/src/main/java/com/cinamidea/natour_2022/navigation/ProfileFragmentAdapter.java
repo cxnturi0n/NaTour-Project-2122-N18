@@ -1,5 +1,7 @@
 package com.cinamidea.natour_2022.navigation;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -33,7 +35,6 @@ public class ProfileFragmentAdapter extends FragmentStateAdapter {
                 return new ProfileRoadsToVisitFragment();
 
         }
-
         return new ProfileMyRoadsFragment();
 
     }

@@ -1,9 +1,11 @@
 package com.cinamidea.natour_2022.navigation.profile;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,13 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth_util.UserType;
+import com.cinamidea.natour_2022.navigation.HomeActivity;
 import com.cinamidea.natour_2022.navigation.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.routes_callbacks.GetFavouritesCallback;
 import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
@@ -33,18 +32,28 @@ public class ProfileMyRoadsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
+    private ProgressBar progressBar;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_my_roads, container, false);
+        view = inflater.inflate(R.layout.fragment_profile_my_roads, container, false);
+        setupViewComponents(view);
+        return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setupViewComponents(view);
+    public void onResume() {
+        super.onResume();
+        if(!HomeActivity.counter_updated[0]) {
+            recyclerView.setAdapter(null);
+            progressBar.setVisibility(View.VISIBLE);
+            loadRoutes();
+            HomeActivity.is_updated = false;
+            HomeActivity.counter_updated[0] = true;
+        }
     }
 
     private void setupViewComponents(View view) {
@@ -52,16 +61,37 @@ public class ProfileMyRoadsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragmentMyRoads_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ProgressBar progressBar = view.findViewById(R.id.fragmentMyRoads_progress);
+        progressBar = view.findViewById(R.id.fragmentMyRoads_progress);
+        loadRoutes();
 
-        SharedPreferences sharedPreferences;
-        sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        String id_token = sharedPreferences.getString("id_token", null);
-        RoutesHTTP.getUserRoutes("Cognito", SigninFragment.current_username, id_token,
+    }
+
+    private ArrayList<Route> jsonToRoutesParsing(String response) {
+        Gson gson = new Gson();
+        ArrayList<Route> routes = new ArrayList<>();
+        Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
+        for(int i = 0; i < routes_array.length;i++) {
+
+            routes.add(routes_array[i]);
+        }
+
+        return routes;
+
+    }
+
+    private String removeQuotesAndUnescape(String uncleanJson) {
+        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
+        return StringEscapeUtils.unescapeJava(noQuotes);
+    }
+
+    private void loadRoutes() {
+
+        UserType user_type = new UserType(getActivity());
+        RoutesHTTP.getUserRoutes(user_type.getUser_type(), SigninFragment.current_username, user_type.getId_token(),
                 new RoutesCallback() {
                     @Override
                     public void handleStatus200(String response) {
-                        RoutesHTTP.getFavouriteRoutes("Cognito", SigninFragment.current_username, id_token, new GetFavouritesCallback(recyclerView, recyclerViewAdapter, getActivity(), progressBar, false, jsonToRoutesParsing(response)));
+                        RoutesHTTP.getFavouriteRoutes(user_type.getUser_type(), SigninFragment.current_username, user_type.getId_token(), new GetFavouritesCallback(recyclerView, recyclerViewAdapter, getActivity(), progressBar, false, jsonToRoutesParsing(response)));
                     }
 
                     @Override
@@ -85,24 +115,6 @@ public class ProfileMyRoadsFragment extends Fragment {
                     }
                 });
 
-    }
-
-    private ArrayList<Route> jsonToRoutesParsing(String response) {
-        Gson gson = new Gson();
-        ArrayList<Route> routes = new ArrayList<>();
-        Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
-        for(int i = 0; i < routes_array.length;i++) {
-
-            routes.add(routes_array[i]);
-        }
-
-        return routes;
-
-    }
-
-    private String removeQuotesAndUnescape(String uncleanJson) {
-        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
-        return StringEscapeUtils.unescapeJava(noQuotes);
     }
 
 }

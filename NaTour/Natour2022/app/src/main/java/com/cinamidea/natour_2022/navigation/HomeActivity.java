@@ -7,12 +7,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,29 +21,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
+import com.cinamidea.natour_2022.auth_util.UserType;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.AllPathsFragment;
 import com.cinamidea.natour_2022.map.MapActivity;
+import com.cinamidea.natour_2022.user_callbacks.GetProfileImageCallback;
+import com.cinamidea.natour_2022.user_callbacks.PutProfileImageCallback;
+import com.cinamidea.natour_2022.users_util.UsersHTTP;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Base64;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.getstream.chat.android.client.ChatClient;
-import io.getstream.chat.android.client.logger.ChatLogLevel;
-import io.getstream.chat.android.client.models.User;
-import io.getstream.chat.android.livedata.ChatDomain;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -56,8 +50,9 @@ public class HomeActivity extends AppCompatActivity {
     private ImageButton button_openmap, button_search, button_chat_or_menu;
     private FragmentManager fragmentManager;
     private byte check_chat_or_menu = 0;
+    public static boolean is_updated = false;
+    public static boolean[] counter_updated = {true, true, true};
 
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +97,8 @@ public class HomeActivity extends AppCompatActivity {
         textview_username.setText(SigninFragment.current_username);
 
         //TODO:Check bucket per l'immagine
-        //byte[] image_array = Base64.getDecoder().decode(route.getImage_base64());
-        //Glide.with(this).load(image_array).circleCrop().into(imgbutton_avatar);
+//        UserType userType = new UserType(this);
+//        UsersHTTP.getProfileImage(userType.getUser_type(), SigninFragment.current_username, userType.getId_token(), new GetProfileImageCallback(this, imgbutton_avatar));
 
 
     }
@@ -167,12 +162,24 @@ public class HomeActivity extends AppCompatActivity {
 
         if(fragment instanceof HomeFragment) {
 
-            fragmentTransaction.hide(fragment_profile);
+            if(is_updated) {
+                fragmentTransaction.remove(fragment_home);
+                fragment_home = new HomeFragment();
+                fragmentTransaction.add(R.id.activityHome_fragmentcontainer, fragment_home);
+                is_updated = false;
+            }
             fragmentTransaction.show(fragment_home);
+            fragmentTransaction.hide(fragment_profile);
 
         }
         else if(fragment instanceof ProfileFragment) {
 
+            if(is_updated) {
+                fragmentTransaction.remove(fragment_profile);
+                fragment_profile = new ProfileFragment();
+                fragmentTransaction.add(R.id.activityHome_fragmentcontainer, fragment_profile);
+                is_updated = false;
+            }
             fragmentTransaction.show(fragment_profile);
             fragmentTransaction.hide(fragment_home);
 
@@ -192,6 +199,9 @@ public class HomeActivity extends AppCompatActivity {
             bottomSheetDialog.dismiss();
             logout();
         });
+        UserType user_type = new UserType(this);
+        if(!user_type.getUser_type().equals("Cognito"))
+            bottomSheetView.findViewById(R.id.menuLayout_changePassword).setVisibility(View.GONE);
         bottomSheetView.findViewById(R.id.menuLayout_changePassword).setOnClickListener(view -> {
             bottomSheetDialog.dismiss();
             startActivity(new Intent(this, ChangePasswordActivity.class));
@@ -230,8 +240,8 @@ public class HomeActivity extends AppCompatActivity {
                 byte[] image_as_byte_array = getBytes(iStream);
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
                 //TODO:Per salvare l'immagine
-
-                Glide.with(this).load(image_as_byte_array).circleCrop().into(imgbutton_avatar);
+                UserType userType = new UserType(this);
+                UsersHTTP.putProfileImage(userType.getUser_type(), image_base64, SigninFragment.current_username, userType.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
             } catch (IOException e) {
                 e.printStackTrace();
             }

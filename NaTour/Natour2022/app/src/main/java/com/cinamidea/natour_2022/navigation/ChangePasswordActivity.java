@@ -12,6 +12,7 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.auth_callbacks.ChangePasswordCallback;
 import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
+import com.cinamidea.natour_2022.auth_util.UserType;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -47,13 +48,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         submit.setOnClickListener(view -> {
 
-            SharedPreferences sharedPreferences;
-            sharedPreferences = getSharedPreferences("natour_tokens", MODE_PRIVATE);
-            String token_id = sharedPreferences.getString("access_token", null);
+            UserType user_type = new UserType(this);
             if(new_pwd.getText().toString().equals(confirm_pwd.getText().toString())) {
 
                 AuthenticationHTTP.changePassword(SigninFragment.current_username, current_pwd.getText().toString(),
-                        new_pwd.getText().toString(), token_id, new ChangePasswordCallback(this));
+                        new_pwd.getText().toString(), user_type.getId_token(), new ChangePasswordCallback(this));
 
             }
 
