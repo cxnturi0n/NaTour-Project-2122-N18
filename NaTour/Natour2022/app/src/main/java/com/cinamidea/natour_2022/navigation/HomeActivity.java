@@ -45,6 +45,11 @@ import java.io.InputStream;
 import java.util.Base64;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.getstream.chat.android.client.ChatClient;
+import io.getstream.chat.android.client.logger.ChatLogLevel;
+import io.getstream.chat.android.client.models.User;
+import io.getstream.chat.android.livedata.ChatDomain;
+import okhttp3.OkHttpClient;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeActivity extends AppCompatActivity {
@@ -60,6 +65,9 @@ public class HomeActivity extends AppCompatActivity {
     public static boolean[] counter_updated = {true, true, true};
     private static final int PERMISSION_REQUEST_CODE = 1;
 
+    //TODO:CHAT
+    ChatClient client;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         setupViewComponents();
+        //TODO:CHAT
+        setUpChatUser();
         setListeners();
 
         fragmentManager = getSupportFragmentManager();
@@ -79,8 +89,10 @@ public class HomeActivity extends AppCompatActivity {
 
         button_home.performClick();
 
-        //Richiesta permessi
         getPermissions();
+
+
+
 
 
 
@@ -106,7 +118,7 @@ public class HomeActivity extends AppCompatActivity {
         //TODO:Check bucket per l'immagine
 //        UserType userType = new UserType(this);
 //        UsersHTTP.getProfileImage(userType.getUser_type(), SigninFragment.current_username, userType.getId_token(), new GetProfileImageCallback(this, imgbutton_avatar));
-          Glide.with(this).load("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username).into(imgbutton_avatar);
+          Glide.with(this).load("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto").into(imgbutton_avatar);
     }
 
     private void setListeners() {
@@ -253,9 +265,9 @@ public class HomeActivity extends AppCompatActivity {
                 iStream = getContentResolver().openInputStream(uri);
                 byte[] image_as_byte_array = getBytes(iStream);
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
-                //TODO:Per salvare l'immagine
                 UserType userType = new UserType(this);
                 UsersHTTP.putProfileImage(userType.getUser_type(), image_base64, SigninFragment.current_username, userType.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -350,6 +362,25 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
 
 
+    }
+
+    //TODO:CHAT
+    private void setUpChatUser(){
+        client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
+                .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
+                .build();
+        new ChatDomain.Builder(client, getApplicationContext()).build();
+
+        User user = new User();
+        user.setId(SigninFragment.current_username);
+        user.setName(SigninFragment.current_username);
+        user.setImage("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto");
+
+        String token = client.devToken(user.getId());
+        client.connectUser(
+                user,
+                token
+        ).enqueue();
     }
 
 }

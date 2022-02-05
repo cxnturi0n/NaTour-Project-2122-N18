@@ -12,15 +12,20 @@ import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.nio.channels.Channel;
 import java.util.Base64;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.getstream.chat.android.client.ChatClient;
 
 public class PutProfileImageCallback implements UsersCallback{
 
     private Activity activity;
     private CircleImageView avatar;
     private byte[] image_as_byte_array;
+
+    //TODO:CHAT
+    private ChatClient client = ChatClient.instance();
 
     public PutProfileImageCallback(Activity activity, CircleImageView avatar, byte[] image_as_byte_array) {
         this.activity = activity;
@@ -35,6 +40,8 @@ public class PutProfileImageCallback implements UsersCallback{
         activity.runOnUiThread(() -> {
 
             Glide.with(activity).load(image_as_byte_array).circleCrop().into(avatar);
+            //TODO:CHAT
+            client.getCurrentUser().setImage("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto");
 
         });
 
