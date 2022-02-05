@@ -13,7 +13,7 @@ public class Route {
 
     private String level;
 
-    private float duration;
+    private int duration;
 
     private int report_count;
 
@@ -35,7 +35,7 @@ public class Route {
 
 
 
-    public Route(String name, String description, String creator_username, String level, float duration, int report_count, boolean disability_access, String tags, String image_base64, float length, int likes) {
+    public Route(String name, String description, String creator_username, String level, int duration, int report_count, boolean disability_access, String tags, String image_base64, float length, int likes) {
         this.name = name;
         this.description = description;
         this.creator_username = creator_username;
@@ -83,11 +83,11 @@ public class Route {
         this.level = level;
     }
 
-    public float getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(float duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 

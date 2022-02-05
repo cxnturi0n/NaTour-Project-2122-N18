@@ -1,5 +1,7 @@
 package org.natour.daos;
 
+import org.natour.entities.LatLng;
+import org.natour.entities.Report;
 import org.natour.entities.Route;
 import org.natour.exceptions.PersistenceException;
 
@@ -14,6 +16,8 @@ public interface RouteDAO {
 
     public void insertToVisit(String username, String route_name) throws PersistenceException;
 
+    public void insertReport(Report report) throws PersistenceException;
+
     public List<Route> getAll() throws PersistenceException;
 
     public List<Route> getN(int start, int end) throws PersistenceException;
@@ -25,6 +29,8 @@ public interface RouteDAO {
     public List<Route> getUserFavouritesNames(String username) throws PersistenceException;
 
     public List<Route> getUserToVisit(String username) throws PersistenceException;
+
+    public List<Route> getFilteredRoutes(Route route, LatLng radius) throws PersistenceException;
 
     public List<Route> getRoutesByLevel(String level) throws PersistenceException;
 

@@ -205,11 +205,24 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
+
             case "INSERT_TOVISIT":
 
                 try {
 
                     r.insertToVisit(request.getUsername(), request.getRoute().getName());
+
+                    return "Route inserted successfully";
+
+                } catch (PersistenceException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+
+            case "INSERT_REPORT":
+
+                try {
+
+                    r.insertReport(request.getReport());
 
                     return "Route inserted successfully";
 
@@ -240,6 +253,8 @@ public class Function implements RequestHandler<Request, String> {
                 } catch (PersistenceException e) {
                     throw new RuntimeException(e.getMessage());
                 }
+
+
 
 
             default:

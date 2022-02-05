@@ -1,5 +1,6 @@
 package org.natour;
 
+import org.natour.entities.Report;
 import org.natour.entities.Route;
 
 public class Request {
@@ -7,17 +8,20 @@ public class Request {
     private String action;
     private String id_token;
     private Route route;
+    private Report report;
     private String user_type;
     private String username;
     private String profile_image_base64;
     private int start;
     private int end;
+    private int radius;
+    private String locality;
 
     public Request(){
 
     }
 
-    public Request(String action, String id_token, Route route, String user_type, int start, int end, String username, String profile_image_base64) {
+    public Request(String action, String id_token, Route route, String user_type, int start, int end, String username, String profile_image_base64, Report report, int radius, String locality) {
         this.action = action;
         this.id_token = id_token;
         this.route = route;
@@ -26,6 +30,8 @@ public class Request {
         this.end = end;
         this.username = username;
         this.profile_image_base64 = profile_image_base64;
+        this.report = report;
+        this.radius = radius;
     }
 
     public String getAction() {
@@ -90,5 +96,29 @@ public class Request {
 
     public void setProfile_image_base64(String profile_image_base64) {
         this.profile_image_base64 = profile_image_base64;
+    }
+
+    public Report getReport() {
+        return report;
+    }
+
+    public void setReport(Report report) {
+        this.report = report;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
     }
 }

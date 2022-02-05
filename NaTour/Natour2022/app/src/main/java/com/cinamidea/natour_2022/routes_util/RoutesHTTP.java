@@ -170,6 +170,21 @@ public class RoutesHTTP {
         handleHttpRequest(callback);
     }
 
+    public static void insertReport(String user_type, Report report, String id_token, RoutesCallback callback) {
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
+
+        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "INSERT_REPORT" +
+                ",\"issuer\":" + report.getIssuer() + ",\"route_name\":" + report.getRoute_name() + ",\"description\":"
+                + report.getDescription() + ",\"title\":" + report.getTitle() + ",\"type\":" + report.getType() +"}";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        request = getPostRequest(url, request_body, header);
+
+        handleHttpRequest(callback);
+    }
+
     public static void getFavouriteRoutes(String user_type, String username, String id_token, RoutesCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";

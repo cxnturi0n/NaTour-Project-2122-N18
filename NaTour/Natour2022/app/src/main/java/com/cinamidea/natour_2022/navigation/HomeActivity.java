@@ -1,17 +1,22 @@
 package com.cinamidea.natour_2022.navigation;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -41,6 +46,7 @@ import java.util.Base64;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeActivity extends AppCompatActivity {
 
     public static CircleImageView imgbutton_avatar;
@@ -52,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
     private byte check_chat_or_menu = 0;
     public static boolean is_updated = false;
     public static boolean[] counter_updated = {true, true, true};
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
 
     @Override
@@ -73,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
         button_home.performClick();
 
         //Richiesta permessi
-        getLocationPermission();
+        getPermissions();
 
 
 
@@ -99,8 +106,7 @@ public class HomeActivity extends AppCompatActivity {
         //TODO:Check bucket per l'immagine
 //        UserType userType = new UserType(this);
 //        UsersHTTP.getProfileImage(userType.getUser_type(), SigninFragment.current_username, userType.getId_token(), new GetProfileImageCallback(this, imgbutton_avatar));
-
-
+          Glide.with(this).load("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username).into(imgbutton_avatar);
     }
 
     private void setListeners() {
@@ -151,9 +157,17 @@ public class HomeActivity extends AppCompatActivity {
 
         });
 
-        button_openmap.setOnClickListener(view ->
-                startActivity(new Intent(this, MapActivity.class)));
-
+        button_openmap.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED   ) {
+                startActivity(new Intent(this, MapActivity.class));
+            } else {
+                showPermissionDialog();
+            }
+        });
     }
 
     private void changeFragment(Fragment fragment) {
@@ -246,6 +260,12 @@ public class HomeActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        if (requestCode == PERMISSION_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (data == null)
+                return;
+
+            AllPathsFragment.locationPermissionGranted = true;
+        }
 
 
 
@@ -263,23 +283,51 @@ public class HomeActivity extends AppCompatActivity {
         return byteBuffer.toByteArray();
     }
 
-    //Check permessi
-    private void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+
+    ActivityResultLauncher<String[]> locationPermissionRequest =
+            registerForActivityResult(new ActivityResultContracts
+                            .RequestMultiplePermissions(), result -> {
+                        Boolean fineLocationGranted = result.getOrDefault(
+                                Manifest.permission.ACCESS_FINE_LOCATION, false);
+                        Boolean coarseLocationGranted = result.getOrDefault(
+                                Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                        if (fineLocationGranted && coarseLocationGranted) {
+                            AllPathsFragment.locationPermissionGranted = true;
+                        } else {
+                            AllPathsFragment.locationPermissionGranted = false;
+                        }
+                    }
+            );
+
+
+    public void showPermissionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enable Permissions");
+        builder.setMessage("You have to enable permissions in order to use the map");
+        Intent permissions_intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
+        builder.setPositiveButton("Enable permissions", (dialog, which) ->
+                startActivityForResult(permissions_intent, PERMISSION_REQUEST_CODE)).setNegativeButton("No, Just Exit", (dialog, which) -> {
+        });
+        AlertDialog mGPSDialog = builder.create();
+        mGPSDialog.show();
+    }
+
+    private boolean getPermissions() {
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            // You can use the API that requires the permission.
             AllPathsFragment.locationPermissionGranted = true;
         } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    AllPathsFragment.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-
+            locationPermissionRequest.launch(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            });
         }
+
+        return AllPathsFragment.locationPermissionGranted;
     }
 
     private void logout() {

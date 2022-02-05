@@ -14,11 +14,13 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -59,6 +61,7 @@ public class AllPathsFragment extends Fragment {
     private LocationManager locationManager;
     private Location current_location;
 
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         @Override
@@ -82,7 +85,6 @@ public class AllPathsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        locationManager = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
 
         return inflater.inflate(R.layout.fragment_all_paths, container, false);
     }
@@ -91,6 +93,8 @@ public class AllPathsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         dialog = new ProgressDialog(getContext());
+
+        locationManager = (LocationManager) getActivity().getSystemService(getContext().LOCATION_SERVICE);
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -134,21 +138,17 @@ public class AllPathsFragment extends Fragment {
         }
         try {
             if (locationPermissionGranted) {
-                //if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                  //  return;
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(true);
                 //TODO:Zoom sulla mappa
-                zoomBasedOnCurrentLocation();
+                if (current_location!= null) {
+                    zoomBasedOnCurrentLocation();
+                }else {
+                    Toast.makeText(getContext(), "Null", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                getLocationPermission();
-                //if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                  //  return;
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(true);
-                //TODO:Zoom sulla mappa
-                zoomBasedOnCurrentLocation();
-
 
             }
         } catch (SecurityException e) {
@@ -189,10 +189,16 @@ public class AllPathsFragment extends Fragment {
                 dialog.dismiss();
 
                 getActivity().runOnUiThread(() -> {
+                    getCurrentLocation();
                     Route[] routes = jsonToRoutesParsing(response);
                     drawRoutes(routes);
                     getLocationPermission();
-                    updateLocationUI();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            updateLocationUI();
+                        }
+                    }, 6000);
 
                 });
 
@@ -246,7 +252,7 @@ public class AllPathsFragment extends Fragment {
     }
 
     private Location getCurrentLocation() {
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+
         current_location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
         return current_location;
     }
