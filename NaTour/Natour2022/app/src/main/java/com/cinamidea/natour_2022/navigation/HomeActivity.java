@@ -19,7 +19,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,14 +28,13 @@ import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
-import com.cinamidea.natour_2022.auth_util.UserType;
+import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.AllPathsFragment;
 import com.cinamidea.natour_2022.map.MapActivity;
-import com.cinamidea.natour_2022.user_callbacks.GetProfileImageCallback;
-import com.cinamidea.natour_2022.user_callbacks.PutProfileImageCallback;
-import com.cinamidea.natour_2022.users_util.UsersHTTP;
+import com.cinamidea.natour_2022.callbacks.user.PutProfileImageCallback;
+import com.cinamidea.natour_2022.utilities.users.UsersHTTP;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.ByteArrayOutputStream;
@@ -106,7 +104,7 @@ public class HomeActivity extends AppCompatActivity {
         //TODO:Check bucket per l'immagine
 //        UserType userType = new UserType(this);
 //        UsersHTTP.getProfileImage(userType.getUser_type(), SigninFragment.current_username, userType.getId_token(), new GetProfileImageCallback(this, imgbutton_avatar));
-          Glide.with(this).load("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username).into(imgbutton_avatar);
+          Glide.with(this).load("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+"Umberto").into(imgbutton_avatar);
     }
 
     private void setListeners() {

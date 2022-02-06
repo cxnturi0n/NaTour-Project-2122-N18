@@ -1,8 +1,5 @@
 package com.cinamidea.natour_2022.navigation;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.routes_callbacks.GetNRoutesCallback;
-import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
-import com.cinamidea.natour_2022.routes_util.Route;
-import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
-import com.google.gson.Gson;
-
-import org.apache.commons.lang3.StringEscapeUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.callbacks.routes.GetAllRoutesCallback;
+import com.cinamidea.natour_2022.utilities.routes.RoutesHTTP;
 
 public class HomeFragment extends Fragment {
 
@@ -66,11 +56,10 @@ public class HomeFragment extends Fragment {
         ProgressBar progressBar = view.findViewById(R.id.fragmentHome_progress);
 
 
-        SharedPreferences sharedPreferences;
-        sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        String id_token = sharedPreferences.getString("id_token", null);
-        RoutesHTTP.getAllRoutes("Cognito", id_token,
-                new GetNRoutesCallback("Cognito", SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
+        UserType user_type = new UserType(getActivity());
+        String id_token = user_type.getUser_type()+user_type.getId_token();
+        RoutesHTTP.getAllRoutes(id_token,
+                new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
     }
 

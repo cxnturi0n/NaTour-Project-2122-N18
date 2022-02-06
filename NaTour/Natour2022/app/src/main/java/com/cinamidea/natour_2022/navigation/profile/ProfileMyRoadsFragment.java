@@ -1,27 +1,26 @@
 package com.cinamidea.natour_2022.navigation.profile;
 
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth_util.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.callbacks.HTTPCallback;
 import com.cinamidea.natour_2022.navigation.HomeActivity;
 import com.cinamidea.natour_2022.navigation.RecyclerViewAdapter;
-import com.cinamidea.natour_2022.routes_callbacks.GetFavouritesCallback;
-import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
-import com.cinamidea.natour_2022.routes_util.Route;
-import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
+import com.cinamidea.natour_2022.callbacks.routes.GetFavouritesCallback;
+import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.utilities.routes.RoutesHTTP;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -44,6 +43,7 @@ public class ProfileMyRoadsFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
@@ -87,11 +87,12 @@ public class ProfileMyRoadsFragment extends Fragment {
     private void loadRoutes() {
 
         UserType user_type = new UserType(getActivity());
-        RoutesHTTP.getUserRoutes(user_type.getUser_type(), SigninFragment.current_username, user_type.getId_token(),
-                new RoutesCallback() {
+        String id_token = user_type.getUser_type()+user_type.getId_token();
+        RoutesHTTP.getUserRoutes(SigninFragment.current_username, id_token,
+                new HTTPCallback() {
                     @Override
                     public void handleStatus200(String response) {
-                        RoutesHTTP.getFavouriteRoutes(user_type.getUser_type(), SigninFragment.current_username, user_type.getId_token(), new GetFavouritesCallback(recyclerView, recyclerViewAdapter, getActivity(), progressBar, false, jsonToRoutesParsing(response)));
+                        RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token, new GetFavouritesCallback(recyclerView, recyclerViewAdapter, getActivity(), progressBar, false, jsonToRoutesParsing(response)));
                     }
 
                     @Override

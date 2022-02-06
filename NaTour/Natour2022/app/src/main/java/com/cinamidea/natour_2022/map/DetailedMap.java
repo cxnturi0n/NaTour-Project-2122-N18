@@ -2,14 +2,12 @@ package com.cinamidea.natour_2022.map;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Criteria;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.databinding.ActivityDetailedMapBinding;
-import com.cinamidea.natour_2022.routes_util.Route;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

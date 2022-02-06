@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
-import com.cinamidea.natour_2022.auth_callbacks.GetTokensCallback;
-import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
+import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
+import com.cinamidea.natour_2022.callbacks.auth.GetTokensCallback;
+import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
 
 public class SigninFragment extends CustomAuthFragment {
 

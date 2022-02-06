@@ -7,8 +7,8 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
-import com.cinamidea.natour_2022.auth_callbacks.ConfirmSignupCallback;
+import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
+import com.cinamidea.natour_2022.callbacks.auth.ConfirmSignupCallback;
 
 public class PinActivity extends AppCompatActivity {
 

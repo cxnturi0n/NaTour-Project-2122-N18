@@ -1,22 +1,16 @@
 package com.cinamidea.natour_2022.map;
 
-import static android.content.Context.MODE_PRIVATE;
-
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +23,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
-import com.cinamidea.natour_2022.routes_util.Route;
-import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.callbacks.HTTPCallback;
+import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.utilities.routes.RoutesHTTP;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,7 +42,6 @@ import com.google.gson.Gson;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.List;
-import java.util.Locale;
 
 public class AllPathsFragment extends Fragment {
 
@@ -70,7 +64,7 @@ public class AllPathsFragment extends Fragment {
             map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
             map.getUiSettings().setCompassEnabled(false);
-            readRouteFromDb("Cognito");
+            getAllRoutes();
 
             dialog.setMessage("Loading all routes, please wait.....");
             dialog.setCancelable(false);
@@ -179,11 +173,10 @@ public class AllPathsFragment extends Fragment {
     }
 
 
-    //TODO:Completare la read dal db
-    private void readRouteFromDb(String user_type) {
-        SharedPreferences sharedPreferences;
-        sharedPreferences = getActivity().getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        RoutesHTTP.getAllRoutes(user_type, sharedPreferences.getString("id_token", null), new RoutesCallback() {
+    private void getAllRoutes() {
+        UserType user_type = new UserType(getActivity());
+        String id_token = user_type.getUser_type()+user_type.getId_token();
+        RoutesHTTP.getAllRoutes(id_token, new HTTPCallback() {
             @Override
             public void handleStatus200(String response) {
                 dialog.dismiss();
@@ -194,11 +187,7 @@ public class AllPathsFragment extends Fragment {
                     drawRoutes(routes);
                     getLocationPermission();
                     Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            updateLocationUI();
-                        }
-                    }, 6000);
+                    handler.postDelayed(() -> updateLocationUI(), 6000);
 
                 });
 

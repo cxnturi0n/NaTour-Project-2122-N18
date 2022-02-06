@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -13,9 +14,9 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth_callbacks.TokenLoginCallback;
-import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
-import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
+import com.cinamidea.natour_2022.callbacks.auth.TokenLoginCallback;
+import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
+import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,12 +54,15 @@ public class MainActivity extends AppCompatActivity {
         natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
 
         String id_token = natour_shared_pref.getString("id_token", null);
+        Log.e("Token", id_token);
 
         //Controllo se l utente puo loggare in automatico(o con cognito o con google). Se no, allora alloca le componenti dell' activity (Non richiamo direttamente il metodo (Ho fatto i controlli per evitare di ripetere due volte
         //il silent sign in visto che l onresume parte in ogni caso dopo l oncreate
 
         if (id_token != null || GoogleSignIn.getLastSignedInAccount(this) != null)
             return;
+
+
 
         startup();
 

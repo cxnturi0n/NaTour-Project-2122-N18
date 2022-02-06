@@ -1,18 +1,14 @@
 package com.cinamidea.natour_2022.navigation;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Parcelable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -29,12 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth_util.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.callbacks.HTTPCallback;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.DetailedMap;
-import com.cinamidea.natour_2022.routes_callbacks.RoutesCallback;
-import com.cinamidea.natour_2022.routes_util.Route;
-import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
+import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.utilities.routes.RoutesHTTP;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -260,8 +255,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private void insertFavourite(MyViewHolder holder, String user_type, Route route, String id_token) {
 
         holder.favourite.setImageResource(R.drawable.ic_liked);
-        RoutesHTTP.insertFavouriteRoute(user_type, route.getName(), SigninFragment.current_username, id_token, new RoutesCallback() {
+        RoutesHTTP.insertFavouriteRoute(route.getName(), SigninFragment.current_username, user_type+id_token, new HTTPCallback() {
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void handleStatus200(String response) {
                 ((Activity) context).runOnUiThread(() -> {
@@ -314,7 +310,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private void deleteFavourite(MyViewHolder holder, String user_type, Route route, String id_token, int position) {
 
         holder.favourite.setImageResource(R.drawable.ic_like);
-        RoutesHTTP.deleteFavouriteRoute(user_type, SigninFragment.current_username, id_token, route.getName(), new RoutesCallback() {
+        RoutesHTTP.deleteFavouriteRoute(SigninFragment.current_username, user_type+id_token, route.getName(), new HTTPCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void handleStatus200(String response) {
                 ((Activity) context).runOnUiThread(() -> {
@@ -372,7 +369,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private void insertToVisit(MyViewHolder holder, String user_type, Route route, String id_token) {
 
-        RoutesHTTP.insertToVisitRoute(user_type, route.getName(), SigninFragment.current_username, id_token, new RoutesCallback() {
+        RoutesHTTP.insertToVisitRoute(route.getName(), SigninFragment.current_username, user_type+id_token, new HTTPCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void handleStatus200(String response) {
                 HomeActivity.counter_updated[2] = false;
@@ -403,7 +401,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private void removeToVisit(MyViewHolder holder, String user_type, Route route, String id_token, int position) {
 
-        RoutesHTTP.deleteToVisitRoute(user_type, SigninFragment.current_username, id_token, route.getName(), new RoutesCallback() {
+
+        RoutesHTTP.deleteToVisitRoute(SigninFragment.current_username, user_type+id_token, route.getName(), new HTTPCallback() {
             @Override
             public void handleStatus200(String response) {
 

@@ -5,6 +5,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.google.gson.Gson;
 import org.natour.daos.RouteDAO;
 import org.natour.daosimpl.RouteDAOMySql;
+import org.natour.entities.QueryFilters;
 import org.natour.entities.Route;
 import org.natour.exceptions.PersistenceException;
 import org.natour.s3.NatourS3Bucket;
@@ -17,21 +18,20 @@ import java.util.Base64;
 import java.util.List;
 
 
-public class Function implements RequestHandler<Request, String> {
+public class Function implements RequestHandler<Event, String> {
 
 
     @Override
-    public String handleRequest(Request request, Context context) {
+    public String handleRequest(Event event, Context context) {
 
 
-        String id_token = request.getId_token();
+        String authorization_header = event.getId_token();
 
-        if (request.getUser_type().equalsIgnoreCase("Cognito"))
-            //Throws runtime exception in case of problems
-            CognitoTokens.verifyIdToken(id_token);
-        else if (request.getUser_type().equalsIgnoreCase("Google")) {
+        if (authorization_header.contains("Cognito"))
+            CognitoTokens.verifyIdToken(authorization_header.substring(7));
+        else if (authorization_header.contains("Google")) {
             try {
-                if (!GoogleAuth.isIdTokenValid(id_token))
+                if (!GoogleAuth.isIdTokenValid(authorization_header.substring(6)))
                     throw new RuntimeException("Invalid Session");
             } catch (GeneralSecurityException | IOException e) {
                 throw new RuntimeException(e.getMessage());
@@ -40,31 +40,25 @@ public class Function implements RequestHandler<Request, String> {
 
         RouteDAO r = new RouteDAOMySql();
 
-        String action = request.getAction();
+        String action = event.getAction();
 
         switch (action) {
 
-            case "GET_ALL":
+            case "GET": //
 
-                try {
+               try{
+                   Gson gson = new Gson();
+                   List<Route> routes = null;
+                   QueryFilters query_filters = event.getQuery_filters();
 
-                    Gson gson = new Gson();
-                    List<Route> routes = r.getAll();
-
-                    String json_routes = gson.toJson(routes);
-
-                    return json_routes;
-
-                } catch (PersistenceException e) {
-                    throw new RuntimeException(e.getMessage());
-                }
-
-            case "GET_N":
-
-                try {
-
-                    Gson gson = new Gson();
-                    List<Route> routes = r.getN(request.getStart(), request.getEnd());
+                    if(!query_filters.getLevel().equals(""))//Get routes by difficulty level
+                        routes = r.getRoutesByLevel(query_filters.getLevel());
+                    else if(!query_filters.getCreator_username().equals(""))//Get routes created by user
+                        routes = r.getUserRoutes(query_filters.getCreator_username());
+                    else if(query_filters.getEnd()==0)//Get all routes
+                        routes = r.getAll();
+                    else if(query_filters.getEnd()!=0) //Get only a subset of routes
+                        routes = r.getN(query_filters.getStart(), query_filters.getEnd());
 
                     String json_routes = gson.toJson(routes);
 
@@ -74,12 +68,12 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "GET_PERSONAL":
+            case "GET_USER_FAVOURITES": //
 
                 try {
 
                     Gson gson = new Gson();
-                    List<Route> routes = r.getUserRoutes(request.getRoute().getCreator_username());
+                    List<Route> routes = r.getUserFavourites(event.getQuery_filters().getUsername());
 
                     String json_routes = gson.toJson(routes);
 
@@ -89,12 +83,12 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "GET_PERSONAL_FAVOURITES":
+            case "GET_PERSONAL_FAVOURITES_NAMES": //
 
                 try {
 
                     Gson gson = new Gson();
-                    List<Route> routes = r.getUserFavourites(request.getUsername());
+                    List<Route> routes = r.getUserFavouritesNames(event.getQuery_filters().getUsername());
 
                     String json_routes = gson.toJson(routes);
 
@@ -104,13 +98,12 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "GET_BY_LEVEL":
+            case "GET_USER_TOVISIT": //
 
                 try {
 
                     Gson gson = new Gson();
-
-                    List<Route> routes = r.getRoutesByLevel(request.getRoute().getLevel());
+                    List<Route> routes = r.getUserToVisit(event.getQuery_filters().getUsername());
 
                     String json_routes = gson.toJson(routes);
 
@@ -120,45 +113,15 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "GET_PERSONAL_FAVOURITES_NAMES":
-
-                try {
-
-                    Gson gson = new Gson();
-                    List<Route> routes = r.getUserFavouritesNames(request.getUsername());
-
-                    String json_routes = gson.toJson(routes);
-
-                    return json_routes;
-
-                } catch (PersistenceException e) {
-                    throw new RuntimeException(e.getMessage());
-                }
-
-            case "GET_PERSONAL_TOVISIT":
-
-                try {
-
-                    Gson gson = new Gson();
-                    List<Route> routes = r.getUserToVisit(request.getUsername());
-
-                    String json_routes = gson.toJson(routes);
-
-                    return json_routes;
-
-                } catch (PersistenceException e) {
-                    throw new RuntimeException(e.getMessage());
-                }
-
-            case "INSERT_USER_PROFILE_IMAGE":
+            case "INSERT_PROFILE_IMAGE": //
 
                 try{
 
                     NatourS3Bucket bucket = new NatourS3Bucket();
 
-                    byte image_as_byte_array[] = Base64.getDecoder().decode(request.getProfile_image_base64());
+                    byte image_as_byte_array[] = Base64.getDecoder().decode(event.getProfile_image_base64());
 
-                    bucket.putUserProfileImage(request.getUsername(), image_as_byte_array);
+                    bucket.putUserProfileImage(event.getQuery_filters().getUsername(), image_as_byte_array);
 
                     return "User profile image inserted successfully";
 
@@ -166,13 +129,13 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "GET_USER_PROFILE_IMAGE":
+            case "GET_PROFILE_IMAGE": //
 
                 try{
 
                     NatourS3Bucket bucket = new NatourS3Bucket();
 
-                    byte image_as_byte_array [] = bucket.fetchUserProfileImage(request.getUsername());
+                    byte image_as_byte_array [] = bucket.fetchUserProfileImage(event.getQuery_filters().getUsername());
 
                     return Base64.getEncoder().encodeToString(image_as_byte_array);
 
@@ -180,11 +143,11 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "INSERT":
+            case "INSERT": //
 
                 try {
 
-                    Route route = request.getRoute();
+                    Route route = event.getRoute();
                     r.insert(route);
 
                     return "Route inserted successfully";
@@ -193,11 +156,11 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "INSERT_FAVOURITE":
+            case "INSERT_USER_FAVOURITE": //
 
                 try {
 
-                    r.insertFavourite(request.getUsername(), request.getRoute().getName());
+                    r.insertFavourite(event.getQuery_filters().getUsername(), event.getQuery_filters().getRoute_name());
 
                     return "Route inserted successfully";
 
@@ -206,11 +169,11 @@ public class Function implements RequestHandler<Request, String> {
                 }
 
 
-            case "INSERT_TOVISIT":
+            case "INSERT_USER_TOVISIT": //
 
                 try {
 
-                    r.insertToVisit(request.getUsername(), request.getRoute().getName());
+                    r.insertToVisit(event.getQuery_filters().getUsername(), event.getQuery_filters().getRoute_name());
 
                     return "Route inserted successfully";
 
@@ -218,11 +181,11 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "INSERT_REPORT":
+            case "INSERT_REPORT": //
 
                 try {
 
-                    r.insertReport(request.getReport());
+                    r.insertReport(event.getReport());
 
                     return "Route inserted successfully";
 
@@ -230,11 +193,11 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "DELETE_FAVOURITE" :
+            case "DELETE_USER_FAVOURITE" : //
 
                 try {
 
-                    r.deleteFavourite(request.getUsername(), request.getRoute().getName());
+                    r.deleteFavourite(event.getQuery_filters().getUsername(), event.getQuery_filters().getRoute_name());
 
                     return "Favourite route deleted successfully";
 
@@ -242,19 +205,17 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "DELETE_TOVISIT" :
+            case "DELETE_USER_TOVISIT" : //
 
                 try {
 
-                    r.deleteToVisit(request.getUsername(), request.getRoute().getName());
+                    r.deleteToVisit(event.getQuery_filters().getUsername(), event.getQuery_filters().getRoute_name());
 
                     return "Favourite route deleted successfully";
 
                 } catch (PersistenceException e) {
                     throw new RuntimeException(e.getMessage());
                 }
-
-
 
 
             default:
@@ -273,7 +234,40 @@ public class Function implements RequestHandler<Request, String> {
 
  //   public static void main(String [] args) throws IOException {
 
-        //NatourS3Bucket s = new NatourS3Bucket();
+/*
+    GET ALL ROUTES
+        Query parameters: type = "ALL"  ; Headers : Authorization:<UserType><id_token>
+
+GET N
+        Query parameters: type = "SUB", start, end  ;    Headers : Authorization:<UserType><id_token>
+
+GET CREATED ROUTES
+        Query parameters: type = "OWNED", creator_username ;    Headers : Authorization:<UserType><id_token>
+
+GET USER FAVOURITES
+        Query parameters: type = "FAVOURITES", username  ;    Headers : Authorization:<UserType><id_token>
+
+GET USER TO VISIT
+        Query parameters: type = "TO-VISIT" username  ;    Headers : Authorization:<UserType><id_token>
+s
+        GET BY LEVEL
+
+        Query parameters: level  ;    Headers : Authorization:<UserType><id_token>
+
+
+"report":{
+        "route_name":$input.json('$.route_name'),
+        "title":$input.json('$.title'),
+        "description":$input.json('$.description'),
+        "type":$input.json('$.type'),
+        "issuer":$input.json('$.issuer')
+        }
+*/
+
+
+
+
+//NatourS3Bucket s = new NatourS3Bucket();
 /*
         Random rd = new Random();
         byte[] arr = new byte[100000];

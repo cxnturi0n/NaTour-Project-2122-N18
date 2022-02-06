@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
-import com.cinamidea.natour_2022.auth_callbacks.SignupCallback;
+import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
+import com.cinamidea.natour_2022.callbacks.auth.SignupCallback;
 
 public class SignupFragment extends CustomAuthFragment {
 

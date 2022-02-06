@@ -99,4 +99,16 @@
     <string name="activityChangePwd_submit">Submit</string>
     <string name="title_activity_detailed_map">DetailedMap</string>
 
+    <!-- Activity Report -->
+    <string name="activityReport_message">Fill in the fields to report the route.</string>
+    <string name="activityReport_send">Send</string>
+    <string name="activityReport_title">Title</string>
+    <string name="activityReport_description">Description</string>
+    <string name="activityReport_type">Select report type</string>
+    <string name="activityReport_inaccurate">Inaccurate</string>
+    <string name="activityReport_outofddate">Out of date</string>
+    <string name="activityReport_success">Route has been reported</string>
+    <string name="activityReport_error">An error occurred while reporting the route</string>
+    <string name="activityReport_notitleordescription">Please insert title and description</string>
+
 </resources>

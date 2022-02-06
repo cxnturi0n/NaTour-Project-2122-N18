@@ -2,7 +2,6 @@ package com.cinamidea.natour_2022.navigation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,9 +9,9 @@ import android.widget.ImageButton;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth_callbacks.ChangePasswordCallback;
-import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
-import com.cinamidea.natour_2022.auth_util.UserType;
+import com.cinamidea.natour_2022.callbacks.auth.ChangePasswordCallback;
+import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 

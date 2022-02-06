@@ -59,4 +59,6 @@ public class Report {
     public void setType(String type) {
         this.type = type;
     }
+
+
 }

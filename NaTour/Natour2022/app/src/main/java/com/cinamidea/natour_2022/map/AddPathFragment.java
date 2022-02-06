@@ -1,17 +1,13 @@
 package com.cinamidea.natour_2022.map;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +20,6 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.auth_util.GoogleAuthentication;
-import com.cinamidea.natour_2022.routes_callbacks.InsertRouteCallback;
-import com.cinamidea.natour_2022.routes_util.Route;
-import com.cinamidea.natour_2022.routes_util.RoutesHTTP;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

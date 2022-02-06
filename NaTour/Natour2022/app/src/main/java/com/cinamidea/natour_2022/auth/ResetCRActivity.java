@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth_util.AuthenticationHTTP;
-import com.cinamidea.natour_2022.auth_callbacks.GetCodeForPasswordResetCallback;
-import com.cinamidea.natour_2022.auth_callbacks.ResetPasswordCallback;
+import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
+import com.cinamidea.natour_2022.callbacks.auth.GetCodeForPasswordResetCallback;
+import com.cinamidea.natour_2022.callbacks.auth.ResetPasswordCallback;
 
 public class ResetCRActivity extends CustomAuthActivity implements ResetCRFragmentSwitcher {
 
