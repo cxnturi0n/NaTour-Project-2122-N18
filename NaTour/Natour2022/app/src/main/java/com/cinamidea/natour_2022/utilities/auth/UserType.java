@@ -8,10 +8,10 @@ import android.content.SharedPreferences;
 
 public class UserType {
 
-    private String user_type;
+    private final String user_type;
     private String id_token;
 
-    public UserType(Context context){
+    public UserType(Context context) {
 
         SharedPreferences cognito_shared_preferences = context.getSharedPreferences("natour_tokens", MODE_PRIVATE);
 
@@ -25,13 +25,11 @@ public class UserType {
 
     }
 
-    public String getId_token()
-    {
+    public String getId_token() {
         return id_token;
     }
 
-    public String getUser_type()
-    {
+    public String getUser_type() {
         return user_type;
     }
 

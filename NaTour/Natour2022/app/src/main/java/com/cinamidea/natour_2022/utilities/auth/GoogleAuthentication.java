@@ -10,10 +10,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cinamidea.natour_2022.callbacks.auth.GoogleSignUpCallback;
-import com.cinamidea.natour_2022.navigation.HomeActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
+import com.cinamidea.natour_2022.navigation.HomeActivity;
+import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.auth.GoogleSignUpCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -24,10 +24,10 @@ import com.google.android.gms.tasks.Task;
 
 public class GoogleAuthentication {
 
-    private AppCompatActivity activity;
-    private ActivityResultLauncher<Intent> start_activity_for_result;
-    private GoogleSignInOptions gso;
     GoogleSignInClient googlesignin_client;
+    private final AppCompatActivity activity;
+    private final ActivityResultLauncher<Intent> start_activity_for_result;
+    private final GoogleSignInOptions gso;
 
     public GoogleAuthentication(AppCompatActivity activity) {
 
@@ -79,10 +79,9 @@ public class GoogleAuthentication {
 
                     //Salviamo il token di google nelle shared preferences
                     SharedPreferences sharedPreferences = activity.getSharedPreferences("google_token", Context.MODE_PRIVATE);
-                    sharedPreferences.edit().putString("id_token",signInAccount.getIdToken()).commit();
+                    sharedPreferences.edit().putString("id_token", signInAccount.getIdToken()).commit();
 
                     activity.startActivity(new Intent(activity, HomeActivity.class));
-
 
 
                 } catch (ApiException apiException) {
@@ -122,10 +121,10 @@ public class GoogleAuthentication {
 
         GoogleSignInAccount google_account = completed_task.getResult();
 
-        String username = google_account.getDisplayName().replace(" ","");
+        String username = google_account.getDisplayName().replace(" ", "");
         String email = google_account.getEmail();
         String id_token = google_account.getIdToken();
-        AuthenticationHTTP.googleSignUp(username,email, id_token, new GoogleSignUpCallback(activity, username, id_token, this));
+        new AuthenticationHTTP().googleSignUp(username, email, id_token, new GoogleSignUpCallback(activity, username, id_token, this));
 
     }
 

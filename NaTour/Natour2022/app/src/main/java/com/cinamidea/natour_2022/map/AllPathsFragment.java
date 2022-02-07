@@ -23,10 +23,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
-import com.cinamidea.natour_2022.callbacks.HTTPCallback;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.utilities.routes.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,18 +45,16 @@ import java.util.List;
 
 public class AllPathsFragment extends Fragment {
 
+    public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
+    public static boolean locationPermissionGranted;
     private GoogleMap map;
     private ProgressDialog dialog;
     private List<LatLng> path;
-
-
-    public static boolean locationPermissionGranted;
-    public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     private LocationManager locationManager;
     private Location current_location;
 
 
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+    private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
@@ -135,9 +133,9 @@ public class AllPathsFragment extends Fragment {
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(true);
                 //TODO:Zoom sulla mappa
-                if (current_location!= null) {
+                if (current_location != null) {
                     zoomBasedOnCurrentLocation();
-                }else {
+                } else {
                     Toast.makeText(getContext(), "Null", Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -153,11 +151,7 @@ public class AllPathsFragment extends Fragment {
 
     private boolean gpsIsEnabled() {
         LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            return true;
-        } else {
-            return false;
-        }
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     public void showGPSDisabledDialog() {
@@ -175,8 +169,8 @@ public class AllPathsFragment extends Fragment {
 
     private void getAllRoutes() {
         UserType user_type = new UserType(getActivity());
-        String id_token = user_type.getUser_type()+user_type.getId_token();
-        RoutesHTTP.getAllRoutes(id_token, new HTTPCallback() {
+        String id_token = user_type.getUser_type() + user_type.getId_token();
+        new RoutesHTTP().getAllRoutes(id_token, new HTTPCallback() {
             @Override
             public void handleStatus200(String response) {
                 dialog.dismiss();
@@ -242,11 +236,11 @@ public class AllPathsFragment extends Fragment {
 
     private Location getCurrentLocation() {
 
-        current_location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+        current_location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         return current_location;
     }
 
-    private void zoomBasedOnCurrentLocation(){
+    private void zoomBasedOnCurrentLocation() {
         Location location = getCurrentLocation();
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(location.getLatitude(), location.getLongitude()))

@@ -24,12 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
-import com.cinamidea.natour_2022.callbacks.HTTPCallback;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
-import com.cinamidea.natour_2022.map.DetailedMap;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.utilities.routes.RoutesHTTP;
+import com.cinamidea.natour_2022.map.DetailedMap;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -43,52 +43,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private boolean is_favourite_fragment = false;
     private boolean is_tovisit_fragment = false;
 
-    public /*static */ class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView username;
-        TextView title, description;
-        TextView difficulty;
-        ImageView image;
-        TextView duration, length;
-        ImageView handicap;
-        ImageButton favourite;
-        ViewGroup options_container;
-        ImageButton options;
-        ImageButton chat;
-        TextView favourites_number;
-        ImageView isreported;
-        ImageButton open_map;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            username = itemView.findViewById(R.id.post_username);
-            title = itemView.findViewById(R.id.post_title);
-            description = itemView.findViewById(R.id.post_description);
-            difficulty = itemView.findViewById(R.id.post_difficulty);
-            image = itemView.findViewById(R.id.post_image);
-            duration = itemView.findViewById(R.id.post_duration);
-            length = itemView.findViewById(R.id.post_length);
-            handicap = itemView.findViewById(R.id.post_handicap);
-            favourite = itemView.findViewById(R.id.post_favourite);
-            options = itemView.findViewById(R.id.post_options);
-            isreported = itemView.findViewById(R.id.post_isreported);
-            favourites_number = itemView.findViewById(R.id.post_numberoffavourites);
-            options_container = itemView.findViewById(R.id.post_options_container);
-            chat = itemView.findViewById(R.id.post_chat);
-            open_map = itemView.findViewById(R.id.post_map);
-
-
-        }
-
-    }
-
-
     public RecyclerViewAdapter(Context context, ArrayList<Route> routes, boolean is_favourite_fragment) {
         this.context = context;
         this.routes = routes;
         this.is_favourite_fragment = is_favourite_fragment;
     }
+
 
     public RecyclerViewAdapter(Context context, ArrayList<Route> routes, ArrayList<Route> favourite_routes, boolean is_tovisit_fragment) {
         this.context = context;
@@ -131,14 +91,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (route.getReport_count() >= 3)
             holder.isreported.setVisibility(View.VISIBLE);
 
-        if(is_favourite_fragment==true) {
+        if (is_favourite_fragment == true) {
 
             holder.favourite.setImageResource(R.drawable.ic_liked);
             holder.favourite.setTag(1);
 
         }
 
-        if(favourite_routes!=null) {
+        if (favourite_routes != null) {
 
             for (Route r : favourite_routes) {
 
@@ -193,8 +153,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             if (holder.favourite.getTag().equals(1)) {
                 deleteFavourite(holder, user_type.getUser_type(), route, user_type.getId_token(), position);
-            }
-            else {
+            } else {
                 insertFavourite(holder, user_type.getUser_type(), route, user_type.getId_token());
             }
 
@@ -231,12 +190,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
         View bottomSheetView = LayoutInflater.from(context).inflate(
                 R.layout.post_options, options_container);
-        if(is_tovisit_fragment)
-        ((Button)bottomSheetView.findViewById(R.id.post_addtovisit)).setText("Prova");
+        if (is_tovisit_fragment)
+            ((Button) bottomSheetView.findViewById(R.id.post_addtovisit)).setText("Prova");
 
         bottomSheetView.findViewById(R.id.post_addtovisit).setOnClickListener(view1 -> {
             bottomSheetDialog.dismiss();
-            if(is_tovisit_fragment)
+            if (is_tovisit_fragment)
                 removeToVisit(holder, user_type, route, id_token, position);
             else
                 insertToVisit(holder, user_type, route, id_token);
@@ -255,19 +214,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private void insertFavourite(MyViewHolder holder, String user_type, Route route, String id_token) {
 
         holder.favourite.setImageResource(R.drawable.ic_liked);
-        RoutesHTTP.insertFavouriteRoute(route.getName(), SigninFragment.current_username, user_type+id_token, new HTTPCallback() {
+        new RoutesHTTP().insertFavouriteRoute(route.getName(), SigninFragment.current_username, user_type + id_token, new HTTPCallback() {
 
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void handleStatus200(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setTag(1);
-                    route.setLikes(route.getLikes()+1);
+                    route.setLikes(route.getLikes() + 1);
                     holder.favourites_number.setText(route.getLikes() + " " + context.getResources().getString(R.string.post_likes));
                     holder.favourite.setClickable(true);
                 });
                 HomeActivity.is_updated = true;
-                for(int i=0; i<3; i++)
+                for (int i = 0; i < 3; i++)
                     HomeActivity.counter_updated[i] = false;
 
             }
@@ -310,16 +269,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private void deleteFavourite(MyViewHolder holder, String user_type, Route route, String id_token, int position) {
 
         holder.favourite.setImageResource(R.drawable.ic_like);
-        RoutesHTTP.deleteFavouriteRoute(SigninFragment.current_username, user_type+id_token, route.getName(), new HTTPCallback() {
+        new RoutesHTTP().deleteFavouriteRoute(SigninFragment.current_username, user_type + id_token, route.getName(), new HTTPCallback() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void handleStatus200(String response) {
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setTag(0);
-                    route.setLikes(route.getLikes()-1);
+                    route.setLikes(route.getLikes() - 1);
                     holder.favourites_number.setText(route.getLikes() + " " + context.getResources().getString(R.string.post_likes));
                     holder.favourite.setClickable(true);
-                    if(is_favourite_fragment) {
+                    if (is_favourite_fragment) {
                         routes.remove(route);
                         notifyItemRemoved(position);
                         notifyItemRangeChanged(position, routes.size());
@@ -328,7 +287,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
                 });
                 HomeActivity.is_updated = true;
-                for(int i=0; i<3; i++)
+                for (int i = 0; i < 3; i++)
                     HomeActivity.counter_updated[i] = false;
             }
 
@@ -369,7 +328,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private void insertToVisit(MyViewHolder holder, String user_type, Route route, String id_token) {
 
-        RoutesHTTP.insertToVisitRoute(route.getName(), SigninFragment.current_username, user_type+id_token, new HTTPCallback() {
+        new RoutesHTTP().insertToVisitRoute(route.getName(), SigninFragment.current_username, user_type + id_token, new HTTPCallback() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void handleStatus200(String response) {
@@ -402,11 +361,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private void removeToVisit(MyViewHolder holder, String user_type, Route route, String id_token, int position) {
 
 
-        RoutesHTTP.deleteToVisitRoute(SigninFragment.current_username, user_type+id_token, route.getName(), new HTTPCallback() {
+        new RoutesHTTP().deleteToVisitRoute(SigninFragment.current_username, user_type + id_token, route.getName(), new HTTPCallback() {
             @Override
             public void handleStatus200(String response) {
 
-                ((Activity)context).runOnUiThread(() -> {
+                ((Activity) context).runOnUiThread(() -> {
 
                     routes.remove(route);
                     notifyItemRemoved(position);
@@ -437,6 +396,46 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             }
         });
+
+    }
+
+    public /*static */ class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView username;
+        TextView title, description;
+        TextView difficulty;
+        ImageView image;
+        TextView duration, length;
+        ImageView handicap;
+        ImageButton favourite;
+        ViewGroup options_container;
+        ImageButton options;
+        ImageButton chat;
+        TextView favourites_number;
+        ImageView isreported;
+        ImageButton open_map;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            username = itemView.findViewById(R.id.post_username);
+            title = itemView.findViewById(R.id.post_title);
+            description = itemView.findViewById(R.id.post_description);
+            difficulty = itemView.findViewById(R.id.post_difficulty);
+            image = itemView.findViewById(R.id.post_image);
+            duration = itemView.findViewById(R.id.post_duration);
+            length = itemView.findViewById(R.id.post_length);
+            handicap = itemView.findViewById(R.id.post_handicap);
+            favourite = itemView.findViewById(R.id.post_favourite);
+            options = itemView.findViewById(R.id.post_options);
+            isreported = itemView.findViewById(R.id.post_isreported);
+            favourites_number = itemView.findViewById(R.id.post_numberoffavourites);
+            options_container = itemView.findViewById(R.id.post_options_container);
+            chat = itemView.findViewById(R.id.post_chat);
+            open_map = itemView.findViewById(R.id.post_map);
+
+
+        }
 
     }
 

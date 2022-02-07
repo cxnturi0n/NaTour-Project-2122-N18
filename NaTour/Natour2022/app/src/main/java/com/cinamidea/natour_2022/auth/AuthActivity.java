@@ -1,13 +1,8 @@
 package com.cinamidea.natour_2022.auth;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.cinamidea.natour_2022.R;
 
@@ -46,14 +41,12 @@ public class AuthActivity extends CustomAuthActivity {
     private void setupFragment() {
 
         String data = getIntent().getExtras().getString("key");
-        if(data.equals("signin")) {
+        if (data.equals("signin")) {
 
             auth_image.setImageResource(R.drawable.image_signin);
             changeFragment(R.id.activityAuth_framelayout, new SigninFragment());
 
-        }
-
-        else {
+        } else {
 
             auth_image.setImageResource(R.drawable.image_signup);
             changeFragment(R.id.activityAuth_framelayout, new SignupFragment());
@@ -61,7 +54,6 @@ public class AuthActivity extends CustomAuthActivity {
         }
 
     }
-
 
 
 }

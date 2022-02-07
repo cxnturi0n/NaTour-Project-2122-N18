@@ -37,7 +37,7 @@ public class ResetCRUserFragment extends Fragment {
 
 
     }
-    
+
     protected void setupViewComponents(View view) {
 
         resetCRFragmentSwitcher = (ResetCRFragmentSwitcher) getActivity();

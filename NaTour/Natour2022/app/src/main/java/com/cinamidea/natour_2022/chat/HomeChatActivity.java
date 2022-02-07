@@ -20,7 +20,6 @@ import com.cinamidea.natour_2022.databinding.ActivityHomeChatBinding;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.getstream.chat.android.client.ChatClient;
 import io.getstream.chat.android.client.api.models.FilterObject;
@@ -84,7 +83,7 @@ public final class HomeChatActivity extends AppCompatActivity {
                 channel -> startActivity(ChatActivity.newIntent(this, channel))
         );
 
-        final Button cerca = (Button) findViewById(R.id.cerca_utente);
+        final Button cerca = findViewById(R.id.cerca_utente);
 
         cerca.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,13 +96,13 @@ public final class HomeChatActivity extends AppCompatActivity {
         if (chat_intent.getStringArrayListExtra("members") != null) {
             ArrayList<String> members = chat_intent.getStringArrayListExtra("members");
             Log.e("Members", members.toString());
-            createChannel(members,client);
+            createChannel(members, client);
         }
 
 
     }
 
-    private void createChannel(ArrayList<String> members,ChatClient client) {
+    private void createChannel(ArrayList<String> members, ChatClient client) {
         client.createChannel("messaging", members).enqueue(result -> {
             if (result.isSuccess()) {
                 Toast.makeText(this, "Nuova chat creata", Toast.LENGTH_SHORT).show();

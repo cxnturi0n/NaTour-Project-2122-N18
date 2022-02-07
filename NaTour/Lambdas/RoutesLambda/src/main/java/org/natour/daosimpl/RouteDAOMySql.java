@@ -103,6 +103,8 @@ public class RouteDAOMySql implements RouteDAO {
 
             PreparedStatement statement = connection.prepareStatement(query);
 
+            NatourS3Bucket natour_bucket = new NatourS3Bucket();
+
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) //Scorro riga per riga
@@ -115,8 +117,6 @@ public class RouteDAOMySql implements RouteDAO {
                     coordinates.add(new LatLng(rs.getFloat("latitude"), rs.getFloat("longitude")));
 
                 } else {//Se iniziano i record di un itinerario diverso
-
-                    NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
                     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     byte image_as_byte_array[] = natour_bucket.fetchRouteImage(new_route_name);
@@ -172,11 +172,13 @@ public class RouteDAOMySql implements RouteDAO {
 
             ResultSet rs = prepared_statement.executeQuery();
 
+            NatourS3Bucket natour_bucket = new NatourS3Bucket();
+
             while (rs.next()) {
 
                 String route_name = rs.getString("name");
 
-                NatourS3Bucket natour_bucket = new NatourS3Bucket();
+
 
                 byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
@@ -223,16 +225,17 @@ public class RouteDAOMySql implements RouteDAO {
 
         List<Route> routes = new ArrayList<>();
 
+
         try {
             Statement statement = connection.createStatement();
+
+            NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
             ResultSet rs = statement.executeQuery(query);
 
             while (rs.next()) {
 
                 String route_name = rs.getString("name");
-
-                NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
                 byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
@@ -279,16 +282,17 @@ public class RouteDAOMySql implements RouteDAO {
 
         List<Route> routes = new ArrayList<>();
 
+
         try {
             Statement statement = connection.createStatement();
+
+            NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
             ResultSet rs = statement.executeQuery(query);
 
             while (rs.next()) {
 
                 String route_name = rs.getString("name");
-
-                NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
                 byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
@@ -372,14 +376,14 @@ public class RouteDAOMySql implements RouteDAO {
         try {
             Statement statement = connection.createStatement();
 
+            NatourS3Bucket natour_bucket = new NatourS3Bucket();
+
             ResultSet rs = statement.executeQuery(query);
 
             while (rs.next()) {
 
                 String route_name = rs.getString("name");
 
-
-                NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
                 byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
@@ -428,7 +432,10 @@ public class RouteDAOMySql implements RouteDAO {
         try {
             PreparedStatement statement = connection.prepareStatement(query);
 
+            NatourS3Bucket natour_bucket = new NatourS3Bucket();
+
             statement.setString(1, level);
+
 
             ResultSet rs = statement.executeQuery();
 
@@ -436,7 +443,6 @@ public class RouteDAOMySql implements RouteDAO {
 
                 String route_name = rs.getString("name");
 
-                NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
                 byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 
@@ -641,13 +647,13 @@ public class RouteDAOMySql implements RouteDAO {
             try {
                 Statement statement = connection.createStatement();
 
+                NatourS3Bucket natour_bucket = new NatourS3Bucket();
+
                 ResultSet rs = statement.executeQuery(filter_sql);
 
                 while (rs.next()) {
 
                     String route_name = rs.getString("name");
-
-                    NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
                     byte image_as_byte_array[] = natour_bucket.fetchRouteImage(route_name);
 

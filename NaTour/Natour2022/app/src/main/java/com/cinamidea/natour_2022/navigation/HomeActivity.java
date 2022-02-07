@@ -28,14 +28,13 @@ import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.entities.Report;
-import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.AllPathsFragment;
 import com.cinamidea.natour_2022.map.MapActivity;
-import com.cinamidea.natour_2022.callbacks.user.PutProfileImageCallback;
-import com.cinamidea.natour_2022.utilities.users.UsersHTTP;
+import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.http.UsersHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.user.PutProfileImageCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.ByteArrayOutputStream;
@@ -54,19 +53,27 @@ import io.getstream.chat.android.livedata.ChatDomain;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeActivity extends AppCompatActivity {
 
+    private static final int PERMISSION_REQUEST_CODE = 1;
     public static CircleImageView imgbutton_avatar;
+    public static boolean is_updated = false;
+    public static boolean[] counter_updated = {true, true, true};
+    ActivityResultLauncher<String[]> locationPermissionRequest =
+            registerForActivityResult(new ActivityResultContracts
+                            .RequestMultiplePermissions(), result -> {
+                        Boolean fineLocationGranted = result.getOrDefault(
+                                Manifest.permission.ACCESS_FINE_LOCATION, false);
+                        Boolean coarseLocationGranted = result.getOrDefault(
+                                Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                AllPathsFragment.locationPermissionGranted = fineLocationGranted && coarseLocationGranted;
+                    }
+            );
     private TextView textview_username;
     private ImageButton button_home, button_profile;
     private Fragment fragment_home, fragment_profile;
     private ImageButton button_openmap, button_search, button_chat_or_menu;
     private FragmentManager fragmentManager;
     private byte check_chat_or_menu = 0;
-    public static boolean is_updated = false;
-    public static boolean[] counter_updated = {true, true, true};
-    private static final int PERMISSION_REQUEST_CODE = 1;
-
     private ChatClient client;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +98,7 @@ public class HomeActivity extends AppCompatActivity {
         getPermissions();
 
 
-
-
     }
-
 
     private void setupViewComponents() {
 
@@ -114,10 +118,10 @@ public class HomeActivity extends AppCompatActivity {
         //TODO:Check bucket per l'immagine
 //        UserType userType = new UserType(this);
 //        UsersHTTP.getProfileImage(userType.getUser_type(), SigninFragment.current_username, userType.getId_token(), new GetProfileImageCallback(this, imgbutton_avatar));
-          Glide.with(this).load("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+"Umberto").into(imgbutton_avatar);
+        Glide.with(this).load("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + "Umberto").into(imgbutton_avatar);
     }
 
-    private void setupChatUser(){
+    private void setupChatUser() {
         client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
                 .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
                 .build();
@@ -143,7 +147,7 @@ public class HomeActivity extends AppCompatActivity {
             button_home.setImageResource(R.drawable.ic_home_active);
             button_profile.setImageResource(R.drawable.ic_profile_inactive);
             button_chat_or_menu.setImageResource(R.drawable.ic_chat);
-            check_chat_or_menu=0;
+            check_chat_or_menu = 0;
 
             changeFragment(fragment_home);
 
@@ -159,7 +163,7 @@ public class HomeActivity extends AppCompatActivity {
             button_profile.setImageResource(R.drawable.ic_profile_active);
             button_home.setImageResource(R.drawable.ic_home_inactive);
             button_chat_or_menu.setImageResource(R.drawable.ic_menu);
-            check_chat_or_menu=1;
+            check_chat_or_menu = 1;
 
             changeFragment(fragment_profile);
 
@@ -176,7 +180,7 @@ public class HomeActivity extends AppCompatActivity {
 
         button_chat_or_menu.setOnClickListener(view -> {
 
-            if(check_chat_or_menu==0)
+            if (check_chat_or_menu == 0)
                 startActivity(new Intent(this, HomeChatActivity.class));
             else
                 openMenu();
@@ -188,7 +192,7 @@ public class HomeActivity extends AppCompatActivity {
                     this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                     PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
                     this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
-                    PackageManager.PERMISSION_GRANTED   ) {
+                    PackageManager.PERMISSION_GRANTED) {
                 startActivity(new Intent(this, MapActivity.class));
             } else {
                 showPermissionDialog();
@@ -200,9 +204,9 @@ public class HomeActivity extends AppCompatActivity {
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if(fragment instanceof HomeFragment) {
+        if (fragment instanceof HomeFragment) {
 
-            if(is_updated) {
+            if (is_updated) {
                 fragmentTransaction.remove(fragment_home);
                 fragment_home = new HomeFragment();
                 fragmentTransaction.add(R.id.activityHome_fragmentcontainer, fragment_home);
@@ -211,10 +215,9 @@ public class HomeActivity extends AppCompatActivity {
             fragmentTransaction.show(fragment_home);
             fragmentTransaction.hide(fragment_profile);
 
-        }
-        else if(fragment instanceof ProfileFragment) {
+        } else if (fragment instanceof ProfileFragment) {
 
-            if(is_updated) {
+            if (is_updated) {
                 fragmentTransaction.remove(fragment_profile);
                 fragment_profile = new ProfileFragment();
                 fragmentTransaction.add(R.id.activityHome_fragmentcontainer, fragment_profile);
@@ -240,7 +243,7 @@ public class HomeActivity extends AppCompatActivity {
             logout();
         });
         UserType user_type = new UserType(this);
-        if(!user_type.getUser_type().equals("Cognito"))
+        if (!user_type.getUser_type().equals("Cognito"))
             bottomSheetView.findViewById(R.id.menuLayout_changePassword).setVisibility(View.GONE);
         bottomSheetView.findViewById(R.id.menuLayout_changePassword).setOnClickListener(view -> {
             bottomSheetDialog.dismiss();
@@ -262,7 +265,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void openImage(){
+    private void openImage() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, 4);
@@ -284,7 +287,7 @@ public class HomeActivity extends AppCompatActivity {
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
                 //TODO:Per salvare l'immagine
                 UserType userType = new UserType(this);
-                UsersHTTP.putProfileImage(userType.getUser_type(), image_base64, SigninFragment.current_username, userType.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
+                new UsersHTTP().putProfileImage(userType.getUser_type(), image_base64, SigninFragment.current_username, userType.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -295,7 +298,6 @@ public class HomeActivity extends AppCompatActivity {
 
             AllPathsFragment.locationPermissionGranted = true;
         }
-
 
 
     }
@@ -311,23 +313,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         return byteBuffer.toByteArray();
     }
-
-
-    ActivityResultLauncher<String[]> locationPermissionRequest =
-            registerForActivityResult(new ActivityResultContracts
-                            .RequestMultiplePermissions(), result -> {
-                        Boolean fineLocationGranted = result.getOrDefault(
-                                Manifest.permission.ACCESS_FINE_LOCATION, false);
-                        Boolean coarseLocationGranted = result.getOrDefault(
-                                Manifest.permission.ACCESS_COARSE_LOCATION, false);
-                        if (fineLocationGranted && coarseLocationGranted) {
-                            AllPathsFragment.locationPermissionGranted = true;
-                        } else {
-                            AllPathsFragment.locationPermissionGranted = false;
-                        }
-                    }
-            );
-
 
     public void showPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -366,7 +351,7 @@ public class HomeActivity extends AppCompatActivity {
         natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
         String id_token = natour_shared_pref.getString("id_token", null);
 
-        if(id_token!=null) natour_shared_pref.edit().clear().commit();
+        if (id_token != null) natour_shared_pref.edit().clear().commit();
         else {
 
             GoogleAuthentication googleAuthentication = new GoogleAuthentication(this);

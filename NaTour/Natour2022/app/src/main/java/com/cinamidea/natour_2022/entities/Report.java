@@ -8,7 +8,7 @@ public class Report {
     private String issuer;
     private String type;
 
-    public Report(){
+    public Report() {
 
     }
 

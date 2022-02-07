@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
-import com.cinamidea.natour_2022.callbacks.routes.GetAllRoutesCallback;
-import com.cinamidea.natour_2022.utilities.routes.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetAllRoutesCallback;
 
 public class HomeFragment extends Fragment {
 
@@ -57,12 +57,11 @@ public class HomeFragment extends Fragment {
 
 
         UserType user_type = new UserType(getActivity());
-        String id_token = user_type.getUser_type()+user_type.getId_token();
-        RoutesHTTP.getAllRoutes(id_token,
+        String id_token = user_type.getUser_type() + user_type.getId_token();
+        new RoutesHTTP().getAllRoutes(id_token,
                 new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
     }
-
 
 
     private void filterListeners() {
@@ -103,7 +102,7 @@ public class HomeFragment extends Fragment {
 
     private void setupFilterButton(Button button) {
 
-        if(position_button.getCurrentTextColor()!=button.getCurrentTextColor()) {
+        if (position_button.getCurrentTextColor() != button.getCurrentTextColor()) {
 
             button.setBackgroundResource(R.drawable.background_home_filters);
             button.setTextColor(getResources().getColor(R.color.natour_white));

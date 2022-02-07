@@ -1,10 +1,8 @@
 package com.cinamidea.natour_2022.map;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,8 +10,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.CustomAuthActivity;
-import com.google.android.gms.maps.GoogleMap;
 
 public class MapActivity extends AppCompatActivity {
 
@@ -59,12 +55,12 @@ public class MapActivity extends AppCompatActivity {
 
             button_addpath.setClickable(false);
 
-            if(!button_allpaths.isClickable()) {
+            if (!button_allpaths.isClickable()) {
                 button_allpaths.setClickable(true);
-                button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe), null , null);
+                button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe), null, null);
             }
 
-            button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road_active), null , null);
+            button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road_active), null, null);
             changeFragment(fragment_add_path);
 
         });
@@ -73,12 +69,12 @@ public class MapActivity extends AppCompatActivity {
 
             button_allpaths.setClickable(false);
 
-            if(!button_addpath.isClickable()) {
+            if (!button_addpath.isClickable()) {
                 button_addpath.setClickable(true);
-                button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road), null , null);
+                button_addpath.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_add_road), null, null);
             }
 
-            button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe_active), null , null);
+            button_allpaths.setCompoundDrawablesWithIntrinsicBounds(null, getDrawable(R.drawable.ic_globe_active), null, null);
             changeFragment(fragment_all_paths);
 
         });
@@ -90,13 +86,12 @@ public class MapActivity extends AppCompatActivity {
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if(fragment instanceof AllPathsFragment) {
+        if (fragment instanceof AllPathsFragment) {
 
             fragmentTransaction.hide(fragment_add_path);
             fragmentTransaction.show(fragment_all_paths);
 
-        }
-        else if(fragment instanceof AddPathFragment) {
+        } else if (fragment instanceof AddPathFragment) {
 
             fragmentTransaction.show(fragment_add_path);
             fragmentTransaction.hide(fragment_all_paths);

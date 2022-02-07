@@ -43,8 +43,8 @@ public class ChatUserList extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        userListView = (ListView) findViewById(R.id.list);
-        username_list = (TextView) findViewById(R.id.username_list_users);
+        userListView = findViewById(R.id.list);
+        username_list = findViewById(R.id.username_list_users);
 
         queryAllUsers();
 

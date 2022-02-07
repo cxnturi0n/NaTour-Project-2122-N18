@@ -7,8 +7,8 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
-import com.cinamidea.natour_2022.callbacks.auth.ConfirmSignupCallback;
+import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.auth.ConfirmSignupCallback;
 
 public class PinActivity extends AppCompatActivity {
 
@@ -37,7 +37,6 @@ public class PinActivity extends AppCompatActivity {
     }
 
 
-
     private void setListeners() {
 
         button_back.setOnClickListener(v -> finish());
@@ -45,11 +44,10 @@ public class PinActivity extends AppCompatActivity {
         button_verify.setOnClickListener(view -> {
             String confirmation_code = pin_view.getText().toString();
 
-            AuthenticationHTTP.confirmSignUp(username,confirmation_code, new ConfirmSignupCallback(this));
+            new AuthenticationHTTP().confirmSignUp(username, confirmation_code, new ConfirmSignupCallback(this));
 
         });
     }
-
 
 
 }

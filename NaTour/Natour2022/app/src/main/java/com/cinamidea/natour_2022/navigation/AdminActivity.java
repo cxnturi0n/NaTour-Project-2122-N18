@@ -1,7 +1,5 @@
 package com.cinamidea.natour_2022.navigation;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -10,10 +8,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.callbacks.admin.SendMailCallback;
-import com.cinamidea.natour_2022.utilities.admin.AdminHTTP;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.http.AdminHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.admin.SendMailCallback;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -44,22 +44,21 @@ public class AdminActivity extends AppCompatActivity {
 
         button_send.setOnClickListener(view -> {
 
-            String subject = ((EditText)findViewById(R.id.activityAdmin_title)).getText().toString();
-            String body = ((EditText)findViewById(R.id.activityAdmin_description)).getText().toString();
+            String subject = ((EditText) findViewById(R.id.activityAdmin_title)).getText().toString();
+            String body = ((EditText) findViewById(R.id.activityAdmin_description)).getText().toString();
 
-            if(isSendable(subject, body)) {
+            if (isSendable(subject, body)) {
 
                 UserType userType = new UserType(this);
-                AdminHTTP.sendMail(userType.getId_token(), subject, body, new SendMailCallback(this));
-            }
-            else openErrorDialog();
+                new AdminHTTP().sendMail(userType.getId_token(), subject, body, new SendMailCallback(this));
+            } else openErrorDialog();
 
         });
 
     }
 
     private boolean isSendable(String subject, String body) {
-        return (subject.length()>=0 && body.length()>=0) ? true : false;
+        return subject.length() >= 0 && body.length() >= 0;
     }
 
     private void openErrorDialog() {

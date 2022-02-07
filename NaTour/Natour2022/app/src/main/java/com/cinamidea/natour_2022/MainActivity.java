@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -14,21 +13,21 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.callbacks.auth.TokenLoginCallback;
-import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
+import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.auth.TokenLoginCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button button_signin, button_signup;
     private Animation anim_scale_up, anim_scale_down;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private GoogleAuthentication google_auth;
     private SharedPreferences natour_shared_pref;
 
 
-   @Override
+    @Override
     protected void onResume() {
 
         super.onResume();
@@ -54,14 +53,12 @@ public class MainActivity extends AppCompatActivity {
         natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
 
         String id_token = natour_shared_pref.getString("id_token", null);
-        Log.e("Token", id_token);
 
         //Controllo se l utente puo loggare in automatico(o con cognito o con google). Se no, allora alloca le componenti dell' activity (Non richiamo direttamente il metodo (Ho fatto i controlli per evitare di ripetere due volte
         //il silent sign in visto che l onresume parte in ogni caso dopo l oncreate
 
         if (id_token != null || GoogleSignIn.getLastSignedInAccount(this) != null)
             return;
-
 
 
         startup();
@@ -133,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     private void cognitoSilentLogin() {
 
         String id_token = natour_shared_pref.getString("id_token", null);
-        AuthenticationHTTP.tokenLogin(id_token, new TokenLoginCallback(this));
+        new AuthenticationHTTP().tokenLogin(id_token, new TokenLoginCallback(this));
         SigninFragment.current_username = natour_shared_pref.getString("username", null);
 
     }

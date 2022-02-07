@@ -12,21 +12,20 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
-import com.cinamidea.natour_2022.callbacks.auth.GetTokensCallback;
 import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
+import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.auth.GetTokensCallback;
 
 public class SigninFragment extends CustomAuthFragment {
 
+    public static String current_username;
+    public static boolean is_admin = false;
+    GoogleAuthentication google_auth;
     private Button button_signin;
     private TextView text_forgotpwd;
     private EditText edit_user;
     private EditText edit_password;
     private Button button_googlesignin;
-
-    public static String current_username;
-    public static boolean is_admin = false;
-    GoogleAuthentication google_auth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +67,7 @@ public class SigninFragment extends CustomAuthFragment {
             String username = edit_user.getText().toString();
             String password = edit_password.getText().toString();
 
-            AuthenticationHTTP.getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
+            new AuthenticationHTTP().getIdNRefreshTokens(username, password, new GetTokensCallback(getActivity(), username));
 
             //Set username per l'utente della chat
             current_username = username;

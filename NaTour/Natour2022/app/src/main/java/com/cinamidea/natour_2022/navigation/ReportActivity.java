@@ -1,35 +1,31 @@
 package com.cinamidea.natour_2022.navigation;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.callbacks.report.InsertReportCallback;
-import com.cinamidea.natour_2022.callbacks.user.insertReportCallback;
 import com.cinamidea.natour_2022.entities.Report;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
-import com.cinamidea.natour_2022.utilities.report.ReportHTTP;
+import com.cinamidea.natour_2022.utilities.http.ReportHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.report.InsertReportCallback;
 
 public class ReportActivity extends AppCompatActivity {
 
+    private final int MIN_TITLE_LENGTH = 3;
+    private final int MIN_DESCRIPTION_LENGTH = 3;
     private ImageButton button_back;
     private Button button_send;
     private RadioGroup radio_group;
     private String report_type;
-    private final int MIN_TITLE_LENGTH = 3;
-    private final int MIN_DESCRIPTION_LENGTH = 3;
     private String route_name;
 
     @Override
@@ -60,7 +56,7 @@ public class ReportActivity extends AppCompatActivity {
 
         radio_group.setOnCheckedChangeListener((radioGroup, i) -> {
 
-            if(i == R.id.activityReport_inaccurate)
+            if (i == R.id.activityReport_inaccurate)
                 report_type = "Wrong";
             else
                 report_type = "Obsolete";
@@ -71,21 +67,21 @@ public class ReportActivity extends AppCompatActivity {
 
     private void sendReport() {
 
-        String title = ((EditText)findViewById(R.id.activityReport_title)).getText().toString();
-        String description = ((EditText)findViewById(R.id.activityReport_description)).getText().toString();
+        String title = ((EditText) findViewById(R.id.activityReport_title)).getText().toString();
+        String description = ((EditText) findViewById(R.id.activityReport_description)).getText().toString();
 
-        if(isReportable(title, description)) {
+        if (isReportable(title, description)) {
 
-            Report report = new Report(route_name,title, description, SigninFragment.current_username, report_type);
+            Report report = new Report(route_name, title, description, SigninFragment.current_username, report_type);
             UserType userType = new UserType(this);
-            ReportHTTP.insertReport(report, userType.getUser_type()+userType.getId_token(), new InsertReportCallback(this));
+            new ReportHTTP().insertReport(report, userType.getUser_type() + userType.getId_token(), new InsertReportCallback(this));
 
-        }else openErrorDialog();
+        } else openErrorDialog();
 
     }
 
     private boolean isReportable(String title, String description) {
-        return (title.length()>=MIN_TITLE_LENGTH && description.length()>=MIN_DESCRIPTION_LENGTH) ? true : false;
+        return title.length() >= MIN_TITLE_LENGTH && description.length() >= MIN_DESCRIPTION_LENGTH;
     }
 
     private void openErrorDialog() {

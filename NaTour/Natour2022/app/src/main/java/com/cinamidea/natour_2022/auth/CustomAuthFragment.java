@@ -13,9 +13,9 @@ import com.cinamidea.natour_2022.R;
 
 public abstract class CustomAuthFragment extends Fragment {
 
+    protected Handler handler = new Handler();
     private Animation anim_scale_up;
     private Animation anim_scale_down;
-    protected Handler handler = new Handler();
 
     protected abstract void setupViewComponents(View view);
 
@@ -35,7 +35,7 @@ public abstract class CustomAuthFragment extends Fragment {
 
     protected void runHandledIntent(Intent intent) {
 
-        handler.postDelayed(() -> startActivity(intent),170);
+        handler.postDelayed(() -> startActivity(intent), 170);
 
     }
 
@@ -47,7 +47,7 @@ public abstract class CustomAuthFragment extends Fragment {
             startActivity(intent);
             getActivity().overridePendingTransition(enter_animation, exit_animation);
 
-        },170);
+        }, 170);
 
     }
 

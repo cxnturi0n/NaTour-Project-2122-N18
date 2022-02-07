@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.utilities.auth.AuthenticationHTTP;
-import com.cinamidea.natour_2022.callbacks.auth.SignupCallback;
+import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.auth.SignupCallback;
 
 public class SignupFragment extends CustomAuthFragment {
 
@@ -64,7 +64,7 @@ public class SignupFragment extends CustomAuthFragment {
             String password = edit_password.getText().toString();
             String retype_password = edit_retypepassword.getText().toString();
 
-            if(!password.equals(retype_password)) {
+            if (!password.equals(retype_password)) {
 
                 Toast.makeText(getActivity(), "Errore password test", Toast.LENGTH_LONG).show();
                 return;
@@ -79,12 +79,12 @@ public class SignupFragment extends CustomAuthFragment {
             intent.putExtra("username", username);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            AuthenticationHTTP.signUp(username, email, password, new SignupCallback(username, getActivity()));
+            new AuthenticationHTTP().signUp(username, email, password, new SignupCallback(username, getActivity()));
 
-            SigninFragment.current_username =username;
+            SigninFragment.current_username = username;
 
         });
 
     }
-    
+
 }

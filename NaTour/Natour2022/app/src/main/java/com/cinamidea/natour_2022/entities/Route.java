@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
-public class Route{
+public class Route {
 
     private String name;
 
@@ -30,7 +30,7 @@ public class Route{
 
     private int likes;
 
-    public Route(){
+    public Route() {
 
     }
 
@@ -49,7 +49,7 @@ public class Route{
 
     }
 
-    public Route(String name, String description, String creator_username, String level, int duration, boolean disability_access, String image_base64,float length) {
+    public Route(String name, String description, String creator_username, String level, int duration, boolean disability_access, String image_base64, float length) {
         this.name = name;
         this.description = description;
         this.creator_username = creator_username;
@@ -62,8 +62,12 @@ public class Route{
     }
 
 
-    public int getLikes(){
+    public int getLikes() {
         return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 
     public String getName() {
@@ -142,8 +146,8 @@ public class Route{
         return image_base64;
     }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
+    public void setImage_base64(String image_base64) {
+        this.image_base64 = image_base64;
     }
 
     @Override
@@ -160,10 +164,6 @@ public class Route{
                 ", length=" + length +
                 ", likes=" + likes +
                 '}';
-    }
-
-    public void setImage_base64(String image_base64) {
-        this.image_base64 = image_base64;
     }
 
     public float getLength() {

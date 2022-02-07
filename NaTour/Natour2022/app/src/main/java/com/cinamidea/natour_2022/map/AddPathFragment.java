@@ -50,46 +50,19 @@ import java.util.Objects;
 public class AddPathFragment extends Fragment {
 
     private GoogleMap add_path_map;
-    private ArrayList<Marker> markers = new ArrayList<Marker>(2);
-    private ArrayList<Marker> AllMarkers = new ArrayList<Marker>();
+    private final ArrayList<Marker> markers = new ArrayList<Marker>(2);
+    private final ArrayList<Marker> AllMarkers = new ArrayList<Marker>();
     private List<LatLng> path = new ArrayList<>();
     private ImageButton button_success, button_cancel, button_add_gpx;
     private int check_long_press_map_click = 0;
 
 
-    private int FILE_REQUEST_CODE = 1;
+    private final int FILE_REQUEST_CODE = 1;
     private String gpx_content;
 
     private List<LatLng> punti_gpx;
     private ProgressDialog dialog;
-
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_add_path, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(callback);
-        }
-
-        button_cancel = view.findViewById(R.id.activityMap_cancel);
-        button_success = view.findViewById(R.id.activityMap_success);
-        button_add_gpx = view.findViewById(R.id.activityMap_gpx);
-        setListeners();
-
-    }
-
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+    private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
@@ -97,7 +70,7 @@ public class AddPathFragment extends Fragment {
             add_path_map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             add_path_map.getUiSettings().setCompassEnabled(false);
             add_path_map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                MarkerOptions options = new MarkerOptions();
+                final MarkerOptions options = new MarkerOptions();
 
                 @Override
                 public void onMapClick(LatLng point) {
@@ -156,6 +129,31 @@ public class AddPathFragment extends Fragment {
         }
     };
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        return inflater.inflate(R.layout.fragment_add_path, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
+        }
+
+        button_cancel = view.findViewById(R.id.activityMap_cancel);
+        button_success = view.findViewById(R.id.activityMap_success);
+        button_add_gpx = view.findViewById(R.id.activityMap_gpx);
+        setListeners();
+
+    }
+
     private void removeAllMarkers() {
         for (Marker mLocationMarker : AllMarkers) {
             mLocationMarker.remove();
@@ -190,8 +188,8 @@ public class AddPathFragment extends Fragment {
         button_success.setOnClickListener(view -> {
             markers.clear();
             Intent intent = new Intent();
-            intent.putParcelableArrayListExtra("path",(ArrayList<? extends Parcelable>) path);
-            intent.setClass(getContext(),CreatePathActivity.class);
+            intent.putParcelableArrayListExtra("path", (ArrayList<? extends Parcelable>) path);
+            intent.setClass(getContext(), CreatePathActivity.class);
             startActivity(intent);
 
 
@@ -341,7 +339,7 @@ public class AddPathFragment extends Fragment {
         String file_name = DocumentFile.fromSingleUri(getContext(), uri).getName();
         String extension = file_name.substring(file_name.lastIndexOf("."));
 
-        return (extension.equals(".gpx")) ? true : false;
+        return extension.equals(".gpx");
 
     }
 

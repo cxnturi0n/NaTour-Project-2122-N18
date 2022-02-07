@@ -26,10 +26,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
-import com.cinamidea.natour_2022.callbacks.routes.InsertRouteCallback;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.utilities.routes.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.routes.InsertRouteCallback;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.ByteArrayOutputStream;
@@ -43,13 +43,13 @@ import me.gujun.android.taggroup.TagGroup;
 
 public class CreatePathActivity extends AppCompatActivity {
 
+    String image_base64;
     private ImageButton button_back;
     private TagGroup mTagGroup;
     private EditText edittext_addtag;
-    private List<String> tags = new ArrayList<>();
+    private final List<String> tags = new ArrayList<>();
     private RadioButton rb_easy, rb_medium, rb_hard, rb_extreme;
     private RadioButton rb_checked;
-
     //TODO:New variable
     private Button button_continue;
     private EditText title;
@@ -61,8 +61,6 @@ public class CreatePathActivity extends AppCompatActivity {
     private CheckBox disability_access;
     private List<LatLng> path;
     private ProgressDialog dialog;
-    String image_base64;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,11 +229,11 @@ public class CreatePathActivity extends AppCompatActivity {
         if (!checkLevel().equals("error")) {
 
             Route route = new Route(title.getText().toString(), description.getText().toString(),
-                    SigninFragment.current_username, level, Integer.valueOf(duration.getText().toString()),0, checkDisabilityAccess(), path, tokenizedTags(tags),image_base64,getRouteLength(path));
+                    SigninFragment.current_username, level, Integer.valueOf(duration.getText().toString()), 0, checkDisabilityAccess(), path, tokenizedTags(tags), image_base64, getRouteLength(path));
 
             UserType user_type = new UserType(this);
 
-            RoutesHTTP.insertRoute(user_type.getUser_type(), route, user_type.getId_token(), new InsertRouteCallback(this, dialog));
+            new RoutesHTTP().insertRoute(user_type.getUser_type(), route, user_type.getId_token(), new InsertRouteCallback(this, dialog));
         }
     }
 
@@ -254,25 +252,22 @@ public class CreatePathActivity extends AppCompatActivity {
     }
 
     private boolean checkDisabilityAccess() {
-        if (disability_access.isChecked())
-            return true;
-        else
-            return false;
+        return disability_access.isChecked();
     }
 
     private String tokenizedTags(List<String> tags) {
 
-        if (tags.size()==0) return "";
+        if (tags.size() == 0) return "";
 
         String tokenized_tags = "";
 
-        for(String tag : tags) {
+        for (String tag : tags) {
 
             tokenized_tags += tag + ";";
 
         }
 
-        tokenized_tags = tokenized_tags.substring(0, tokenized_tags.length()-1);
+        tokenized_tags = tokenized_tags.substring(0, tokenized_tags.length() - 1);
 
 
         return tokenized_tags;
@@ -326,10 +321,10 @@ public class CreatePathActivity extends AppCompatActivity {
         return byteBuffer.toByteArray();
     }
 
-    private float getRouteLength(List<LatLng> path){
+    private float getRouteLength(List<LatLng> path) {
         float[] results = new float[1];
-        Location.distanceBetween(path.get(0).latitude,path.get(0).longitude,
-                path.get(path.size()-1).latitude,path.get(path.size()-1).longitude,results);
+        Location.distanceBetween(path.get(0).latitude, path.get(0).longitude,
+                path.get(path.size() - 1).latitude, path.get(path.size() - 1).longitude, results);
         return results[0];
     }
 

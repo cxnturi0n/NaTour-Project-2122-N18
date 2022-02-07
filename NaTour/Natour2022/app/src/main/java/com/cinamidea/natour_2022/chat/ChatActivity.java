@@ -52,8 +52,6 @@ public class ChatActivity extends AppCompatActivity {
         MessageInputViewModel messageInputViewModel = provider.get(MessageInputViewModel.class);
 
 
-
-
         MessageListHeaderViewModelBinding.bind(messageListHeaderViewModel, binding.messageListHeaderView, this);
         MessageListViewModelBinding.bind(messageListViewModel, binding.messageListView, this);
         MessageInputViewModelBinding.bind(messageInputViewModel, binding.messageInputView, this);
