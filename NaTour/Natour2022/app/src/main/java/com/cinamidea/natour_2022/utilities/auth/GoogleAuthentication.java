@@ -61,10 +61,13 @@ public class GoogleAuthentication {
 
     public void silentSignIn() {
         Task<GoogleSignInAccount> task = googlesignin_client.silentSignIn();
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("google_token", Context.MODE_PRIVATE);
         if (task.isSuccessful()) {
 
             //Se l id token non è scaduto
             GoogleSignInAccount signInAccount = task.getResult();
+
+            Log.e("signin3",signInAccount.getIdToken());
             SigninFragment.current_username = signInAccount.getGivenName();
             activity.startActivity(new Intent(activity, HomeActivity.class));
 
@@ -76,9 +79,8 @@ public class GoogleAuthentication {
                     GoogleSignInAccount signInAccount = task1.getResult(ApiException.class);
                     SigninFragment.current_username = signInAccount.getGivenName();
 
-
+                    Log.e("signin3",signInAccount.getIdToken());
                     //Salviamo il token di google nelle shared preferences
-                    SharedPreferences sharedPreferences = activity.getSharedPreferences("google_token", Context.MODE_PRIVATE);
                     sharedPreferences.edit().putString("id_token", signInAccount.getIdToken()).commit();
 
                     activity.startActivity(new Intent(activity, HomeActivity.class));
@@ -89,6 +91,7 @@ public class GoogleAuthentication {
 
                     switch (status_code) {
                         case CommonStatusCodes.SIGN_IN_REQUIRED:
+                            Log.e("signin","ciao");
                             signIn();
                             break;
                         case CommonStatusCodes.NETWORK_ERROR:

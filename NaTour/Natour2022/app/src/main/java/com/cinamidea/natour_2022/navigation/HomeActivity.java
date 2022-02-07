@@ -118,7 +118,7 @@ public class HomeActivity extends AppCompatActivity {
         //TODO:Check bucket per l'immagine
 //        UserType userType = new UserType(this);
 //        UsersHTTP.getProfileImage(userType.getUser_type(), SigninFragment.current_username, userType.getId_token(), new GetProfileImageCallback(this, imgbutton_avatar));
-        Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + SigninFragment.current_username).into(imgbutton_avatar);
+        //Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + SigninFragment.current_username).into(imgbutton_avatar);
     }
 
     private void setupChatUser() {
@@ -131,7 +131,7 @@ public class HomeActivity extends AppCompatActivity {
         user.setId(SigninFragment.current_username);
         user.setName(SigninFragment.current_username);
         //user.setImage("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto");
-        user.setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username);
+        //user.setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username);
         String token = client.devToken(user.getId());
         client.connectUser(
                 user,
@@ -287,7 +287,7 @@ public class HomeActivity extends AppCompatActivity {
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
                 //TODO:Per salvare l'immagine
                 UserType userType = new UserType(this);
-                new UsersHTTP().putProfileImage(userType.getUser_type(), image_base64, SigninFragment.current_username, userType.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
+                new UsersHTTP().putProfileImage(image_base64, SigninFragment.current_username, userType.getUser_type()+userType.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
             } catch (IOException e) {
                 e.printStackTrace();
             }

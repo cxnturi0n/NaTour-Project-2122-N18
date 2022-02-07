@@ -202,7 +202,7 @@ public class Cognito {
         if (action == 1) {
             if (GoogleAuth.isIdTokenValid(id_token))
                 return false;
-            throw new RuntimeException("User not authorized, please sign in again");
+            throw new RuntimeException("User not authorized, please sign in again "+ id_token);
         }
         //Action = 2 : A user (signed up regularly) is already registered with that email, so an exception is thrown
         else if (action == 2)

@@ -39,8 +39,6 @@ public class RoutesHTTP extends OkHTTPRequest {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
-        Log.e("CAZZO", id_token);
-
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
         request = getGetRequest(url, header);

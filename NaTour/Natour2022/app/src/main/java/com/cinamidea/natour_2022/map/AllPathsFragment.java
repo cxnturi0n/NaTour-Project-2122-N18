@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -170,6 +171,7 @@ public class AllPathsFragment extends Fragment {
     private void getAllRoutes() {
         UserType user_type = new UserType(getActivity());
         String id_token = user_type.getUser_type() + user_type.getId_token();
+        Log.e("Sto in Allpthfragment", id_token);
         new RoutesHTTP().getAllRoutes(id_token, new HTTPCallback() {
             @Override
             public void handleStatus200(String response) {

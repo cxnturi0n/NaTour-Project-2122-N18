@@ -1,6 +1,7 @@
 package com.cinamidea.natour_2022.utilities.http.callbacks.routes;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,7 +48,7 @@ public class GetAllRoutesCallback implements HTTPCallback {
 
     @Override
     public void handleStatus401(String response) {
-
+        Log.e("ciao","SI SONO IO");
     }
 
     @Override

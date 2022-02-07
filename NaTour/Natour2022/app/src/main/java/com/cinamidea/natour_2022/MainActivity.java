@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewComponents();
         runButtonListeners();
-
 
         //getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
 
@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void googleSilentLogin() {
-
         //Se L utente ha gia loggato precedentemente con google allora accedo in background (Senza mostrare la gui di google, altrimenti l utente è libero di fare signin regolarmente)
         google_auth.silentSignIn();
 

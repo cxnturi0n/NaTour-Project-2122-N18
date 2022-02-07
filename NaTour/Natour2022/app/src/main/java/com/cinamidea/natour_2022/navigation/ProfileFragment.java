@@ -32,8 +32,6 @@ public class ProfileFragment extends Fragment {
 
         setupComponents(view);
         setListeners();
-        Log.e("Prova", "Re");
-
     }
 
     private void setupComponents(View view) {

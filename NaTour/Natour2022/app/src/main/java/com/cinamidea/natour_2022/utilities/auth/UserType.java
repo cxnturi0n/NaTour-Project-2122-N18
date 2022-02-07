@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 
 public class UserType {
@@ -19,7 +20,7 @@ public class UserType {
         if (id_token != null)
             user_type = "Cognito";
         else {
-            id_token = context.getSharedPreferences("google_tokens", MODE_PRIVATE).getString("id_token", null);
+            id_token = context.getSharedPreferences("google_token", MODE_PRIVATE).getString("id_token", null);
             user_type = "Google";
         }
 

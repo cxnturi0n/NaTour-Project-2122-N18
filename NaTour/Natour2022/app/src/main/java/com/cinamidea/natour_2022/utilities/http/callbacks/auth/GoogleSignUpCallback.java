@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -47,13 +48,14 @@ public class GoogleSignUpCallback implements HTTPCallback {
     public void handleStatus400(String response) {
 
         setupErrorDialog(response, 400);
+        google_auth.signOut();
     }
 
     @Override
     public void handleStatus401(String response) {
 
-        setupErrorDialog(response, 400);
-
+        setupErrorDialog(response, 401);
+        google_auth.signOut();
     }
 
     @Override

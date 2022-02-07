@@ -18,7 +18,7 @@ public class Function implements RequestHandler<Event, String> {
 
 
        Cognito cognito = new Cognito();
-        String action = event.getAction();
+       String action = event.getAction();
 
         switch (action) {
 
@@ -52,7 +52,7 @@ public class Function implements RequestHandler<Event, String> {
 
                     boolean isGoogleUserRegistered = cognito.createGoogleUser(event.getUser(), event.getId_token());
 
-                    return isGoogleUserRegistered ? "User successfully signed up" : "User successfully signed in";
+                    return isGoogleUserRegistered ? "Google User successfully signed up" : "Google User successfully signed in";
 
                 } catch (CognitoException | GeneralSecurityException | IOException e) {
 
@@ -140,7 +140,6 @@ public class Function implements RequestHandler<Event, String> {
             default:
                 throw new RuntimeException("Wrong action");
         }
-
         }
 }
 
