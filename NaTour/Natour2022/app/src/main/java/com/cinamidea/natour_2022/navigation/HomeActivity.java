@@ -118,7 +118,7 @@ public class HomeActivity extends AppCompatActivity {
         //TODO:Check bucket per l'immagine
 //        UserType userType = new UserType(this);
 //        UsersHTTP.getProfileImage(userType.getUser_type(), SigninFragment.current_username, userType.getId_token(), new GetProfileImageCallback(this, imgbutton_avatar));
-        Glide.with(this).load("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + "Umberto").into(imgbutton_avatar);
+        Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + SigninFragment.current_username).into(imgbutton_avatar);
     }
 
     private void setupChatUser() {
@@ -130,8 +130,8 @@ public class HomeActivity extends AppCompatActivity {
         User user = new User();
         user.setId(SigninFragment.current_username);
         user.setName(SigninFragment.current_username);
-        user.setImage("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto");
-
+        //user.setImage("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto");
+        user.setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username);
         String token = client.devToken(user.getId());
         client.connectUser(
                 user,

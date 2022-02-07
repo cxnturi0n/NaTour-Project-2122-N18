@@ -81,6 +81,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         byte[] image_array = Base64.getDecoder().decode(route.getImage_base64());
         Glide.with(context).load(image_array).into(holder.image);
         holder.favourites_number.setText(route.getLikes() + " " + holder.favourites_number.getText().toString());
+        Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+holder.username.getText().toString()).circleCrop().into(holder.avatar);
 
         if (holder.username.getText().toString().equals(SigninFragment.current_username))
             holder.chat.setVisibility(View.GONE);
@@ -414,6 +415,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView favourites_number;
         ImageView isreported;
         ImageButton open_map;
+        ImageView avatar;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -433,6 +435,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             options_container = itemView.findViewById(R.id.post_options_container);
             chat = itemView.findViewById(R.id.post_chat);
             open_map = itemView.findViewById(R.id.post_map);
+            avatar = itemView.findViewById(R.id.post_avatar);
 
 
         }

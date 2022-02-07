@@ -6,6 +6,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
+import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -35,7 +36,7 @@ public class PutProfileImageCallback implements HTTPCallback {
         activity.runOnUiThread(() -> {
 
             Glide.with(activity).load(image_as_byte_array).circleCrop().into(avatar);
-            client.getCurrentUser().setImage("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto");
+            client.getCurrentUser().setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+ SigninFragment.current_username);
 
         });
 
