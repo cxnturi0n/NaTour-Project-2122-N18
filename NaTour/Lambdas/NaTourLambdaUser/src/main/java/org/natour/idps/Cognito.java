@@ -6,7 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.RSAKeyProvider;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.natour.entities.User;
 import org.natour.exceptions.CognitoException;
 import org.passay.CharacterRule;
@@ -32,6 +31,7 @@ public class Cognito {
     private final String CLIENT_ID = "6olvke1khbj589h6sjdcovfaa9";
     private final String CLIENT_SECRET = "9cfnld2u0nou4otkbqlil2nrmcpuv83c8onrcoe8aia2or5ahll";
     private final String POOL_ID = "eu-central-1_omsSo0qxM";
+
 
     private CognitoIdentityProviderClient cognito_client;
 
@@ -120,7 +120,7 @@ public class Cognito {
         }
     }
 
-    public void changePassword(String old_password, String new_password, String access_token) throws CognitoException{
+    public void changePassword(String old_password, String new_password, String access_token) throws CognitoException {
 
         try {
             ChangePasswordRequest change_password_request = ChangePasswordRequest.builder().accessToken(access_token).previousPassword(old_password).proposedPassword(new_password).build();
@@ -194,18 +194,18 @@ public class Cognito {
         }
     }
 
-   public boolean createGoogleUser(User user, String id_token) throws CognitoException, GeneralSecurityException, IOException {
+    public boolean createGoogleUser(User user, String id_token) throws CognitoException, GeneralSecurityException, IOException {
 
 
         int action = getGoogleSignInAction(user.getEmail());
         //Action = 1 : If user had already registered with google, he is free to sign in if token is valid, otherwise an exception is thrown
-        if(action == 1) {
+        if (action == 1) {
             if (GoogleAuth.isIdTokenValid(id_token))
                 return false;
             throw new RuntimeException("User not authorized, please sign in again");
         }
         //Action = 2 : A user (signed up regularly) is already registered with that email, so an exception is thrown
-        else if(action == 2)
+        else if (action == 2)
             throw new CognitoException("Email already used, please sign in regularly");
 
         //Action = 0 : User with the given email does not exist, so a new user is registered in the userpool
@@ -289,9 +289,9 @@ public class Cognito {
 
             ListUsersResponse response = cognito_client.listUsers(usersRequest);
 
-            if(response.users().isEmpty())
+            if (response.users().isEmpty())
                 return 0;
-            else if(response.users().get(0).attributes().get(1).value().equals("true"))
+            else if (response.users().get(0).attributes().get(1).value().equals("true"))
                 return 2;
             else
                 return 1;
@@ -302,41 +302,70 @@ public class Cognito {
     }
 
 
-    public boolean userExistsByUsername(String username) throws CognitoException {
+    public HashMap<String, Object> getCognitoUsers(String pagination_token) throws CognitoException {
+
+
+        HashMap<String, Object> ret = new HashMap<>();
+
+        ListUsersRequest user_request;
         try {
+            if (pagination_token == null)
+                user_request = ListUsersRequest.builder()
+                        .userPoolId(POOL_ID).attributesToGet("email")
+                        .build();
+            else
+                user_request = ListUsersRequest.builder()
+                        .userPoolId(POOL_ID).paginationToken(pagination_token).attributesToGet("email")
+                        .build();
+        }
+         catch(CognitoIdentityProviderException e){
+                throw new CognitoException(e.getMessage());
+            }
+            ListUsersResponse response = cognito_client.listUsers(user_request);
 
-            String filter = "username = \"" + username + "\"";
+            ret.put("users", response.users());
+            ret.put("pagination_token", response.paginationToken());
 
-            ListUsersRequest usersRequest = ListUsersRequest.builder().limit(1)
-                    .userPoolId(POOL_ID)
-                    .filter(filter)
-                    .build();
+            return ret;
+        }
 
-            ListUsersResponse response = cognito_client.listUsers(usersRequest);
 
-            return !response.users().isEmpty();
+        public boolean userExistsByUsername (String username) throws CognitoException {
+            try {
 
-        } catch (CognitoIdentityProviderException e) {
-            throw new CognitoException(e.getMessage());
+                String filter = "username = \"" + username + "\"";
+
+
+                ListUsersRequest usersRequest = ListUsersRequest.builder().limit(1)
+                        .userPoolId(POOL_ID)
+                        .filter(filter)
+                        .build();
+
+                ListUsersResponse response = cognito_client.listUsers(usersRequest);
+
+                return !response.users().isEmpty();
+
+            } catch (CognitoIdentityProviderException e) {
+                throw new CognitoException(e.getMessage());
+            }
+        }
+
+        public void verifyIdToken (String token){
+
+            String aws_cognito_region = "eu-central-1"; // Replace this with your aws cognito region
+            RSAKeyProvider keyProvider = new AwsCognitoRSAKeyProvider(aws_cognito_region, POOL_ID);
+            Algorithm algorithm = Algorithm.RSA256(keyProvider);
+
+            JWTVerifier jwtVerifier = JWT.require(algorithm).build();
+            try {
+                jwtVerifier.verify(token);
+            } catch (JWTVerificationException e) {
+                //Se il token è scaduto allora uso il refresh token per ottenere un nuovo token, senza disturbare l utente (sloggarlo e chiedergli di ottenere un nuovo idtoken inserendo pwd e username)
+                if (e.getMessage().contains("expired"))
+                    throw new RuntimeException(e.getMessage());
+
+                //Se il token è stato manomesso o per qualche motivo non viene validato correttamente, allora lo user dovrà per forza di cose fare il signin nuovamente e ottenere un idtoken da capo
+                throw new RuntimeException("Invalid Session, please sign in again: " + e.getMessage());
+            }
         }
     }
-
-    public void verifyIdToken(String token) {
-
-        String aws_cognito_region = "eu-central-1"; // Replace this with your aws cognito region
-        RSAKeyProvider keyProvider = new AwsCognitoRSAKeyProvider(aws_cognito_region, POOL_ID);
-        Algorithm algorithm = Algorithm.RSA256(keyProvider);
-
-        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
-        try {
-            jwtVerifier.verify(token);
-        } catch (JWTVerificationException e) {
-            //Se il token è scaduto allora uso il refresh token per ottenere un nuovo token, senza disturbare l utente (sloggarlo e chiedergli di ottenere un nuovo idtoken inserendo pwd e username)
-            if (e.getMessage().contains("expired"))
-                throw new RuntimeException(e.getMessage());
-
-            //Se il token è stato manomesso o per qualche motivo non viene validato correttamente, allora lo user dovrà per forza di cose fare il signin nuovamente e ottenere un idtoken da capo
-            throw new RuntimeException("Invalid Session, please sign in again: " + e.getMessage());
-        }
-    }
-}

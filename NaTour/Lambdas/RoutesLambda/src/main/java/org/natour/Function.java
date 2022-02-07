@@ -187,7 +187,7 @@ public class Function implements RequestHandler<Event, String> {
 
                     r.insertReport(event.getReport());
 
-                    return "Route inserted successfully";
+                    return "Report ["+event.getReport().getType()+"] inserted successfully";
 
                 } catch (PersistenceException e) {
                     throw new RuntimeException(e.getMessage());

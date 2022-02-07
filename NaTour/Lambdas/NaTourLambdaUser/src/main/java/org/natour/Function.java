@@ -2,20 +2,23 @@ package org.natour;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import org.natour.admin.AdminUtils;
+import org.natour.entities.AdminMailMessage;
 import org.natour.exceptions.CognitoException;
 import org.natour.idps.Cognito;
-import org.natour.idps.GoogleAuth;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 
-public class Function implements RequestHandler<Request, String> {
+public class Function implements RequestHandler<Event, String> {
     @Override
-    public String handleRequest(Request request, Context context) {
+    public String handleRequest(Event event, Context context) {
 
-        Cognito cognito = new Cognito();
-        String action = request.getAction();
+
+       Cognito cognito = new Cognito();
+        String action = event.getAction();
 
         switch (action) {
 
@@ -23,7 +26,7 @@ public class Function implements RequestHandler<Request, String> {
             case "REGISTER":
                 try {
 
-                    cognito.signUpUser(request.getUser());
+                    cognito.signUpUser(event.getUser());
 
                     return "User signed in successfully";
 
@@ -35,7 +38,7 @@ public class Function implements RequestHandler<Request, String> {
                 //Confirm signup with confirmation code sent via email
             case "CONFIRM":
                 try {
-                    cognito.confirmUser(request.getUser().getUsername(), request.getConfirmation_code());
+                    cognito.confirmUser(event.getUser().getUsername(), event.getConfirmation_code());
 
                     return "User confirmed";
 
@@ -47,7 +50,7 @@ public class Function implements RequestHandler<Request, String> {
             case "GOOGLE_REGISTER":
                 try {
 
-                    boolean isGoogleUserRegistered = cognito.createGoogleUser(request.getUser(), request.getId_token());
+                    boolean isGoogleUserRegistered = cognito.createGoogleUser(event.getUser(), event.getId_token());
 
                     return isGoogleUserRegistered ? "User successfully signed up" : "User successfully signed in";
 
@@ -59,14 +62,14 @@ public class Function implements RequestHandler<Request, String> {
                 //Cognito Token Validation
             case "TOKEN_LOGIN":
 
-                cognito.verifyIdToken(request.getId_token());
+                cognito.verifyIdToken(event.getId_token());
 
                 return "Successfully signed in";
 
             //Get cognito id and refresh tokens by username and password
             case "PASSWORD":
                 try {
-                    String json_tokens = cognito.signInUserAndGetTokens(request.getUser().getUsername(), request.getUser().getPassword());
+                    String json_tokens = cognito.signInUserAndGetTokens(event.getUser().getUsername(), event.getUser().getPassword());
 
                     return json_tokens;
 
@@ -79,7 +82,7 @@ public class Function implements RequestHandler<Request, String> {
                 //Get cognito id token by refresh token
             case "REFRESH_TOKEN":
                 try {
-                    String new_id_token = cognito.getNewIdToken(request.getRefresh_token(), request.getUser().getUsername());
+                    String new_id_token = cognito.getNewIdToken(event.getRefresh_token(), event.getUser().getUsername());
 
                     return new_id_token;
 
@@ -90,7 +93,7 @@ public class Function implements RequestHandler<Request, String> {
                 //Initiate forgot password flow, an email will eventually be sent to the user
             case "FORGOT_PWD":
                 try {
-                    cognito.initiateForgotPassword(request.getUser().getUsername());
+                    cognito.initiateForgotPassword(event.getUser().getUsername());
 
                     return "A code has been sent to your mail";
 
@@ -102,10 +105,10 @@ public class Function implements RequestHandler<Request, String> {
                 //Password reset via confirmation code sent previously via email
             case "RESET_PWD":
                 try {
-                    if (request.getConfirmation_code() != null) {
-                        cognito.resetPassword(request.getUser().getUsername(), request.getUser().getPassword(), request.getConfirmation_code());
+                    if (event.getConfirmation_code() != null) {
+                        cognito.resetPassword(event.getUser().getUsername(), event.getUser().getPassword(), event.getConfirmation_code());
                     } else {
-                        cognito.changePassword(request.getOld_password(), request.getUser().getPassword(), request.getAccess_token());
+                        cognito.changePassword(event.getOld_password(), event.getUser().getPassword(), event.getAccess_token());
                     }
                     return "Password changed successfully";
                 } catch (CognitoException e) {
@@ -114,7 +117,7 @@ public class Function implements RequestHandler<Request, String> {
 
             case "CHANGE_PASSWORD":
                 try {
-                    cognito.changePassword(request.getOld_password(), request.getUser().getPassword(), request.getAccess_token());
+                    cognito.changePassword(event.getOld_password(), event.getUser().getPassword(), event.getAccess_token());
                     return "Password changed successully";
 
                 } catch (CognitoException e) {
@@ -122,9 +125,24 @@ public class Function implements RequestHandler<Request, String> {
                     throw new RuntimeException(e.getMessage());
 
                 }
+            case "ADMIN_SEND_EMAIL":
+                AdminUtils admin = new AdminUtils();
+                AdminMailMessage m = event.getAdmin_mail_message();
+                try {
+                    //Throws run time exception if token expires or is invalid
+                    cognito.verifyIdToken(event.getId_token());
+
+                    admin.sendMailsToCognitoUsers(m.getSubject(), m.getBody());
+                    return "Mail sent successfully";
+                } catch (CognitoException | MessagingException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
             default:
                 throw new RuntimeException("Wrong action");
         }
-    }
+
+        }
 }
+
+
 

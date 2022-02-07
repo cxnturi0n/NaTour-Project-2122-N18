@@ -15,9 +15,9 @@ import java.io.ByteArrayInputStream;
 
 public class NatourS3Bucket {
 
-    private final String access_key = "AKIARJHP7LO3ALA23O45";
+    private final String access_key = "AKIA55M7FGC4MEFJCSDW";
 
-    private final String secret_key = "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";
+    private final String secret_key = "tBOlwIlvQoLcKsBs/FoZsU5hY/n1Jy1G6Y2bjn5l";
 
     AWSCredentials credentials = new BasicAWSCredentials(access_key, secret_key);
 
@@ -27,7 +27,8 @@ public class NatourS3Bucket {
             .withRegion(Regions.EU_CENTRAL_1)
             .build();
 
-    private final String bucket_name = "natour-android";
+    //natour-android
+    private final String bucket_name = "streamimages1";
 
 
     public void putRouteImage(String image_name, byte[] bytes) throws PersistenceException {
@@ -64,8 +65,8 @@ public class NatourS3Bucket {
 
         String key = "Users/ProfilePics/" + username;
 
-         if(!s3_client.doesObjectExist(bucket_name, key))
-             throw new PersistenceException("Image does not exist");
+         //if(!s3_client.doesObjectExist(bucket_name, key))
+             //throw new PersistenceException("Image does not exist "+key);
 
         S3Object image = s3_client.getObject(bucket_name, key);
 
@@ -81,8 +82,8 @@ public class NatourS3Bucket {
 
         String key = "Routes/Images/" + image_name;
 
-        if(!s3_client.doesObjectExist(bucket_name, key))
-            throw new PersistenceException("Image does not exist");
+        //if(!s3_client.doesObjectExist(bucket_name, key))
+            //throw new PersistenceException("Image does not exist "+key);
 
         S3Object image = s3_client.getObject(bucket_name, key);
 
