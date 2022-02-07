@@ -65,6 +65,23 @@
         android:layout_marginHorizontal="32dp" />
 
     <android.widget.Button
+        android:id="@+id/menuLayout_admin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_shield"
+        android:drawablePadding="16dp"
+        android:fontFamily="@font/roboto_light"
+        android:paddingStart="16dp"
+        android:stateListAnimator="@null"
+        android:text="Admin"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="32dp" />
+
+    <android.widget.Button
         android:id="@+id/menuLayout_logout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

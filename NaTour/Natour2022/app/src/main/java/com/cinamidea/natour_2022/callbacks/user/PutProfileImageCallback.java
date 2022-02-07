@@ -11,11 +11,15 @@ import com.cinamidea.natour_2022.callbacks.HTTPCallback;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.getstream.chat.android.client.ChatClient;
+
+//TODO: CHAT
 
 public class PutProfileImageCallback implements HTTPCallback {
 
     private Activity activity;
     private CircleImageView avatar;
+    private ChatClient client = ChatClient.instance();
     private byte[] image_as_byte_array;
 
     public PutProfileImageCallback(Activity activity, CircleImageView avatar, byte[] image_as_byte_array) {
@@ -31,6 +35,7 @@ public class PutProfileImageCallback implements HTTPCallback {
         activity.runOnUiThread(() -> {
 
             Glide.with(activity).load(image_as_byte_array).circleCrop().into(avatar);
+            client.getCurrentUser().setImage("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto");
 
         });
 

@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Natour2022">
         <activity
+            android:name=".navigation.AdminActivity"
+            android:exported="false" />
+        <activity
             android:name=".navigation.ReportActivity"
             android:exported="false" />
         <!--

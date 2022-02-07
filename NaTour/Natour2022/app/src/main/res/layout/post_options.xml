@@ -31,7 +31,7 @@
         android:layout_marginHorizontal="32dp" />
 
     <android.widget.Button
-        android:id="@+id/post_reportinaccuracy"
+        android:id="@+id/post_report"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -41,24 +41,7 @@
         android:fontFamily="@font/roboto_light"
         android:paddingStart="16dp"
         android:stateListAnimator="@null"
-        android:text="@string/post_reportinaccuracy"
-        android:textAlignment="textStart"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:layout_marginHorizontal="32dp" />
-
-    <android.widget.Button
-        android:id="@+id/post_reportoutofdate"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:layout_marginTop="8dp"
-        android:drawableStart="@drawable/ic_report"
-        android:drawablePadding="16dp"
-        android:fontFamily="@font/roboto_light"
-        android:paddingStart="16dp"
-        android:stateListAnimator="@null"
-        android:text="@string/post_reportoutofdate"
+        android:text="@string/post_report"
         android:textAlignment="textStart"
         android:textAllCaps="false"
         android:textSize="18sp"

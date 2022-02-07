@@ -25,6 +25,7 @@ public class SigninFragment extends CustomAuthFragment {
     private Button button_googlesignin;
 
     public static String current_username;
+    public static boolean is_admin = false;
     GoogleAuthentication google_auth;
 
     @Override
@@ -79,6 +80,7 @@ public class SigninFragment extends CustomAuthFragment {
         button_googlesignin.setOnClickListener(view -> {
 
             google_auth.silentSignIn();
+
         });
 
     }

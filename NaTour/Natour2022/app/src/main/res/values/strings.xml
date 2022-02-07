@@ -51,8 +51,7 @@
     <string name="activityHome_changepassword">Change password</string>
     <string name="activityHome_logout">Logout</string>
     <string name="post_addtovisit">Add to the routes to visit</string>
-    <string name="post_reportinaccuracy">Report for inaccuracy</string>
-    <string name="post_reportoutofdate">Report for out of date</string>
+    <string name="post_report">Report</string>
     <string name="post_reported">Reported</string>
     <string name="post_likes">likes</string>
 
@@ -110,5 +109,14 @@
     <string name="activityReport_success">Route has been reported</string>
     <string name="activityReport_error">An error occurred while reporting the route</string>
     <string name="activityReport_notitleordescription">Please insert title and description</string>
+
+    <!-- Activity Admin -->
+    <string name="activityAdmin_message">Fill in the fields to send the promotional email to users.</string>
+    <string name="activityAdmin_send">Send email</string>
+    <string name="activityAdmin_subject">Subject</string>
+    <string name="activityAdmin_object">Object</string>
+    <string name="activityAdmin_success">Email has been sent</string>
+    <string name="activityAdmin_error">An error occurred while sending email</string>
+    <string name="activityAdmin_nosubjectorobject">Please insert subject and object</string>
 
 </resources>

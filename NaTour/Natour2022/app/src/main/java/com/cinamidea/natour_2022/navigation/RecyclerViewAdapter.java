@@ -242,11 +242,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 insertToVisit(holder, user_type, route, id_token);
 
         });
-        bottomSheetView.findViewById(R.id.post_reportinaccuracy).setOnClickListener(view -> {
+        bottomSheetView.findViewById(R.id.post_report).setOnClickListener(view -> {
             bottomSheetDialog.dismiss();
-        });
-        bottomSheetView.findViewById(R.id.post_reportoutofdate).setOnClickListener(view -> {
-            bottomSheetDialog.dismiss();
+            Intent reportIntent = new Intent(context, ReportActivity.class);
+            reportIntent.putExtra("route_name", route.getName());
+            context.startActivity(reportIntent);
         });
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();

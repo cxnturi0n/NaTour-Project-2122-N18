@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.entities.Report;
 import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
@@ -43,6 +44,12 @@ import java.io.InputStream;
 import java.util.Base64;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.getstream.chat.android.client.ChatClient;
+import io.getstream.chat.android.client.logger.ChatLogLevel;
+import io.getstream.chat.android.client.models.User;
+import io.getstream.chat.android.livedata.ChatDomain;
+
+//TODO: CHAT
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeActivity extends AppCompatActivity {
@@ -58,6 +65,8 @@ public class HomeActivity extends AppCompatActivity {
     public static boolean[] counter_updated = {true, true, true};
     private static final int PERMISSION_REQUEST_CODE = 1;
 
+    private ChatClient client;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         setupViewComponents();
+        setupChatUser();
         setListeners();
 
         fragmentManager = getSupportFragmentManager();
@@ -105,6 +115,24 @@ public class HomeActivity extends AppCompatActivity {
 //        UserType userType = new UserType(this);
 //        UsersHTTP.getProfileImage(userType.getUser_type(), SigninFragment.current_username, userType.getId_token(), new GetProfileImageCallback(this, imgbutton_avatar));
           Glide.with(this).load("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+"Umberto").into(imgbutton_avatar);
+    }
+
+    private void setupChatUser(){
+        client = new ChatClient.Builder(getString(R.string.chat_api_key), getApplicationContext())
+                .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
+                .build();
+        new ChatDomain.Builder(client, getApplicationContext()).build();
+
+        User user = new User();
+        user.setId(SigninFragment.current_username);
+        user.setName(SigninFragment.current_username);
+        user.setImage("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto");
+
+        String token = client.devToken(user.getId());
+        client.connectUser(
+                user,
+                token
+        ).enqueue();
     }
 
     private void setListeners() {
@@ -222,8 +250,11 @@ public class HomeActivity extends AppCompatActivity {
         bottomSheetView.findViewById((R.id.menuLayout_editPhoto)).setOnClickListener(v -> {
             bottomSheetDialog.dismiss();
             openImage();
+        });
 
-
+        bottomSheetView.findViewById((R.id.menuLayout_admin)).setOnClickListener(v -> {
+            bottomSheetDialog.dismiss();
+            startActivity(new Intent(this, ReportActivity.class));
         });
 
         bottomSheetDialog.setContentView(bottomSheetView);
