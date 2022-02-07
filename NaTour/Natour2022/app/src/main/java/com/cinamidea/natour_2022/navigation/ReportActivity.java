@@ -76,40 +76,16 @@ public class ReportActivity extends AppCompatActivity {
 
         if(isReportable(title, description)) {
 
-            //TODO: Effettuare il report
-
             Report report = new Report(route_name,title, description, SigninFragment.current_username, report_type);
             UserType userType = new UserType(this);
             ReportHTTP.insertReport(report, userType.getUser_type()+userType.getId_token(), new InsertReportCallback(this));
 
-        }else Toast.makeText(this, R.string.activityReport_notitleordescription, Toast.LENGTH_SHORT).show();
+        }else openErrorDialog();
 
     }
 
     private boolean isReportable(String title, String description) {
         return (title.length()>=MIN_TITLE_LENGTH && description.length()>=MIN_DESCRIPTION_LENGTH) ? true : false;
-    }
-
-    private void openSuccessDialog() {
-
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.success_message_layout);
-        dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background_alert_dialog));
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ((TextView) dialog.findViewById(R.id.messageSuccess_message)).setText(R.string.activityReport_success);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
-
-        dialog.findViewById(R.id.messageSuccess_button).setOnClickListener(view -> {
-            dialog.hide();
-            finish();
-        });
-
-        dialog.setOnCancelListener(dialogInterface -> {
-            dialog.hide();
-            finish();
-        });
-
     }
 
     private void openErrorDialog() {
@@ -118,18 +94,16 @@ public class ReportActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.error_message_layout);
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.background_alert_dialog));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ((TextView) dialog.findViewById(R.id.messageError_message)).setText(R.string.activityReport_error);
+        ((TextView) dialog.findViewById(R.id.messageError_message)).setText(R.string.activityReport_notitleordescription);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
         dialog.findViewById(R.id.messageError_button).setOnClickListener(view -> {
             dialog.dismiss();
-            finish();
         });
 
         dialog.setOnCancelListener(dialogInterface -> {
             dialog.dismiss();
-            finish();
         });
 
     }

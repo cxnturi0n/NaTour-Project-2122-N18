@@ -254,7 +254,7 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomSheetView.findViewById((R.id.menuLayout_admin)).setOnClickListener(v -> {
             bottomSheetDialog.dismiss();
-            startActivity(new Intent(this, ReportActivity.class));
+            startActivity(new Intent(this, AdminActivity.class));
         });
 
         bottomSheetDialog.setContentView(bottomSheetView);
