@@ -9,14 +9,16 @@ import com.auth0.jwt.interfaces.RSAKeyProvider;
 public class CognitoTokens {
 
     private static final String POOL_ID = "eu-central-1_omsSo0qxM";
+    private  JWTVerifier jwtVerifier;
 
-    public static void verifyIdToken(String token) {
-
+    public CognitoTokens(){
         String aws_cognito_region = "eu-central-1"; // Replace this with your aws cognito region
         RSAKeyProvider keyProvider = new AwsCognitoRSAKeyProvider(aws_cognito_region, POOL_ID);
         Algorithm algorithm = Algorithm.RSA256(keyProvider);
+        jwtVerifier = JWT.require(algorithm).build();
+    }
+    public void verifyIdToken(String token) {
 
-        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
         try {
             jwtVerifier.verify(token);
         } catch (JWTVerificationException e) {
@@ -28,4 +30,5 @@ public class CognitoTokens {
             throw new RuntimeException("Invalid Session, please sign in again: " + e.getMessage());
         }
     }
+
 }

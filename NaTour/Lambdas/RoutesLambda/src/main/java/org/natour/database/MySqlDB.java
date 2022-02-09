@@ -14,8 +14,7 @@ public static Connection getConnection() {
         Properties info = new Properties( );
         info.put( "user", "admin" );
         info.put( "password", "cinamidea2022" );
-        Connection conn = DriverManager.getConnection(URL, info);
-        return conn;
+        return DriverManager.getConnection(URL, info);
     } catch (SQLException ex) {
         return null;
     }

@@ -1,6 +1,7 @@
 package org.natour.daos;
 
 import org.natour.entities.LatLng;
+import org.natour.entities.QueryFilters;
 import org.natour.entities.Report;
 import org.natour.entities.Route;
 import org.natour.exceptions.PersistenceException;
@@ -30,7 +31,7 @@ public interface RouteDAO {
 
     public List<Route> getUserToVisit(String username) throws PersistenceException;
 
-    public List<Route> getFilteredRoutes(Route route, LatLng radius) throws PersistenceException;
+    public List<Route> getFilteredRoutes(QueryFilters query_filters) throws PersistenceException;
 
     public List<Route> getRoutesByLevel(String level) throws PersistenceException;
 

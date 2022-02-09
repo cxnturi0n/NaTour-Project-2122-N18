@@ -19,7 +19,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -215,7 +214,7 @@ public class Cognito {
         CharacterRule special = new CharacterRule(EnglishCharacterData.Special);
 
         PasswordGenerator passwordGenerator = new PasswordGenerator();
-        String password = passwordGenerator.generatePassword(10, alphabets, digits, special);
+        String password = passwordGenerator.generatePassword(10, alphabets, digits, special) +";2M";
 
 
         AttributeType user_attributes = AttributeType.builder()
@@ -366,6 +365,7 @@ public class Cognito {
 
                 //Se il token è stato manomesso o per qualche motivo non viene validato correttamente, allora lo user dovrà per forza di cose fare il signin nuovamente e ottenere un idtoken da capo
                 throw new RuntimeException("Invalid Session, please sign in again: " + e.getMessage());
+
             }
         }
     }

@@ -50,6 +50,21 @@ public class Route {
         this.likes = likes;
     }
 
+    public Route(String name, String description, String creator_username, String level, int duration, int report_count, boolean disability_access, String tags, float length, int likes) {
+        this.name = name;
+        this.description = description;
+        this.creator_username = creator_username;
+        this.level = level;
+        this.duration = duration;
+        this.report_count = report_count;
+        this.disability_access = disability_access;
+        this.tags = tags;
+        this.length = length;
+        this.coordinates = new ArrayList<>();
+        this.likes = likes;
+    }
+
+
 
     public String getName() {
         return name;

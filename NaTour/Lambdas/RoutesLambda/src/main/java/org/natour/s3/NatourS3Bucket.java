@@ -19,7 +19,7 @@ public class NatourS3Bucket {
 
     private final String secret_key = "tBOlwIlvQoLcKsBs/FoZsU5hY/n1Jy1G6Y2bjn5l";
 
-    AWSCredentials credentials = new BasicAWSCredentials(access_key, secret_key);
+    private final AWSCredentials credentials = new BasicAWSCredentials(access_key, secret_key);
 
     private final AmazonS3 s3_client = AmazonS3ClientBuilder
             .standard()

@@ -13,12 +13,13 @@ import java.security.GeneralSecurityException;
 
 
 public class Function implements RequestHandler<Event, String> {
+
+    Cognito cognito = new Cognito();
+
     @Override
     public String handleRequest(Event event, Context context) {
 
-
-       Cognito cognito = new Cognito();
-       String action = event.getAction();
+        String action = event.getAction();
 
         switch (action) {
 
@@ -50,9 +51,9 @@ public class Function implements RequestHandler<Event, String> {
             case "GOOGLE_REGISTER":
                 try {
 
-                    boolean isGoogleUserRegistered = cognito.createGoogleUser(event.getUser(), event.getId_token());
+                    boolean is_google_user_registered = cognito.createGoogleUser(event.getUser(), event.getId_token());
 
-                    return isGoogleUserRegistered ? "Google User successfully signed up" : "Google User successfully signed in";
+                    return is_google_user_registered ? "Google User successfully signed up" : "Google User successfully signed in";
 
                 } catch (CognitoException | GeneralSecurityException | IOException e) {
 
@@ -126,13 +127,13 @@ public class Function implements RequestHandler<Event, String> {
 
                 }
             case "ADMIN_SEND_EMAIL":
-                AdminUtils admin = new AdminUtils();
+
                 AdminMailMessage m = event.getAdmin_mail_message();
                 try {
                     //Throws run time exception if token expires or is invalid
                     cognito.verifyIdToken(event.getId_token());
 
-                    admin.sendMailsToCognitoUsers(m.getSubject(), m.getBody());
+                    new AdminUtils().sendMailsToCognitoUsers(m.getSubject(), m.getBody());
                     return "Mail sent successfully";
                 } catch (CognitoException | MessagingException e) {
                     throw new RuntimeException(e.getMessage());
@@ -140,7 +141,7 @@ public class Function implements RequestHandler<Event, String> {
             default:
                 throw new RuntimeException("Wrong action");
         }
-        }
+    }
 }
 
 
