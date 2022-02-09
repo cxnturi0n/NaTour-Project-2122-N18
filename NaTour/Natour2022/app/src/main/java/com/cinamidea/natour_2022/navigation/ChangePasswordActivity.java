@@ -1,5 +1,6 @@
 package com.cinamidea.natour_2022.navigation;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,11 +47,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         submit.setOnClickListener(view -> {
 
-            UserType user_type = new UserType(this);
+            SharedPreferences natour_shared_pref;
+
+            natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
+            String access_token = natour_shared_pref.getString("access_token", null);
+
             if (new_pwd.getText().toString().equals(confirm_pwd.getText().toString())) {
 
                 new AuthenticationHTTP().changePassword(SigninFragment.current_username, current_pwd.getText().toString(),
-                        new_pwd.getText().toString(), user_type.getId_token(), new ChangePasswordCallback(this));
+                        new_pwd.getText().toString(), access_token, new ChangePasswordCallback(this));
 
             }
 

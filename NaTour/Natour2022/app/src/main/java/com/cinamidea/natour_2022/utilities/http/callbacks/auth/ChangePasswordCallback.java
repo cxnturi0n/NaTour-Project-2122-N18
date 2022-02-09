@@ -26,7 +26,6 @@ public class ChangePasswordCallback implements HTTPCallback {
             SharedPreferences natour_shared_pref;
 
             natour_shared_pref = activity.getSharedPreferences("natour_tokens", MODE_PRIVATE);
-            String id_token = natour_shared_pref.getString("id_token", null);
 
             natour_shared_pref.edit().clear().commit();
 

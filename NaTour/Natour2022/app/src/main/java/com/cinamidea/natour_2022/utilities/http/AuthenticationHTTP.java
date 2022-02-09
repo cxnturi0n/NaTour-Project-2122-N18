@@ -109,7 +109,7 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
         Headers header = new Headers.Builder().add("Authorization", access_token).build();
 
-        String request_body = "{\"old_password\":" + old_password + ",\"password\":" + new_password + ",\"confirmation_code\":" + null + ",\"access_token\":" + access_token + "}";
+        String request_body = "{\"old_password\":" + old_password + ",\"password\":" + new_password + ",\"confirmation_code\":" + null + "}";
 
         request = getPutRequest(url, request_body, header);
 
