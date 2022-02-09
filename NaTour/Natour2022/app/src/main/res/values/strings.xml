@@ -119,4 +119,25 @@
     <string name="activityAdmin_error">An error occurred while sending email</string>
     <string name="activityAdmin_nosubjectorobject">Please insert subject and object</string>
 
+    <!-- Activity Compilation -->
+    <string name="activityCreateCompilation_title">Title</string>
+    <string name="activityCreateCompilation_description">Description</string>
+    <string name="activityCreateCompilation_create">Create</string>
+    <string name="activityCreateCompilation_message">Fill in the fields to create the compilation.</string>
+    <string name="activityCreateCompilation_header">Create compilation</string>
+
+    <!-- Activity Research -->
+    <string name="activitySearch_title">Search routes</string>
+    <string name="activitySearch_message">Fill the filters that you want to use</string>
+    <string name="activitySearch_name">Route name</string>
+    <string name="activitySearch_location">Location</string>
+    <string name="activitySearch_range">Range in km</string>
+    <string name="activitySearch_minduration">Minimum duration</string>
+    <string name="activitySearch_difficulty">Difficulties</string>
+    <string name="activitySearch_disability">Accessibility for the disabled</string>
+    <string name="activitySearch_tags">Tags</string>
+    <string name="activitySearch_search">Search</string>
+    <string name="title_activity_search">SearchActivity</string>
+
+
 </resources>

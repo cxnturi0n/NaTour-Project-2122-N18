@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.navigation.HomeActivity;
+import com.cinamidea.natour_2022.navigation.main.HomeActivity;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 

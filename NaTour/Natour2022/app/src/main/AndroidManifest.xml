@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cinamidea.natour_2022">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -20,12 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Natour2022">
-        <activity
-            android:name=".navigation.AdminActivity"
-            android:exported="false" />
-        <activity
-            android:name=".navigation.ReportActivity"
-            android:exported="false" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -38,6 +34,24 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".navigation.search.GeoSearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.search.CompletedSearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.compilation.CreateCompilationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.compilation.CompilationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.ReportActivity"
+            android:exported="false" />
         <activity
             android:name=".map.DetailedMap"
             android:exported="false"
@@ -75,7 +89,7 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".navigation.HomeActivity"
+            android:name=".navigation.main.HomeActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity

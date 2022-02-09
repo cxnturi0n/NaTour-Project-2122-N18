@@ -1,7 +1,6 @@
-package com.cinamidea.natour_2022.navigation;
+package com.cinamidea.natour_2022.navigation.main;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,23 +25,24 @@ public class HomeFragment extends Fragment {
     private Button position_button;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupViewComponents(view);
+        setupViewComponents();
         filterListeners();
     }
 
-    private void setupViewComponents(View view) {
+    private void setupViewComponents() {
 
         button_all = view.findViewById(R.id.fragmentHome_all);
         button_easy = view.findViewById(R.id.fragmentHome_easy);
@@ -66,35 +66,60 @@ public class HomeFragment extends Fragment {
 
 
     private void filterListeners() {
+        ProgressBar progressBar = view.findViewById(R.id.fragmentHome_progress);
 
         button_all.setOnClickListener(view -> {
 
             setupFilterButton(button_all);
+            progressBar.setVisibility(View.VISIBLE);
+            UserType user_type = new UserType(getActivity());
+            String id_token = user_type.getUser_type() + user_type.getId_token();
+            new RoutesHTTP().getAllRoutes(id_token,
+                    new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
+
 
         });
 
         button_easy.setOnClickListener(view -> {
 
             setupFilterButton(button_easy);
-            //TODO:Prendere route facili
+            progressBar.setVisibility(View.VISIBLE);
+            UserType user_type = new UserType(getActivity());
+            String id_token = user_type.getUser_type() + user_type.getId_token();
+            new RoutesHTTP().getRoutesByLevel(id_token, "Easy", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
         });
 
         button_medium.setOnClickListener(view -> {
 
             setupFilterButton(button_medium);
+            progressBar.setVisibility(View.VISIBLE);
+            UserType user_type = new UserType(getActivity());
+            String id_token = user_type.getUser_type() + user_type.getId_token();
+            new RoutesHTTP().getRoutesByLevel(id_token, "Medium", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
+
 
         });
 
         button_hard.setOnClickListener(view -> {
 
             setupFilterButton(button_hard);
+            progressBar.setVisibility(View.VISIBLE);
+            UserType user_type = new UserType(getActivity());
+            String id_token = user_type.getUser_type() + user_type.getId_token();
+            new RoutesHTTP().getRoutesByLevel(id_token, "Hard", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
+
 
         });
 
         button_extreme.setOnClickListener(view -> {
 
             setupFilterButton(button_extreme);
+            progressBar.setVisibility(View.VISIBLE);
+            UserType user_type = new UserType(getActivity());
+            String id_token = user_type.getUser_type() + user_type.getId_token();
+            new RoutesHTTP().getRoutesByLevel(id_token, "Extreme", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
+
 
         });
 

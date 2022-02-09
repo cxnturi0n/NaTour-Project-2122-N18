@@ -97,7 +97,7 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
         String request_body = "{\"password\":" + password + ",\"confirmation_code\":" + confirmation_code + "}";
 
-        request = getPutRequest(url, request_body);
+        request = getPutRequest(url, request_body, null);
 
         startHttpRequest(callback);
 
@@ -107,9 +107,11 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/password";
 
+        Headers header = new Headers.Builder().add("Authorization", access_token).build();
+
         String request_body = "{\"old_password\":" + old_password + ",\"password\":" + new_password + ",\"confirmation_code\":" + null + ",\"access_token\":" + access_token + "}";
 
-        request = getPutRequest(url, request_body);
+        request = getPutRequest(url, request_body, header);
 
         startHttpRequest(callback);
 

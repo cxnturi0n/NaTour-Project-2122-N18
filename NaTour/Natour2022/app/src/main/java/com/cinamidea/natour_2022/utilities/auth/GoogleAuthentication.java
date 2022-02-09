@@ -11,7 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.navigation.HomeActivity;
+import com.cinamidea.natour_2022.navigation.main.HomeActivity;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.auth.GoogleSignUpCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

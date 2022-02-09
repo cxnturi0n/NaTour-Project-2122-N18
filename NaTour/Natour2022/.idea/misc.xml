@@ -46,6 +46,7 @@
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_length.xml" value="0.2601851851851852" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_like.xml" value="0.2638888888888889" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_liked.xml" value="0.2611111111111111" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_location.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_lock.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_logo.xml" value="0.2703125" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/drawable/ic_menu.xml" value="0.2703125" />
@@ -78,6 +79,9 @@
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_change_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_chat.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_chat_user_list.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_compilation.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_completed_search.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_create_compilation.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_create_path.xml" value="0.264" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_forgot_pwd.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_home.xml" value="0.264" />
@@ -88,8 +92,10 @@
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_profile.xml" value="0.2" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_report.xml" value="0.1935185185185185" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_resetcr.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/activity_search.xml" value="0.4910071942446043" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/adapter_chat_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/chat_list_users.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/compilation_item.xml" value="0.4" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/error_message_layout.xml" value="0.4" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/fragment_add_path.xml" value="0.2" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/fragment_all_paths.xml" value="0.25416666666666665" />
@@ -106,6 +112,7 @@
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/fragment_resetcr_code.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/fragment_resetcr_password.xml" value="0.4" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/fragment_resetcr_user.xml" value="0.264" />
+        <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/fragment_search_map.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/fragment_signin.xml" value="0.4" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/fragment_signup.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Umby/AndroidStudioProjects/Natour2022/app/src/main/res/layout/menu_bottom_layout.xml" value="0.4" />
@@ -155,7 +162,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

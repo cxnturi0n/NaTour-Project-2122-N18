@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation;
+package com.cinamidea.natour_2022.navigation.main;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,13 +24,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.AllPathsFragment;
 import com.cinamidea.natour_2022.map.MapActivity;
+import com.cinamidea.natour_2022.navigation.AdminActivity;
+import com.cinamidea.natour_2022.navigation.ChangePasswordActivity;
+import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
+import com.cinamidea.natour_2022.navigation.search.GeoSearchActivity;
 import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
 import com.cinamidea.natour_2022.utilities.http.UsersHTTP;
@@ -156,6 +159,12 @@ public class HomeActivity extends AppCompatActivity {
 
         });
 
+        button_search.setOnClickListener(view -> {
+
+            startActivity(new Intent(this, GeoSearchActivity.class));
+
+        });
+
         button_profile.setOnClickListener(view -> {
 
             button_profile.setClickable(false);
@@ -238,13 +247,20 @@ public class HomeActivity extends AppCompatActivity {
                 R.layout.menu_bottom_layout,
                 findViewById(R.id.menuLayout_container)
         );
+
+        UserType user_type = new UserType(this);
+        if (!user_type.getUser_type().equals("Cognito"))
+            bottomSheetView.findViewById(R.id.menuLayout_changePassword).setVisibility(View.GONE);
+
         bottomSheetView.findViewById(R.id.menuLayout_logout).setOnClickListener(view1 -> {
             bottomSheetDialog.dismiss();
             logout();
         });
-        UserType user_type = new UserType(this);
-        if (!user_type.getUser_type().equals("Cognito"))
-            bottomSheetView.findViewById(R.id.menuLayout_changePassword).setVisibility(View.GONE);
+        bottomSheetView.findViewById(R.id.menuLayout_savedPaths).setOnClickListener(view -> {
+            bottomSheetDialog.dismiss();
+            startActivity(new Intent(this, CompilationActivity.class));
+
+        });
         bottomSheetView.findViewById(R.id.menuLayout_changePassword).setOnClickListener(view -> {
             bottomSheetDialog.dismiss();
             startActivity(new Intent(this, ChangePasswordActivity.class));

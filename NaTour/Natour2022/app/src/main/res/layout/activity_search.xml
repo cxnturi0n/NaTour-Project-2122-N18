@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".navigation.main.HomeActivity">
+
+    <fragment
+        android:id="@+id/activitySearch_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.eldersoss.elderssearchview.EldersSearchView
+        android:id="@+id/activitySearch_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        app:esvAlwaysBack="true"
+        app:esvAlwaysFilter="true"
+        app:esvBackground="@drawable/background_edit_text"
+        app:esvHintText="Search something"
+        app:esvIconsColor="@color/natour_black"
+        app:esvSuggestionsEnabled="false" />
+
+</RelativeLayout>

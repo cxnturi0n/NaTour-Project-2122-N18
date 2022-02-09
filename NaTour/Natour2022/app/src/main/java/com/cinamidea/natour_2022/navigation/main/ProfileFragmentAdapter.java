@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation;
+package com.cinamidea.natour_2022.navigation.main;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

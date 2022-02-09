@@ -173,6 +173,7 @@ public class CreatePathActivity extends AppCompatActivity {
                 rb_easy.setTextColor(getResources().getColor(R.color.natour_white));
                 rb_checked = rb_easy;
 
+
             }
 
         });

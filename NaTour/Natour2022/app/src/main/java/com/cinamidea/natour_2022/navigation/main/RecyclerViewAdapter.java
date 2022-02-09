@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation;
+package com.cinamidea.natour_2022.navigation.main;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +27,7 @@ import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.DetailedMap;
+import com.cinamidea.natour_2022.navigation.ReportActivity;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
@@ -78,10 +79,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.duration.setText(getFormattedTime(route.getDuration()));
         holder.length.setText(getKm(route.getLength()) + "km");
         holder.difficulty.setText(route.getLevel());
-        byte[] image_array = Base64.getDecoder().decode(route.getImage_base64());
-        Glide.with(context).load(image_array).into(holder.image);
-        holder.favourites_number.setText(route.getLikes() + " " + holder.favourites_number.getText().toString());
-        Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+holder.username.getText().toString()).circleCrop().into(holder.avatar);
+        holder.favourites_number.setText(String.valueOf(route.getLikes()));
+        String route_name = route.getName().replace(" ","+");
+     //   Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Routes/Images/"+route_name).into(holder.image);
+      //  Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+holder.username.getText().toString()).circleCrop().into(holder.avatar);
 
         if (holder.username.getText().toString().equals(SigninFragment.current_username))
             holder.chat.setVisibility(View.GONE);
@@ -223,7 +224,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setTag(1);
                     route.setLikes(route.getLikes() + 1);
-                    holder.favourites_number.setText(route.getLikes() + " " + context.getResources().getString(R.string.post_likes));
+                    holder.favourites_number.setText(String.valueOf(route.getLikes()));
                     holder.favourite.setClickable(true);
                 });
                 HomeActivity.is_updated = true;
@@ -277,7 +278,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 ((Activity) context).runOnUiThread(() -> {
                     holder.favourite.setTag(0);
                     route.setLikes(route.getLikes() - 1);
-                    holder.favourites_number.setText(route.getLikes() + " " + context.getResources().getString(R.string.post_likes));
+                    holder.favourites_number.setText(String.valueOf(route.getLikes()));
                     holder.favourite.setClickable(true);
                     if (is_favourite_fragment) {
                         routes.remove(route);

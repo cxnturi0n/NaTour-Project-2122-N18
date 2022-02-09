@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.navigation.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.gson.Gson;
 

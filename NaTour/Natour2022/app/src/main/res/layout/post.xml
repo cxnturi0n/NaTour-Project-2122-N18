@@ -183,16 +183,34 @@
                 app:srcCompat="@drawable/ic_savedpaths" />
 
         </RelativeLayout>
-        <TextView
-            android:id="@+id/post_numberoffavourites"
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:text="@string/post_likes"
-            android:textStyle="bold"
-            android:textColor="@color/natour_black"
-            android:gravity="center"
-            android:textSize="14sp"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/post_numberoffavourites"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:text="2"
+                android:textStyle="bold"
+                android:textColor="@color/natour_black"
+                android:gravity="center"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:text="@string/post_likes"
+                android:textStyle="bold"
+                android:textColor="@color/natour_black"
+                android:gravity="center"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/post_description"
