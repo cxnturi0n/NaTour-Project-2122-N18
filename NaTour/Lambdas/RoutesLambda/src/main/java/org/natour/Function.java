@@ -86,20 +86,6 @@ public class Function implements RequestHandler<Event, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "GET_PERSONAL_FAVOURITES_NAMES": //
-
-                try {
-
-                    List<Route> routes = route_dao.getUserFavouritesNames(event.getQuery_filters().getUsername());
-
-                    String json_routes = gson.toJson(routes);
-
-                    return json_routes;
-
-                } catch (PersistenceException e) {
-                    throw new RuntimeException(e.getMessage());
-                }
-
             case "GET_USER_TOVISIT": //
 
                 try {

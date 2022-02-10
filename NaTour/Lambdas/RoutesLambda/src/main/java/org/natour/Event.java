@@ -3,6 +3,7 @@ package org.natour;
 import org.natour.entities.Report;
 import org.natour.entities.Route;
 import org.natour.entities.QueryFilters;
+import org.natour.entities.RoutesCompilation;
 
 public class Event {
 
@@ -12,18 +13,20 @@ public class Event {
     private Report report;
     private QueryFilters query_filters;
     private String profile_image_base64;
+    private RoutesCompilation routes_compilation;
 
     public Event(){
 
     }
 
-    public Event(String action, String id_token, Route route, Report report, QueryFilters query_filters, String profile_image_base64) {
+    public Event(String action, String id_token, Route route, Report report, QueryFilters query_filters, String profile_image_base64, RoutesCompilation routes_compilation) {
         this.action = action;
         this.id_token = id_token;
         this.route = route;
         this.report = report;
         this.query_filters = query_filters;
         this.profile_image_base64 = profile_image_base64;
+        this.routes_compilation = routes_compilation;
     }
 
     public String getAction() {
@@ -74,5 +77,11 @@ public class Event {
         this.profile_image_base64 = profile_image_base64;
     }
 
+    public RoutesCompilation getRoutes_compilation() {
+        return routes_compilation;
+    }
 
+    public void setRoutes_compilation(RoutesCompilation routes_compilation) {
+        this.routes_compilation = routes_compilation;
+    }
 }

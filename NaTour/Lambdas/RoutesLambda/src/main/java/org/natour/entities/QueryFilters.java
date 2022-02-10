@@ -170,25 +170,5 @@ public class QueryFilters {
         this.tags = tags;
     }
 
-    @Override
-    public String toString() {
-        return "QueryFilters{" +
-                "route_name='" + route_name + '\'' +
-                ", level='" + level + '\'' +
-                ", duration=" + duration +
-                ", is_disability_access=" + is_disability_access +
-                ", centre_latitude=" + centre_latitude +
-                ", centre_longitude=" + centre_longitude +
-                ", start_point_latitude=" + start_point_latitude +
-                ", start_point_longitude=" + start_point_longitude +
-                ", end_point_latitude=" + end_point_latitude +
-                ", end_point_longitude=" + end_point_longitude +
-                ", radius=" + radius +
-                ", start=" + start +
-                ", end=" + end +
-                ", creator_username='" + creator_username + '\'' +
-                ", username='" + username + '\'' +
-                '}';
-    }
 }
 

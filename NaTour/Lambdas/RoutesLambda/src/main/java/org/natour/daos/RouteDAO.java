@@ -1,9 +1,6 @@
 package org.natour.daos;
 
-import org.natour.entities.LatLng;
-import org.natour.entities.QueryFilters;
-import org.natour.entities.Report;
-import org.natour.entities.Route;
+import org.natour.entities.*;
 import org.natour.exceptions.PersistenceException;
 
 import java.sql.SQLException;
@@ -19,6 +16,10 @@ public interface RouteDAO {
 
     public void insertReport(Report report) throws PersistenceException;
 
+    public void insertRouteIntoCompilation(String id, String route_name) throws PersistenceException;
+
+    public void createRoutesCompilation(RoutesCompilation routes_compilation) throws PersistenceException;
+
     public List<Route> getAll() throws PersistenceException;
 
     public List<Route> getN(int start, int end) throws PersistenceException;
@@ -27,15 +28,17 @@ public interface RouteDAO {
 
     public List<Route> getUserFavourites(String username) throws PersistenceException;
 
-    public List<Route> getUserFavouritesNames(String username) throws PersistenceException;
-
     public List<Route> getUserToVisit(String username) throws PersistenceException;
 
     public List<Route> getFilteredRoutes(QueryFilters query_filters) throws PersistenceException;
 
     public List<Route> getRoutesByLevel(String level) throws PersistenceException;
 
-    public boolean hasUserAlreadyLiked(String username, String route_name) throws PersistenceException, SQLException;
+    public String getFilteredSql(QueryFilters query_filters);
+
+    public List<RoutesCompilation> getUserRoutesCompilations(String username) throws PersistenceException;
+
+    public List<Route> getUserRoutesCompilation(String id) throws PersistenceException;
 
     public void deleteFavourite(String username, String route_name) throws PersistenceException;
 
