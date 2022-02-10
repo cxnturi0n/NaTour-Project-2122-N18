@@ -137,6 +137,8 @@
     <string name="activitySearch_disability">Accessibility for the disabled</string>
     <string name="activitySearch_tags">Tags</string>
     <string name="activitySearch_search">Search</string>
+    <string name="activitySearch_ok">Ok</string>
+    <string name="activitySearch_cancel">Cancel</string>
     <string name="title_activity_search">SearchActivity</string>
 
 

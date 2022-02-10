@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_alert_dialog"
+    android:layout_marginTop="32dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:text="@string/activitySearch_range"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/natour_black"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/activitySearch_range"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/activitySearch_range"
+        android:background="@drawable/background_edit_text"
+        android:fontFamily="sans-serif-light"
+        android:inputType="text"
+        android:paddingHorizontal="16dp" />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:text="@string/activitySearch_minduration"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/natour_black"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/activitySearch_duration"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="64dp"
+        android:paddingEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/activitySearch_minduration"
+        android:background="@drawable/background_edit_text"
+        android:fontFamily="sans-serif-light"
+        android:inputType="text"
+        android:paddingHorizontal="16dp" />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:text="@string/activitySearch_difficulty"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/natour_black"
+        android:textSize="18sp"/>
+
+    <RelativeLayout
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="32dp"
+        android:layout_height="72dp">
+
+        <RadioButton
+            android:id="@+id/activitySearch_easy"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/background_radiobutton"
+            android:button="@null"
+            android:checked="false"
+            android:text="@string/activityCreateRoute_easy"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/activitySearch_medium"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="32dp"
+            android:checked="false"
+            android:background="@drawable/background_radiobutton"
+            android:button="@null"
+            android:text="@string/activityCreateRoute_medium"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/activitySearch_hard"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp"
+            android:checked="false"
+            android:background="@drawable/background_radiobutton"
+            android:text="@string/activityCreateRoute_hard"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:button="@null"/>
+
+        <RadioButton
+            android:id="@+id/activitySearch_extreme"
+            android:layout_width="130dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_height="30dp"
+            android:checked="false"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/background_radiobutton"
+            android:text="@string/activityCreateRoute_extreme"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:button="@null"/>
+
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/activitySearch_disability"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/natour_transparent"
+        android:button="@null"
+        android:checked="false"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:drawablePadding="16dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/activitySearch_disability"
+        android:textColor="@color/natour_black"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activitySearch_tags"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/natour_black"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/activitySearch_addtag"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/background_add_tag"
+            android:hint="@string/activityCreateRoute_addtag"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="3dp"
+            android:singleLine="true"
+            android:textColor="@color/natour_grey"
+            android:textColorHint="@color/natour_grey"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <me.gujun.android.taggroup.TagGroup
+        android:id="@+id/activitySearch_taggroup"
+        style="@style/TagGroup"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="32dp">
+
+        <android.widget.Button
+            android:id="@+id/activitySearch_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/activitySearch_ok"
+            android:layout_marginEnd="80dp"
+            android:background="@color/natour_transparent"
+            android:text="@string/activitySearch_cancel"
+            android:textColor="@color/natour_green"
+            android:textSize="18sp" />
+
+        <android.widget.Button
+            android:id="@+id/activitySearch_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@color/natour_transparent"
+            android:text="@string/activitySearch_ok"
+            android:textColor="@color/natour_green"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
