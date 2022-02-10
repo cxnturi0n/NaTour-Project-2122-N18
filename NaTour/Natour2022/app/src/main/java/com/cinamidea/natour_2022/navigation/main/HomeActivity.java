@@ -119,7 +119,7 @@ public class HomeActivity extends AppCompatActivity {
         textview_username.setText(SigninFragment.current_username);
 
 
-            Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/peppe" ).placeholder(R.drawable.natour_avatar).into(imgbutton_avatar);
+            Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username ).placeholder(R.drawable.natour_avatar).into(imgbutton_avatar);
 
 
     }
