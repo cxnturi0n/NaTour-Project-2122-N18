@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.SigninFragment;
@@ -41,6 +42,7 @@ import com.cinamidea.natour_2022.utilities.http.callbacks.user.PutProfileImageCa
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
@@ -96,8 +98,6 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
         button_home.performClick();
-
-        //Richiesta permessi
         getPermissions();
 
 
@@ -118,10 +118,10 @@ public class HomeActivity extends AppCompatActivity {
 
         textview_username.setText(SigninFragment.current_username);
 
-        //TODO:Check bucket per l'immagine
-//        UserType userType = new UserType(this);
-//        UsersHTTP.getProfileImage(userType.getUser_type(), SigninFragment.current_username, userType.getId_token(), new GetProfileImageCallback(this, imgbutton_avatar));
-        //Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + SigninFragment.current_username).into(imgbutton_avatar);
+
+            Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/peppe" ).placeholder(R.drawable.natour_avatar).into(imgbutton_avatar);
+
+
     }
 
     private void setupChatUser() {
@@ -133,8 +133,7 @@ public class HomeActivity extends AppCompatActivity {
         User user = new User();
         user.setId(SigninFragment.current_username);
         user.setName(SigninFragment.current_username);
-        //user.setImage("https://natour-android.s3.eu-central-1.amazonaws.com/Users/ProfilePics/Umberto");
-        //user.setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username);
+        user.setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username);
         String token = client.devToken(user.getId());
         client.connectUser(
                 user,

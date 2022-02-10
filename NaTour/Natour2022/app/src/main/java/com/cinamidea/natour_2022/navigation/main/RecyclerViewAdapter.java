@@ -81,8 +81,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.difficulty.setText(route.getLevel());
         holder.favourites_number.setText(String.valueOf(route.getLikes()));
         String route_name = route.getName().replace(" ","+");
-     //   Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Routes/Images/"+route_name).into(holder.image);
-      //  Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+holder.username.getText().toString()).circleCrop().into(holder.avatar);
+        Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Routes/Images/"+route_name).into(holder.image);
+        Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+holder.username.getText().toString()).circleCrop().placeholder(R.drawable.natour_avatar).into(holder.avatar);
 
         if (holder.username.getText().toString().equals(SigninFragment.current_username))
             holder.chat.setVisibility(View.GONE);
