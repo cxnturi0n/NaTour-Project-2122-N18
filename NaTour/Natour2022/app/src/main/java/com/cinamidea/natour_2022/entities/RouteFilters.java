@@ -5,22 +5,29 @@ import com.google.android.gms.maps.model.LatLng;
 public class RouteFilters {
 
     private String route_name;
-    private String level;
+    private String levels;
     private float duration;
     private boolean is_disability_access;
-    private LatLng centre;
+    private LatLng centre = new LatLng(0,0);
     private double radius;
+    private String tags;
 
     public RouteFilters() {
     }
 
-    public RouteFilters(String route_name, String level, float duration, boolean is_disability_access, LatLng centre, double radius) {
+    public RouteFilters(String route_name, String levels, float duration, boolean is_disability_access, LatLng centre, double radius,String tags) {
         this.route_name = route_name;
-        this.level = level;
+        this.levels = levels;
         this.duration = duration;
         this.is_disability_access = is_disability_access;
         this.centre = centre;
         this.radius = radius;
+        this.tags = tags;
+    }
+
+
+    public String getTags() {
+        return tags;
     }
 
     public String getRoute_name() {
@@ -32,11 +39,11 @@ public class RouteFilters {
     }
 
     public String getLevel() {
-        return level;
+        return levels;
     }
 
     public void setLevel(String level) {
-        this.level = level;
+        this.levels = level;
     }
 
     public float getDuration() {

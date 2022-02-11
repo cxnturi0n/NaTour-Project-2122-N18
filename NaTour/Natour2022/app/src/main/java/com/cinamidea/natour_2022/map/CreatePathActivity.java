@@ -230,7 +230,7 @@ public class CreatePathActivity extends AppCompatActivity {
         if (!checkLevel().equals("error")) {
 
             Route route = new Route(title.getText().toString(), description.getText().toString(),
-                    SigninFragment.current_username, level, Integer.valueOf(duration.getText().toString()), 0, checkDisabilityAccess(), path, tokenizedTags(tags), image_base64, getRouteLength(path));
+                    SigninFragment.current_username, level, Integer.parseInt(duration.getText().toString()), 0, checkDisabilityAccess(), path, tokenizedTags(tags), image_base64, getRouteLength(path));
 
             UserType user_type = new UserType(this);
 

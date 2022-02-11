@@ -17,8 +17,14 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.entities.RouteFilters;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetFilteredRoutesCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
+import com.paulrybitskyi.persistentsearchview.listeners.OnSearchConfirmedListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +36,16 @@ public class GeoSearchActivity extends AppCompatActivity {
     private Fragment map_fragment;
     private List<String> tags = new ArrayList<>();
     private List<String> difficulties = new ArrayList<>();
-    private String range;
-    private String min_duration;
+    private String range = "0";
+    private String min_duration = "0";
     private boolean is_disability;
     private Dialog dialog;
 
+
+
     private static PersistentSearchView persistentSearchView;
     private static LatLng latLng;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,22 +56,35 @@ public class GeoSearchActivity extends AppCompatActivity {
         persistentSearchView = findViewById(R.id.activityGeoSearch_search);
         persistentSearchView.showRightButton();
 
+
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.activityGeoSearch_map, map_fragment);
         fragmentTransaction.commit();
 
-        dialog =  new Dialog(GeoSearchActivity.this);
+        dialog = new Dialog(GeoSearchActivity.this);
         dialog.setContentView(R.layout.dialog_search_filters);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCanceledOnTouchOutside(false);
-
         listeners();
 
     }
 
     private void listeners() {
+
+        //TODO:Sistemare valore in get filtered
+        persistentSearchView.setOnSearchConfirmedListener(new OnSearchConfirmedListener() {
+            @Override
+            public void onSearchConfirmed(PersistentSearchView searchView, String query) {
+                RouteFilters routeFilters = new RouteFilters("", tokenizedList(difficulties),
+                        Float.parseFloat(min_duration), is_disability, latLng, Double.parseDouble(range),tokenizedList(tags));
+
+                UserType userType = new UserType(GeoSearchActivity.this);
+                new RoutesHTTP().getFilteredRoutes(routeFilters,
+                        userType.getUser_type()+userType.getId_token(), new GetFilteredRoutesCallback());
+            }
+        });
 
         persistentSearchView.setOnRightBtnClickListener(view -> {
             dialog.show();
@@ -87,17 +109,17 @@ public class GeoSearchActivity extends AppCompatActivity {
                 hard.setChecked(false);
                 extreme.setChecked(false);
                 tagGroup.setTags(tags);
-                ((EditText)dialog.findViewById(R.id.activitySearch_range)).setText("");
-                ((EditText)dialog.findViewById(R.id.activitySearch_duration)).setText("");
-                ((CheckBox)dialog.findViewById(R.id.activitySearch_disability)).setChecked(false);
+                ((EditText) dialog.findViewById(R.id.activitySearch_range)).setText("");
+                ((EditText) dialog.findViewById(R.id.activitySearch_duration)).setText("");
+                ((CheckBox) dialog.findViewById(R.id.activitySearch_disability)).setChecked(false);
 
             });
 
             dialog.findViewById(R.id.activitySearch_ok).setOnClickListener(v -> {
 
-                range = ((EditText)dialog.findViewById(R.id.activitySearch_range)).getText().toString();
-                min_duration = ((EditText)dialog.findViewById(R.id.activitySearch_duration)).getText().toString();
-                is_disability = ((CheckBox)dialog.findViewById(R.id.activitySearch_disability)).isChecked();
+                range = ((EditText) dialog.findViewById(R.id.activitySearch_range)).getText().toString();
+                min_duration = ((EditText) dialog.findViewById(R.id.activitySearch_duration)).getText().toString();
+                is_disability = ((CheckBox) dialog.findViewById(R.id.activitySearch_disability)).isChecked();
 
                 dialog.dismiss();
 
@@ -153,27 +175,46 @@ public class GeoSearchActivity extends AppCompatActivity {
 
         easy.setOnClickListener(v -> {
 
-            if(!difficulties.contains("Easy")) difficulties.add("Easy");
+            if (!difficulties.contains("Easy")) difficulties.add("Easy");
 
         });
 
         medium.setOnClickListener(v -> {
 
-            if(!difficulties.contains("Medium")) difficulties.add("Medium");
+            if (!difficulties.contains("Medium")) difficulties.add("Medium");
 
         });
 
         hard.setOnClickListener(v -> {
 
-            if(!difficulties.contains("Hard")) difficulties.add("Hard");
+            if (!difficulties.contains("Hard")) difficulties.add("Hard");
 
         });
 
         extreme.setOnClickListener(v -> {
 
-            if(!difficulties.contains("Extreme")) difficulties.add("Extreme");
+            if (!difficulties.contains("Extreme")) difficulties.add("Extreme");
 
         });
+
+    }
+
+    private String tokenizedList(List<String> value) {
+
+        if (value.size() == 0) return "";
+
+        String tokenized_tags = "";
+
+        for (String tag : value) {
+
+            tokenized_tags += tag + ";";
+
+        }
+
+        tokenized_tags = tokenized_tags.substring(0, tokenized_tags.length() - 1);
+
+
+        return tokenized_tags;
 
     }
 
@@ -181,4 +222,7 @@ public class GeoSearchActivity extends AppCompatActivity {
         GeoSearchActivity.latLng = latLng;
     }
 
+    public static PersistentSearchView getPersistentSearchView() {
+        return persistentSearchView;
+    }
 }

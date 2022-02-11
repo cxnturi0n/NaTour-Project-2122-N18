@@ -71,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
                                 Manifest.permission.ACCESS_FINE_LOCATION, false);
                         Boolean coarseLocationGranted = result.getOrDefault(
                                 Manifest.permission.ACCESS_COARSE_LOCATION, false);
-                AllPathsFragment.locationPermissionGranted = fineLocationGranted && coarseLocationGranted;
+                        AllPathsFragment.locationPermissionGranted = fineLocationGranted && coarseLocationGranted;
                     }
             );
     private TextView textview_username;
@@ -120,8 +120,7 @@ public class HomeActivity extends AppCompatActivity {
 
         textview_username.setText(SigninFragment.current_username);
 
-
-            Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username ).placeholder(R.drawable.natour_avatar).into(imgbutton_avatar);
+        Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + SigninFragment.current_username).placeholder(R.drawable.natour_avatar).into(imgbutton_avatar);
 
 
     }
@@ -135,7 +134,7 @@ public class HomeActivity extends AppCompatActivity {
         User user = new User();
         user.setId(SigninFragment.current_username);
         user.setName(SigninFragment.current_username);
-        user.setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username);
+        user.setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + SigninFragment.current_username);
         String token = client.devToken(user.getId());
         client.connectUser(
                 user,
@@ -161,23 +160,32 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         button_search.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) {
 
-            Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.select_search);
-            dialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.background_alert_dialog));
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.show();
+                Dialog dialog = new Dialog(this);
+                dialog.setContentView(R.layout.select_search);
+                dialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.background_alert_dialog));
+                dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setCanceledOnTouchOutside(true);
+                dialog.show();
 
-            dialog.findViewById(R.id.selectSearch_normal).setOnClickListener(v -> {
-                dialog.hide();
-                startActivity(new Intent(this, SearchActivity.class));
-            });
+                dialog.findViewById(R.id.selectSearch_normal).setOnClickListener(v -> {
+                    dialog.hide();
+                    startActivity(new Intent(this, SearchActivity.class));
+                });
 
-            dialog.findViewById(R.id.selectSearch_Geo).setOnClickListener(v -> {
-                dialog.hide();
-                startActivity(new Intent(this, GeoSearchActivity.class));
-            });
+                dialog.findViewById(R.id.selectSearch_Geo).setOnClickListener(v -> {
+                    dialog.hide();
+                    startActivity(new Intent(this, GeoSearchActivity.class));
+                });
+
+            }else{
+                getPermissions();
+            }
 
         });
 
@@ -319,7 +327,7 @@ public class HomeActivity extends AppCompatActivity {
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
                 //TODO:Per salvare l'immagine
                 UserType userType = new UserType(this);
-                new UsersHTTP().putProfileImage(image_base64, SigninFragment.current_username, userType.getUser_type()+userType.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
+                new UsersHTTP().putProfileImage(image_base64, SigninFragment.current_username, userType.getUser_type() + userType.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -162,7 +162,7 @@ public class RoutesHTTP extends OkHTTPRequest {
     {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes?"+"route-name="+route_filters.getRoute_name()+"&level="+route_filters.getLevel()+"&duration="+route_filters.getDuration()+
-                "&disability-access"+route_filters.isIs_disability_access()+"&centre-latitude="+route_filters+"&centre-longitude="+route_filters.getCentre().latitude+ "&centre-longitude="+route_filters.getCentre().longitude+"&radius="+route_filters.getRadius();
+                "&disability-access"+route_filters.isIs_disability_access()+"&centre-latitude="+route_filters.getCentre().latitude+"&centre-longitude="+route_filters.getCentre().longitude+"&radius="+route_filters.getRadius()+"&tags="+route_filters.getTags();
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
