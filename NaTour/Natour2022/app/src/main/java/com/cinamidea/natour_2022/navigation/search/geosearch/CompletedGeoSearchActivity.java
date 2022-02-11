@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.search;
+package com.cinamidea.natour_2022.navigation.search.geosearch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,7 +11,7 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
 
-public class CompletedSearchActivity extends AppCompatActivity {
+public class CompletedGeoSearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -25,10 +25,10 @@ public class CompletedSearchActivity extends AppCompatActivity {
 
     private void loadRecyclerView() {
 
-        recyclerView = findViewById(R.id.activityCompletedSearch_recyclerview);
+        recyclerView = findViewById(R.id.activityCompletedGeoSearch_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ProgressBar progressBar = findViewById(R.id.activityCompletedSearch_progress);
+        ProgressBar progressBar = findViewById(R.id.activityCompletedGeoSearch_progress);
 
         UserType user_type = new UserType(this);
         String id_token = user_type.getUser_type() + user_type.getId_token();

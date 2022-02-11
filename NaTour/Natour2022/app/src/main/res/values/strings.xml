@@ -140,6 +140,9 @@
     <string name="activitySearch_ok">Ok</string>
     <string name="activitySearch_cancel">Cancel</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="search_normal">Search by route name</string>
+    <string name="search_geo">Search by map</string>
+    <string name="search_or">Or</string>
 
 
 </resources>

@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.search;
+package com.cinamidea.natour_2022.navigation.search.geosearch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -6,23 +6,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
-import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
@@ -48,16 +41,16 @@ public class GeoSearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_geo_search);
 
         map_fragment = new SearchMapFragment();
-        persistentSearchView = findViewById(R.id.persistentSearchView);
+        persistentSearchView = findViewById(R.id.activityGeoSearch_search);
         persistentSearchView.showRightButton();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.activitySearch_map, map_fragment);
+        fragmentTransaction.add(R.id.activityGeoSearch_map, map_fragment);
         fragmentTransaction.commit();
 
         dialog =  new Dialog(GeoSearchActivity.this);

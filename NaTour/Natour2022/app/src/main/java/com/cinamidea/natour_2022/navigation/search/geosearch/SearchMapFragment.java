@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.search;
+package com.cinamidea.natour_2022.navigation.search.geosearch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

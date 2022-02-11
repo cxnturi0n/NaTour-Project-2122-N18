@@ -3,6 +3,7 @@ package com.cinamidea.natour_2022.navigation.main;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -34,7 +36,8 @@ import com.cinamidea.natour_2022.map.MapActivity;
 import com.cinamidea.natour_2022.navigation.AdminActivity;
 import com.cinamidea.natour_2022.navigation.ChangePasswordActivity;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
-import com.cinamidea.natour_2022.navigation.search.GeoSearchActivity;
+import com.cinamidea.natour_2022.navigation.search.SearchActivity;
+import com.cinamidea.natour_2022.navigation.search.geosearch.GeoSearchActivity;
 import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
 import com.cinamidea.natour_2022.utilities.http.UsersHTTP;
@@ -42,7 +45,6 @@ import com.cinamidea.natour_2022.utilities.http.callbacks.user.PutProfileImageCa
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
@@ -160,7 +162,22 @@ public class HomeActivity extends AppCompatActivity {
 
         button_search.setOnClickListener(view -> {
 
-            startActivity(new Intent(this, GeoSearchActivity.class));
+            Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.select_search);
+            dialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.background_alert_dialog));
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+
+            dialog.findViewById(R.id.selectSearch_normal).setOnClickListener(v -> {
+                dialog.hide();
+                startActivity(new Intent(this, SearchActivity.class));
+            });
+
+            dialog.findViewById(R.id.selectSearch_Geo).setOnClickListener(v -> {
+                dialog.hide();
+                startActivity(new Intent(this, GeoSearchActivity.class));
+            });
 
         });
 

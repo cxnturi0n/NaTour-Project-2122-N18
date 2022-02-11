@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".navigation.search.geosearch.GeoSearchActivity">
+
+    <fragment
+        android:id="@+id/activityGeoSearch_map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.paulrybitskyi.persistentsearchview.PersistentSearchView
+        android:id="@+id/activityGeoSearch_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingLeft="4dp"
+        android:paddingStart="4dp"
+        android:paddingRight="4dp"
+        android:paddingEnd="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:rightButtonDrawable="@drawable/ic_filter_variant_black_48dp"
+        app:clearInputButtonDrawable="@drawable/ic_close_black_48dp"
+        app:isDismissableOnTouchOutside="true"
+        app:isProgressBarEnabled="true"
+        app:isVoiceInputButtonEnabled="false"
+        app:isClearInputButtonEnabled="true"
+        app:areSuggestionsDisabled="true"
+        app:shouldDimBehind="true"/>
+
+</RelativeLayout>
