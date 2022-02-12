@@ -74,6 +74,7 @@
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
         android:paddingStart="16dp"
+        android:visibility="gone"
         android:stateListAnimator="@null"
         android:text="Admin"
         android:textAlignment="textStart"

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,8 +41,8 @@ public class GeoSearchActivity extends AppCompatActivity {
     private Fragment map_fragment;
     private List<String> tags = new ArrayList<>();
     private List<String> difficulties = new ArrayList<>();
-    private String range = "100000";
-    private String min_duration = "0";
+    private int range = 100000;
+    private int min_duration = 0;
     private boolean is_disability;
     private Dialog dialog;
 
@@ -81,8 +82,9 @@ public class GeoSearchActivity extends AppCompatActivity {
         persistentSearchView.setOnSearchConfirmedListener(new OnSearchConfirmedListener() {
             @Override
             public void onSearchConfirmed(PersistentSearchView searchView, String query) {
+
                 RouteFilters routeFilters = new RouteFilters("", tokenizedList(difficulties),
-                        Float.parseFloat(min_duration), is_disability, latLng, Double.parseDouble(range),tokenizedList(tags));
+                        min_duration, is_disability, latLng, range,tokenizedList(tags));
 
                 ArrayList<Route> routes = new ArrayList<>();
                 ArrayList<Route> fav_routes = new ArrayList<>();
@@ -129,8 +131,20 @@ public class GeoSearchActivity extends AppCompatActivity {
 
             dialog.findViewById(R.id.activitySearch_ok).setOnClickListener(v -> {
 
-                range = ((EditText) dialog.findViewById(R.id.activitySearch_range)).getText().toString();
-                min_duration = ((EditText) dialog.findViewById(R.id.activitySearch_duration)).getText().toString();
+                String range_string = ((EditText) dialog.findViewById(R.id.activitySearch_range)).getText().toString();
+                String min_duration_string = ((EditText) dialog.findViewById(R.id.activitySearch_duration)).getText().toString();
+
+                try {
+                    if(!range_string.equals("")) range = getMeters(Integer.parseInt(range_string));
+                }catch (ArithmeticException exception) {
+                    range = Integer.MAX_VALUE;
+                }
+
+                try{
+                    if(!min_duration_string.equals("")) min_duration = Integer.parseInt(min_duration_string);
+                }catch (ArithmeticException exception) {
+                    min_duration = Integer.MAX_VALUE;
+                }
                 is_disability = ((CheckBox) dialog.findViewById(R.id.activitySearch_disability)).isChecked();
 
                 dialog.dismiss();
@@ -237,4 +251,11 @@ public class GeoSearchActivity extends AppCompatActivity {
     public static PersistentSearchView getPersistentSearchView() {
         return persistentSearchView;
     }
+
+    private int getMeters(int km) {
+
+        return km * 1000;
+
+    }
+
 }

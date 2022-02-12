@@ -6,16 +6,16 @@ public class RouteFilters {
 
     private String route_name;
     private String levels;
-    private float duration;
+    private int duration;
     private boolean is_disability_access;
     private LatLng centre = new LatLng(0,0);
-    private double radius;
+    private int radius;
     private String tags;
 
     public RouteFilters() {
     }
 
-    public RouteFilters(String route_name, String levels, float duration, boolean is_disability_access, LatLng centre, double radius,String tags) {
+    public RouteFilters(String route_name, String levels, int duration, boolean is_disability_access, LatLng centre, int radius,String tags) {
         this.route_name = route_name;
         this.levels = levels;
         this.duration = duration;
@@ -50,7 +50,7 @@ public class RouteFilters {
         return duration;
     }
 
-    public void setDuration(float duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
@@ -74,7 +74,7 @@ public class RouteFilters {
         return radius;
     }
 
-    public void setRadius(double radius) {
+    public void setRadius(int radius) {
         this.radius = radius;
     }
 }

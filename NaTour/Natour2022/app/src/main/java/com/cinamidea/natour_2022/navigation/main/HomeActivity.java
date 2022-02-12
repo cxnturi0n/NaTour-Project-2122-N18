@@ -272,6 +272,9 @@ public class HomeActivity extends AppCompatActivity {
                 findViewById(R.id.menuLayout_container)
         );
 
+        if(SigninFragment.current_username.equals("admin_natour_cinamidea2022"))
+            bottomSheetView.findViewById(R.id.menuLayout_admin).setVisibility(View.VISIBLE);
+
         UserType user_type = new UserType(this);
         if (!user_type.getUser_type().equals("Cognito"))
             bottomSheetView.findViewById(R.id.menuLayout_changePassword).setVisibility(View.GONE);
