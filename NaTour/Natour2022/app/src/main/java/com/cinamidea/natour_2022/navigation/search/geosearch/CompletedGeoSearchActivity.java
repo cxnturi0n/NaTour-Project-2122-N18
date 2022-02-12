@@ -8,18 +8,26 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
+
+import java.util.ArrayList;
 
 public class CompletedGeoSearchActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
 
+    private static ArrayList<Route> routes;
+    private static ArrayList<Route> fav_routes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completed_search);
+
+        loadRecyclerView();
 
     }
 
@@ -28,10 +36,18 @@ public class CompletedGeoSearchActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.activityCompletedGeoSearch_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ProgressBar progressBar = findViewById(R.id.activityCompletedGeoSearch_progress);
 
-        UserType user_type = new UserType(this);
-        String id_token = user_type.getUser_type() + user_type.getId_token();
+        recyclerViewAdapter = new RecyclerViewAdapter(this, routes, fav_routes, false);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
     }
+
+    public static void setRoutes(ArrayList<Route> routes) {
+        CompletedGeoSearchActivity.routes = routes;
+    }
+
+    public static void setFav_routes(ArrayList<Route> fav_routes) {
+        CompletedGeoSearchActivity.fav_routes = fav_routes;
+    }
+
 }

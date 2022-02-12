@@ -3,6 +3,7 @@ package com.cinamidea.natour_2022.utilities.http;
 import com.cinamidea.natour_2022.entities.Report;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
+import com.cinamidea.natour_2022.entities.RoutesCompilation;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.gson.Gson;
 
@@ -99,6 +100,33 @@ public class RoutesHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
     }
 
+    public void createRoutesCompilation(RoutesCompilation routes_compilation, String id_token, HTTPCallback callback){
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes-compilations";
+
+        String request_body = "{\"creator_username\":" + routes_compilation.getCreator_username() + ",\"title\":" + routes_compilation.getTitle() + ",\"description\":"
+                + routes_compilation.getDescription() +"}";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        request = getPostRequest(url, request_body, header);
+
+        startHttpRequest(callback);
+    }
+
+    public void insertRouteIntoCompilation(String username, String route_name, String compilation_id, String id_token, HTTPCallback callback){
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/"+username+"/routes/compilations/"+compilation_id;
+
+        String request_body = "{\"route_name\":" + route_name+"}";
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        request = getPostRequest(url, request_body, header);
+
+        startHttpRequest(callback);
+    }
+
     public void getFavouriteRoutes(String username, String id_token, HTTPCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/routes/favourites";
@@ -157,6 +185,17 @@ public class RoutesHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
     }
 
+    public void getRoutesByLevel(String id_token, String level, HTTPCallback callback) {
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes?level=" + level;
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        request = getGetRequest(url, header);
+
+        startHttpRequest(callback);
+
+    }
 
     public void getFilteredRoutes(RouteFilters route_filters, String id_token, HTTPCallback callback)
     {
@@ -171,9 +210,22 @@ public class RoutesHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
     }
 
-    public void getRoutesByLevel(String id_token, String level, HTTPCallback callback) {
+    public void getUserRoutesCompilaton(String username, String compilation_id, String id_token, HTTPCallback callback)
+    {
 
-        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes?level=" + level;
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/"+username+"/routes/compilations/"+compilation_id;
+
+        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
+
+        request = getGetRequest(url, header);
+
+        startHttpRequest(callback);
+    }
+
+    public void getUserRoutesCompilatons(String username, String id_token, HTTPCallback callback)
+    {
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/"+username+"/routes/compilations";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
@@ -182,6 +234,9 @@ public class RoutesHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
 
     }
+
+
+
 
     //TODO:Put immagine nel bucket
     /*public static void putImageInBucket(String user_type, String id_token, Base64 image,RoutesCallback callback){

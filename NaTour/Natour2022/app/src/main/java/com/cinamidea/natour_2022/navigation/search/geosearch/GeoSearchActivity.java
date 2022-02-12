@@ -8,15 +8,19 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
@@ -36,7 +40,7 @@ public class GeoSearchActivity extends AppCompatActivity {
     private Fragment map_fragment;
     private List<String> tags = new ArrayList<>();
     private List<String> difficulties = new ArrayList<>();
-    private String range = "0";
+    private String range = "100000";
     private String min_duration = "0";
     private boolean is_disability;
     private Dialog dialog;
@@ -80,9 +84,16 @@ public class GeoSearchActivity extends AppCompatActivity {
                 RouteFilters routeFilters = new RouteFilters("", tokenizedList(difficulties),
                         Float.parseFloat(min_duration), is_disability, latLng, Double.parseDouble(range),tokenizedList(tags));
 
+                ArrayList<Route> routes = new ArrayList<>();
+                ArrayList<Route> fav_routes = new ArrayList<>();
+
+                ProgressBar progressBar = findViewById(R.id.activityGeoSearch_progressbar);
+                progressBar.setVisibility(View.VISIBLE);
+
                 UserType userType = new UserType(GeoSearchActivity.this);
                 new RoutesHTTP().getFilteredRoutes(routeFilters,
-                        userType.getUser_type()+userType.getId_token(), new GetFilteredRoutesCallback());
+                        userType.getUser_type()+userType.getId_token(), new GetFilteredRoutesCallback(SigninFragment.current_username, userType.getId_token(), routes, fav_routes, GeoSearchActivity.this, progressBar));
+
             }
         });
 
@@ -109,6 +120,7 @@ public class GeoSearchActivity extends AppCompatActivity {
                 hard.setChecked(false);
                 extreme.setChecked(false);
                 tagGroup.setTags(tags);
+
                 ((EditText) dialog.findViewById(R.id.activitySearch_range)).setText("");
                 ((EditText) dialog.findViewById(R.id.activitySearch_duration)).setText("");
                 ((CheckBox) dialog.findViewById(R.id.activitySearch_disability)).setChecked(false);

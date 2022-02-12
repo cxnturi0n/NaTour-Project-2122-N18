@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.duration.setText(getFormattedTime(route.getDuration()));
         holder.length.setText(getKm(route.getLength()) + "km");
         holder.difficulty.setText(route.getLevel());
+        Log.e("Likes", String.valueOf(route.getLikes()));
         holder.favourites_number.setText(String.valueOf(route.getLikes()));
         String route_name = route.getName().replace(" ","+");
         Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Routes/Images/"+route_name).into(holder.image);

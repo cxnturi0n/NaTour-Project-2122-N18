@@ -1,6 +1,7 @@
 package com.cinamidea.natour_2022.utilities.http.callbacks.routes;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -8,21 +9,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.navigation.search.geosearch.CompletedGeoSearchActivity;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GetFavouritesCallback implements HTTPCallback {
 
-    private final RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private final Activity activity;
     private final ProgressBar progressBar;
     private final ArrayList<Route> routes;
-    private final boolean is_to_visit_fragment;
+    private ArrayList<Route> fav_routes;
+    private boolean is_to_visit_fragment;
+    private boolean is_search = false;
+
+    public GetFavouritesCallback(Activity activity, ProgressBar progressBar, ArrayList<Route> routes, ArrayList<Route> fav_routes) {
+        this.activity = activity;
+        this.progressBar = progressBar;
+        this.fav_routes = fav_routes;
+        this.routes = routes;
+        is_search = true;
+    }
 
     public GetFavouritesCallback(RecyclerView recyclerView, RecyclerViewAdapter recyclerViewAdapter, Activity activity, ProgressBar progressBar, boolean is_to_visit_fragment, ArrayList<Route> routes) {
         this.recyclerView = recyclerView;
@@ -36,9 +50,22 @@ public class GetFavouritesCallback implements HTTPCallback {
     @Override
     public void handleStatus200(String response) {
         activity.runOnUiThread(() -> {
+
             progressBar.setVisibility(View.GONE);
-            recyclerViewAdapter = new RecyclerViewAdapter(activity, routes, jsonToRoutesParsing(response), is_to_visit_fragment);
-            recyclerView.setAdapter(recyclerViewAdapter);
+
+            if(!is_search) {
+
+                recyclerViewAdapter = new RecyclerViewAdapter(activity, routes, jsonToRoutesParsing(response), is_to_visit_fragment);
+                recyclerView.setAdapter(recyclerViewAdapter);
+
+            }else {
+
+                fav_routes = jsonToRoutesParsing(response);
+                CompletedGeoSearchActivity.setFav_routes(fav_routes);
+                CompletedGeoSearchActivity.setRoutes(routes);
+                activity.startActivity(new Intent(activity, CompletedGeoSearchActivity.class));
+
+            }
         });
     }
 
