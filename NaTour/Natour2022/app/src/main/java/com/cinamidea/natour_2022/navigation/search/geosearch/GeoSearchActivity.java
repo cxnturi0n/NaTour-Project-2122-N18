@@ -6,6 +6,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,8 +34,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchConfirmedListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.gujun.android.taggroup.TagGroup;
 
@@ -46,8 +51,8 @@ public class GeoSearchActivity extends AppCompatActivity {
     private boolean is_disability;
     private Dialog dialog;
 
-
-
+    private Geocoder geocoder;
+    private List<Address> addresses;
     private static PersistentSearchView persistentSearchView;
     private static LatLng latLng;
 
@@ -57,6 +62,7 @@ public class GeoSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geo_search);
 
+        geocoder = new Geocoder(this, Locale.getDefault());
         map_fragment = new SearchMapFragment();
         persistentSearchView = findViewById(R.id.activityGeoSearch_search);
         persistentSearchView.showRightButton();
@@ -78,23 +84,40 @@ public class GeoSearchActivity extends AppCompatActivity {
 
     private void listeners() {
 
-        //TODO:Sistemare valore in get filtered
         persistentSearchView.setOnSearchConfirmedListener(new OnSearchConfirmedListener() {
             @Override
             public void onSearchConfirmed(PersistentSearchView searchView, String query) {
+                if (!persistentSearchView.isInputQueryEmpty()) {
+                    try {
 
-                RouteFilters routeFilters = new RouteFilters("", tokenizedList(difficulties),
-                        min_duration, is_disability, latLng, range,tokenizedList(tags));
+                        addresses = geocoder.getFromLocationName(persistentSearchView.getInputQuery(), 1);
+                        if (!addresses.isEmpty()) {
+                            LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+                            setLatLng(latLng);
+                            RouteFilters routeFilters = new RouteFilters("", tokenizedList(difficulties),
+                                    min_duration, is_disability, latLng, range, tokenizedList(tags));
 
-                ArrayList<Route> routes = new ArrayList<>();
-                ArrayList<Route> fav_routes = new ArrayList<>();
+                            ArrayList<Route> routes = new ArrayList<>();
+                            ArrayList<Route> fav_routes = new ArrayList<>();
 
-                ProgressBar progressBar = findViewById(R.id.activityGeoSearch_progressbar);
-                progressBar.setVisibility(View.VISIBLE);
+                            ProgressBar progressBar = findViewById(R.id.activityGeoSearch_progressbar);
+                            progressBar.setVisibility(View.VISIBLE);
 
-                UserType userType = new UserType(GeoSearchActivity.this);
-                new RoutesHTTP().getFilteredRoutes(routeFilters,
-                        userType.getUser_type()+userType.getId_token(), new GetFilteredRoutesCallback(SigninFragment.current_username, userType.getId_token(), routes, fav_routes, GeoSearchActivity.this, progressBar));
+                            UserType userType = new UserType(GeoSearchActivity.this);
+                            new RoutesHTTP().getFilteredRoutes(routeFilters,
+                                    userType.getUser_type() + userType.getId_token(), new GetFilteredRoutesCallback(SigninFragment.current_username, userType.getId_token(), routes, fav_routes, GeoSearchActivity.this, progressBar));
+
+                        } else {
+                            //Nasconde la tastiera
+                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                            Toast.makeText(GeoSearchActivity.this, "Luogo inesistente", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
 
             }
         });
@@ -135,14 +158,15 @@ public class GeoSearchActivity extends AppCompatActivity {
                 String min_duration_string = ((EditText) dialog.findViewById(R.id.activitySearch_duration)).getText().toString();
 
                 try {
-                    if(!range_string.equals("")) range = getMeters(Integer.parseInt(range_string));
-                }catch (ArithmeticException exception) {
+                    if (!range_string.equals("")) range = getMeters(Integer.parseInt(range_string));
+                } catch (ArithmeticException exception) {
                     range = Integer.MAX_VALUE;
                 }
 
-                try{
-                    if(!min_duration_string.equals("")) min_duration = Integer.parseInt(min_duration_string);
-                }catch (ArithmeticException exception) {
+                try {
+                    if (!min_duration_string.equals(""))
+                        min_duration = Integer.parseInt(min_duration_string);
+                } catch (ArithmeticException exception) {
                     min_duration = Integer.MAX_VALUE;
                 }
                 is_disability = ((CheckBox) dialog.findViewById(R.id.activitySearch_disability)).isChecked();
