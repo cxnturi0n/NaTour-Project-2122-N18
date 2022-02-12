@@ -8,10 +8,6 @@ public class QueryFilters {
     private boolean is_disability_access;
     private float centre_latitude;
     private float centre_longitude;
-    private float start_point_latitude;
-    private float start_point_longitude;
-    private float end_point_latitude;
-    private float end_point_longitude;
     private double radius;
     private int start;
     private int end;
@@ -23,17 +19,13 @@ public class QueryFilters {
 
     }
 
-    public QueryFilters(String route_name, String level, float duration, boolean is_disability_access, float centre_latitude, float centre_longitude, float start_point_latitude, float start_point_longitude, float end_point_latitude, float end_point_longitude, double radius, int start, int end, String creator_username, String username, String tags) {
+    public QueryFilters(String route_name, String level, float duration, boolean is_disability_access, float centre_latitude, float centre_longitude, double radius, int start, int end, String creator_username, String username, String tags) {
         this.route_name = route_name;
         this.level = level;
         this.duration = duration;
         this.is_disability_access = is_disability_access;
         this.centre_latitude = centre_latitude;
         this.centre_longitude = centre_longitude;
-        this.start_point_latitude = start_point_latitude;
-        this.start_point_longitude = start_point_longitude;
-        this.end_point_latitude = end_point_latitude;
-        this.end_point_longitude = end_point_longitude;
         this.radius = radius;
         this.start = start;
         this.end = end;
@@ -88,38 +80,6 @@ public class QueryFilters {
 
     public void setCentre_longitude(float centre_longitude) {
         this.centre_longitude = centre_longitude;
-    }
-
-    public float getStart_point_latitude() {
-        return start_point_latitude;
-    }
-
-    public void setStart_point_latitude(float start_point_latitude) {
-        this.start_point_latitude = start_point_latitude;
-    }
-
-    public float getStart_point_longitude() {
-        return start_point_longitude;
-    }
-
-    public void setStart_point_longitude(float start_point_longitude) {
-        this.start_point_longitude = start_point_longitude;
-    }
-
-    public float getEnd_point_latitude() {
-        return end_point_latitude;
-    }
-
-    public void setEnd_point_latitude(float end_point_latitude) {
-        this.end_point_latitude = end_point_latitude;
-    }
-
-    public float getEnd_point_longitude() {
-        return end_point_longitude;
-    }
-
-    public void setEnd_point_longitude(float end_point_longitude) {
-        this.end_point_longitude = end_point_longitude;
     }
 
     public double getRadius() {

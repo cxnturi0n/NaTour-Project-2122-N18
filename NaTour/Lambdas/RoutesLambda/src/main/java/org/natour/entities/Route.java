@@ -161,4 +161,22 @@ public class Route {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", creator_username='" + creator_username + '\'' +
+                ", level='" + level + '\'' +
+                ", duration=" + duration +
+                ", report_count=" + report_count +
+                ", disability_access=" + disability_access +
+                ", coordinates=" + coordinates.toString() +
+                ", tags='" + tags + '\'' +
+                ", image_base64='" + image_base64 + '\'' +
+                ", length=" + length +
+                ", likes=" + likes +
+                '}';
+    }
 }

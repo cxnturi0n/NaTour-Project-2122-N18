@@ -8,6 +8,7 @@ import org.natour.daos.factories.RouteDAOFactory;
 import org.natour.database.MySqlDB;
 import org.natour.entities.QueryFilters;
 import org.natour.entities.Route;
+import org.natour.entities.RoutesCompilation;
 import org.natour.exceptions.PersistenceException;
 import org.natour.s3.NatourS3Bucket;
 import org.natour.tokens.CognitoTokens;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class Function implements RequestHandler<Event, String> {
 
-    //All these object will be reused as soon as lambda keeps warm
+    //All these object will be reused as long as lambda keeps warm
     RouteDAO route_dao = (new RouteDAOFactory(MySqlDB.getConnection())).getRouteDAO("mysql");
     CognitoTokens cognito_tokens = new CognitoTokens();
     Gson gson = new Gson();
@@ -53,7 +54,7 @@ public class Function implements RequestHandler<Event, String> {
                     List<Route> routes = null;
                     QueryFilters query_filters = event.getQuery_filters();
 
-                    if(!query_filters.getRoute_name().equals("")||query_filters.getRadius()!=0) //Get filtered routes
+                    if (!query_filters.getRoute_name().equals("") || query_filters.getRadius() != 0) //Get filtered routes
                         routes = route_dao.getFilteredRoutes(query_filters);
                     else if (!query_filters.getLevel().equals(""))//Get routes by difficulty level
                         routes = route_dao.getRoutesByLevel(query_filters.getLevel());
@@ -64,9 +65,7 @@ public class Function implements RequestHandler<Event, String> {
                     else if (query_filters.getEnd() != 0) //Get only a subset of routes
                         routes = route_dao.getN(query_filters.getStart(), query_filters.getEnd());
 
-                    String json_routes = gson.toJson(routes);
-
-                    return json_routes;
+                    return gson.toJson(routes);
 
                 } catch (PersistenceException e) {
                     throw new RuntimeException(e.getMessage());
@@ -78,9 +77,7 @@ public class Function implements RequestHandler<Event, String> {
 
                     List<Route> routes = route_dao.getUserFavourites(event.getQuery_filters().getUsername());
 
-                    String json_routes = gson.toJson(routes);
-
-                    return json_routes;
+                    return gson.toJson(routes);
 
                 } catch (PersistenceException e) {
                     throw new RuntimeException(e.getMessage());
@@ -92,9 +89,7 @@ public class Function implements RequestHandler<Event, String> {
 
                     List<Route> routes = route_dao.getUserToVisit(event.getQuery_filters().getUsername());
 
-                    String json_routes = gson.toJson(routes);
-
-                    return json_routes;
+                    return gson.toJson(routes);
 
                 } catch (PersistenceException e) {
                     throw new RuntimeException(e.getMessage());
@@ -130,6 +125,46 @@ public class Function implements RequestHandler<Event, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
+            case "GET_FILTERED_ROUTES": {
+
+                try {
+
+                    List<Route> routes = route_dao.getFilteredRoutes(event.getQuery_filters());
+
+                    return gson.toJson(routes);
+
+                } catch (PersistenceException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+
+            }
+
+            case "GET_USER_COMPILATION":
+
+                try {
+
+                    List<Route> routes = route_dao.getUserRoutesCompilation(event.getRoutes_compilation().getId());
+
+                    return gson.toJson(routes);
+
+                } catch (PersistenceException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+
+
+            case "GET_USER_COMPILATIONS":
+
+                try {
+
+                    List<RoutesCompilation> routes_compilations = route_dao.getUserRoutesCompilations(event.getRoutes_compilation().getCreator_username());
+
+                    return gson.toJson(routes_compilations);
+
+                } catch (PersistenceException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+
+
             case "INSERT": //
 
                 try {
@@ -143,17 +178,20 @@ public class Function implements RequestHandler<Event, String> {
                     throw new RuntimeException(e.getMessage());
                 }
 
-            case "INSERT_USER_FAVOURITE": //
 
-                try {
+        case "INSERT_USER_FAVOURITE":
 
-                    route_dao.insertFavourite(event.getQuery_filters().getUsername(), event.getQuery_filters().getRoute_name());
+        try {
 
-                    return "Route inserted successfully";
+            route_dao.insertFavourite(event.getQuery_filters().getUsername(), event.getQuery_filters().getRoute_name());
 
-                } catch (PersistenceException e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+            return "Route inserted successfully";
+
+        } catch (PersistenceException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+
 
 
             case "INSERT_USER_TOVISIT": //
@@ -177,6 +215,28 @@ public class Function implements RequestHandler<Event, String> {
                     return "Report [" + event.getReport().getType() + "] inserted successfully";
 
                 } catch (PersistenceException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+
+            case "CREATE_ROUTES_COMPILATION":
+
+                try{
+                    route_dao.createRoutesCompilation(event.getRoutes_compilation());
+
+                    return "Routes compilation created successfully";
+
+                }catch (PersistenceException e){
+                    throw new RuntimeException(e.getMessage());
+                }
+
+            case "INSERT_ROUTE_IN_COMPILATION":
+
+                try{
+                    route_dao.insertRouteIntoCompilation(event.getRoutes_compilation().getId(), event.getQuery_filters().getRoute_name());
+
+                    return "Route inserted in compilation successfully";
+
+                }catch (PersistenceException e){
                     throw new RuntimeException(e.getMessage());
                 }
 
@@ -210,79 +270,7 @@ public class Function implements RequestHandler<Event, String> {
 
         }
 
-    }
-
 }
-
-
-//public class Function{
-
-//   public static void main(String [] args) throws IOException {
-
-/*
-    GET ALL ROUTES
-        Query parameters: type = "ALL"  ; Headers : Authorization:<UserType><id_token>
-
-GET N
-        Query parameters: type = "SUB", start, end  ;    Headers : Authorization:<UserType><id_token>
-
-GET CREATED ROUTES
-        Query parameters: type = "OWNED", creator_username ;    Headers : Authorization:<UserType><id_token>
-
-GET USER FAVOURITES
-        Query parameters: type = "FAVOURITES", username  ;    Headers : Authorization:<UserType><id_token>
-
-GET USER TO VISIT
-        Query parameters: type = "TO-VISIT" username  ;    Headers : Authorization:<UserType><id_token>
-s
-        GET BY LEVEL
-
-        Query parameters: level  ;    Headers : Authorization:<UserType><id_token>
-
-
-"report":{
-        "route_name":$input.json('$.route_name'),
-        "title":$input.json('$.title'),
-        "description":$input.json('$.description'),
-        "type":$input.json('$.type'),
-        "issuer":$input.json('$.issuer')
-        }
-*/
-
-
-//NatourS3Bucket s = new NatourS3Bucket();
-/*
-        Random rd = new Random();
-        byte[] arr = new byte[100000];
-        rd.nextBytes(arr);
-
-        //Convert image to byte array
-        BufferedImage bImage = ImageIO.read(new File("C:/Users/Utente/Desktop/okey.png"));
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ImageIO.write(bImage, "png", bos );
-        byte [] data = bos.toByteArray();
-
-        String encoded = Base64.getEncoder().encodeToString(data);
-        System.out.println(encoded.length());
-
-
-        ByteArrayInputStream bis = new ByteArrayInputStream(data);
-        BufferedImage bImage2 = ImageIO.read(bis);
-        ImageIO.write(bImage2, "jpg", new File("output.jpg"));
-*/
-
-
-
-      /*  ByteArrayInputStream bais = new ByteArrayInputStream(s.fetchImage("mrincredible.jpg"));
-        try {
-            BufferedImage image = ImageIO.read(bais);
-            File outputfile = new File("C:/Users/Utente/Desktop/okey.png");
-            ImageIO.write(image, "jpg", outputfile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-/*    }
-}*/
+}
 
 

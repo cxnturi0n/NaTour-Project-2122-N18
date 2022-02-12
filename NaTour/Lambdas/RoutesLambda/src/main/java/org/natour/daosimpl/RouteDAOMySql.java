@@ -34,7 +34,7 @@ public class RouteDAOMySql implements RouteDAO {
             get_all_routes_statement = connection.prepareStatement(query_routes);
 
             String query_coordinates = "SELECT latitude, longitude FROM Coordinates WHERE route_name =? ORDER BY seq_num,route_name";
-            route_coordinates_statement = connection.prepareStatement(query_coordinates);
+            route_coordinates_statement = connection.prepareStatement(query_coordinates, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             String query_user_routes_statement = "SELECT * FROM Routes WHERE creator_username=?";
             user_routes_statement = connection.prepareStatement(query_user_routes_statement);
@@ -673,17 +673,12 @@ public class RouteDAOMySql implements RouteDAO {
             //statement to fetch routes in a given compilation
             prepared_statement = connection.prepareStatement(get_routes_in_compilation);
 
+            prepared_statement.setString(1, id);
+
             ResultSet rs = prepared_statement.executeQuery();
 
-            //Cycling on user's routes compilations
-            while(rs.next()){
-
-                prepared_statement.setString(1, rs.getString("id"));
-
-                ResultSet rs1 = prepared_statement.executeQuery();
-
                 //Cycling on routes of user compilation with given id
-                while (rs1.next()){
+                while (rs.next()) {
 
                     String route_name = rs.getString("name");
 
@@ -703,7 +698,6 @@ public class RouteDAOMySql implements RouteDAO {
                     routes_in_compilation.add(route);
 
                 }
-            }
 
         } catch (SQLException e) {
             throw new PersistenceException(e.getMessage());
@@ -734,65 +728,92 @@ public class RouteDAOMySql implements RouteDAO {
             prepared_statement = connection.prepareStatement(filter_sql);
 
             double radius_length = query_filters.getRadius();
+
+            ResultSet rs = prepared_statement.executeQuery(filter_sql);
+
             if (!query_filters.getRoute_name().equals("")) {
 
                 prepared_statement.executeQuery(filter_sql);
-                ResultSet rs = prepared_statement.executeQuery(filter_sql);
 
                 while (rs.next()) {
 
                     Route route1 = new Route(rs.getString("name"), rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getInt("duration"),
-                            rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), "ciao", rs.getFloat("length"), rs.getInt("likes"));
+                            rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), rs.getFloat("length"), rs.getInt("likes"));
 
                     routes.add(route1);
                 }
 
             } else {
 
+                if (query_filters.getCentre_latitude() == 0.0f && query_filters.getCentre_longitude() == 0.0f) {
 
-                ResultSet rs = prepared_statement.executeQuery(filter_sql);
-
-                while (rs.next()) {
-
-
-                    String route_name = rs.getString("name");
-
-                    LatLng start_point_latlng = null;
-                    LatLng end_point_latlng = null;
-
-                    route_coordinates_statement.setString(1, route_name);
-
-                    ResultSet rs1 = route_coordinates_statement.executeQuery();
-
-                    //Setting start point latitude and longitude
-                    if (rs1.first())
-                        start_point_latlng = new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude"));
-
-                    //Setting end point latitude and longitude
-                    if (rs1.last())
-                        end_point_latlng = new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude"));
-
-                    //Setting centre latitude and longitude
-                    LatLng centre_latlng = new LatLng(query_filters.getCentre_latitude(), query_filters.getCentre_longitude());
-
-                    //Distance between start point and radius
-                    double distance_between_start_point_and_radius = distance(start_point_latlng, centre_latlng);
-
-                    //Distance between end point and radius
-                    double distance_between_end_point_and_radius = distance(end_point_latlng, centre_latlng);
-
-                    //If start point and end point are beneath radius range then this route can be added
-                    if (distance_between_start_point_and_radius <= radius_length && distance_between_end_point_and_radius <= radius_length) {
+                    while(rs.next())
+                    {
+                        String route_name = rs.getString("name");
 
                         Route route1 = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getInt("duration"),
                                 rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), rs.getFloat("length"), rs.getInt("likes"));
 
+                        route_coordinates_statement.setString(1, route_name);
+
+                        ResultSet rs1 = route_coordinates_statement.executeQuery();
 
                         List<LatLng> coordinates = route1.getCoordinates();
-                        rs1.beforeFirst();
+
                         while (rs1.next())
                             coordinates.add(new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude")));
+
                         routes.add(route1);
+
+                    }
+
+                }
+                else{
+
+                    while (rs.next()) {
+
+                        String route_name = rs.getString("name");
+
+                        LatLng start_point_latlng = null;
+                        LatLng end_point_latlng = null;
+
+                        route_coordinates_statement.setString(1, route_name);
+
+                        ResultSet rs1 = route_coordinates_statement.executeQuery();
+
+                            //Setting start point latitude and longitude
+                            if (rs1.first())
+                                start_point_latlng = new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude"));
+
+                            //Setting end point latitude and longitude
+                            if (rs1.last())
+                                end_point_latlng = new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude"));
+
+                            //Setting centre latitude and longitude
+                            LatLng centre_latlng = new LatLng(query_filters.getCentre_latitude(), query_filters.getCentre_longitude());
+
+                            //Distance between start point and centre
+                            double distance_between_start_point_and_centre = distance(start_point_latlng, centre_latlng);
+
+                            //Distance between end point and centre
+                            double distance_between_end_point_and_centre = distance(end_point_latlng, centre_latlng);
+
+                            //If start point and end point are beneath radius range then this route can be added
+                            if (distance_between_start_point_and_centre <= radius_length && distance_between_end_point_and_centre <= radius_length) {
+
+                                Route route1 = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getInt("duration"),
+                                        rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), rs.getFloat("length"), rs.getInt("likes"));
+
+                                List<LatLng> coordinates = route1.getCoordinates();
+                                //Move back to before first row
+                                rs1.beforeFirst();
+                                //Cycling on route's coordinates
+                                while (rs1.next())
+                                    coordinates.add(new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude")));
+
+                                routes.add(route1);
+                            }
+
                     }
 
                 }
@@ -802,12 +823,12 @@ public class RouteDAOMySql implements RouteDAO {
         } catch (SQLException e) {
             throw new PersistenceException(e.getMessage());
         } catch (NullPointerException e) {
-            throw new PersistenceException("Something went wrong");
-        } finally {
+            throw new PersistenceException(e.getMessage());
+        }finally{
             try {
                 prepared_statement.close();
             } catch (SQLException e) {
-                throw new PersistenceException("Something Went Wrong");
+                throw new PersistenceException("Something went wrong");
             }
         }
         return routes;
@@ -821,7 +842,9 @@ public class RouteDAOMySql implements RouteDAO {
 
         if (!query_filters.getRoute_name().equals("")) {
 
-            filter_sql += "name like '%" + "\"" + query_filters.getRoute_name() + "\"" + "%'";
+            filter_sql += "name like '%" + query_filters.getRoute_name() + "%'";
+
+            return filter_sql;
 
         } else {
 
@@ -848,7 +871,7 @@ public class RouteDAOMySql implements RouteDAO {
                         .collect(Collectors.toList());
                 filter_sql += "(";
                 for (String tag : tags_as_list)
-                    filter_sql += "tags like '%" + "\"" + tag + "\"" + "%' OR ";
+                    filter_sql += "tags like '%" + tag + "%' OR ";
                 filter_sql = filter_sql.substring(0, filter_sql.length() - 3);
                 filter_sql += ")";
                 return filter_sql;
@@ -857,7 +880,7 @@ public class RouteDAOMySql implements RouteDAO {
 
         }
 
-        return filter_sql.substring(0, filter_sql.length() - 4);
+        return filter_sql.length()==27 ? "SELECT * FROM Routes": filter_sql.substring(0, filter_sql.length() - 4);
 
     }
 
