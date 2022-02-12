@@ -210,7 +210,7 @@ public class RoutesHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
     }
 
-    public void getUserRoutesCompilaton(String username, String compilation_id, String id_token, HTTPCallback callback)
+    public void getUserRoutesCompilation(String username, String compilation_id, String id_token, HTTPCallback callback)
     {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/"+username+"/routes/compilations/"+compilation_id;
@@ -222,7 +222,7 @@ public class RoutesHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
     }
 
-    public void getUserRoutesCompilatons(String username, String id_token, HTTPCallback callback)
+    public void getUserRoutesCompilations(String username, String id_token, HTTPCallback callback)
     {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/"+username+"/routes/compilations";

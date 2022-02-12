@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".navigation.compilation.CompilationActivity">
+    tools:context=".navigation.compilation.RoutesInCompilationActivity">
 
     <ProgressBar
-        android:id="@+id/activityCompilation_progress"
+        android:id="@+id/activityRoutesCompilation_progress"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
         android:indeterminateTint="@color/natour_green"
@@ -15,20 +15,9 @@
         android:indeterminate="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activityCompilation_recyclerview"
+        android:id="@+id/activityRoutesCompilation_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/activityCompilation_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:src="@android:drawable/ic_input_add"
-        android:backgroundTint="@color/natour_green"/>
 
 </RelativeLayout>

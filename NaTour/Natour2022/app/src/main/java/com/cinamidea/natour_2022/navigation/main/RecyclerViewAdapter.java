@@ -29,6 +29,7 @@ import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.DetailedMap;
 import com.cinamidea.natour_2022.navigation.ReportActivity;
+import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
 import com.cinamidea.natour_2022.utilities.auth.UserType;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
@@ -173,6 +174,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 insertFavourite(holder, user_type.getUser_type(), route, user_type.getId_token());
             }
 
+
+        });
+
+        holder.add_compilation.setOnClickListener(view -> {
+
+            Intent intent = new Intent(context, CompilationActivity.class);
+            intent.putExtra("route_name", route.getName());
+            context.startActivity(intent);
 
         });
 
@@ -424,6 +433,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView duration, length;
         ImageView handicap;
         ImageButton favourite;
+        ImageButton add_compilation;
         ViewGroup options_container;
         ImageButton options;
         ImageButton chat;
@@ -442,6 +452,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             image = itemView.findViewById(R.id.post_image);
             duration = itemView.findViewById(R.id.post_duration);
             length = itemView.findViewById(R.id.post_length);
+            add_compilation = itemView.findViewById(R.id.post_collection);
             handicap = itemView.findViewById(R.id.post_handicap);
             favourite = itemView.findViewById(R.id.post_favourite);
             options = itemView.findViewById(R.id.post_options);

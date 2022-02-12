@@ -1,6 +1,9 @@
 package com.cinamidea.natour_2022.navigation.compilation;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +14,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.entities.RoutesCompilation;
+import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
+import com.cinamidea.natour_2022.utilities.http.callbacks.routes.InsertRouteInCompilationCallback;
 
 import java.util.ArrayList;
 
 public class CompilationRecyclerViewAdapter extends RecyclerView.Adapter<CompilationRecyclerViewAdapter.MyViewHolder> {
 
     Context context;
-    ArrayList<Route> routes;
-    ArrayList<Route> favourite_routes;
+    ArrayList<RoutesCompilation> routecompilations;
+    String extra;
+    boolean is_insert = false;
 
-
-    public CompilationRecyclerViewAdapter(Context context, ArrayList<Route> routes) {
+    public CompilationRecyclerViewAdapter(Context context, ArrayList<RoutesCompilation> routecompilations, String extra) {
         this.context = context;
-        this.routes = routes;
+        this.routecompilations = routecompilations;
+        this.extra = extra;
     }
 
 
@@ -40,12 +49,30 @@ public class CompilationRecyclerViewAdapter extends RecyclerView.Adapter<Compila
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-//        holder.title.setText();
-//        holder.description.setText();
+        RoutesCompilation routecompilation;
+
+        routecompilation = routecompilations.get(position);
+
+        holder.title.setText(routecompilation.getTitle());
+        holder.description.setText(routecompilation.getDescription());
+
+
 
         holder.button_open.setOnClickListener(view -> {
 
 
+            if(is_insert) {
+                UserType userType = new UserType(context);
+                String id_token = userType.getUser_type() + userType.getId_token();
+                new RoutesHTTP().insertRouteIntoCompilation(SigninFragment.current_username, extra, routecompilation.getId(), id_token, new InsertRouteInCompilationCallback((Activity) context));
+
+            }else {
+
+                Intent intent = new Intent(context, RoutesInCompilationActivity.class);
+                intent.putExtra("id", routecompilation.getId());
+                context.startActivity(intent);
+
+            }
 
         });
 
@@ -54,7 +81,7 @@ public class CompilationRecyclerViewAdapter extends RecyclerView.Adapter<Compila
 
     @Override
     public int getItemCount() {
-        return routes.size();
+        return routecompilations.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -68,6 +95,14 @@ public class CompilationRecyclerViewAdapter extends RecyclerView.Adapter<Compila
             title = itemView.findViewById(R.id.compilation_title);
             description = itemView.findViewById(R.id.compilation_description);
             button_open = itemView.findViewById(R.id.compilation_open);
+
+            if(extra!=null) {
+
+                button_open.setText(R.string.select);
+                is_insert = true;
+
+            }
+
 
 
         }

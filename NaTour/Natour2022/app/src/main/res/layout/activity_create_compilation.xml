@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activityCreateCompilation_Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context=".navigation.compilation.CreateCompilationActivity">
+
+    <LinearLayout
+    android:id="@+id/activityCreateCompilation_Layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ImageButton
         android:id="@+id/activityCreateCompilation_backbutton"
@@ -126,3 +130,14 @@
     </ScrollView>
 
 </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/activityCreateCompilation_progress"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/natour_green"
+        android:layout_height="wrap_content"
+        android:indeterminate="true" />
+    
+</RelativeLayout>
