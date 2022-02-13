@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".navigation.main.HomeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="16dp"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/activityHome_avatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginVertical="16dp"
+            android:clickable="true" />
+
+        <LinearLayout
+            android:id="@+id/activityHome_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/activityHome_welcomeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/activityHome_welcome"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/activityHome_usernameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="sans-serif"
+                android:text="@string/activityHome_username"
+                android:textColor="@color/natour_black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/activityHome_openMap"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_openmap"/>
+
+        <ImageButton
+            android:id="@+id/activityHome_search"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_search"/>
+
+        <ImageButton
+            android:id="@+id/activityHome_chat_or_menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_menu"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/activityHome_fragmentcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/drawable_divider_line"
+        android:layout_alignTop="@+id/activityHome_bottom"/>
+
+    <LinearLayout
+        android:id="@+id/activityHome_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/activityHome_home"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_home_active"/>
+
+        <ImageButton
+            android:id="@+id/activityHome_profile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="120dp"
+            android:background="@drawable/background_back_button"
+            app:srcCompat="@drawable/ic_profile_inactive"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
