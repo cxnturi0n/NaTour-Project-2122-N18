@@ -221,7 +221,12 @@ public class AddPathFragment extends Fragment {
                 XmlPullParser xpp = getParser();
                 InputStream gpxIn = convertStringToInputStream(gpx_content);
                 path = new ArrayList<>();
-                punti_gpx = drawFromGpx(gpxIn, punti_gpx, xpp);
+                try {
+                    punti_gpx = GpxParser(xpp, gpxIn);
+                } catch (XmlPullParserException | IOException e) {
+                    e.printStackTrace();
+                }
+                drawFromGpx(punti_gpx);
                 button_add_gpx.setVisibility(View.GONE);
                 button_cancel.setVisibility(View.VISIBLE);
                 button_success.setVisibility(View.VISIBLE);
@@ -306,14 +311,7 @@ public class AddPathFragment extends Fragment {
         return xpp;
     }
 
-    private List<LatLng> drawFromGpx(InputStream inputStream, List<LatLng> latLngs, XmlPullParser parser) {
-        try {
-            latLngs = GpxParser(parser, inputStream);
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void drawFromGpx(List<LatLng> latLngs) {
 
 
         for (LatLng punto : latLngs) {
@@ -334,7 +332,7 @@ public class AddPathFragment extends Fragment {
             }
 
         }
-        return latLngs;
+        return;
 
     }
 

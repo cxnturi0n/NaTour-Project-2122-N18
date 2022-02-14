@@ -10,8 +10,10 @@ public class LatLng {
     }
 
     public LatLng(float latitude, float longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        if(isLatLngValid(latitude,longitude)) {
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
     }
 
     public float getLatitude() {
@@ -38,13 +40,12 @@ public class LatLng {
                 '}';
     }
 
-    public boolean isLatLngValid(LatLng p1){
-        if(p1 == null)
-            throw new NullPointerException();
-        if(p1.getLatitude()>90||p1.getLatitude()<-90)
+    private boolean isLatLngValid(float latitude, float longitude){
+        if(latitude>90||latitude<-90)
             throw new IllegalArgumentException("Wrong latitude");
-        if(p1.getLongitude()>180||p1.getLongitude()<-180)
+        if(longitude>180||longitude<-180)
             throw new IllegalArgumentException("Wrong longitude");
         return true;
     }
+
 }

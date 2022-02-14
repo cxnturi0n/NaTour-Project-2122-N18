@@ -4,6 +4,7 @@ import org.natour.daos.RouteDAO;
 import org.natour.entities.*;
 import org.natour.exceptions.PersistenceException;
 import org.natour.s3.NatourS3Bucket;
+import org.natour.utilities.GeoDistance;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -831,10 +832,10 @@ public class RouteDAOMySql implements RouteDAO {
                             LatLng centre_latlng = new LatLng(query_filters.getCentre_latitude(), query_filters.getCentre_longitude());
 
                             //Distance between start point and centre
-                            double distance_between_start_point_and_centre = distance(start_point_latlng, centre_latlng);
+                            double distance_between_start_point_and_centre = GeoDistance.haversineDistance(start_point_latlng, centre_latlng);
 
                             //Distance between end point and centre
-                            double distance_between_end_point_and_centre = distance(end_point_latlng, centre_latlng);
+                            double distance_between_end_point_and_centre = GeoDistance.haversineDistance(end_point_latlng, centre_latlng);
 
                             //If start point and end point are beneath radius range then this route can be added
                             if (distance_between_start_point_and_centre <= radius_length && distance_between_end_point_and_centre <= radius_length) {
@@ -938,23 +939,6 @@ public class RouteDAOMySql implements RouteDAO {
 
         return filter_sql.length()==27 ? "SELECT * FROM Routes": filter_sql.substring(0, filter_sql.length() - 5);
 
-    }
-
-    private double rad(double x) {
-        return x * Math.PI / 180;
-    }
-
-    private double distance(LatLng p1, LatLng p2) {
-
-        double EarthRadius = 6378137.0;
-        double dLat = rad(p2.getLatitude() - p1.getLatitude());
-        double dLong = rad(p2.getLongitude() - p1.getLongitude());
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(rad(p1.getLatitude())) * Math.cos(rad(p2.getLatitude())) *
-                        Math.sin(dLong / 2) * Math.sin(dLong / 2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return EarthRadius * c;
     }
 
 }
