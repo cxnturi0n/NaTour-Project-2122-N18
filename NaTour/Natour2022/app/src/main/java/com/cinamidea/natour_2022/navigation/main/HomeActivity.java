@@ -82,6 +82,8 @@ public class HomeActivity extends AppCompatActivity {
     private byte check_chat_or_menu = 0;
     private ChatClient client;
 
+    private GoogleAuthentication google_auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +94,7 @@ public class HomeActivity extends AppCompatActivity {
         setListeners();
 
         fragmentManager = getSupportFragmentManager();
+        google_auth = new GoogleAuthentication(this);
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.activityHome_fragmentcontainer, fragment_home);
@@ -389,17 +392,12 @@ public class HomeActivity extends AppCompatActivity {
 
     private void logout() {
 
-        SharedPreferences natour_shared_pref;
-
-        natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
-        String id_token = natour_shared_pref.getString("id_token", null);
-
-        if (id_token != null) natour_shared_pref.edit().clear().commit();
+        UserType user_type = new UserType(this);
+        if(user_type.getUser_type().equals("Cognito"))
+            getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
         else {
-
-            GoogleAuthentication googleAuthentication = new GoogleAuthentication(this);
-            googleAuthentication.signOut();
-
+            google_auth.signOut();
+            getSharedPreferences("google_token", MODE_PRIVATE).edit().clear().commit();
         }
 
         Intent intent = new Intent(this, MainActivity.class);
