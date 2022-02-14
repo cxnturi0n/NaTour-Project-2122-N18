@@ -23,11 +23,11 @@ public class RoutesCompilation {
         this.routes = routes;
     }
 
-    public RoutesCompilation(String creator_username, String title, String description) {
+    public RoutesCompilation(String id, String creator_username, String title, String description) {
         this.creator_username = creator_username;
         this.title = title;
         this.description = description;
-
+        this.id = id;
     }
 
     public RoutesCompilation(String creator_username, String title, String description, List<Route> routes) {

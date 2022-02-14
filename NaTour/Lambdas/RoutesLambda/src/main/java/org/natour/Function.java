@@ -30,7 +30,6 @@ public class Function implements RequestHandler<Event, String> {
     @Override
     public String handleRequest(Event event, Context context) {
 
-
         String authorization_header = event.getId_token();
 
         if (authorization_header.contains("Cognito"))
@@ -179,19 +178,17 @@ public class Function implements RequestHandler<Event, String> {
                 }
 
 
-        case "INSERT_USER_FAVOURITE":
+            case "INSERT_USER_FAVOURITE":
 
-        try {
+                try {
 
-            route_dao.insertFavourite(event.getQuery_filters().getUsername(), event.getQuery_filters().getRoute_name());
+                    route_dao.insertFavourite(event.getQuery_filters().getUsername(), event.getQuery_filters().getRoute_name());
 
-            return "Route inserted successfully";
+                    return "Route inserted successfully";
 
-        } catch (PersistenceException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-
-
+                } catch (PersistenceException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
 
 
             case "INSERT_USER_TOVISIT": //
@@ -220,23 +217,23 @@ public class Function implements RequestHandler<Event, String> {
 
             case "CREATE_ROUTES_COMPILATION":
 
-                try{
+                try {
                     route_dao.createRoutesCompilation(event.getRoutes_compilation());
 
                     return "Routes compilation created successfully";
 
-                }catch (PersistenceException e){
+                } catch (PersistenceException e) {
                     throw new RuntimeException(e.getMessage());
                 }
 
             case "INSERT_ROUTE_IN_COMPILATION":
 
-                try{
+                try {
                     route_dao.insertRouteIntoCompilation(event.getRoutes_compilation().getId(), event.getQuery_filters().getRoute_name());
 
                     return "Route inserted in compilation successfully";
 
-                }catch (PersistenceException e){
+                } catch (PersistenceException e) {
                     throw new RuntimeException(e.getMessage());
                 }
 
@@ -270,7 +267,7 @@ public class Function implements RequestHandler<Event, String> {
 
         }
 
-}
+    }
 }
 
 

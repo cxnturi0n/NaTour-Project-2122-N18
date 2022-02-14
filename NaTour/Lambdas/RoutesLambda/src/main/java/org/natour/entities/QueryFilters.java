@@ -34,6 +34,14 @@ public class QueryFilters {
         this.tags = tags;
     }
 
+    public QueryFilters(String route_name, String levels, float duration, boolean is_disability_access, String tags){
+        this.route_name = route_name;
+        this.level = levels;
+        this.duration = duration;
+        this.is_disability_access = is_disability_access;
+        this.tags = tags;
+    }
+
     public String getRoute_name() {
         return route_name;
     }

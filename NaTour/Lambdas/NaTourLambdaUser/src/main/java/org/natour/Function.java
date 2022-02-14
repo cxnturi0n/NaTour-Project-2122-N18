@@ -70,7 +70,7 @@ public class Function implements RequestHandler<Event, String> {
             //Get cognito id and refresh tokens by username and password
             case "PASSWORD":
                 try {
-                    String json_tokens = cognito.signInUserAndGetTokens(event.getUser().getUsername(), event.getUser().getPassword());
+                    String json_tokens = cognito.signInAndGetTokens(event.getUser().getUsername(), event.getUser().getPassword());
 
                     return json_tokens;
 
@@ -83,7 +83,7 @@ public class Function implements RequestHandler<Event, String> {
                 //Get cognito id token by refresh token
             case "REFRESH_TOKEN":
                 try {
-                    String new_id_token = cognito.getNewIdToken(event.getRefresh_token(), event.getUser().getUsername());
+                    String new_id_token = cognito.getNewIdAndAccessTokens(event.getRefresh_token(), event.getUser().getUsername());
 
                     return new_id_token;
 

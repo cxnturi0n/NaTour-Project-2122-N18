@@ -54,7 +54,7 @@ public class Cognito {
                     .build();
 
             //Safe way to encode client id and secret id
-            String secret_hash = getSecretHash(user.getUsername());
+            String secret_hash = getSecretHash(user.getUsername(), CLIENT_SECRET, CLIENT_ID);
             //Setting up user request, specifying user pool id, username, password and attributes
             SignUpRequest signup_request = SignUpRequest.builder().username(user.getUsername()).password(user.getPassword()).userAttributes(user_attributes).clientId(CLIENT_ID).secretHash(secret_hash).build();
 
@@ -72,7 +72,7 @@ public class Cognito {
 
         try {
             //Safe way to encode client id and secret id
-            String secret_hash = getSecretHash(username);
+            String secret_hash = getSecretHash(username, CLIENT_SECRET, CLIENT_ID);
             //Setting up confirm request
             ConfirmSignUpRequest c = ConfirmSignUpRequest.builder().secretHash(secret_hash).confirmationCode(confirmation_code).username(username).clientId(CLIENT_ID).build();
             //Confirming user by confirmation_code(Sent via email after signup)
@@ -90,7 +90,7 @@ public class Cognito {
             if (!userExistsByUsername(username))
                 throw new CognitoException("User does not exist");
 
-            String secret_hash = getSecretHash(username);
+            String secret_hash = getSecretHash(username, CLIENT_SECRET, CLIENT_ID);
 
             ForgotPasswordRequest forgotpwd_request = ForgotPasswordRequest.builder().clientId(CLIENT_ID).secretHash(secret_hash).username(username).build();
 
@@ -106,7 +106,7 @@ public class Cognito {
     public void resetPassword(String username, String new_password, String confirmation_code) throws CognitoException {
 
         try {
-            String secret_hash = getSecretHash(username);
+            String secret_hash = getSecretHash(username, CLIENT_SECRET, CLIENT_ID);
 
             ConfirmForgotPasswordRequest confirm_forgotpwd_request = ConfirmForgotPasswordRequest.builder().username(username).clientId(CLIENT_ID).password(new_password).secretHash(secret_hash).confirmationCode(confirmation_code).build();
 
@@ -132,14 +132,14 @@ public class Cognito {
 
     }
 
-    public String signInUserAndGetTokens(String username, String password) throws CognitoException {
+    public String signInAndGetTokens(String username, String password) throws CognitoException {
 
 
         try {
             Map<String, String> auth_params = new HashMap<>();
             auth_params.put("USERNAME", username);
             auth_params.put("PASSWORD", password);
-            auth_params.put("SECRET_HASH", getSecretHash(username));
+            auth_params.put("SECRET_HASH", getSecretHash(username, CLIENT_SECRET, CLIENT_ID));
 
             InitiateAuthRequest signin_request = InitiateAuthRequest.builder().authParameters(auth_params).
                     clientId(CLIENT_ID).authFlow(AuthFlowType.USER_PASSWORD_AUTH).build();
@@ -152,7 +152,7 @@ public class Cognito {
 
             Gson gson = new Gson();
 
-            String json_tokens = gson.toJson(tokens, Tokens.class);
+            String json_tokens = gson.toJson(tokens);
 
             return json_tokens;
 
@@ -164,11 +164,11 @@ public class Cognito {
 
     }
 
-    public String getNewIdToken(String refresh_token, String username) throws CognitoException {
+    public String getNewIdAndAccessTokens(String refresh_token, String username) throws CognitoException {
 
         try {
             Map<String, String> auth_params = new HashMap<>();
-            auth_params.put("SECRET_HASH", getSecretHash(username));
+            auth_params.put("SECRET_HASH", getSecretHash(username, CLIENT_SECRET, CLIENT_ID));
             auth_params.put("REFRESH_TOKEN", refresh_token);
 
             AdminInitiateAuthRequest signin_request = AdminInitiateAuthRequest.builder().authParameters(auth_params).
@@ -242,17 +242,17 @@ public class Cognito {
     }
 
 
-    private String getSecretHash(String username) throws NoSuchAlgorithmException, InvalidKeyException {
+    private String getSecretHash(String username, String client_secret, String client_id) throws NoSuchAlgorithmException, InvalidKeyException {
 
         final String HMAC_SHA256_ALGORITHM = "HmacSHA256";
 
         SecretKeySpec signingKey = new SecretKeySpec(
-                CLIENT_SECRET.getBytes(StandardCharsets.UTF_8),
+                client_secret.getBytes(StandardCharsets.UTF_8),
                 HMAC_SHA256_ALGORITHM);
         Mac mac = Mac.getInstance(HMAC_SHA256_ALGORITHM);
         mac.init(signingKey);
         mac.update(username.getBytes(StandardCharsets.UTF_8));
-        byte[] rawHmac = mac.doFinal(CLIENT_ID.getBytes(StandardCharsets.UTF_8));
+        byte[] rawHmac = mac.doFinal(client_id.getBytes(StandardCharsets.UTF_8));
         return java.util.Base64.getEncoder().encodeToString(rawHmac);
     }
 

@@ -1,8 +1,8 @@
 package org.natour;
 
+import org.natour.entities.QueryFilters;
 import org.natour.entities.Report;
 import org.natour.entities.Route;
-import org.natour.entities.QueryFilters;
 import org.natour.entities.RoutesCompilation;
 
 public class Event {

@@ -90,16 +90,13 @@ public class GoogleSignUpCallback implements HTTPCallback {
                 }
             });
 
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    dialog.hide();
-                    if (error_type == 400) {
+            dialog.setOnCancelListener(dialogInterface -> {
+                dialog.hide();
+                if (error_type == 400) {
 
-                        google_auth.signOut();
-                        activity.startActivity(new Intent(activity, AuthActivity.class));
+                    google_auth.signOut();
+                    activity.startActivity(new Intent(activity, AuthActivity.class));
 
-                    }
                 }
             });
 

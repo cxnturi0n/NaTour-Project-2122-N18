@@ -59,7 +59,7 @@ public class DetailedMap extends FragmentActivity implements OnMapReadyCallback 
     private void moveCameraOnRoute(ArrayList<LatLng> path) {
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(path.get(0).latitude, path.get(0).longitude))
-                .zoom(13)
+                .zoom(20)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
@@ -70,7 +70,7 @@ public class DetailedMap extends FragmentActivity implements OnMapReadyCallback 
         mMap.addMarker(new MarkerOptions().position(path.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         mMap.addMarker(new MarkerOptions().position(path.get(path.size() - 1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
-        Polyline polyline = mMap.addPolyline(opts);
+        mMap.addPolyline(opts);
 
 
     }

@@ -37,4 +37,14 @@ public class LatLng {
                 ", longitude=" + longitude +
                 '}';
     }
+
+    public boolean isLatLngValid(LatLng p1){
+        if(p1 == null)
+            throw new NullPointerException();
+        if(p1.getLatitude()>90||p1.getLatitude()<-90)
+            throw new IllegalArgumentException("Wrong latitude");
+        if(p1.getLongitude()>180||p1.getLongitude()<-180)
+            throw new IllegalArgumentException("Wrong longitude");
+        return true;
+    }
 }

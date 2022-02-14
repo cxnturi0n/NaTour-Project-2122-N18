@@ -5,12 +5,10 @@ import org.natour.entities.*;
 import org.natour.exceptions.PersistenceException;
 import org.natour.s3.NatourS3Bucket;
 
-import java.sql.PreparedStatement;
-
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -21,6 +19,10 @@ public class RouteDAOMySql implements RouteDAO {
 
     private Connection connection;
     private PreparedStatement get_all_routes_statement, route_coordinates_statement, user_routes_statement, user_favourites_statement, get_routes_by_level_statement, get_tovisit_routes_statement;
+
+    //Used for testing
+    public RouteDAOMySql(){
+    }
 
     public RouteDAOMySql(Connection connection) {
         this.connection = connection;
@@ -66,9 +68,11 @@ public class RouteDAOMySql implements RouteDAO {
 
         List<LatLng> coordinates = null;
 
+        ResultSet rs = null;
+
         try {
 
-            ResultSet rs = get_all_routes_statement.executeQuery();
+            rs = get_all_routes_statement.executeQuery();
 
             while (rs.next()) //Scorro riga per riga
             {
@@ -106,7 +110,13 @@ public class RouteDAOMySql implements RouteDAO {
         } catch (SQLException e) {
 
             throw new PersistenceException(e.getMessage());
-
+        }finally {
+            try {
+                if(rs!=null)
+                    rs.close();
+            } catch (SQLException e) {
+                throw new PersistenceException("Something Went Wrong");
+            }
         }
 
     }
@@ -119,13 +129,16 @@ public class RouteDAOMySql implements RouteDAO {
 
         PreparedStatement prepared_statement = null;
 
+        ResultSet rs = null;
+        ResultSet rs1 = null;
+
         List<Route> routes = new ArrayList<>();
 
 
         try {
             prepared_statement = connection.prepareStatement(query_routes);
 
-            ResultSet rs = prepared_statement.executeQuery();
+            rs = prepared_statement.executeQuery();
 
             while (rs.next()) {
 
@@ -139,7 +152,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                 route_coordinates_statement.setString(1, route_name);
 
-                ResultSet rs1 = route_coordinates_statement.executeQuery();
+                rs1 = route_coordinates_statement.executeQuery();
 
                 while (rs1.next())
                     coordinates.add(new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude")));
@@ -153,6 +166,10 @@ public class RouteDAOMySql implements RouteDAO {
             throw new PersistenceException(e.getMessage());
         } finally {
             try {
+                if(rs!=null)
+                    rs.close();
+                if(rs1!=null)
+                    rs1.close();
                 prepared_statement.close();
             } catch (SQLException e) {
                 throw new PersistenceException("Something Went Wrong");
@@ -167,12 +184,13 @@ public class RouteDAOMySql implements RouteDAO {
 
 
         List<Route> routes = new ArrayList<>();
-
+        ResultSet rs = null;
+        ResultSet rs1 = null;
 
         try {
 
             user_routes_statement.setString(1, username);
-            ResultSet rs = user_routes_statement.executeQuery();
+            rs = user_routes_statement.executeQuery();
 
             while (rs.next()) {
 
@@ -186,7 +204,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                 route_coordinates_statement.setString(1, route_name);
 
-                ResultSet rs1 = route_coordinates_statement.executeQuery();
+                rs1 = route_coordinates_statement.executeQuery();
 
                 while (rs1.next())
                     coordinates.add(new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude")));
@@ -198,6 +216,15 @@ public class RouteDAOMySql implements RouteDAO {
 
         } catch (SQLException e) {
             throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                if(rs!=null)
+                    rs.close();
+                if(rs1!=null)
+                    rs1.close();
+            }catch(SQLException e){
+                throw new PersistenceException("Something wrong happened");
+            }
         }
 
     }
@@ -207,11 +234,13 @@ public class RouteDAOMySql implements RouteDAO {
 
 
         List<Route> routes = new ArrayList<>();
+        ResultSet rs = null;
+        ResultSet rs1 = null;
 
         try {
 
             user_favourites_statement.setString(1, username);
-            ResultSet rs = user_favourites_statement.executeQuery();
+            rs = user_favourites_statement.executeQuery();
 
             while (rs.next()) {
 
@@ -224,7 +253,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                 route_coordinates_statement.setString(1, route_name);
 
-                ResultSet rs1 = route_coordinates_statement.executeQuery();
+                rs1 = route_coordinates_statement.executeQuery();
 
                 while (rs1.next())
                     coordinates.add(new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude")));
@@ -236,6 +265,15 @@ public class RouteDAOMySql implements RouteDAO {
 
         } catch (SQLException e) {
             throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                if(rs!=null)
+                    rs.close();
+                if(rs1!=null)
+                    rs1.close();
+            }catch(SQLException e){
+                throw new PersistenceException("Something wrong happened");
+            }
         }
     }
 
@@ -243,11 +281,13 @@ public class RouteDAOMySql implements RouteDAO {
     public List<Route> getUserToVisit(String username) throws PersistenceException {
 
         List<Route> routes = new ArrayList<>();
+        ResultSet rs = null;
+        ResultSet rs1 = null;
 
         try {
 
             get_tovisit_routes_statement.setString(1, username);
-            ResultSet rs = get_tovisit_routes_statement.executeQuery();
+            rs = get_tovisit_routes_statement.executeQuery();
 
             while (rs.next()) {
 
@@ -260,7 +300,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                 route_coordinates_statement.setString(1, route_name);
 
-                ResultSet rs1 = route_coordinates_statement.executeQuery();
+                rs1 = route_coordinates_statement.executeQuery();
 
                 while (rs1.next())
                     coordinates.add(new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude")));
@@ -272,6 +312,15 @@ public class RouteDAOMySql implements RouteDAO {
 
         } catch (SQLException e) {
             throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                if(rs!=null)
+                    rs.close();
+                if(rs1!=null)
+                    rs1.close();
+            }catch(SQLException e){
+                throw new PersistenceException("Something wrong happened");
+            }
         }
     }
 
@@ -281,11 +330,14 @@ public class RouteDAOMySql implements RouteDAO {
 
         List<Route> routes = new ArrayList<>();
 
+        ResultSet rs = null;
+        ResultSet rs1 = null;
+
         try {
 
             get_routes_by_level_statement.setString(1, level);
 
-            ResultSet rs = get_routes_by_level_statement.executeQuery();
+            rs = get_routes_by_level_statement.executeQuery();
 
             while (rs.next()) {
 
@@ -298,7 +350,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                 route_coordinates_statement.setString(1, route_name);
 
-                ResultSet rs1 = route_coordinates_statement.executeQuery();
+                rs1 = route_coordinates_statement.executeQuery();
 
                 while (rs1.next())
                     coordinates.add(new LatLng(rs1.getFloat("latitude"), rs1.getFloat("longitude")));
@@ -310,6 +362,15 @@ public class RouteDAOMySql implements RouteDAO {
 
         } catch (SQLException e) {
             throw new PersistenceException(e.getMessage());
+        }finally{
+            try {
+                if(rs!=null)
+                    rs.close();
+                if(rs1!=null)
+                    rs1.close();
+            }catch(SQLException e){
+                throw new PersistenceException("Something wrong happened");
+            }
         }
 
     }
@@ -569,7 +630,7 @@ public class RouteDAOMySql implements RouteDAO {
 
         try {
             prepared_statement = connection.prepareStatement(insert);
-            prepared_statement.setString(1, id);
+            prepared_statement.setInt(1, Integer.parseInt(id));
             prepared_statement.setString(2, route_name);
 
             prepared_statement.execute();
@@ -591,11 +652,9 @@ public class RouteDAOMySql implements RouteDAO {
 
         String get_user_compilations = "SELECT * FROM RoutesCompilations WHERE creator_username = ?";
 
-        String get_routes_in_compilation = "SELECT * FROM RoutesInCompilation AS C JOIN Routes AS R WHERE C.id =? AND R.name = C.route_name";
-
         PreparedStatement prepared_statement = null;
 
-        PreparedStatement prepared_statement_1 = null;
+        ResultSet rs = null;
 
         List<RoutesCompilation> routes_compilations = new ArrayList<>();
 
@@ -605,43 +664,13 @@ public class RouteDAOMySql implements RouteDAO {
             prepared_statement = connection.prepareStatement(get_user_compilations);
             prepared_statement.setString(1, username);
 
-            //statement to fetch routes in a given compilation
-            prepared_statement_1 = connection.prepareStatement(get_routes_in_compilation);
-
-            ResultSet rs = prepared_statement.executeQuery();
+            rs = prepared_statement.executeQuery();
 
             //Cycling on user's routes compilations
             while(rs.next()){
 
-                RoutesCompilation routes_compilation = new RoutesCompilation(username, rs.getString("title"), rs.getString("description"));
+                RoutesCompilation routes_compilation = new RoutesCompilation(String.valueOf(rs.getInt("id")), username, rs.getString("title"), rs.getString("description"));
 
-                prepared_statement_1.setString(1, rs.getString("id"));
-
-                ResultSet rs1 = prepared_statement_1.executeQuery();
-
-                List<Route> routes_in_compilation = routes_compilation.getRoutes();
-
-                //Cycling on routes of user compilation with given id
-                while (rs1.next()){
-
-                    String route_name = rs.getString("name");
-
-                    Route route = new Route(route_name, rs.getString("description"), rs.getString("creator_username"), rs.getString("level"), rs.getInt("duration"),
-                            rs.getInt("report_count"), rs.getBoolean("disability_access"), rs.getString("tags"), rs.getFloat("length"), rs.getInt("likes"));
-
-                    List<LatLng> coordinates = route.getCoordinates();
-
-                    route_coordinates_statement.setString(1, route_name);
-
-                    ResultSet rs2 = route_coordinates_statement.executeQuery();
-
-                    //Cycling on coordinates of current route
-                    while (rs2.next())
-                        coordinates.add(new LatLng(rs2.getFloat("latitude"), rs2.getFloat("longitude")));
-
-                    routes_in_compilation.add(route);
-
-                }
                 routes_compilations.add(routes_compilation);
             }
 
@@ -649,8 +678,9 @@ public class RouteDAOMySql implements RouteDAO {
             throw new PersistenceException(e.getMessage());
         } finally {
             try {
+                if(rs!=null)
+                    rs.close();
                 prepared_statement.close();
-                prepared_statement_1.close();
             } catch (SQLException e) {
                 throw new PersistenceException("Something Went Wrong");
             }
@@ -662,20 +692,23 @@ public class RouteDAOMySql implements RouteDAO {
 
     public List<Route> getUserRoutesCompilation(String id) throws PersistenceException {
 
-        String get_routes_in_compilation = "SELECT * FROM RoutesInCompilation AS C JOIN Routes AS R WHERE C.id =? AND R.name = C.route_name";
+        String get_routes_in_compilation = "SELECT * FROM RoutesInCompilation AS C JOIN Routes AS R ON R.name = C.route_name WHERE C.id =?";
 
         PreparedStatement prepared_statement = null;
 
         List<Route> routes_in_compilation = new ArrayList<>();
+
+        ResultSet rs = null;
+        ResultSet rs2 = null;
 
         try {
 
             //statement to fetch routes in a given compilation
             prepared_statement = connection.prepareStatement(get_routes_in_compilation);
 
-            prepared_statement.setString(1, id);
+            prepared_statement.setInt(1, Integer.parseInt(id));
 
-            ResultSet rs = prepared_statement.executeQuery();
+            rs = prepared_statement.executeQuery();
 
                 //Cycling on routes of user compilation with given id
                 while (rs.next()) {
@@ -689,7 +722,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                     route_coordinates_statement.setString(1, route_name);
 
-                    ResultSet rs2 = route_coordinates_statement.executeQuery();
+                    rs2 = route_coordinates_statement.executeQuery();
 
                     //Cycling on coordinates of current route
                     while (rs2.next())
@@ -703,6 +736,10 @@ public class RouteDAOMySql implements RouteDAO {
             throw new PersistenceException(e.getMessage());
         } finally {
             try {
+                if(rs!=null)
+                    rs.close();
+                if(rs2!=null)
+                    rs2.close();
                 prepared_statement.close();
             } catch (SQLException e) {
                 throw new PersistenceException("Something Went Wrong");
@@ -723,17 +760,16 @@ public class RouteDAOMySql implements RouteDAO {
 
         PreparedStatement prepared_statement = null;
 
+        ResultSet rs = null;
+        ResultSet rs1 = null;
+
         try {
 
             prepared_statement = connection.prepareStatement(filter_sql);
 
-            double radius_length = query_filters.getRadius();
-
-            ResultSet rs = prepared_statement.executeQuery(filter_sql);
+            rs = prepared_statement.executeQuery();
 
             if (!query_filters.getRoute_name().equals("")) {
-
-                prepared_statement.executeQuery(filter_sql);
 
                 while (rs.next()) {
 
@@ -744,6 +780,8 @@ public class RouteDAOMySql implements RouteDAO {
                 }
 
             } else {
+
+                double radius_length = query_filters.getRadius();
 
                 if (query_filters.getCentre_latitude() == 0.0f && query_filters.getCentre_longitude() == 0.0f) {
 
@@ -756,7 +794,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                         route_coordinates_statement.setString(1, route_name);
 
-                        ResultSet rs1 = route_coordinates_statement.executeQuery();
+                        rs1 = route_coordinates_statement.executeQuery();
 
                         List<LatLng> coordinates = route1.getCoordinates();
 
@@ -779,7 +817,7 @@ public class RouteDAOMySql implements RouteDAO {
 
                         route_coordinates_statement.setString(1, route_name);
 
-                        ResultSet rs1 = route_coordinates_statement.executeQuery();
+                        rs1 = route_coordinates_statement.executeQuery();
 
                             //Setting start point latitude and longitude
                             if (rs1.first())
@@ -826,6 +864,10 @@ public class RouteDAOMySql implements RouteDAO {
             throw new PersistenceException(e.getMessage());
         }finally{
             try {
+                if(rs!=null)
+                    rs.close();
+                if(rs1!=null)
+                    rs1.close();
                 prepared_statement.close();
             } catch (SQLException e) {
                 throw new PersistenceException("Something went wrong");
@@ -840,7 +882,20 @@ public class RouteDAOMySql implements RouteDAO {
 
         String filter_sql = "SELECT * FROM Routes WHERE ";
 
-        if (!query_filters.getRoute_name().equals("")) {
+        String route_name = query_filters.getRoute_name();
+
+        String levels = query_filters.getLevel();
+
+        String tags = query_filters.getTags();
+
+        if(route_name==null||levels==null||tags==null)
+            throw new NullPointerException();
+
+        float duration = query_filters.getDuration();
+
+        boolean disability_access = query_filters.isIs_disability_access();
+
+        if (!route_name.equals("")) {
 
             filter_sql += "name like '%" + query_filters.getRoute_name() + "%'";
 
@@ -848,31 +903,32 @@ public class RouteDAOMySql implements RouteDAO {
 
         } else {
 
-            String level = query_filters.getLevel();
-            if (!level.equals("")) {
+            if (!levels.equals("")) {
 
-                List<String> levels_as_list = Stream.of(level.split(";", -1))
+                List<String> levels_as_list = Stream.of(levels.split(";", -1))
                         .collect(Collectors.toList());
                 filter_sql += "(";
                 for (String lvl : levels_as_list)
                     filter_sql += "level = " + "\"" + lvl + "\"" + " OR ";
-                filter_sql = filter_sql.substring(0, filter_sql.length() - 3);
+                filter_sql = filter_sql.substring(0, filter_sql.length() - 4);
                 filter_sql += ") AND ";
 
             }
 
-            if (query_filters.getDuration() != 0.0f)
-                filter_sql += " duration >= " + query_filters.getDuration() + " AND ";
-            if (query_filters.isIs_disability_access())
-                filter_sql += "disability_access = " + query_filters.isIs_disability_access() + " AND ";
-            if (!query_filters.getTags().equals("")) {
+            if (duration != 0.0f)
+                filter_sql += "duration >= " + Math.abs(duration) + " AND ";
 
-                List<String> tags_as_list = Stream.of(query_filters.getTags().split(";", -1))
+            if (disability_access)
+                filter_sql += "disability_access = " + true + " AND ";
+
+            if (!tags.equals("")) {
+
+                List<String> tags_as_list = Stream.of(tags.split(";", -1))
                         .collect(Collectors.toList());
                 filter_sql += "(";
                 for (String tag : tags_as_list)
                     filter_sql += "tags like '%" + tag + "%' OR ";
-                filter_sql = filter_sql.substring(0, filter_sql.length() - 3);
+                filter_sql = filter_sql.substring(0, filter_sql.length() - 4);
                 filter_sql += ")";
                 return filter_sql;
 
@@ -880,7 +936,7 @@ public class RouteDAOMySql implements RouteDAO {
 
         }
 
-        return filter_sql.length()==27 ? "SELECT * FROM Routes": filter_sql.substring(0, filter_sql.length() - 4);
+        return filter_sql.length()==27 ? "SELECT * FROM Routes": filter_sql.substring(0, filter_sql.length() - 5);
 
     }
 
@@ -889,6 +945,7 @@ public class RouteDAOMySql implements RouteDAO {
     }
 
     private double distance(LatLng p1, LatLng p2) {
+
         double EarthRadius = 6378137.0;
         double dLat = rad(p2.getLatitude() - p1.getLatitude());
         double dLong = rad(p2.getLongitude() - p1.getLongitude());

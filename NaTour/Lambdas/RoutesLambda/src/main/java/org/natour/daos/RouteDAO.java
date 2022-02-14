@@ -1,9 +1,11 @@
 package org.natour.daos;
 
-import org.natour.entities.*;
+import org.natour.entities.QueryFilters;
+import org.natour.entities.Report;
+import org.natour.entities.Route;
+import org.natour.entities.RoutesCompilation;
 import org.natour.exceptions.PersistenceException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface RouteDAO {
