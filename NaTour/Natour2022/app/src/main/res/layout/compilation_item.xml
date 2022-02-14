@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/compilation_title"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="I miei sentieri"/>
+        <TextView
+            android:id="@+id/compilation_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ornare, metus et accumsan iaculis."
+            android:layout_marginTop="8dp"
+            android:textColor="@color/natour_black"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.widget.Button
+                android:id="@+id/compilation_open"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/background_home_filters"
+                android:fontFamily="sans-serif"
+                android:paddingHorizontal="16dp"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:layout_marginTop="32dp"
+                android:text="Open"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="32dp"
+                android:stateListAnimator="@null"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
