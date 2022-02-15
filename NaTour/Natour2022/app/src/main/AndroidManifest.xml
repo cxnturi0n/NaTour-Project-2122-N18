@@ -51,10 +51,7 @@
             android:name=".navigation.compilation.CompilationActivity"
             android:exported="false" />
         <activity
-            android:name=".navigation.AdminActivity"
-            android:exported="false" />
-        <activity
-            android:name=".navigation.ReportActivity"
+            android:name=".admin.AdminActivity"
             android:exported="false" />
         <activity
             android:name=".map.DetailedMap"
@@ -96,7 +93,10 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".auth.ConfirmSignupActivity"
+            android:name=".resport.ReportActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
+            android:name=".auth.signup.views.ConfirmSignupActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity

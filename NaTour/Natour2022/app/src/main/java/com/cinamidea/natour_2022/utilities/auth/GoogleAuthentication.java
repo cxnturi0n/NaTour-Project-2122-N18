@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.navigation.main.HomeActivity;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.auth.GoogleSignUpCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -58,7 +59,7 @@ public class GoogleAuthentication {
 
     public void silentSignIn() {
         Task<GoogleSignInAccount> task = googlesignin_client.silentSignIn();
-        UserSharedPreferences google_preference = new GoogleSharedPreference(activity);
+        UserType type = new UserType(activity);
 
         if (task.isSuccessful()) {
 
@@ -77,7 +78,7 @@ public class GoogleAuthentication {
                     SigninFragment.current_username = signInAccount.getGivenName();
 
                     //Salviamo il token di google nelle shared preferences
-                    google_preference.setIdToken(signInAccount.getIdToken());
+                    type.setIdToken(signInAccount.getIdToken());
 
                     activity.startActivity(new Intent(activity, HomeActivity.class));
 
@@ -129,7 +130,7 @@ public class GoogleAuthentication {
     public void signOut() {
 
         googlesignin_client.signOut().addOnCompleteListener(activity, task -> Log.e("Google SignOut", "OK"));
-        new GoogleSharedPreference(activity).clear();
+       new UserType(activity).clear();
 
     }
 

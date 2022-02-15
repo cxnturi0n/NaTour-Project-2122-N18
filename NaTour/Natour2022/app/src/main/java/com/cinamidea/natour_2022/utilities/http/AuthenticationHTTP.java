@@ -10,15 +10,16 @@ import okhttp3.Request;
 
 public class AuthenticationHTTP extends OkHTTPRequest {
 
-    public void signUp(String username, String email, String password, HTTPCallback callback) {
+
+
+    public static Request signUp(String username, String email, String password) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users";
 
         String request_body = "{\"username\":" + username + ",\"email\":" + email + ",\"password\":" + password + "}";
 
-        request = getPostRequest(url, request_body, null);
+        return getPostRequest(url, request_body, null);
 
-        startHttpRequest(callback);
 
     }
 
@@ -37,15 +38,13 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
     }
 
-    public void confirmSignUp(String username, String confirmation_code, HTTPCallback callback) {
+    public static Request confirmSignUp(String username, String confirmation_code) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/confirmation";
 
         String request_body = "{\"confirmation_code\":" + confirmation_code + "}";
 
-        request = getPostRequest(url, request_body, null);
-
-        startHttpRequest(callback);
+        return getPostRequest(url, request_body, null);
     }
 
     public void tokenLogin(String id_token, HTTPCallback callback) {

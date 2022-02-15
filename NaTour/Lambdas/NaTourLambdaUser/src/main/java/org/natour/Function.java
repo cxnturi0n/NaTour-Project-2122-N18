@@ -129,7 +129,7 @@ public class Function implements RequestHandler<Event, String> {
 
             case "ADMIN_SEND_EMAIL":
 
-                if(event.getUser().getUsername().equals("admin_natour_cinamidea2022"))
+                if(event.getUser().getUsername().equals("admin0"))
                     cognito.verifyIdToken(event.getId_token()); //Throws runtime exception if token is invalid or expired
 
                 AdminMailMessage m = event.getAdmin_mail_message();

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.ConfirmSignupActivity;
+import com.cinamidea.natour_2022.auth.signup.views.ConfirmSignupActivity;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 
 public class SignupCallback implements HTTPCallback {
