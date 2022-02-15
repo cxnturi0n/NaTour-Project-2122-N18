@@ -25,9 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.InsertRouteCallback;
 import com.google.android.gms.maps.model.LatLng;
@@ -232,7 +232,7 @@ public class CreatePathActivity extends AppCompatActivity {
             Route route = new Route(title.getText().toString(), description.getText().toString(),
                     SigninFragment.current_username, level, Integer.parseInt(duration.getText().toString()), 0, checkDisabilityAccess(), path, tokenizedTags(tags), image_base64, getRouteLength(path));
 
-            UserType user_type = new UserType(this);
+            UserSharedPreferences user_type = new UserSharedPreferences(this);
 
             new RoutesHTTP().insertRoute(user_type.getUser_type(), route, user_type.getId_token(), new InsertRouteCallback(this, dialog));
         }

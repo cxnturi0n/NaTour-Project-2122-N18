@@ -13,12 +13,11 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
-import com.cinamidea.natour_2022.entities.RoutesCompilation;
 import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetFilteredRoutesCallback;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
@@ -110,7 +109,7 @@ public class SearchActivity extends AppCompatActivity {
         ArrayList<Route> routes = new ArrayList<>();
         ArrayList<Route> fav_routes = new ArrayList<>();
 
-        UserType user_type = new UserType(this);
+        UserSharedPreferences user_type = new UserSharedPreferences(this);
         Log.e("Tag", user_type.getId_token());
         String id_token = user_type.getUser_type() + user_type.getId_token();
         new RoutesHTTP().getFilteredRoutes(routeFilters, id_token,

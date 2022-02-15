@@ -6,7 +6,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.bumptech.glide.Glide;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 
 import org.apache.commons.lang3.StringEscapeUtils;

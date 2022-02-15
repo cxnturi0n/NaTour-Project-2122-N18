@@ -5,6 +5,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 
 public class AuthActivity extends CustomAuthActivity {
 

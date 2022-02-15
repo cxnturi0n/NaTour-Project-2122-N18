@@ -6,15 +6,13 @@ import static java.util.Collections.singletonList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.databinding.ActivityHomeChatBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -86,12 +84,7 @@ public final class HomeChatActivity extends AppCompatActivity {
 
         final FloatingActionButton cerca = findViewById(R.id.search_button);
 
-        cerca.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeChatActivity.this, ChatUserList.class));
-            }
-        });
+        cerca.setOnClickListener(v -> startActivity(new Intent(HomeChatActivity.this, ChatUserList.class)));
 
         Intent chat_intent = getIntent();
         if (chat_intent.getStringArrayListExtra("members") != null) {

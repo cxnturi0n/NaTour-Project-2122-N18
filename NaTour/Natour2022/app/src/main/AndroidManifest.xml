@@ -64,6 +64,9 @@
             android:name=".navigation.ChangePasswordActivity"
             android:exported="false" />
         <activity
+            android:name=".auth.resetpassword.views.ResetCRActivity"
+            android:exported="false" />
+        <activity
             android:name=".map.CreatePathActivity"
             android:exported="false"
             android:launchMode="singleTask"
@@ -89,15 +92,11 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".auth.ResetCRActivity"
-            android:exported="false"
-            android:launchMode="singleTask" />
-        <activity
             android:name=".navigation.main.HomeActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".auth.PinActivity"
+            android:name=".auth.ConfirmSignupActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity

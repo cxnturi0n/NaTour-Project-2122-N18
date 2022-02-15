@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetAllRoutesCallback;
 
@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         ProgressBar progressBar = view.findViewById(R.id.fragmentHome_progress);
 
 
-        UserType user_type = new UserType(getActivity());
+        UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
         String id_token = user_type.getUser_type() + user_type.getId_token();
         new RoutesHTTP().getAllRoutes(id_token,
                 new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
 
             setupFilterButton(button_all);
             progressBar.setVisibility(View.VISIBLE);
-            UserType user_type = new UserType(getActivity());
+            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
             String id_token = user_type.getUser_type() + user_type.getId_token();
             new RoutesHTTP().getAllRoutes(id_token,
                     new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
 
             setupFilterButton(button_easy);
             progressBar.setVisibility(View.VISIBLE);
-            UserType user_type = new UserType(getActivity());
+            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
             String id_token = user_type.getUser_type() + user_type.getId_token();
             new RoutesHTTP().getRoutesByLevel(id_token, "Easy", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
 
             setupFilterButton(button_medium);
             progressBar.setVisibility(View.VISIBLE);
-            UserType user_type = new UserType(getActivity());
+            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
             String id_token = user_type.getUser_type() + user_type.getId_token();
             new RoutesHTTP().getRoutesByLevel(id_token, "Medium", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
 
             setupFilterButton(button_hard);
             progressBar.setVisibility(View.VISIBLE);
-            UserType user_type = new UserType(getActivity());
+            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
             String id_token = user_type.getUser_type() + user_type.getId_token();
             new RoutesHTTP().getRoutesByLevel(id_token, "Hard", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
 
             setupFilterButton(button_extreme);
             progressBar.setVisibility(View.VISIBLE);
-            UserType user_type = new UserType(getActivity());
+            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
             String id_token = user_type.getUser_type() + user_type.getId_token();
             new RoutesHTTP().getRoutesByLevel(id_token, "Extreme", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 

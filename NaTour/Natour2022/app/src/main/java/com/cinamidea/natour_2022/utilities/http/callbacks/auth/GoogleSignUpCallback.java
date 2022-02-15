@@ -2,7 +2,6 @@ package com.cinamidea.natour_2022.utilities.http.callbacks.auth;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.AuthActivity;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.navigation.main.HomeActivity;
 import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;

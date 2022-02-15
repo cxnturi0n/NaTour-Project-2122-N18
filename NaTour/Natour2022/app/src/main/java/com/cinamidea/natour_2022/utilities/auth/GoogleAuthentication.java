@@ -1,16 +1,14 @@
 package com.cinamidea.natour_2022.utilities.auth;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.navigation.main.HomeActivity;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.auth.GoogleSignUpCallback;
@@ -24,7 +22,7 @@ import com.google.android.gms.tasks.Task;
 
 public class GoogleAuthentication {
 
-    GoogleSignInClient googlesignin_client;
+    private final GoogleSignInClient googlesignin_client;
     private final AppCompatActivity activity;
     private final ActivityResultLauncher<Intent> start_activity_for_result;
     private final GoogleSignInOptions gso;
@@ -50,7 +48,6 @@ public class GoogleAuthentication {
 
         googlesignin_client = GoogleSignIn.getClient(activity, gso);
 
-
     }
 
     public void signIn() {
@@ -61,13 +58,13 @@ public class GoogleAuthentication {
 
     public void silentSignIn() {
         Task<GoogleSignInAccount> task = googlesignin_client.silentSignIn();
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("google_token", Context.MODE_PRIVATE);
+        UserSharedPreferences google_preference = new GoogleSharedPreference(activity);
+
         if (task.isSuccessful()) {
 
             //Se l id token non è scaduto
             GoogleSignInAccount signInAccount = task.getResult();
 
-            Log.e("signin3",signInAccount.getIdToken());
             SigninFragment.current_username = signInAccount.getGivenName();
             activity.startActivity(new Intent(activity, HomeActivity.class));
 
@@ -79,12 +76,10 @@ public class GoogleAuthentication {
                     GoogleSignInAccount signInAccount = task1.getResult(ApiException.class);
                     SigninFragment.current_username = signInAccount.getGivenName();
 
-                    Log.e("signin3",signInAccount.getIdToken());
                     //Salviamo il token di google nelle shared preferences
-                    sharedPreferences.edit().putString("id_token", signInAccount.getIdToken()).commit();
+                    google_preference.setIdToken(signInAccount.getIdToken());
 
                     activity.startActivity(new Intent(activity, HomeActivity.class));
-
 
                 } catch (ApiException apiException) {
                     int status_code = apiException.getStatusCode();
@@ -134,6 +129,7 @@ public class GoogleAuthentication {
     public void signOut() {
 
         googlesignin_client.signOut().addOnCompleteListener(activity, task -> Log.e("Google SignOut", "OK"));
+        new GoogleSharedPreference(activity).clear();
 
     }
 

@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.auth;
+package com.cinamidea.natour_2022.auth.resetpassword;
 
 public interface ResetCRFragmentSwitcher {
 

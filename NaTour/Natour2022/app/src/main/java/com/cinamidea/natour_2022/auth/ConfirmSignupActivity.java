@@ -10,7 +10,7 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.auth.ConfirmSignupCallback;
 
-public class PinActivity extends AppCompatActivity {
+public class ConfirmSignupActivity extends AppCompatActivity {
 
     private ImageButton button_back;
     private String username;
@@ -20,7 +20,7 @@ public class PinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pin);
+        setContentView(R.layout.activity_confirmsignup);
 
         setupComponents();
         setListeners();

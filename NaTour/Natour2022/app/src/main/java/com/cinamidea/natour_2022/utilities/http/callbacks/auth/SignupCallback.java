@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.PinActivity;
+import com.cinamidea.natour_2022.auth.ConfirmSignupActivity;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 
 public class SignupCallback implements HTTPCallback {
@@ -25,7 +25,7 @@ public class SignupCallback implements HTTPCallback {
     @Override
     public void handleStatus200(String response) {
 
-        Intent intent = new Intent(activity, PinActivity.class);
+        Intent intent = new Intent(activity, ConfirmSignupActivity.class);
         intent.putExtra("username", username);
         activity.startActivity(intent);
 

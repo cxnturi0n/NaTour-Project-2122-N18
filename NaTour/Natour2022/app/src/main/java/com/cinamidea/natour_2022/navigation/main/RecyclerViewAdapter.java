@@ -9,7 +9,6 @@ import android.os.Parcelable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,19 +23,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.DetailedMap;
 import com.cinamidea.natour_2022.navigation.ReportActivity;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
-import java.util.Base64;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
@@ -83,7 +81,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.duration.setText(getFormattedTime(route.getDuration()));
         holder.length.setText(getKm(route.getLength()) + "km");
         holder.difficulty.setText(route.getLevel());
-        Log.e("Likes", String.valueOf(route.getLikes()));
         holder.favourites_number.setText(String.valueOf(route.getLikes()));
         String route_name = route.getName().replace(" ","+");
         Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Routes/Images/"+route_name).into(holder.image);
@@ -158,14 +155,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.options.setOnClickListener(view -> {
 
-            UserType user_type = new UserType(context);
+            UserSharedPreferences user_type = new UserSharedPreferences(context);
             openMenu(holder.options_container, holder, user_type.getUser_type(), route, user_type.getId_token(), position);
 
         });
 
         holder.favourite.setOnClickListener(view -> {
 
-            UserType user_type = new UserType(context);
+            UserSharedPreferences user_type = new UserSharedPreferences(context);
             holder.favourite.setClickable(false);
 
             if (holder.favourite.getTag().equals(1)) {

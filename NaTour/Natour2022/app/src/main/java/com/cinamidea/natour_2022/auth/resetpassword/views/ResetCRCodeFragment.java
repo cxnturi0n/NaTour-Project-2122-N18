@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.auth;
+package com.cinamidea.natour_2022.auth.resetpassword.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,26 +8,31 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
+import com.chaos.view.PinView;
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.resetpassword.ResetCRFragmentSwitcher;
 
 public class ResetCRCodeFragment extends Fragment {
 
     private ResetCRFragmentSwitcher resetCRFragmentSwitcher;
     private Button button;
-    private com.chaos.view.PinView pin_view;
+    private PinView pin_view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_resetcr_code, container, false);
     }
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupViewComponents(view);
+        resetCRFragmentSwitcher = (ResetCRFragmentSwitcher) getActivity();
+        button = view.findViewById(R.id.fragmentCR2_continue);
+        pin_view = view.findViewById(R.id.fragmentCR2_code);
 
         button.setOnClickListener(view1 -> {
 
@@ -37,11 +42,4 @@ public class ResetCRCodeFragment extends Fragment {
 
     }
 
-    protected void setupViewComponents(View view) {
-
-        resetCRFragmentSwitcher = (ResetCRFragmentSwitcher) getActivity();
-        button = view.findViewById(R.id.fragmentCR2_continue);
-        pin_view = view.findViewById(R.id.fragmentCR2_code);
-
-    }
 }

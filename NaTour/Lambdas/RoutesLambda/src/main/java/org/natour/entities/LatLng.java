@@ -41,9 +41,9 @@ public class LatLng {
     }
 
     private boolean isLatLngValid(float latitude, float longitude){
-        if(latitude>90||latitude<-90)
+        if(Math.abs(latitude)>90)
             throw new IllegalArgumentException("Wrong latitude");
-        if(longitude>180||longitude<-180)
+        if(Math.abs(longitude)>180)
             throw new IllegalArgumentException("Wrong longitude");
         return true;
     }

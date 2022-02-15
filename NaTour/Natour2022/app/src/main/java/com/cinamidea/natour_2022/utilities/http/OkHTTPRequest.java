@@ -50,7 +50,7 @@ public class OkHTTPRequest {
 
     }
 
-    public Request getPostRequest(String url, String request_body, Headers headers) {
+    public static Request getPostRequest(String url, String request_body, Headers headers) {
 
         RequestBody body = RequestBody.create(request_body, MediaType.parse("application/json"));
 
@@ -65,7 +65,6 @@ public class OkHTTPRequest {
     }
 
     void startHttpRequest(HTTPCallback callback) {
-
 
         client.newCall(request).enqueue(new Callback() {
             @Override

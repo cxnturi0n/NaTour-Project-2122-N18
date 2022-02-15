@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.auth.SignupCallback;
 
@@ -74,7 +75,7 @@ public class SignupFragment extends CustomAuthFragment {
             String username = edit_user.getText().toString();
             String email = edit_email.getText().toString();
 
-            Intent intent = new Intent(getActivity(), PinActivity.class);
+            Intent intent = new Intent(getActivity(), ConfirmSignupActivity.class);
 
             intent.putExtra("username", username);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Report;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.ReportHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.report.InsertReportCallback;
 
@@ -73,8 +73,8 @@ public class ReportActivity extends AppCompatActivity {
         if (isReportable(title, description)) {
 
             Report report = new Report(route_name, title, description, SigninFragment.current_username, report_type);
-            UserType userType = new UserType(this);
-            new ReportHTTP().insertReport(report, userType.getUser_type() + userType.getId_token(), new InsertReportCallback(this));
+            UserSharedPreferences userSharedPreferences = new UserSharedPreferences(this);
+            new ReportHTTP().insertReport(report, userSharedPreferences.getUser_type() + userSharedPreferences.getId_token(), new InsertReportCallback(this));
 
         } else openErrorDialog();
 

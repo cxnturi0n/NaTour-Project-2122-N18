@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -13,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.auth.TokenLoginCallback;

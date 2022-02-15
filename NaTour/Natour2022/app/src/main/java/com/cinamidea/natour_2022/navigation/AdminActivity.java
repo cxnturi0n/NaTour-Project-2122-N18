@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.AdminHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.admin.SendMailCallback;
 
@@ -49,8 +49,8 @@ public class AdminActivity extends AppCompatActivity {
 
             if (isSendable(subject, body)) {
 
-                UserType userType = new UserType(this);
-                new AdminHTTP().sendMail(userType.getId_token(), subject, body, new SendMailCallback(this));
+                UserSharedPreferences userSharedPreferences = new UserSharedPreferences(this);
+                new AdminHTTP().sendMail(userSharedPreferences.getId_token(), subject, body, new SendMailCallback(this));
             } else openErrorDialog();
 
         });

@@ -9,9 +9,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +23,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -169,7 +167,7 @@ public class AllPathsFragment extends Fragment {
 
 
     private void getAllRoutes() {
-        UserType user_type = new UserType(getActivity());
+        UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
         String id_token = user_type.getUser_type() + user_type.getId_token();
         new RoutesHTTP().getAllRoutes(id_token, new HTTPCallback() {
             @Override

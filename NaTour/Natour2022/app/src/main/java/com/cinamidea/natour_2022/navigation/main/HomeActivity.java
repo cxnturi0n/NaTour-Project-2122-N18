@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -29,7 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.AllPathsFragment;
 import com.cinamidea.natour_2022.map.MapActivity;
@@ -39,7 +38,7 @@ import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
 import com.cinamidea.natour_2022.navigation.search.SearchActivity;
 import com.cinamidea.natour_2022.navigation.search.geosearch.GeoSearchActivity;
 import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.UsersHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.user.PutProfileImageCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -278,7 +277,7 @@ public class HomeActivity extends AppCompatActivity {
         if(SigninFragment.current_username.equals("admin_natour_cinamidea2022"))
             bottomSheetView.findViewById(R.id.menuLayout_admin).setVisibility(View.VISIBLE);
 
-        UserType user_type = new UserType(this);
+        UserSharedPreferences user_type = new UserSharedPreferences(this);
         if (!user_type.getUser_type().equals("Cognito"))
             bottomSheetView.findViewById(R.id.menuLayout_changePassword).setVisibility(View.GONE);
 
@@ -332,8 +331,8 @@ public class HomeActivity extends AppCompatActivity {
                 byte[] image_as_byte_array = getBytes(iStream);
                 String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
                 //TODO:Per salvare l'immagine
-                UserType userType = new UserType(this);
-                new UsersHTTP().putProfileImage(image_base64, SigninFragment.current_username, userType.getUser_type() + userType.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
+                UserSharedPreferences userSharedPreferences = new UserSharedPreferences(this);
+                new UsersHTTP().putProfileImage(image_base64, SigninFragment.current_username, userSharedPreferences.getUser_type() + userSharedPreferences.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -392,7 +391,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void logout() {
 
-        UserType user_type = new UserType(this);
+        UserSharedPreferences user_type = new UserSharedPreferences(this);
         if(user_type.getUser_type().equals("Cognito"))
             getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
         else {

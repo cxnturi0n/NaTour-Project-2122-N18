@@ -6,10 +6,10 @@ import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.gson.Gson;
@@ -38,9 +38,9 @@ public class GetRoutesInCompilationCallback implements HTTPCallback {
         activity.runOnUiThread(() -> {
 
             progressBar.setVisibility(View.GONE);
-            UserType userType = new UserType(activity);
+            UserSharedPreferences userSharedPreferences = new UserSharedPreferences(activity);
 
-            new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, userType.getUser_type()+userType.getId_token(), new GetFavouritesCallback(recyclerView, recyclerViewAdapter, activity, progressBar, false, jsonToRoutesParsing(response)));
+            new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, userSharedPreferences.getUser_type()+ userSharedPreferences.getId_token(), new GetFavouritesCallback(recyclerView, recyclerViewAdapter, activity, progressBar, false, jsonToRoutesParsing(response)));
 
         });
 

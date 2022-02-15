@@ -3,7 +3,6 @@ package com.cinamidea.natour_2022.navigation.compilation;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
-import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.RoutesCompilation;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.InsertRouteInCompilationCallback;
 
@@ -62,8 +60,8 @@ public class CompilationRecyclerViewAdapter extends RecyclerView.Adapter<Compila
 
 
             if(is_insert) {
-                UserType userType = new UserType(context);
-                String id_token = userType.getUser_type() + userType.getId_token();
+                UserSharedPreferences userSharedPreferences = new UserSharedPreferences(context);
+                String id_token = userSharedPreferences.getUser_type() + userSharedPreferences.getId_token();
                 new RoutesHTTP().insertRouteIntoCompilation(SigninFragment.current_username, extra, routecompilation.getId(), id_token, new InsertRouteInCompilationCallback((Activity) context));
 
             }else {

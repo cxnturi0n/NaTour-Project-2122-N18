@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.main.HomeActivity;
 import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.gson.Gson;
@@ -85,7 +85,7 @@ public class ProfilePreferredRoadsFragment extends Fragment {
 
     private void loadRoutes() {
 
-        UserType user_type = new UserType(getActivity());
+        UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
         String id_token = user_type.getUser_type() + user_type.getId_token();
         new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, id_token,
                 new HTTPCallback() {

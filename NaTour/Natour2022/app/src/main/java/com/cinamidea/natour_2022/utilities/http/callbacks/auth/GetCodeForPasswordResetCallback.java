@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.ResetCRPasswordFragment;
+import com.cinamidea.natour_2022.auth.resetpassword.views.ResetCRPasswordFragment;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 
 public class GetCodeForPasswordResetCallback implements HTTPCallback {

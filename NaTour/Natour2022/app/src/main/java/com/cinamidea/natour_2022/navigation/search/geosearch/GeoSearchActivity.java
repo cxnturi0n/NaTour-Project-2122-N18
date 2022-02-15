@@ -10,7 +10,6 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +22,13 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.SigninFragment;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
-import com.cinamidea.natour_2022.utilities.auth.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetFilteredRoutesCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchConfirmedListener;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchQueryChangeListener;
@@ -124,9 +122,9 @@ public class GeoSearchActivity extends AppCompatActivity {
                             ProgressBar progressBar = findViewById(R.id.activityGeoSearch_progressbar);
                             progressBar.setVisibility(View.VISIBLE);
 
-                            UserType userType = new UserType(GeoSearchActivity.this);
+                            UserSharedPreferences userSharedPreferences = new UserSharedPreferences(GeoSearchActivity.this);
                             new RoutesHTTP().getFilteredRoutes(routeFilters,
-                                    userType.getUser_type() + userType.getId_token(), new GetFilteredRoutesCallback(SigninFragment.current_username, userType.getId_token(), routes, fav_routes, GeoSearchActivity.this, progressBar));
+                                    userSharedPreferences.getUser_type() + userSharedPreferences.getId_token(), new GetFilteredRoutesCallback(SigninFragment.current_username, userSharedPreferences.getId_token(), routes, fav_routes, GeoSearchActivity.this, progressBar));
 
                         } else {
                             //Nasconde la tastiera

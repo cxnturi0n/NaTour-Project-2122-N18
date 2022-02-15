@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.auth;
+package com.cinamidea.natour_2022.auth.resetpassword.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.auth.resetpassword.ResetCRFragmentSwitcher;
 
 public class ResetCRPasswordFragment extends Fragment {
 
@@ -20,7 +21,7 @@ public class ResetCRPasswordFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_resetcr_password, container, false);
     }
 
@@ -28,7 +29,9 @@ public class ResetCRPasswordFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupViewComponents(view);
+        resetCRFragmentSwitcher = (ResetCRFragmentSwitcher) getActivity();
+        button = view.findViewById(R.id.fragmentCR3_continue);
+        et_password = view.findViewById(R.id.fragmentCR3_password);
 
         button.setOnClickListener(view1 -> {
 
@@ -38,11 +41,4 @@ public class ResetCRPasswordFragment extends Fragment {
 
     }
 
-    protected void setupViewComponents(View view) {
-
-        resetCRFragmentSwitcher = (ResetCRFragmentSwitcher) getActivity();
-        button = view.findViewById(R.id.fragmentCR3_continue);
-        et_password = view.findViewById(R.id.fragmentCR3_password);
-
-    }
 }

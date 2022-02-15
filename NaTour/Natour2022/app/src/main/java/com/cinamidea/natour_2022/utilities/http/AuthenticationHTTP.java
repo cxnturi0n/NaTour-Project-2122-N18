@@ -6,6 +6,7 @@ import android.util.Log;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 
 import okhttp3.Headers;
+import okhttp3.Request;
 
 public class AuthenticationHTTP extends OkHTTPRequest {
 
@@ -60,7 +61,7 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
     }
 
-    public void getIdNRefreshTokens(String username, String password, HTTPCallback callback) {
+    public void signInAndGetTokens(String username, String password, HTTPCallback callback) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/token";
 
@@ -70,6 +71,17 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
         startHttpRequest(callback);
     }
+
+    public static Request signInAndGetTokensRequest(String username, String password) {
+
+        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/token";
+
+        String request_body = "{\"username\":" + username + ",\"password\":" + password + ",\"grant_type\":\"PASSWORD\"}";
+
+        return getPostRequest(url, request_body, null);
+    }
+
+
 
     public void refreshToken(String username, String refresh_token, HTTPCallback callback) {
 
@@ -82,24 +94,23 @@ public class AuthenticationHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
     }
 
-    public void getCodeForPasswordReset(String username, HTTPCallback callback) {
+
+    public static Request getCodeForPasswordReset(String username) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/password/reset-code";
 
-        request = getGetRequest(url, null);
+        return getGetRequest(url, null);
 
-        startHttpRequest(callback);
     }
 
-    public void resetPassword(String username, String password, String confirmation_code, HTTPCallback callback) {
+    public static Request resetPassword(String username, String password, String confirmation_code) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/password";
 
         String request_body = "{\"password\":" + password + ",\"confirmation_code\":" + confirmation_code + "}";
 
-        request = getPutRequest(url, request_body, null);
+        return getPutRequest(url, request_body, null);
 
-        startHttpRequest(callback);
 
     }
 
