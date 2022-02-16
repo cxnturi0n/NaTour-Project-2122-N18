@@ -41,7 +41,7 @@ public class AllPathFragmentModel implements AllPathFragmentContract.Model{
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onStatus400("Network error");
+                listener.onError("Network error");
             }
 
             @Override
@@ -52,16 +52,16 @@ public class AllPathFragmentModel implements AllPathFragmentContract.Model{
                 switch (response_code) {
                     case 200:
                         Route[] routes = jsonToRoutesParsing(response_body);
-                        listener.onStatus200(routes);
+                        listener.onSuccess(routes);
                         break;
                     case 400:
-                        listener.onStatus400(response_body);
+                        listener.onError(response_body);
                         break;
                     case 401:
-                        listener.onStatus401(response_body);
+                        listener.onUserUnauthorized(response_body);
                         break;
                     case 500:
-                        listener.onStatus500(response_body);
+                        listener.onNetworkError(response_body);
                         break;
                     default:
                         return;

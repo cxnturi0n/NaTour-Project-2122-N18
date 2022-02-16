@@ -87,7 +87,7 @@ public class ProfilePreferredRoadsFragment extends Fragment {
 
         UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
         String id_token = user_type.getUser_type() + user_type.getId_token();
-        new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, id_token,
+       /* new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, id_token,
                 new HTTPCallback() {
                     @Override
                     public void handleStatus200(String response) {
@@ -117,7 +117,7 @@ public class ProfilePreferredRoadsFragment extends Fragment {
                     public void handleRequestException(String message) {
 
                     }
-                });
+                });*/
 
     }
 

@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.main;
+package com.cinamidea.natour_2022.prova;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,16 +15,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
+import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetAllRoutesCallback;
 
-public class HomeFragment extends Fragment {
+import java.util.ArrayList;
+
+public class HomeFragment extends Fragment implements HomeContract.View {
 
     private Button button_all, button_easy, button_medium, button_hard, button_extreme;
     private Button position_button;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
+    private HomeContract.Presenter presenter;
+    private UserType user_type;
+    private ProgressBar progressBar;
     private View view;
 
     @Override
@@ -38,8 +46,11 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        presenter = new HomePresenter(this);
+        user_type = new UserType(getActivity());
         setupViewComponents();
         filterListeners();
+
     }
 
     private void setupViewComponents() {
@@ -54,29 +65,23 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragmentHome_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ProgressBar progressBar = view.findViewById(R.id.fragmentHome_progress);
+        progressBar = view.findViewById(R.id.fragmentHome_progress);
 
-
-        UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
-        String id_token = user_type.getUser_type() + user_type.getId_token();
-        new RoutesHTTP().getAllRoutes(id_token,
-                new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
+        String id_token = user_type.getUserType() + user_type.getIdToken();
+        presenter.getAllRoutesButtonClicked(id_token);
 
     }
 
 
     private void filterListeners() {
-        ProgressBar progressBar = view.findViewById(R.id.fragmentHome_progress);
 
         button_all.setOnClickListener(view -> {
 
             setupFilterButton(button_all);
             progressBar.setVisibility(View.VISIBLE);
-            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
-            String id_token = user_type.getUser_type() + user_type.getId_token();
-            new RoutesHTTP().getAllRoutes(id_token,
-                    new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
+            String id_token = user_type.getUserType() + user_type.getIdToken();
+            presenter.getAllRoutesButtonClicked(id_token);
 
         });
 
@@ -84,9 +89,9 @@ public class HomeFragment extends Fragment {
 
             setupFilterButton(button_easy);
             progressBar.setVisibility(View.VISIBLE);
-            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
-            String id_token = user_type.getUser_type() + user_type.getId_token();
-            new RoutesHTTP().getRoutesByLevel(id_token, "Easy", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
+
+            String id_token = user_type.getUserType() + user_type.getIdToken();
+            presenter.getRoutesByDifficultyButtonClicked(id_token, "Easy");
 
         });
 
@@ -94,10 +99,9 @@ public class HomeFragment extends Fragment {
 
             setupFilterButton(button_medium);
             progressBar.setVisibility(View.VISIBLE);
-            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
-            String id_token = user_type.getUser_type() + user_type.getId_token();
-            new RoutesHTTP().getRoutesByLevel(id_token, "Medium", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
+            String id_token = user_type.getUserType() + user_type.getIdToken();
+            presenter.getRoutesByDifficultyButtonClicked(id_token, "Medium");
 
         });
 
@@ -105,10 +109,9 @@ public class HomeFragment extends Fragment {
 
             setupFilterButton(button_hard);
             progressBar.setVisibility(View.VISIBLE);
-            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
-            String id_token = user_type.getUser_type() + user_type.getId_token();
-            new RoutesHTTP().getRoutesByLevel(id_token, "Hard", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
+            String id_token = user_type.getUserType() + user_type.getIdToken();
+            presenter.getRoutesByDifficultyButtonClicked(id_token, "Hard");
 
         });
 
@@ -116,10 +119,9 @@ public class HomeFragment extends Fragment {
 
             setupFilterButton(button_extreme);
             progressBar.setVisibility(View.VISIBLE);
-            UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
-            String id_token = user_type.getUser_type() + user_type.getId_token();
-            new RoutesHTTP().getRoutesByLevel(id_token, "Extreme", new GetAllRoutesCallback(SigninFragment.current_username, id_token, recyclerView, recyclerViewAdapter, getActivity(), progressBar));
 
+            String id_token = user_type.getUserType() + user_type.getIdToken();
+            presenter.getRoutesByDifficultyButtonClicked(id_token, "Extreme");
 
         });
 
@@ -140,4 +142,13 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public void loadRoutes(ArrayList<Route> routes, ArrayList<Route> fav_routes) {
+
+        progressBar.setVisibility(View.GONE);
+
+        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), routes, fav_routes, false);
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+    }
 }

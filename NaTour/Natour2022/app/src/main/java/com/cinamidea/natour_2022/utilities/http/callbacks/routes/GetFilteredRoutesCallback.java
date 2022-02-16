@@ -56,10 +56,10 @@ public class GetFilteredRoutesCallback implements HTTPCallback {
         activity.runOnUiThread(() -> {
 
             routes = jsonToRoutesParsing(response);
-            if(recyclerView == null)
-                new RoutesHTTP().getFavouriteRoutes(username, id_token, new GetFavouritesCallback(activity,progressBar, routes, fav_routes));
-            else
-                new RoutesHTTP().getFavouriteRoutes(username, id_token, new GetFavouritesCallback(activity, progressBar, routes, fav_routes, recyclerView, recyclerViewAdapter));
+            //if(recyclerView == null)
+               // new RoutesHTTP().getFavouriteRoutes(username, id_token, new GetFavouritesCallback(activity,progressBar, routes, fav_routes));
+            //else
+                //ew RoutesHTTP().getFavouriteRoutes(username, id_token, new GetFavouritesCallback(activity, progressBar, routes, fav_routes, recyclerView, recyclerViewAdapter));
 
         });
 

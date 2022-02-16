@@ -18,24 +18,24 @@ public class AllPathFragmentPresenter implements AllPathFragmentContract.Present
         allPathFragments.showLoadingDialog();
         model.getAllRoutes(new AllPathFragmentContract.Model.OnFinishedListener() {
             @Override
-            public void onStatus200(Route[] routes) {
+            public void onSuccess(Route[] routes) {
                 allPathFragments.dismissLoadingDialog();
                 allPathFragments.updateLocationUI();
                 allPathFragments.drawRoutes(routes);
             }
 
             @Override
-            public void onStatus400(String response_body) {
+            public void onError(String response_body) {
 
             }
 
             @Override
-            public void onStatus401(String response_body) {
+            public void onUserUnauthorized(String response_body) {
 
             }
 
             @Override
-            public void onStatus500(String response_body) {
+            public void onNetworkError(String response_body) {
 
             }
 

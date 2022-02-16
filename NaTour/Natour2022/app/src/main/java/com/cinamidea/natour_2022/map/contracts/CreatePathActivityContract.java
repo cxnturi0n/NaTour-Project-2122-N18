@@ -17,10 +17,10 @@ public interface CreatePathActivityContract {
 
     interface Model {
         interface OnFinishedListener{
-            void onStatus200(String response);
-            void onStatus400(String response);
-            void onStatus401(String response);
-            void onStatus500(String response);
+            void onSuccess(String response);
+            void onError(String response);
+            void onUserUnauthorized(String response);
+            void onNetworkError(String response);
         }
 
         void insertRoute(OnFinishedListener listener, String id_token, Route route);

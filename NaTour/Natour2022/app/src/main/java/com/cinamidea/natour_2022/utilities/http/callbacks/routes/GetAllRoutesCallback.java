@@ -38,7 +38,7 @@ public class GetAllRoutesCallback implements HTTPCallback {
 
     @Override
     public void handleStatus200(String response) {
-        new RoutesHTTP().getFavouriteRoutes(username, id_token, new GetFavouritesCallback(recyclerView, recyclerViewAdapter, activity, progressBar, false, jsonToRoutesParsing(response)));
+        //new RoutesHTTP().getFavouriteRoutes(username, id_token, new GetFavouritesCallback(recyclerView, recyclerViewAdapter, activity, progressBar, false, jsonToRoutesParsing(response)));
     }
 
     @Override

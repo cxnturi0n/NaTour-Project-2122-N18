@@ -40,7 +40,7 @@ public class GetRoutesInCompilationCallback implements HTTPCallback {
             progressBar.setVisibility(View.GONE);
             UserSharedPreferences userSharedPreferences = new UserSharedPreferences(activity);
 
-            new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, userSharedPreferences.getUser_type()+ userSharedPreferences.getId_token(), new GetFavouritesCallback(recyclerView, recyclerViewAdapter, activity, progressBar, false, jsonToRoutesParsing(response)));
+            //new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, userSharedPreferences.getUser_type()+ userSharedPreferences.getId_token(), new GetFavouritesCallback(recyclerView, recyclerViewAdapter, activity, progressBar, false, jsonToRoutesParsing(response)));
 
         });
 

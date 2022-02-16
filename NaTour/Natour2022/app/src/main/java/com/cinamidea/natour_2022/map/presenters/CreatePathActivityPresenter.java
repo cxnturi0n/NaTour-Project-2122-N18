@@ -20,7 +20,7 @@ public class CreatePathActivityPresenter implements CreatePathActivityContract.P
         view.showLoadingDialog();
         model.insertRoute(new CreatePathActivityContract.Model.OnFinishedListener() {
             @Override
-            public void onStatus200(String response_body) {
+            public void onSuccess(String response_body) {
                 view.dismissLoadingDialog();
                 //Show toast
                 view.showToastAddedRoute();
@@ -28,17 +28,17 @@ public class CreatePathActivityPresenter implements CreatePathActivityContract.P
             }
 
             @Override
-            public void onStatus400(String response_body) {
+            public void onError(String response_body) {
 
             }
 
             @Override
-            public void onStatus401(String response_body) {
+            public void onUserUnauthorized(String response_body) {
 
             }
 
             @Override
-            public void onStatus500(String response_body) {
+            public void onNetworkError(String response_body) {
 
             }
         },id_token,route);

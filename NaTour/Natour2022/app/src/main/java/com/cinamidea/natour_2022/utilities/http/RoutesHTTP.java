@@ -123,15 +123,14 @@ public class RoutesHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
     }
 
-    public void getFavouriteRoutes(String username, String id_token, HTTPCallback callback) {
+    public static Request getFavouriteRoutes(String username, String id_token) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/routes/favourites";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getGetRequest(url, header);
+        return getGetRequest(url, header);
 
-        startHttpRequest(callback);
     }
 
     public void deleteFavouriteRoute(String username, String id_token, String route_name, HTTPCallback callback) {
@@ -181,15 +180,13 @@ public class RoutesHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
     }
 
-    public void getRoutesByLevel(String id_token, String level, HTTPCallback callback) {
+    public static Request getRoutesByLevel(String id_token, String level) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes?level=" + level;
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getGetRequest(url, header);
-
-        startHttpRequest(callback);
+        return getGetRequest(url, header);
 
     }
 

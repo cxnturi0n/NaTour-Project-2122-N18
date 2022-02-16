@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.contracts.CreatePathActivityContract;
-import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class CreatePathActivityModel implements CreatePathActivityContract.Model
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onStatus400("Network error");
+                listener.onError("Network error");
             }
 
             @Override
@@ -39,16 +38,16 @@ public class CreatePathActivityModel implements CreatePathActivityContract.Model
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
-                        listener.onStatus200(response_body);
+                        listener.onSuccess(response_body);
                         break;
                     case 400:
-                        listener.onStatus400(response_body);
+                        listener.onError(response_body);
                         break;
                     case 401:
-                        listener.onStatus401(response_body);
+                        listener.onUserUnauthorized(response_body);
                         break;
                     case 500:
-                        listener.onStatus500(response_body);
+                        listener.onNetworkError(response_body);
                         break;
                     default:
                         return;

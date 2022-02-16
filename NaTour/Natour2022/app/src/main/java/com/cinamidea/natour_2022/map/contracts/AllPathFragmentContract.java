@@ -21,10 +21,10 @@ public interface AllPathFragmentContract {
     interface Model{
         Route[] jsonToRoutesParsing(String response);
         interface OnFinishedListener{
-            void onStatus200(Route[] routes);
-            void onStatus400(String response);
-            void onStatus401(String response);
-            void onStatus500(String response);
+            void onSuccess(Route[] routes);
+            void onError(String response);
+            void onUserUnauthorized(String response);
+            void onNetworkError(String response);
         }
 
         void getAllRoutes(OnFinishedListener listener, String id_token);

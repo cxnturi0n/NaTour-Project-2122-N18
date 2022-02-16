@@ -93,7 +93,7 @@ public class ProfileRoadsToVisitFragment extends Fragment {
                 new HTTPCallback() {
                     @Override
                     public void handleStatus200(String response) {
-                        new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, id_token, new GetFavouritesCallback(recyclerView, recyclerViewAdapter, getActivity(), progressBar, true, jsonToRoutesParsing(response)));
+                       // new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, id_token, new GetFavouritesCallback(recyclerView, recyclerViewAdapter, getActivity(), progressBar, true, jsonToRoutesParsing(response)));
                     }
 
                     @Override

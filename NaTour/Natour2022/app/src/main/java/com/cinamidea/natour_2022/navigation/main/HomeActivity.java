@@ -36,6 +36,7 @@ import com.cinamidea.natour_2022.navigation.ChangePasswordActivity;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
 import com.cinamidea.natour_2022.navigation.search.SearchActivity;
 import com.cinamidea.natour_2022.navigation.search.geosearch.GeoSearchActivity;
+import com.cinamidea.natour_2022.prova.HomeFragment;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.UsersHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.user.PutProfileImageCallback;
