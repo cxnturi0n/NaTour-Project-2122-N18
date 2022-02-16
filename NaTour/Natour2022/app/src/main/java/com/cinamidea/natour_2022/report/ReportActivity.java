@@ -1,6 +1,7 @@
 package com.cinamidea.natour_2022.report;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -67,6 +68,7 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
 
     @Override
     public void reportDone(String message) {
+        Log.e("me",message);
         //TODO TOAST + ACTIVITY FINISH
     }
 

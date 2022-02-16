@@ -1,6 +1,7 @@
 package com.cinamidea.natour_2022.prova;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         user_type = new UserType(getActivity());
         setupViewComponents();
         filterListeners();
+        Log.e("main",Thread.currentThread().getName());
 
     }
 
@@ -78,7 +80,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         button_all.setOnClickListener(view -> {
 
             setupFilterButton(button_all);
-            progressBar.setVisibility(View.VISIBLE);
+            getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
             String id_token = user_type.getUserType() + user_type.getIdToken();
             presenter.getAllRoutesButtonClicked(id_token);
@@ -88,7 +90,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         button_easy.setOnClickListener(view -> {
 
             setupFilterButton(button_easy);
-            progressBar.setVisibility(View.VISIBLE);
+            getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
             String id_token = user_type.getUserType() + user_type.getIdToken();
             presenter.getRoutesByDifficultyButtonClicked(id_token, "Easy");
@@ -98,7 +100,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         button_medium.setOnClickListener(view -> {
 
             setupFilterButton(button_medium);
-            progressBar.setVisibility(View.VISIBLE);
+            getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
             String id_token = user_type.getUserType() + user_type.getIdToken();
             presenter.getRoutesByDifficultyButtonClicked(id_token, "Medium");
@@ -108,7 +110,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         button_hard.setOnClickListener(view -> {
 
             setupFilterButton(button_hard);
-            progressBar.setVisibility(View.VISIBLE);
+            getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
             String id_token = user_type.getUserType() + user_type.getIdToken();
             presenter.getRoutesByDifficultyButtonClicked(id_token, "Hard");
@@ -118,7 +120,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         button_extreme.setOnClickListener(view -> {
 
             setupFilterButton(button_extreme);
-            progressBar.setVisibility(View.VISIBLE);
+            getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
             String id_token = user_type.getUserType() + user_type.getIdToken();
             presenter.getRoutesByDifficultyButtonClicked(id_token, "Extreme");
@@ -144,11 +146,13 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     @Override
     public void loadRoutes(ArrayList<Route> routes, ArrayList<Route> fav_routes) {
+            Log.e("loadroutes",Thread.currentThread().getName());
 
-        progressBar.setVisibility(View.GONE);
-
-        recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), routes, fav_routes, false);
-        recyclerView.setAdapter(recyclerViewAdapter);
-
+        getActivity().runOnUiThread(() -> {
+            Log.e("loadroutesinthr",Thread.currentThread().getName());
+            progressBar.setVisibility(View.GONE);
+            recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), routes, fav_routes, false);
+            recyclerView.setAdapter(recyclerViewAdapter);
+        });
     }
 }

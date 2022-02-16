@@ -84,7 +84,6 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
 
             presenter.cognitoSignInButtonClicked(username, password, getActivity().getSharedPreferences("Cognito", Context.MODE_PRIVATE));
 
-            //Set username per l'utente della chat
             current_username = username;
         });
 
@@ -100,6 +99,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
 
     @Override
     public void signInSuccess() {
+
         Intent intent = new Intent(getActivity(), HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().startActivity(intent);

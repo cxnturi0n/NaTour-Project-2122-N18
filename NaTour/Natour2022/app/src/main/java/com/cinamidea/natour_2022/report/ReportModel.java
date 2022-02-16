@@ -30,7 +30,7 @@ public class ReportModel implements ReportContract.Model{
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    listener.onFailure(e.getMessage());
+                    listener.onFailure("Network error");
                 }
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {

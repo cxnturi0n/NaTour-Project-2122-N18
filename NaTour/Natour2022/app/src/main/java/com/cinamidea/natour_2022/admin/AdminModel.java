@@ -26,7 +26,7 @@ public class AdminModel implements AdminContract.Model {
 
         if(isSendable(subject, body)) {
 
-            Request request = AdminHTTP.sendMail(user_type.getIdToken(), subject, body);
+            Request request = AdminHTTP.sendMail(user_type.getUsername(), user_type.getIdToken(), subject, body);
 
             client.newCall(request).enqueue(new Callback() {
                 @Override

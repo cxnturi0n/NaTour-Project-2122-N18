@@ -28,6 +28,7 @@ import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.DetailedMap;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
+import com.cinamidea.natour_2022.report.ReportActivity;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
@@ -224,7 +225,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
         bottomSheetView.findViewById(R.id.post_report).setOnClickListener(view -> {
             bottomSheetDialog.dismiss();
-
+            Intent intent = new Intent(context, ReportActivity.class);
+            intent.putExtra("route_name",route.getName());
+            context.startActivity(intent);
         });
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
