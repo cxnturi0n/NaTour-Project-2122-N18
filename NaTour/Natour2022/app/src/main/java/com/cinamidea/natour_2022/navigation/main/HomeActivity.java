@@ -37,7 +37,6 @@ import com.cinamidea.natour_2022.navigation.ChangePasswordActivity;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
 import com.cinamidea.natour_2022.navigation.search.SearchActivity;
 import com.cinamidea.natour_2022.navigation.search.geosearch.GeoSearchActivity;
-import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.UsersHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.user.PutProfileImageCallback;
@@ -81,8 +80,6 @@ public class HomeActivity extends AppCompatActivity {
     private byte check_chat_or_menu = 0;
     private ChatClient client;
 
-    private GoogleAuthentication google_auth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +90,6 @@ public class HomeActivity extends AppCompatActivity {
         setListeners();
 
         fragmentManager = getSupportFragmentManager();
-        google_auth = new GoogleAuthentication(this);
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.activityHome_fragmentcontainer, fragment_home);
@@ -395,7 +391,6 @@ public class HomeActivity extends AppCompatActivity {
         if(user_type.getUser_type().equals("Cognito"))
             getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
         else {
-            google_auth.signOut();
             getSharedPreferences("google_token", MODE_PRIVATE).edit().clear().commit();
         }
 

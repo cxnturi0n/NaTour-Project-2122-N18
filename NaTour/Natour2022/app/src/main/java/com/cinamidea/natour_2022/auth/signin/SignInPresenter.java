@@ -1,12 +1,10 @@
 package com.cinamidea.natour_2022.auth.signin;
 
-import com.cinamidea.natour_2022.entities.Tokens;
-import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
-import com.cinamidea.natour_2022.utilities.UserType;
-import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
-import com.google.gson.Gson;
+import android.content.SharedPreferences;
 
-public class SignInPresenter implements SignInContract.Presenter, SignInContract.Model.OnFinishListener {
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+
+public class SignInPresenter implements SignInContract.Presenter, SignInContract.Model.OnFinishListenerCognito, SignInContract.Model.OnFinishListenerGoogle {
 
     // creating object of View Interface
     private final SignInContract.View view;
@@ -14,42 +12,36 @@ public class SignInPresenter implements SignInContract.Presenter, SignInContract
     // creating object of Model Interface
     private final SignInContract.Model model;
 
-    private final UserType user_type;
-
-    private final GoogleAuthentication google_auth;
-
-    private String username;
-
-    public SignInPresenter(SignInContract.View view, SignInContract.Model model, UserType user_type, GoogleAuthentication google_auth){
+    public SignInPresenter(SignInContract.View view) {
         this.view = view;
-        this.model = model;
-        this.user_type = user_type;
-        this.google_auth = google_auth;
+        this.model = new SignInModel();
     }
 
     @Override
-    public void cognitoSignInButtonClicked(String username, String password) {
-        this.username = username;
-        model.cognitoSignIn(username, password, this);
+    public void cognitoSignInButtonClicked(String username, String password, SharedPreferences cognito_preferences) {
+        model.cognitoSignIn(username, password, cognito_preferences, this);
+    }
+
+
+    @Override
+    public void googleSignInButtonClicked(GoogleSignInClient client, SharedPreferences google_preferences) {
+        model.googleSilentSignIn(client, google_preferences, this);
+    }
+
+
+    @Override
+    public void googleSignUpButtonClicked(String username, String email, String id_token, SharedPreferences shared_preferences) {
+        model.googleSignUp(username, email, id_token, shared_preferences, this);
     }
 
     @Override
-    public void googleSignInButtonClicked(GoogleAuthentication google_auth) {
-        model.googleSignIn(google_auth);
-    }
-
-    @Override
-    public void onSuccess(String message) {
-
-        Gson gson = new Gson();
-        Tokens tokens = gson.fromJson(ResponseDeserializer.removeQuotesAndUnescape(message), Tokens.class);
-
-        user_type.setUsername(username);
-        user_type.setIdToken(tokens.getId_token());
-        user_type.setAccessToken(tokens.getAccess_token());
-        user_type.setRefreshToken(tokens.getRefresh_token());
-
+    public void onSuccess() {
         view.signInSuccess();
+    }
+
+    @Override
+    public void onSignUpNeeded() {
+        view.googleSignUp();
     }
 
     @Override

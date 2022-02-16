@@ -43,8 +43,6 @@ public class ResetCRModel implements ResetCRContract.Model {
         });
 
 
-/*        AuthenticationHTTP auth = new AuthenticationHTTP();
-        auth.getCodeForPasswordReset(username, new GetCodeForPasswordResetCallback(this));*/
     }
 
     @Override

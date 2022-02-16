@@ -224,9 +224,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
         bottomSheetView.findViewById(R.id.post_report).setOnClickListener(view -> {
             bottomSheetDialog.dismiss();
-            Intent reportIntent = new Intent(context, ReportActivity.class);
-            reportIntent.putExtra("route_name", route.getName());
-            context.startActivity(reportIntent);
+
         });
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();

@@ -28,8 +28,7 @@ public class ResponseDeserializer {
     }
 
     public static String jsonToMessage(String response){
-        Message m = new Gson().fromJson(removeQuotesAndUnescape(response), Message.class);
-        return m.message;
+        return new Gson().fromJson(removeQuotesAndUnescape(response), Message.class).message;
     }
 
     public class Message {

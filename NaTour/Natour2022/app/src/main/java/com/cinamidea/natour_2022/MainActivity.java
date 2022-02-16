@@ -13,7 +13,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
-import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.auth.TokenLoginCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -23,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private Button button_signin, button_signup;
     private Animation anim_scale_up, anim_scale_down;
     private final Handler handler = new Handler();
-    private GoogleAuthentication google_auth;
     private SharedPreferences natour_shared_pref;
 
 
@@ -32,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
 
         super.onResume();
 
-        String id_token = natour_shared_pref.getString("id_token", null);
+/*        String id_token = natour_shared_pref.getString("id_token", null);
 
         if (id_token != null)
             cognitoSilentLogin();
 
         else if (GoogleSignIn.getLastSignedInAccount(this) != null)
-            googleSilentLogin();
+            googleSilentLogin();*/
 
     }
 
@@ -48,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        google_auth = new GoogleAuthentication(this);
-
+/*
         natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
 
         String id_token = natour_shared_pref.getString("id_token", null);
@@ -59,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (id_token != null || GoogleSignIn.getLastSignedInAccount(this) != null)
             return;
+*/
 
 
         startup();
@@ -136,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void googleSilentLogin() {
         //Se L utente ha gia loggato precedentemente con google allora accedo in background (Senza mostrare la gui di google, altrimenti l utente è libero di fare signin regolarmente)
-        google_auth.silentSignIn();
+        //silentsignin
 
     }
 

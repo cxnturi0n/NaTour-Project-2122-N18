@@ -1,5 +1,7 @@
 package com.cinamidea.natour_2022.auth.signin;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,25 +11,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.CustomAuthFragment;
 import com.cinamidea.natour_2022.auth.resetpassword.views.ResetCRActivity;
 import com.cinamidea.natour_2022.navigation.main.HomeActivity;
-import com.cinamidea.natour_2022.utilities.UserType;
-import com.cinamidea.natour_2022.utilities.auth.GoogleAuthentication;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.Task;
 
-public class SigninFragment extends CustomAuthFragment implements SignInContract.View{
+public class SigninFragment extends CustomAuthFragment implements SignInContract.View {
 
     public static String current_username;
-    public static boolean is_admin = false;
-    private GoogleAuthentication google_auth;
     private Button button_signin;
     private TextView text_forgotpwd;
     private EditText edit_user;
     private EditText edit_password;
     private Button button_googlesignin;
+    private GoogleSignInClient googlesignin_client;
+    private ActivityResultLauncher<Intent> start_activity_for_result;
+    private GoogleSignInOptions gso;
 
     private SignInContract.Presenter presenter;
 
@@ -35,11 +42,9 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        google_auth = new GoogleAuthentication((AppCompatActivity) getActivity());
+        presenter = new SignInPresenter(this);
 
-        UserType type = new UserType(getContext());
-        presenter = new SignInPresenter(this, new SignInModel(), type, google_auth);
-
+        initGoogleAuthVars();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_signin, container, false);
 
@@ -53,6 +58,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
         setListeners();
 
     }
+
 
     @Override
     protected void setupViewComponents(View view) {
@@ -76,7 +82,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
             String username = edit_user.getText().toString();
             String password = edit_password.getText().toString();
 
-            presenter.cognitoSignInButtonClicked(username, password);
+            presenter.cognitoSignInButtonClicked(username, password, getActivity().getSharedPreferences("Cognito", Context.MODE_PRIVATE));
 
             //Set username per l'utente della chat
             current_username = username;
@@ -86,7 +92,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
 
         button_googlesignin.setOnClickListener(view -> {
 
-            presenter.googleSignInButtonClicked(google_auth);
+            presenter.googleSignInButtonClicked(googlesignin_client, getActivity().getSharedPreferences("Google", Context.MODE_PRIVATE));
 
         });
 
@@ -100,8 +106,53 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
     }
 
     @Override
+    public void googleSignUp() {
+        startGoogleSignUp();
+    }
+
+    @Override
     public void displayError(String message) {
-        //TODO Toast sign in andato male
+        googlesignin_client.signOut();
+        //TODO TOAST
+    }
+
+
+
+    //Google sign up stuff
+
+    public void startGoogleSignUp() {
+        Intent signin_intent = googlesignin_client.getSignInIntent();
+        start_activity_for_result.launch(signin_intent);
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completed_task) {
+
+
+        GoogleSignInAccount google_account = completed_task.getResult();
+
+        String username = google_account.getDisplayName().replace(" ", "");
+        String email = google_account.getEmail();
+        String id_token = google_account.getIdToken();
+        presenter.googleSignUpButtonClicked(username, email, id_token, getActivity().getSharedPreferences("Google", Context.MODE_PRIVATE));
+    }
+
+    private void initGoogleAuthVars() {
+
+        start_activity_for_result = registerForActivityResult(new ActivityResultContracts
+                .StartActivityForResult(), result -> {
+
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                handleSignInResult(task);
+            }
+        });
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(("556927589955-pahgt8na4l8de0985mvlc9gugfltbkef.apps.googleusercontent.com"))
+                .build();
+
+        googlesignin_client = GoogleSignIn.getClient(getActivity(), gso);
+
     }
 
 

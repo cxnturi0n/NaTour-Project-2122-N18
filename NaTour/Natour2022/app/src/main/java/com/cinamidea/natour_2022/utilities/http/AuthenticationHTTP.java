@@ -23,8 +23,7 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
     }
 
-    public void googleSignUp(String username, String email, String id_token, HTTPCallback callback) {
-
+    public static Request googleSignUp(String username, String email, String id_token) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/google/users";
 
@@ -32,9 +31,7 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getPostRequest(url, request_body, header);
-
-        startHttpRequest(callback);
+        return getPostRequest(url, request_body, header);
 
     }
 
@@ -60,16 +57,6 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
     }
 
-    public void signInAndGetTokens(String username, String password, HTTPCallback callback) {
-
-        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/token";
-
-        String request_body = "{\"username\":" + username + ",\"password\":" + password + ",\"grant_type\":\"PASSWORD\"}";
-
-        request = getPostRequest(url, request_body, null);
-
-        startHttpRequest(callback);
-    }
 
     public static Request signInAndGetTokensRequest(String username, String password) {
 
