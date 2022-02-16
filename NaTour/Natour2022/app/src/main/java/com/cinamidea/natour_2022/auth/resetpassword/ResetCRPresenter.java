@@ -20,7 +20,7 @@ public class ResetCRPresenter implements ResetCRContract.Presenter{
             }
 
             @Override
-            public void onFailure(String message) {
+            public void onError(String message) {
                 view.displayUsernameNotFoundError(message);
             }
         });
@@ -37,7 +37,7 @@ public class ResetCRPresenter implements ResetCRContract.Presenter{
             }
 
             @Override
-            public void onFailure(String message) {
+            public void onError(String message) {
                 view.displayResetError(message);
             }
         });

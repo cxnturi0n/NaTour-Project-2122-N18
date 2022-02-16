@@ -1,5 +1,6 @@
-package com.cinamidea.natour_2022.map;
+package com.cinamidea.natour_2022.map.views;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,9 +24,9 @@ import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
-import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
+import com.cinamidea.natour_2022.map.contracts.AllPathFragmentContract;
+import com.cinamidea.natour_2022.map.presenters.AllPathFragmentPresenter;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,13 +37,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.gson.Gson;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.List;
 
-public class AllPathsFragment extends Fragment {
+public class AllPathsFragment extends Fragment implements AllPathFragmentContract.View {
 
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2;
     public static boolean locationPermissionGranted;
@@ -51,6 +49,8 @@ public class AllPathsFragment extends Fragment {
     private List<LatLng> path;
     private LocationManager locationManager;
     private Location current_location;
+
+    private AllPathFragmentContract.Presenter presenter;
 
 
     private final OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -61,11 +61,10 @@ public class AllPathsFragment extends Fragment {
             map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
             map.getUiSettings().setCompassEnabled(false);
-            getAllRoutes();
 
-            dialog.setMessage("Loading all routes, please wait.....");
-            dialog.setCancelable(false);
-            dialog.show();
+            UserType type = new UserType(getContext());
+            presenter.getAllRoutesOnCreate(type.getUserType()+type.getIdToken());
+
         }
     };
 
@@ -76,7 +75,8 @@ public class AllPathsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-
+        // instantiating object of AllPathFragmentPresenter Interface
+        presenter = new AllPathFragmentPresenter(this);
         return inflater.inflate(R.layout.fragment_all_paths, container, false);
     }
 
@@ -104,26 +104,82 @@ public class AllPathsFragment extends Fragment {
 
     }
 
-    private void getLocationPermission() {
+
+    private boolean gpsIsEnabled() {
+        LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
+    public void showGPSDisabledDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("GPS Disabled");
+        builder.setMessage("Gps is disabled, in order to use the application properly you need to enable GPS of your device");
+
+        builder.setPositiveButton("Enable GPS", (dialog, which) ->
+                startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)).setNegativeButton("No, Just Exit", (dialog, which) -> {
+        });
+        AlertDialog mGPSDialog = builder.create();
+        mGPSDialog.show();
+    }
+
+    @Override
+    public void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
         if (ContextCompat.checkSelfPermission(getContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
         } else {
             ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
 
         }
     }
 
-    private void updateLocationUI() {
+    @Override
+    public void showLoadingDialog() {
+        dialog.setMessage("Loading all routes, please wait.....");
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+        dialog.dismiss();
+    }
+
+
+    @Override
+    public void drawRoutes(Route[] routes) {
+        getActivity().runOnUiThread(() -> {
+            for (int i = 0; i < routes.length; i++) {
+                path = routes[i].getCoordinates();
+                map.addMarker(new MarkerOptions().position(path.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                map.addMarker(new MarkerOptions().position(path.get(path.size() - 1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
+                map.addPolyline(opts);
+            }
+        });
+
+    }
+
+    @Override
+    public Location getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            getLocationPermission();
+        }
+        current_location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        return current_location;
+    }
+
+    @Override
+    public void updateLocationUI() {
         if (map == null) {
             return;
         }
@@ -147,96 +203,6 @@ public class AllPathsFragment extends Fragment {
         }
     }
 
-
-    private boolean gpsIsEnabled() {
-        LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
-
-    public void showGPSDisabledDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("GPS Disabled");
-        builder.setMessage("Gps is disabled, in order to use the application properly you need to enable GPS of your device");
-
-        builder.setPositiveButton("Enable GPS", (dialog, which) ->
-                startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)).setNegativeButton("No, Just Exit", (dialog, which) -> {
-        });
-        AlertDialog mGPSDialog = builder.create();
-        mGPSDialog.show();
-    }
-
-
-    private void getAllRoutes() {
-        UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
-        String id_token = user_type.getUser_type() + user_type.getId_token();
-        new RoutesHTTP().getAllRoutes(id_token, new HTTPCallback() {
-            @Override
-            public void handleStatus200(String response) {
-                dialog.dismiss();
-
-                getActivity().runOnUiThread(() -> {
-                    getCurrentLocation();
-                    Route[] routes = jsonToRoutesParsing(response);
-                    drawRoutes(routes);
-                    getLocationPermission();
-                    updateLocationUI();
-
-                });
-
-
-            }
-
-            @Override
-            public void handleStatus400(String response) {
-
-            }
-
-            @Override
-            public void handleStatus401(String response) {
-
-            }
-
-            @Override
-            public void handleStatus500(String response) {
-
-            }
-
-            @Override
-            public void handleRequestException(String message) {
-
-            }
-        });
-
-    }
-
-    private Route[] jsonToRoutesParsing(String response) {
-        Gson gson = new Gson();
-        Route[] routes = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
-        return routes;
-
-    }
-
-    private String removeQuotesAndUnescape(String uncleanJson) {
-        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
-        return StringEscapeUtils.unescapeJava(noQuotes);
-    }
-
-    private void drawRoutes(Route[] routes) {
-        for (int i = 0; i < routes.length; i++) {
-            path = routes[i].getCoordinates();
-            map.addMarker(new MarkerOptions().position(path.get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-            map.addMarker(new MarkerOptions().position(path.get(path.size() - 1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-            PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
-            Polyline polyline = map.addPolyline(opts);
-        }
-
-    }
-
-    private Location getCurrentLocation() {
-
-        current_location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        return current_location;
-    }
 
     private void zoomBasedOnCurrentLocation() {
         Location location = getCurrentLocation();

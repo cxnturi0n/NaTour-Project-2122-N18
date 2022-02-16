@@ -22,7 +22,7 @@ public interface ResetCRContract {
 
         interface OnFinishListener {
             void onSuccess(String message);
-            void onFailure(String message);
+            void onError(String message);
         }
 
         void requestCode(String username, Model.OnFinishListener onFinishListener);

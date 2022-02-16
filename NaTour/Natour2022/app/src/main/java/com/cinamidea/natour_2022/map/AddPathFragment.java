@@ -20,6 +20,7 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.map.views.CreatePathActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -61,7 +62,6 @@ public class AddPathFragment extends Fragment {
     private String gpx_content;
 
     private List<LatLng> punti_gpx;
-    private ProgressDialog dialog;
     private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         @Override
@@ -100,31 +100,26 @@ public class AddPathFragment extends Fragment {
             });
 
 
-            add_path_map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-                @Override
-                public void onMapLongClick(@NonNull LatLng latLng) {
+            add_path_map.setOnMapLongClickListener(latLng -> {
 
-                    if (check_long_press_map_click == 1) {
+                if (check_long_press_map_click == 1) {
 
-                        Marker end_marker = add_path_map.addMarker(new MarkerOptions()
-                                .position(latLng)
-                                .title("You are here")
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                        path.add(end_marker.getPosition());
-                        //Aggiungiamo una linea rossa tra i marker
-                        PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
-                        Polyline polyline = add_path_map.addPolyline(opts);
+                    Marker end_marker = add_path_map.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title("You are here")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    path.add(end_marker.getPosition());
+                    //Aggiungiamo una linea rossa tra i marker
+                    PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
+                    add_path_map.addPolyline(opts);
 
+                    removeAllMarkers();
 
-                        polyline = add_path_map.addPolyline(opts);
-                        removeAllMarkers();
-
-                        check_long_press_map_click = 2;
-                        button_success.setVisibility(View.VISIBLE);
-
-                    }
+                    check_long_press_map_click = 2;
+                    button_success.setVisibility(View.VISIBLE);
 
                 }
+
             });
 
 
@@ -345,7 +340,6 @@ public class AddPathFragment extends Fragment {
     }
 
     private void moveCameraOnGpxRoute() {
-        Criteria criteria = new Criteria();
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(punti_gpx.get(5).latitude, punti_gpx.get(5).longitude))

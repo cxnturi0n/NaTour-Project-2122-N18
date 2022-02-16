@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.map.views.AllPathsFragment;
 
 public class MapActivity extends AppCompatActivity {
 

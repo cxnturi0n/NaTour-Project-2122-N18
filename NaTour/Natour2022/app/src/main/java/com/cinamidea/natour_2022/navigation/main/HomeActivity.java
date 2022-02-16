@@ -31,7 +31,6 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.admin.AdminActivity;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
-import com.cinamidea.natour_2022.map.AllPathsFragment;
 import com.cinamidea.natour_2022.map.MapActivity;
 import com.cinamidea.natour_2022.navigation.ChangePasswordActivity;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;

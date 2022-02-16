@@ -64,11 +64,6 @@
             android:name=".auth.resetpassword.views.ResetCRActivity"
             android:exported="false" />
         <activity
-            android:name=".map.CreatePathActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".map.MapActivity"
             android:exported="false"
             android:launchMode="singleTask" />
@@ -93,7 +88,7 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".resport.ReportActivity"
+            android:name=".report.ReportActivity"
             android:exported="false"
             android:launchMode="singleTask" />
             android:name=".auth.signup.views.ConfirmSignupActivity"

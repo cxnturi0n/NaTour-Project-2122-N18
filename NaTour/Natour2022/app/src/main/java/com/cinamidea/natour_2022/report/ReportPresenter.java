@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.resport;
+package com.cinamidea.natour_2022.report;
 
 import com.cinamidea.natour_2022.entities.Report;
 

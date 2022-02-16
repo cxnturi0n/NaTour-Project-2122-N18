@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.map;
+package com.cinamidea.natour_2022.map.views;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -25,11 +25,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
+
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
-import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.cinamidea.natour_2022.utilities.http.callbacks.routes.InsertRouteCallback;
+import com.cinamidea.natour_2022.map.contracts.CreatePathActivityContract;
+import com.cinamidea.natour_2022.map.models.CreatePathActivityModel;
+import com.cinamidea.natour_2022.map.presenters.CreatePathActivityPresenter;
+import com.cinamidea.natour_2022.navigation.main.HomeActivity;
+
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.ByteArrayOutputStream;
@@ -41,7 +45,7 @@ import java.util.List;
 
 import me.gujun.android.taggroup.TagGroup;
 
-public class CreatePathActivity extends AppCompatActivity {
+public class CreatePathActivity extends AppCompatActivity implements CreatePathActivityContract.View {
 
     String image_base64;
     private ImageButton button_back;
@@ -62,6 +66,8 @@ public class CreatePathActivity extends AppCompatActivity {
     private List<LatLng> path;
     private ProgressDialog dialog;
 
+    CreatePathActivityContract.Presenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +79,7 @@ public class CreatePathActivity extends AppCompatActivity {
     }
 
     private void setupComponents() {
-
+        presenter = new CreatePathActivityPresenter(this);
         path = new ArrayList<>();
         Intent intent = getIntent();
         if (intent != null)
@@ -148,8 +154,7 @@ public class CreatePathActivity extends AppCompatActivity {
 
         button_continue.setOnClickListener(view -> {
             insertRouteOnDb(path);
-            dialog.setMessage("Please wait...");
-            dialog.show();
+
 
         });
 
@@ -223,7 +228,6 @@ public class CreatePathActivity extends AppCompatActivity {
 
     }
 
-
     private void insertRouteOnDb(List<LatLng> path) {
         String level = checkLevel();
 
@@ -232,9 +236,9 @@ public class CreatePathActivity extends AppCompatActivity {
             Route route = new Route(title.getText().toString(), description.getText().toString(),
                     SigninFragment.current_username, level, Integer.parseInt(duration.getText().toString()), 0, checkDisabilityAccess(), path, tokenizedTags(tags), image_base64, getRouteLength(path));
 
-            UserSharedPreferences user_type = new UserSharedPreferences(this);
+            UserType user_type = new UserType(this);
+            presenter.continueButtonClick(user_type.getUserType()+user_type.getIdToken(),route);
 
-            new RoutesHTTP().insertRoute(user_type.getUser_type(), route, user_type.getId_token(), new InsertRouteCallback(this, dialog));
         }
     }
 
@@ -329,4 +333,31 @@ public class CreatePathActivity extends AppCompatActivity {
         return results[0];
     }
 
+    @Override
+    public void showLoadingDialog() {
+        dialog.setMessage("Please wait...");
+        dialog.show();
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void showToastAddedRoute() {
+        //TODO:iNSERIRE TOAST
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(CreatePathActivity.this, "Route added successfully", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void backToHomeAfterInsertedRoute() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+    }
 }

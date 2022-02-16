@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.resport;
+package com.cinamidea.natour_2022.report;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,7 +9,6 @@ import android.widget.RadioGroup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Report;
 import com.cinamidea.natour_2022.utilities.UserType;
 

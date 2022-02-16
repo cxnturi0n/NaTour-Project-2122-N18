@@ -29,7 +29,7 @@ public class ResetCRModel implements ResetCRContract.Model {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onFailure(e.getMessage());
+                listener.onError("Network error");
             }
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -38,7 +38,7 @@ public class ResetCRModel implements ResetCRContract.Model {
                 if(response_code == 200)
                     listener.onSuccess(message);
                 else
-                    listener.onFailure(ResponseDeserializer.jsonToMessage(message));
+                    listener.onError(ResponseDeserializer.jsonToMessage(message));
             }
         });
 
@@ -53,7 +53,7 @@ public class ResetCRModel implements ResetCRContract.Model {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onFailure(e.getMessage());
+                listener.onError("Network error");
             }
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -62,7 +62,7 @@ public class ResetCRModel implements ResetCRContract.Model {
                 if(response_code == 200)
                     listener.onSuccess(message);
                 else
-                    listener.onFailure(ResponseDeserializer.jsonToMessage(message));
+                    listener.onError(ResponseDeserializer.jsonToMessage(message));
             }
         });
 
