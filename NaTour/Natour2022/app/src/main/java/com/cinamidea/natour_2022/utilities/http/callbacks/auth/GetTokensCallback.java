@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Tokens;
-import com.cinamidea.natour_2022.navigation.main.HomeActivity;
+import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.gson.Gson;
 

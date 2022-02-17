@@ -5,7 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.cinamidea.natour_2022.navigation.main.HomeActivity;
+import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 
 public class InsertRouteCallback implements HTTPCallback {

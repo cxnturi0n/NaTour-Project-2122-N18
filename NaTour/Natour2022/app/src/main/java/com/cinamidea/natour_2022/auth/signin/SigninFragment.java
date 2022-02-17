@@ -17,7 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.CustomAuthFragment;
 import com.cinamidea.natour_2022.auth.resetpassword.views.ResetCRActivity;
-import com.cinamidea.natour_2022.navigation.main.HomeActivity;
+import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;

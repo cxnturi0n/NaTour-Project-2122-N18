@@ -15,12 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.navigation.main.HomeActivity;
 import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
-import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetFavouritesCallback;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;

@@ -28,6 +28,7 @@ import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.DetailedMap;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
+import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.report.ReportActivity;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;

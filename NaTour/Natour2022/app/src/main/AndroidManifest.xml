@@ -84,10 +84,6 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".navigation.main.HomeActivity"
-            android:exported="false"
-            android:launchMode="singleTask" />
-        <activity
             android:name=".report.ReportActivity"
             android:exported="false"
             android:launchMode="singleTask" />
@@ -96,6 +92,10 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".auth.AuthActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".navigation.main.views.HomeActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity

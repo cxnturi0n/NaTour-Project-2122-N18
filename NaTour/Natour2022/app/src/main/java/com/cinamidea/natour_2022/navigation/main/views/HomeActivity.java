@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.main;
+package com.cinamidea.natour_2022.navigation.main.views;
 
 import android.Manifest;
 import android.app.Activity;
@@ -31,16 +31,18 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.admin.AdminActivity;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
-import com.cinamidea.natour_2022.map.MapActivity;
 import com.cinamidea.natour_2022.map.views.AllPathsFragment;
+import com.cinamidea.natour_2022.map.MapActivity;
 import com.cinamidea.natour_2022.navigation.ChangePasswordActivity;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
+import com.cinamidea.natour_2022.navigation.main.ProfileFragment;
+import com.cinamidea.natour_2022.navigation.main.contracts.HomeActivityContract;
+import com.cinamidea.natour_2022.navigation.main.presenters.HomeActivityPresenter;
 import com.cinamidea.natour_2022.navigation.search.SearchActivity;
 import com.cinamidea.natour_2022.navigation.search.geosearch.GeoSearchActivity;
 import com.cinamidea.natour_2022.prova.HomeFragment;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
-import com.cinamidea.natour_2022.utilities.http.UsersHTTP;
-import com.cinamidea.natour_2022.utilities.http.callbacks.user.PutProfileImageCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.ByteArrayOutputStream;
@@ -57,7 +59,7 @@ import io.getstream.chat.android.livedata.ChatDomain;
 //TODO: CHAT
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements HomeActivityContract.View {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
     public static CircleImageView imgbutton_avatar;
@@ -81,6 +83,8 @@ public class HomeActivity extends AppCompatActivity {
     private byte check_chat_or_menu = 0;
     private ChatClient client;
 
+    private HomeActivityContract.Presenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +94,7 @@ public class HomeActivity extends AppCompatActivity {
         setupChatUser();
         setListeners();
 
+        presenter = new HomeActivityPresenter(this);
         fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -100,7 +105,6 @@ public class HomeActivity extends AppCompatActivity {
 
         button_home.performClick();
         getPermissions();
-
 
     }
 
@@ -119,7 +123,7 @@ public class HomeActivity extends AppCompatActivity {
 
         textview_username.setText(SigninFragment.current_username);
 
-        Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + SigninFragment.current_username).placeholder(R.drawable.natour_avatar).into(imgbutton_avatar);
+        Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username).placeholder(R.drawable.natour_avatar).into(imgbutton_avatar);
 
 
     }
@@ -271,7 +275,7 @@ public class HomeActivity extends AppCompatActivity {
                 findViewById(R.id.menuLayout_container)
         );
 
-        if(SigninFragment.current_username.equals("admin0"))
+        if(SigninFragment.current_username.equals("admin_natour_cinamidea2022"))
             bottomSheetView.findViewById(R.id.menuLayout_admin).setVisibility(View.VISIBLE);
 
         UserSharedPreferences user_type = new UserSharedPreferences(this);
@@ -322,14 +326,10 @@ public class HomeActivity extends AppCompatActivity {
                 return;
             }
             Uri uri = data.getData();
-            InputStream iStream = null;
             try {
-                iStream = getContentResolver().openInputStream(uri);
-                byte[] image_as_byte_array = getBytes(iStream);
-                String image_base64 = Base64.getEncoder().encodeToString(image_as_byte_array);
-                //TODO:Per salvare l'immagine
-                UserSharedPreferences userSharedPreferences = new UserSharedPreferences(this);
-                new UsersHTTP().putProfileImage(image_base64, SigninFragment.current_username, userSharedPreferences.getUser_type() + userSharedPreferences.getId_token(), new PutProfileImageCallback(this, imgbutton_avatar, image_as_byte_array));
+                InputStream iStream = getContentResolver().openInputStream(uri);
+                UserType user_type = new UserType(this);
+                presenter.putImage(SigninFragment.current_username,user_type.getUserType()+user_type.getIdToken(),iStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -344,17 +344,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public byte[] getBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        int bufferSize = 1024;
-        byte[] buffer = new byte[bufferSize];
-
-        int len = 0;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-        }
-        return byteBuffer.toByteArray();
-    }
 
     public void showPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -392,6 +381,7 @@ public class HomeActivity extends AppCompatActivity {
         if(user_type.getUser_type().equals("Cognito"))
             getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
         else {
+            //TODO LOGOUT GOOGLE
             getSharedPreferences("google_token", MODE_PRIVATE).edit().clear().commit();
         }
 
@@ -402,4 +392,13 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void loadProfileImage(byte[] image_as_byte_array) {
+        runOnUiThread(() -> Glide.with(HomeActivity.this).load(image_as_byte_array).circleCrop().into(imgbutton_avatar));
+    }
+
+    @Override
+    public void setChatUserImage() {
+        client.getCurrentUser().setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+ SigninFragment.current_username);
+    }
 }
