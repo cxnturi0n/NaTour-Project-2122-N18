@@ -8,6 +8,7 @@ public interface AdminContract {
 
         void displayError(String message);
         void mailSent(String message);
+        void logOutUnauthorizedUser();
 
     }
 
@@ -20,8 +21,10 @@ public interface AdminContract {
     interface Model {
 
         interface OnFinishListener {
-            void onSuccess(String message);
-            void onFailure(String message);
+            void onSuccess(String response);
+            void onError(String response);
+            void onUserUnauthorized(String response);
+            void onNetworkError(String response);
         }
 
         void sendMail(UserType user_type, String subject, String body, OnFinishListener onFinishListener);

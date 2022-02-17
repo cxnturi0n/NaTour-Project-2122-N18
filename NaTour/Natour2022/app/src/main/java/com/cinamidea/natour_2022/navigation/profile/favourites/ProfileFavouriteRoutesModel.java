@@ -1,11 +1,17 @@
-package com.cinamidea.natour_2022.navigation.main.models;
+package com.cinamidea.natour_2022.navigation.profile.favourites;
 
 import androidx.annotation.NonNull;
 
-import com.cinamidea.natour_2022.navigation.main.contracts.HomeActivityContract;
-import com.cinamidea.natour_2022.utilities.http.UsersHTTP;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
+import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
+import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
+import com.google.gson.Gson;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -14,15 +20,17 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HomeActivityModel implements HomeActivityContract.Model {
+public class ProfileFavouriteRoutesModel implements ProfileFavouriteRoutesContract.Model {
+
+
     private OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .build();
 
 
     @Override
-    public void putProfileImage(String imageBase64, String current_username, String id_token,byte[] image_as_byte_array, OnFinishedListener listener) {
-        Request request = UsersHTTP.putProfileImage(imageBase64,current_username,id_token);
+    public void getFavRoutes(String id_token, OnFinishedListener listener) {
+        Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -37,13 +45,14 @@ public class HomeActivityModel implements HomeActivityContract.Model {
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
-                        listener.onSuccess(response_body);
+                        ArrayList<Route> fav_routes = ResponseDeserializer.jsonToRoutesList(response_body);
+                        listener.onSuccess(fav_routes);
                         break;
                     case 400:
                         listener.onError(response_body);
                         break;
                     case 401:
-                        listener.onUserUnauthorized("Invalid session, please sign in again");
+                        listener.onUserUnauthorized(response_body);
                         break;
                     case 500:
                         listener.onNetworkError(response_body);
@@ -54,4 +63,7 @@ public class HomeActivityModel implements HomeActivityContract.Model {
             }
         });
     }
+
+
+
 }

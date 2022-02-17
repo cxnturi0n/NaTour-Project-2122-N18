@@ -4,39 +4,48 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.cinamidea.natour_2022.auth.AuthActivity;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
+import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.auth.TokenLoginCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
-public class MainActivity extends AppCompatActivity {
+import io.getstream.chat.android.client.models.User;
+
+public class MainActivity extends AppCompatActivity implements MainContract.View{
 
     private Button button_signin, button_signup;
     private Animation anim_scale_up, anim_scale_down;
     private final Handler handler = new Handler();
-    private SharedPreferences natour_shared_pref;
-
+    private GoogleSignInClient googlesignin_client;
+    private GoogleSignInOptions gso;
+    private MainContract.Presenter presenter;
+    private UserType user_type;
 
     @Override
     protected void onResume() {
 
+
         super.onResume();
 
-/*        String id_token = natour_shared_pref.getString("id_token", null);
-
-        if (id_token != null)
+        if (user_type.getUserType().equals("Cognito"))
             cognitoSilentLogin();
 
         else if (GoogleSignIn.getLastSignedInAccount(this) != null)
-            googleSilentLogin();*/
+            googleSilentLogin();
 
     }
 
@@ -46,17 +55,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-/*
-        natour_shared_pref = getSharedPreferences("natour_tokens", MODE_PRIVATE);
+        user_type = new UserType(this);
 
-        String id_token = natour_shared_pref.getString("id_token", null);
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(("556927589955-pahgt8na4l8de0985mvlc9gugfltbkef.apps.googleusercontent.com"))
+                .build();
+
+        this.googlesignin_client = GoogleSignIn.getClient(this, gso);
+
+        presenter = new MainPresenter(this);
 
         //Controllo se l utente puo loggare in automatico(o con cognito o con google). Se no, allora alloca le componenti dell' activity (Non richiamo direttamente il metodo (Ho fatto i controlli per evitare di ripetere due volte
         //il silent sign in visto che l onresume parte in ogni caso dopo l oncreate
 
-        if (id_token != null || GoogleSignIn.getLastSignedInAccount(this) != null)
+        if (user_type.getUserType().equals("Cognito")  || GoogleSignIn.getLastSignedInAccount(this) != null)
             return;
-*/
+
 
 
         startup();
@@ -126,16 +141,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void cognitoSilentLogin() {
 
-        String id_token = natour_shared_pref.getString("id_token", null);
-        new AuthenticationHTTP().tokenLogin(id_token, new TokenLoginCallback(this));
-        SigninFragment.current_username = natour_shared_pref.getString("username", null);
+        presenter.cognitoSilentSignIn(new UserType(this));
+        SigninFragment.current_username = getSharedPreferences("Cognito", MODE_PRIVATE).getString("username", null);
 
     }
 
     private void googleSilentLogin() {
-        //Se L utente ha gia loggato precedentemente con google allora accedo in background (Senza mostrare la gui di google, altrimenti l utente è libero di fare signin regolarmente)
-        //silentsignin
-
+        presenter.googleSilentSignIn(googlesignin_client, getSharedPreferences("Google", MODE_PRIVATE));
     }
 
+    @Override
+    public void silentSignIn() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void displayError(String message) {
+        Log.e("SignInUserUnauthorized", message);
+    }
 }

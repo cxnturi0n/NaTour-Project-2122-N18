@@ -1,13 +1,11 @@
 package com.cinamidea.natour_2022.map.models;
 
-import static com.cinamidea.natour_2022.utilities.ResponseDeserializer.removeQuotesAndUnescape;
-
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.contracts.AllPathFragmentContract;
+import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -24,14 +22,6 @@ public class AllPathFragmentModel implements AllPathFragmentContract.Model{
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .build();
 
-
-    @Override
-    public Route[] jsonToRoutesParsing(String response) {
-        Gson gson = new Gson();
-        //TODO:SCEGLIERE DOVE METTERE removeQuotesAndUnescape
-        Route[] routes = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
-        return routes;
-    }
 
     @Override
     public void getAllRoutes(AllPathFragmentContract.Model.OnFinishedListener listener,String id_token) {
@@ -51,7 +41,7 @@ public class AllPathFragmentModel implements AllPathFragmentContract.Model{
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
-                        Route[] routes = jsonToRoutesParsing(response_body);
+                        Route[] routes = ResponseDeserializer.jsonToRoutesArray(response_body);
                         listener.onSuccess(routes);
                         break;
                     case 400:

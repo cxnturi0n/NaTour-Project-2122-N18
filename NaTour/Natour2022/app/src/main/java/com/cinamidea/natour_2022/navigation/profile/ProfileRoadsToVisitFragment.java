@@ -65,24 +65,6 @@ public class ProfileRoadsToVisitFragment extends Fragment {
 
     }
 
-    private ArrayList<Route> jsonToRoutesParsing(String response) {
-        Gson gson = new Gson();
-        ArrayList<Route> routes = new ArrayList<>();
-        Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
-        for (int i = 0; i < routes_array.length; i++) {
-
-            routes.add(routes_array[i]);
-        }
-
-        return routes;
-
-    }
-
-    private String removeQuotesAndUnescape(String uncleanJson) {
-        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
-        return StringEscapeUtils.unescapeJava(noQuotes);
-    }
-
     private void loadRoutes() {
 
         UserSharedPreferences user_type = new UserSharedPreferences(getActivity());

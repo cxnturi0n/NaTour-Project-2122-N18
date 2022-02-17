@@ -401,4 +401,17 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
     public void setChatUserImage() {
         client.getCurrentUser().setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+ SigninFragment.current_username);
     }
+
+    @Override
+    public void displayError(String message) {
+        //TODO DISPLAY ERROR
+
+    }
+
+    @Override
+    public void logOutUnauthorizedUser() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class ResponseDeserializer {
 
-    private static ArrayList<Route> jsonToRoutes(String response) {
+    public static ArrayList<Route> jsonToRoutesList(String response) {
         Gson gson = new Gson();
         ArrayList<Route> routes = new ArrayList<>();
         Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
@@ -17,9 +17,11 @@ public class ResponseDeserializer {
 
             routes.add(routes_array[i]);
         }
-
         return routes;
+    }
 
+    public static Route [] jsonToRoutesArray(String response) {
+        return new Gson().fromJson(removeQuotesAndUnescape(response), Route[].class);
     }
 
     public static String removeQuotesAndUnescape(String uncleanJson) {

@@ -25,10 +25,18 @@ public class AdminPresenter implements AdminContract.Presenter, AdminContract.Mo
     }
 
     @Override
-    public void onFailure(String message) {
+    public void onError(String response) {
+        view.displayError(response);
+    }
 
-        view.displayError(message);
+    @Override
+    public void onUserUnauthorized(String response) {
+        view.logOutUnauthorizedUser();
+    }
 
+    @Override
+    public void onNetworkError(String response) {
+        view.displayError(response);
     }
 
 }

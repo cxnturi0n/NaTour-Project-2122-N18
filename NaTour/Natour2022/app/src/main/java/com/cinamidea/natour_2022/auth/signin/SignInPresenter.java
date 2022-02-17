@@ -24,12 +24,6 @@ public class SignInPresenter implements SignInContract.Presenter, SignInContract
 
 
     @Override
-    public void googleSignInButtonClicked(GoogleSignInClient client, SharedPreferences google_preferences) {
-        model.googleSilentSignIn(client, google_preferences, this);
-    }
-
-
-    @Override
     public void googleSignUpButtonClicked(String username, String email, String id_token, SharedPreferences shared_preferences) {
         model.googleSignUp(username, email, id_token, shared_preferences, this);
     }

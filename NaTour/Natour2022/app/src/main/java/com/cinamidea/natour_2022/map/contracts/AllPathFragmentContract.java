@@ -19,7 +19,6 @@ public interface AllPathFragmentContract {
 
 
     interface Model{
-        Route[] jsonToRoutesParsing(String response);
         interface OnFinishedListener{
             void onSuccess(Route[] routes);
             void onError(String response);

@@ -44,16 +44,13 @@ public class AuthenticationHTTP extends OkHTTPRequest {
         return getPostRequest(url, request_body, null);
     }
 
-    public void tokenLogin(String id_token, HTTPCallback callback) {
+    public static Request tokenLogin(String id_token) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/token/validation";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getGetRequest(url, header);
-
-        startHttpRequest(callback);
-
+        return getGetRequest(url, header);
 
     }
 
@@ -69,15 +66,14 @@ public class AuthenticationHTTP extends OkHTTPRequest {
 
 
 
-    public void refreshToken(String username, String refresh_token, HTTPCallback callback) {
+    public static Request refreshToken(String username, String refresh_token) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/auth/token";
 
         String request_body = "{\"username\":" + username + ",\"refresh_token\":" + refresh_token + ",\"grant_type\":\"REFRESH_TOKEN\"}";
 
-        request = getPostRequest(url, request_body, null);
+        return getPostRequest(url, request_body, null);
 
-        startHttpRequest(callback);
     }
 
 

@@ -31,7 +31,7 @@ public class AdminModel implements AdminContract.Model {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    listener.onFailure(e.getMessage());
+                    listener.onNetworkError("Network error");
                 }
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -39,8 +39,10 @@ public class AdminModel implements AdminContract.Model {
                     String message = response.body().string();
                     if(response_code == 200)
                         listener.onSuccess(message);
+                    else if(response_code == 400)
+                        listener.onError(ResponseDeserializer.jsonToMessage(message));
                     else
-                        listener.onFailure(ResponseDeserializer.jsonToMessage(message));
+                        listener.onUserUnauthorized(message);
                 }
             });
 

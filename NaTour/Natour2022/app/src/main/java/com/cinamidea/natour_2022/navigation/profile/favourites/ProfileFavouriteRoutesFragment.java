@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.profile;
+package com.cinamidea.natour_2022.navigation.profile.favourites;
 
 import android.content.Intent;
 import android.os.Build;
@@ -20,28 +20,27 @@ import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.utilities.UserType;
-import com.google.gson.Gson;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 
-public class ProfileMyRoadsFragment extends Fragment implements ProfileMyRoadsContract.View {
+public class ProfileFavouriteRoutesFragment extends Fragment implements ProfileFavouriteRoutesContract.View {
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private ProgressBar progressBar;
     private View view;
-    private ProfileMyRoadsContract.Presenter presenter;
+
+    private ProfileFavouriteRoutesContract.Presenter presenter;
     private UserType userType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         userType = new UserType(getContext());
-        presenter = new ProfileMyRoadsPresenter(this);
+        presenter = new ProfileFavouriteRoutesPresenter(this);
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_profile_my_roads, container, false);
+        view = inflater.inflate(R.layout.fragment_profile_preferred_roads, container, false);
         setupViewComponents(view);
         return view;
     }
@@ -50,41 +49,33 @@ public class ProfileMyRoadsFragment extends Fragment implements ProfileMyRoadsCo
     @Override
     public void onResume() {
         super.onResume();
-        if (!HomeActivity.counter_updated[0]) {
+        if (!HomeActivity.counter_updated[1]) {
             recyclerView.setAdapter(null);
             progressBar.setVisibility(View.VISIBLE);
-            presenter.getRoutes(userType.getUserType()+userType.getIdToken());
+            presenter.getFavourite(userType.getUserType()+userType.getIdToken());
             HomeActivity.is_updated = false;
-            HomeActivity.counter_updated[0] = true;
+            HomeActivity.counter_updated[1] = true;
         }
     }
 
     private void setupViewComponents(View view) {
 
-        recyclerView = view.findViewById(R.id.fragmentMyRoads_recyclerView);
+        recyclerView = view.findViewById(R.id.fragmentPreferredRoads_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        progressBar = view.findViewById(R.id.fragmentMyRoads_progress);
-
-        presenter.getRoutes(userType.getUserType()+userType.getIdToken());
-
+        progressBar = view.findViewById(R.id.fragmentPreferredRoads_progress);
+        presenter.getFavourite(userType.getUserType()+userType.getIdToken());
 
     }
 
+
     @Override
-    public void loadRoutes(ArrayList<Route> routes, ArrayList<Route> fav_routes) {
+    public void loadRoutes(ArrayList<Route> fav_routes) {
         getActivity().runOnUiThread(() -> {
-            Log.e("loadroutesinthr",Thread.currentThread().getName());
             progressBar.setVisibility(View.GONE);
-            recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), routes, fav_routes, false);
+            recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), fav_routes, true);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
-    }
-
-    @Override
-    public void displayError(String message) {
-        //TODO TOAST
-        Log.e("PROFILEMYROADSFRAGMENT", message);
     }
 
     @Override

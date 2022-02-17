@@ -84,14 +84,14 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
 
             presenter.cognitoSignInButtonClicked(username, password, getActivity().getSharedPreferences("Cognito", Context.MODE_PRIVATE));
 
-            current_username = username;
+            current_username = username.toLowerCase();
         });
 
         text_forgotpwd.setOnClickListener(view -> runHandledIntent(new Intent(getActivity(), ResetCRActivity.class)));
 
         button_googlesignin.setOnClickListener(view -> {
 
-            presenter.googleSignInButtonClicked(googlesignin_client, getActivity().getSharedPreferences("Google", Context.MODE_PRIVATE));
+            startGoogleSignUp();
 
         });
 

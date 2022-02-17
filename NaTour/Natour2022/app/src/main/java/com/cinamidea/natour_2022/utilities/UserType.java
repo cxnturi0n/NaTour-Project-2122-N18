@@ -36,7 +36,7 @@ public class UserType {
     }
 
     public void setIdToken(String id_token) {
-        shared_preferences.edit().putString("username", id_token).commit();
+        shared_preferences.edit().putString("id_token", id_token).commit();
     }
 
     public String getAccessToken() {

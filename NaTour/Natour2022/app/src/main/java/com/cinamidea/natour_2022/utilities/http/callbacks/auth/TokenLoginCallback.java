@@ -47,7 +47,7 @@ public class TokenLoginCallback implements HTTPCallback {
             String username = natour_tokens.getString("username", null);
             String refresh_token = natour_tokens.getString("refresh_token", null);
 
-            new AuthenticationHTTP().refreshToken(username, refresh_token, new RefreshTokenCallback(activity));
+            //new AuthenticationHTTP().refreshToken(username, refresh_token, new RefreshTokenCallback(activity));
             return;
         }
 

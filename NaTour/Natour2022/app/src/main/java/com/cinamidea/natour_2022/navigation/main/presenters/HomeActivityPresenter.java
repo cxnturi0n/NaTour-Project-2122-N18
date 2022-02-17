@@ -44,7 +44,7 @@ public class HomeActivityPresenter implements HomeActivityContract.Presenter {
 
                 @Override
                 public void onUserUnauthorized(String response) {
-
+                    view.logOutUnauthorizedUser();
                 }
 
                 @Override
