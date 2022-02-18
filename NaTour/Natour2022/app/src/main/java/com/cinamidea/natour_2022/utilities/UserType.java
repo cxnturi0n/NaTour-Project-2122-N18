@@ -44,7 +44,7 @@ public class UserType {
     }
 
     public void setAccessToken(String access_token) {
-        shared_preferences.edit().putString("access_Token", access_token).commit();
+        shared_preferences.edit().putString("access_token", access_token).commit();
     }
 
     public String getRefreshToken() {

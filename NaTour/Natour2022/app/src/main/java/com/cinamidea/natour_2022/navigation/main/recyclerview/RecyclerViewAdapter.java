@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.main;
+package com.cinamidea.natour_2022.navigation.main.recyclerview;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.cinamidea.natour_2022.map.DetailedMap;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
 import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.report.ReportActivity;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
@@ -42,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context context;
     ArrayList<Route> routes;
     ArrayList<Route> favourite_routes;
+
     private boolean is_favourite_fragment = false;
     private boolean is_tovisit_fragment = false;
 
@@ -132,6 +135,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
+        holder.presenter = new HomeRecyclerPresenter(holder, position);
+
         Route route = routes.get(position);
         setupHolder(holder, route);
 
@@ -156,20 +161,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.options.setOnClickListener(view -> {
 
-            UserSharedPreferences user_type = new UserSharedPreferences(context);
-            openMenu(holder.options_container, holder, user_type.getUser_type(), route, user_type.getId_token(), position);
+            UserType user_type = new UserType(context);
+            String id_token = user_type.getUserType() + user_type.getIdToken();
+            openMenu(holder.options_container, holder, route, id_token);
 
         });
 
         holder.favourite.setOnClickListener(view -> {
 
-            UserSharedPreferences user_type = new UserSharedPreferences(context);
             holder.favourite.setClickable(false);
 
+            UserType user_type = new UserType(context);
+            String id_token = user_type.getUserType() + user_type.getIdToken();
+
             if (holder.favourite.getTag().equals(1)) {
-                deleteFavourite(holder, user_type.getUser_type(), route, user_type.getId_token(), position);
+                holder.favourite.setImageResource(R.drawable.ic_like);
+                holder.presenter.deleteFavouriteButtonClicked(route.getName(), id_token);
             } else {
-                insertFavourite(holder, user_type.getUser_type(), route, user_type.getId_token());
+                holder.favourite.setImageResource(R.drawable.ic_liked);
+                holder.presenter.insertFavouriteButtonClicked(route.getName(), id_token);
             }
 
 
@@ -208,7 +218,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    private void openMenu(ViewGroup options_container, MyViewHolder holder, String user_type, Route route, String id_token, int position) {
+    private void openMenu(ViewGroup options_container, MyViewHolder holder, Route route, String id_token) {
 
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.BottomSheetDialogTheme);
         View bottomSheetView = LayoutInflater.from(context).inflate(
@@ -219,9 +229,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         bottomSheetView.findViewById(R.id.post_addtovisit).setOnClickListener(view1 -> {
             bottomSheetDialog.dismiss();
             if (is_tovisit_fragment)
-                removeToVisit(holder, user_type, route, id_token, position);
+                holder.presenter.deleteToVisitButtonClicked(route.getName(),id_token);
             else
-                insertToVisit(holder, user_type, route, id_token);
+                holder.presenter.insertToVisitButtonClicked(route.getName(),id_token);
 
         });
         bottomSheetView.findViewById(R.id.post_report).setOnClickListener(view -> {
@@ -234,195 +244,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         bottomSheetDialog.show();
     }
 
-    private void insertFavourite(MyViewHolder holder, String user_type, Route route, String id_token) {
-
-        holder.favourite.setImageResource(R.drawable.ic_liked);
-        new RoutesHTTP().insertFavouriteRoute(route.getName(), SigninFragment.current_username, user_type + id_token, new HTTPCallback() {
-
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void handleStatus200(String response) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setTag(1);
-                    route.setLikes(route.getLikes() + 1);
-                    holder.favourites_number.setText(String.valueOf(route.getLikes()));
-                    holder.favourite.setClickable(true);
-                });
-                HomeActivity.is_updated = true;
-                for (int i = 0; i < 3; i++)
-                    HomeActivity.counter_updated[i] = false;
-
-            }
-
-            @Override
-            public void handleStatus400(String response) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setImageResource(R.drawable.ic_like);
-                    holder.favourite.setClickable(true);
-                });
-            }
-
-            @Override
-            public void handleStatus401(String response) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setImageResource(R.drawable.ic_like);
-                    holder.favourite.setClickable(true);
-                });
-            }
-
-            @Override
-            public void handleStatus500(String response) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setImageResource(R.drawable.ic_like);
-                    holder.favourite.setClickable(true);
-                });
-            }
-
-            @Override
-            public void handleRequestException(String message) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setImageResource(R.drawable.ic_like);
-                    holder.favourite.setClickable(true);
-                });
-            }
-        });
-
-    }
-
-    private void deleteFavourite(MyViewHolder holder, String user_type, Route route, String id_token, int position) {
-
-        holder.favourite.setImageResource(R.drawable.ic_like);
-        new RoutesHTTP().deleteFavouriteRoute(SigninFragment.current_username, user_type + id_token, route.getName(), new HTTPCallback() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void handleStatus200(String response) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setTag(0);
-                    route.setLikes(route.getLikes() - 1);
-                    holder.favourites_number.setText(String.valueOf(route.getLikes()));
-                    holder.favourite.setClickable(true);
-                    if (is_favourite_fragment) {
-                        routes.remove(route);
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, routes.size());
-                        holder.itemView.setVisibility(View.GONE);
-
-                    }
-                });
-                HomeActivity.is_updated = true;
-                for (int i = 0; i < 3; i++)
-                    HomeActivity.counter_updated[i] = false;
-            }
-
-            @Override
-            public void handleStatus400(String response) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setImageResource(R.drawable.ic_liked);
-                    holder.favourite.setClickable(true);
-                });
-            }
-
-            @Override
-            public void handleStatus401(String response) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setImageResource(R.drawable.ic_liked);
-                    holder.favourite.setClickable(true);
-                });
-            }
-
-            @Override
-            public void handleStatus500(String response) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setImageResource(R.drawable.ic_liked);
-                    holder.favourite.setClickable(true);
-                });
-            }
-
-            @Override
-            public void handleRequestException(String message) {
-                ((Activity) context).runOnUiThread(() -> {
-                    holder.favourite.setImageResource(R.drawable.ic_liked);
-                    holder.favourite.setClickable(true);
-                });
-            }
-        });
-
-    }
-
-    private void insertToVisit(MyViewHolder holder, String user_type, Route route, String id_token) {
-
-        new RoutesHTTP().insertToVisitRoute(route.getName(), SigninFragment.current_username, user_type + id_token, new HTTPCallback() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void handleStatus200(String response) {
-                HomeActivity.counter_updated[2] = false;
-            }
-
-            @Override
-            public void handleStatus400(String response) {
-
-            }
-
-            @Override
-            public void handleStatus401(String response) {
-
-            }
-
-            @Override
-            public void handleStatus500(String response) {
-
-            }
-
-            @Override
-            public void handleRequestException(String message) {
-
-            }
-        });
-
-    }
-
-    private void removeToVisit(MyViewHolder holder, String user_type, Route route, String id_token, int position) {
-
-
-        new RoutesHTTP().deleteToVisitRoute(SigninFragment.current_username, user_type + id_token, route.getName(), new HTTPCallback() {
-            @Override
-            public void handleStatus200(String response) {
-
-                ((Activity) context).runOnUiThread(() -> {
-
-                    routes.remove(route);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, routes.size());
-                    holder.itemView.setVisibility(View.GONE);
-
-                });
-
-            }
-
-            @Override
-            public void handleStatus400(String response) {
-
-            }
-
-            @Override
-            public void handleStatus401(String response) {
-
-            }
-
-            @Override
-            public void handleStatus500(String response) {
-
-            }
-
-            @Override
-            public void handleRequestException(String message) {
-
-            }
-        });
-
-    }
-
-    public /*static */ class MyViewHolder extends RecyclerView.ViewHolder {
+    public /*static */ class MyViewHolder extends RecyclerView.ViewHolder implements HomeRecyclerContract.View {
 
         TextView username;
         TextView title, description;
@@ -438,6 +260,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView favourites_number;
         ImageView isreported;
         ImageButton open_map;
+        HomeRecyclerContract.Presenter presenter;
         ImageView avatar;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -461,6 +284,92 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             open_map = itemView.findViewById(R.id.post_map);
             avatar = itemView.findViewById(R.id.post_avatar);
 
+
+
+
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void addedToFavourites(int position) {
+
+            Route route = routes.get(position);
+
+            ((Activity) context).runOnUiThread(() -> {
+                favourite.setTag(1);
+                route.setLikes(route.getLikes() + 1);
+                favourites_number.setText(String.valueOf(route.getLikes()));
+                favourite.setClickable(true);
+            });
+
+            HomeActivity.is_updated = true;
+            for (int i = 0; i < 3; i++)
+                HomeActivity.counter_updated[i] = false;
+
+        }
+
+        @Override
+        public void addedToFavouritesError() {
+            ((Activity) context).runOnUiThread(() -> {
+                favourite.setImageResource(R.drawable.ic_like);
+                favourite.setClickable(true);
+            });
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void deletedFromFavourites(int position) {
+
+            Route route = routes.get(position);
+
+            ((Activity) context).runOnUiThread(() -> {
+                favourite.setTag(0);
+                route.setLikes(route.getLikes() - 1);
+                favourites_number.setText(String.valueOf(route.getLikes()));
+                favourite.setClickable(true);
+                if (is_favourite_fragment) {
+                    routes.remove(route);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, routes.size());
+                    itemView.setVisibility(View.GONE);
+
+                }
+            });
+            HomeActivity.is_updated = true;
+            for (int i = 0; i < 3; i++)
+                HomeActivity.counter_updated[i] = false;
+        }
+
+        @Override
+        public void deletedFromFavouritesError() {
+            ((Activity) context).runOnUiThread(() -> {
+                favourite.setImageResource(R.drawable.ic_liked);
+                favourite.setClickable(true);
+            });
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        public void addedToVisit() {
+            HomeActivity.counter_updated[2] = false;
+        }
+
+        @Override
+        public void deletedFromToVisit(int position) {
+            ((Activity) context).runOnUiThread(() -> {
+
+                routes.remove(routes.get(position));
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, routes.size());
+                itemView.setVisibility(View.GONE);
+
+            });
+        }
+
+        @Override
+        public void ToVisitError(String message) {
+            Log.e("e", message);
+            //TODO Toast
 
         }
 

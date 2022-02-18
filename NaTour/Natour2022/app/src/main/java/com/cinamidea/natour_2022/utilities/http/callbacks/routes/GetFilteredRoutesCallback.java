@@ -1,22 +1,18 @@
 package com.cinamidea.natour_2022.utilities.http.callbacks.routes;
 
 import android.app.Activity;
-import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
-import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
+import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GetFilteredRoutesCallback implements HTTPCallback {
 

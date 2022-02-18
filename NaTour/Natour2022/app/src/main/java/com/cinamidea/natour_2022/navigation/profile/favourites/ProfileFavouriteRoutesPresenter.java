@@ -24,17 +24,17 @@ public class ProfileFavouriteRoutesPresenter implements ProfileFavouriteRoutesCo
 
             @Override
             public void onError(String response) {
-
+                view.displayError(response);
             }
 
             @Override
             public void onUserUnauthorized(String response) {
-
+                view.logOutUnauthorizedUser();
             }
 
             @Override
             public void onNetworkError(String response) {
-
+                view.displayError(response);
             }
         });
     }

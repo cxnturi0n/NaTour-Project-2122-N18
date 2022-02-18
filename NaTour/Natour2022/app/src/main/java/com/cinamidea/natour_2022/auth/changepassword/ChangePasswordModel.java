@@ -1,19 +1,14 @@
-package com.cinamidea.natour_2022.navigation.profile.favourites;
+package com.cinamidea.natour_2022.auth.changepassword;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
-import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
-import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.google.gson.Gson;
-
-import org.apache.commons.lang3.StringEscapeUtils;
+import com.cinamidea.natour_2022.utilities.UserType;
+import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -22,18 +17,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ProfileFavouriteRoutesModel implements ProfileFavouriteRoutesContract.Model {
-
+public class ChangePasswordModel implements ChangePasswordContract.Model{
 
     private OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .build();
 
-
     @Override
-    public void getFavRoutes(String id_token, OnFinishedListener listener) {
-        Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
-
+    public void changePassword(UserType user_type, String old_password, String new_password, OnFinishedListener listener) {
+        Log.e("f", user_type.getAccessToken());
+        Request request = AuthenticationHTTP.changePassword(user_type.getUsername(), old_password, new_password, user_type.getAccessToken());
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -47,19 +40,20 @@ public class ProfileFavouriteRoutesModel implements ProfileFavouriteRoutesContra
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
-                        ArrayList<Route> fav_routes = ResponseDeserializer.jsonToRoutesList(response_body);
-                        listener.onSuccess(fav_routes);
+                        listener.onSuccess();
+                        break;
+                    case 400:
+                        listener.onError(ResponseDeserializer.jsonToMessage(response_body));
                         break;
                     case 401:
-                        listener.onUserUnauthorized(response_body);
+                        listener.onUserUnauthorized("Invalid session, please sign in again");
                         break;
                     default:
-                        listener.onError(ResponseDeserializer.jsonToMessage(response_body));
+                        return;
                 }
             }
         });
+
+
     }
-
-
-
 }

@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.profile;
+package com.cinamidea.natour_2022.navigation.profile.tovisit;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -13,18 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
-import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
-import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
-import com.google.gson.Gson;
-
-import org.apache.commons.lang3.StringEscapeUtils;
-
-import java.util.ArrayList;
 
 public class ProfileRoadsToVisitFragment extends Fragment {
 
@@ -69,35 +60,6 @@ public class ProfileRoadsToVisitFragment extends Fragment {
 
         UserSharedPreferences user_type = new UserSharedPreferences(getActivity());
         String id_token = user_type.getUser_type() + user_type.getId_token();
-
-        new RoutesHTTP().getToVisitRoutes(SigninFragment.current_username, user_type.getId_token(),
-                new HTTPCallback() {
-                    @Override
-                    public void handleStatus200(String response) {
-                       // new RoutesHTTP().getFavouriteRoutes(SigninFragment.current_username, id_token, new GetFavouritesCallback(recyclerView, recyclerViewAdapter, getActivity(), progressBar, true, jsonToRoutesParsing(response)));
-                    }
-
-                    @Override
-                    public void handleStatus400(String response) {
-
-                    }
-
-                    @Override
-                    public void handleStatus401(String response) {
-
-                    }
-
-                    @Override
-                    public void handleStatus500(String response) {
-
-                    }
-
-                    @Override
-                    public void handleRequestException(String message) {
-
-                    }
-                });
-
 
     }
 }

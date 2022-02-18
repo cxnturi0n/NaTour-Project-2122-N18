@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 

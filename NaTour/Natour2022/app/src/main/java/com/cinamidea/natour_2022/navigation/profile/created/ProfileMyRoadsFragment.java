@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.profile;
+package com.cinamidea.natour_2022.navigation.profile.created;
 
 import android.content.Intent;
 import android.os.Build;
@@ -17,12 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
-import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.utilities.UserType;
-import com.google.gson.Gson;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 
@@ -89,7 +86,6 @@ public class ProfileMyRoadsFragment extends Fragment implements ProfileMyRoadsCo
 
     @Override
     public void logOutUnauthorizedUser() {
-        new UserType(getContext()).clear();
         Intent intent = new Intent(getContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

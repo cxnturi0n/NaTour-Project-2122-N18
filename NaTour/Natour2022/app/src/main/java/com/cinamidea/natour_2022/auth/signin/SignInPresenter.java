@@ -33,10 +33,6 @@ public class SignInPresenter implements SignInContract.Presenter, SignInContract
         view.signInSuccess();
     }
 
-    @Override
-    public void onSignUpNeeded() {
-        view.googleSignUp();
-    }
 
     @Override
     public void onFailure(String message) {

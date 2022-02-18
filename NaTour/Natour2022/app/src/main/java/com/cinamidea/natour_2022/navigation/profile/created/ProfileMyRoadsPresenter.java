@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.profile;
+package com.cinamidea.natour_2022.navigation.profile.created;
 
 import com.cinamidea.natour_2022.entities.Route;
 
@@ -15,10 +15,30 @@ public class ProfileMyRoadsPresenter implements ProfileMyRoadsContract.Presenter
 
     @Override
     public void getRoutes(String id_token) {
+
        model.getUserRoutes(id_token, new ProfileMyRoadsContract.Model.OnFinishedListener() {
            @Override
-           public void onSuccess(ArrayList<Route> user_routes, ArrayList<Route> fav_routes) {
-                view.loadRoutes(user_routes,fav_routes);
+           public void onSuccess(ArrayList<Route> returned_user_routes) {
+
+                model.getFavouriteRoutes(id_token, new ProfileMyRoadsContract.Model.OnFinishedListener() {
+                    @Override
+                    public void onSuccess(ArrayList<Route> returned_favourite_routes) {
+                        view.loadRoutes(returned_user_routes, returned_favourite_routes);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                    }
+
+                    @Override
+                    public void onUserUnauthorized(String message) {
+                        view.logOutUnauthorizedUser();
+                    }
+
+                    @Override
+                    public void onNetworkError(String message) {
+                    }
+                });
            }
 
            @Override

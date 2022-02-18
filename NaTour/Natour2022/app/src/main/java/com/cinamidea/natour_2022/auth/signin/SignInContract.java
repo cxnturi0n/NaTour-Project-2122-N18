@@ -35,8 +35,6 @@ public interface SignInContract {
         interface OnFinishListenerGoogle {
             void onSuccess();
 
-            void onSignUpNeeded();
-
             void onFailure(String message);
         }
 

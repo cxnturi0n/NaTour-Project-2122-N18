@@ -1,12 +1,12 @@
-package com.cinamidea.natour_2022.navigation.main;
+package com.cinamidea.natour_2022.navigation.main.views;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.cinamidea.natour_2022.navigation.profile.ProfileMyRoadsFragment;
+import com.cinamidea.natour_2022.navigation.profile.created.ProfileMyRoadsFragment;
 import com.cinamidea.natour_2022.navigation.profile.favourites.ProfileFavouriteRoutesFragment;
-import com.cinamidea.natour_2022.navigation.profile.ProfileRoadsToVisitFragment;
+import com.cinamidea.natour_2022.navigation.profile.tovisit.ProfileRoadsToVisitFragment;
 
 public class ProfileFragmentAdapter extends FragmentStateAdapter {
 

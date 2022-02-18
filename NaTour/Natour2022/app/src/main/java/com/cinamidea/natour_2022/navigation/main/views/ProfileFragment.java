@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.main;
+package com.cinamidea.natour_2022.navigation.main.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -7,6 +7,7 @@ public interface ProfileFavouriteRoutesContract {
 
     interface View{
         void loadRoutes(ArrayList<Route> fav_routes);
+        void displayError(String message);
         void logOutUnauthorizedUser();
     }
 

@@ -1,6 +1,4 @@
-package com.cinamidea.natour_2022.prova;
-
-import android.util.Log;
+package com.cinamidea.natour_2022.navigation.profile.created;
 
 import androidx.annotation.NonNull;
 
@@ -8,6 +6,9 @@ import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
+import com.google.gson.Gson;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,53 +20,18 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HomeModel implements HomeContract.Model{
-
-    private ArrayList<Route> route_list;
+public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
     private OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .build();
+
     @Override
-    public void getAllRoutes(String id_token, OnFinishedListener listener) {
-
-        Request request = RoutesHTTP.getAllRoutes(id_token);
-
+    public void getUserRoutes(String id_token, OnFinishedListener listener) {
+        Request request = RoutesHTTP.getUserRoutes(SigninFragment.current_username,id_token);
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 listener.onError("Network error");
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
-                int response_code = response.code();
-                String response_body = response.body().string();
-                switch (response_code) {
-                    case 200:
-                        ArrayList<Route> routes = ResponseDeserializer.jsonToRoutesList(response_body);
-                        listener.onSuccess(routes);
-                        break;
-                    case 401:
-                        listener.onUserUnauthorized(response_body);
-                        break;
-                    default:
-                        listener.onError(response_body);
-                        break;
-                }
-            }
-        });
-
-    }
-
-    @Override
-    public void getFavouriteRoutes(String id_token, OnFinishedListener listener) {
-        Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onNetworkError("Network error");
             }
 
             @Override
@@ -78,25 +44,26 @@ public class HomeModel implements HomeContract.Model{
                         listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
                         break;
                     case 401:
-                        listener.onUserUnauthorized("Invalid session, please sign in again");
+                        listener.onUserUnauthorized(response_body);
                         break;
                     default:
-                    listener.onError(response_body);
-                    break;
+                        listener.onError(ResponseDeserializer.jsonToMessage(response_body));
                 }
             }
         });
+
+
     }
 
     @Override
-    public void getRoutesByDifficulty(String id_token, String difficulty, OnFinishedListener listener) {
+    public void getFavouriteRoutes(String id_token, OnFinishedListener listener) {
 
-        Request request = RoutesHTTP.getRoutesByLevel(id_token, difficulty);
+        Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onError("Network error");
+
             }
 
             @Override
@@ -106,24 +73,18 @@ public class HomeModel implements HomeContract.Model{
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
-                        ArrayList<Route> routes = ResponseDeserializer.jsonToRoutesList(response_body);
-                        listener.onSuccess(routes);
-                        break;
-                    case 400:
-                        listener.onError(response_body);
+                        listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
                         break;
                     case 401:
                         listener.onUserUnauthorized(response_body);
                         break;
-                    case 500:
-                        listener.onNetworkError(response_body);
-                        break;
                     default:
-                        return;
+                        listener.onError(ResponseDeserializer.jsonToMessage(response_body));
                 }
             }
         });
     }
+
 
 
 }

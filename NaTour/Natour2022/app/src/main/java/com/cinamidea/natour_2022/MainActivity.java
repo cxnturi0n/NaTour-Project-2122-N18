@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 
         super.onResume();
-
         if (user_type.getUserType().equals("Cognito"))
             cognitoSilentLogin();
 
@@ -71,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         if (user_type.getUserType().equals("Cognito")  || GoogleSignIn.getLastSignedInAccount(this) != null)
             return;
-
-
 
         startup();
 

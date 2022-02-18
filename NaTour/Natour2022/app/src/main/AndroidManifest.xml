@@ -58,7 +58,7 @@
             android:exported="false"
             android:label="@string/title_activity_detailed_map" />
         <activity
-            android:name=".navigation.ChangePasswordActivity"
+            android:name=".auth.changepassword.ChangePasswordActivity"
             android:exported="false" />
         <activity
             android:name=".auth.resetpassword.views.ResetCRActivity"

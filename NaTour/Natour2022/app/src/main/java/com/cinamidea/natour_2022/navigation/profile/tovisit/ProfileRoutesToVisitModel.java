@@ -1,13 +1,11 @@
-package com.cinamidea.natour_2022.navigation.profile;
+package com.cinamidea.natour_2022.navigation.profile.tovisit;
 
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.google.gson.Gson;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,14 +17,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
+public class ProfileRoutesToVisitModel implements ProfileRoutesToVisitContract.Model{
     private OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .build();
 
+
     @Override
-    public void getUserRoutes(String id_token, OnFinishedListener listener) {
-        Request request = RoutesHTTP.getUserRoutes(SigninFragment.current_username,id_token);
+    public void getToVisitRoutes(String id_token, OnFinishedListener listener) {
+        Request request = RoutesHTTP.getToVisitRoutes(SigninFragment.current_username, id_token);
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -40,33 +40,23 @@ public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
-                        ArrayList<Route> routes = jsonToRoutesParsing(response_body);
-                        ArrayList<Route> fav_routes = getFavouriteRoutes(id_token);
-                        listener.onSuccess(routes, fav_routes);
-                        break;
-                    case 400:
-                        listener.onError(response_body);
+                        ArrayList<Route> to_visit_routes = ResponseDeserializer.jsonToRoutesList(response_body);
+                        listener.onSuccess(to_visit_routes);
                         break;
                     case 401:
-                        listener.onUserUnauthorized("Invalid session, please sign in again");
-                        break;
-                    case 500:
-                        listener.onNetworkError(response_body);
+                        listener.onUserUnauthorized();
                         break;
                     default:
-                        return;
+                        listener.onError(ResponseDeserializer.jsonToMessage(response_body));
                 }
             }
         });
-
-
     }
 
-    private ArrayList<Route> getFavouriteRoutes(String id_token) {
+    @Override
+    public void getFavouriteRoutes(String id_token, OnFavouriteRoutesFetchedListener listener) {
 
         Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
-
-        final ArrayList<Route>[] fav_routes = new ArrayList[]{new ArrayList<>()};
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -79,33 +69,12 @@ public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
 
                 int response_code = response.code();
                 String response_body = response.body().string();
-                if(response_code == 200) {
-                    fav_routes[0] = jsonToRoutesParsing(response_body);
-                }
+                    if(response_code == 200)
+                        listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
             }
         });
-
-        return fav_routes[0];
-
     }
 
-    private final ArrayList<Route> jsonToRoutesParsing(String response) {
-        Gson gson = new Gson();
-        ArrayList<Route> routes = new ArrayList<>();
-        Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
-        for (int i = 0; i < routes_array.length; i++) {
-
-            routes.add(routes_array[i]);
-        }
-
-        return routes;
-
-    }
-
-    private final String removeQuotesAndUnescape(String uncleanJson) {
-        String noQuotes = uncleanJson.replaceAll("^\"|\"$", "");
-        return StringEscapeUtils.unescapeJava(noQuotes);
-    }
 
 
 }

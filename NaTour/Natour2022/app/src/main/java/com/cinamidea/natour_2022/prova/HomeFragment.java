@@ -1,5 +1,6 @@
 package com.cinamidea.natour_2022.prova;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,14 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.navigation.main.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.utilities.UserType;
-import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
-import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetAllRoutesCallback;
 
 import java.util.ArrayList;
 
@@ -146,13 +144,22 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     @Override
     public void loadRoutes(ArrayList<Route> routes, ArrayList<Route> fav_routes) {
-            Log.e("loadroutes",Thread.currentThread().getName());
-
         getActivity().runOnUiThread(() -> {
-            Log.e("loadroutesinthr",Thread.currentThread().getName());
             progressBar.setVisibility(View.GONE);
             recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), routes, fav_routes, false);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
+    }
+
+    @Override
+    public void displayError(String message) {
+        //TODO ERROR
+    }
+
+    @Override
+    public void logOutUnauthorizedUser() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

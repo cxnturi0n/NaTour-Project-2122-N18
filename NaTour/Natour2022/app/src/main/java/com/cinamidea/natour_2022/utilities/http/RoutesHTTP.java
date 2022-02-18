@@ -57,7 +57,7 @@ public class RoutesHTTP extends OkHTTPRequest {
 
 
 
-    public static Request insertFavouriteRoute(String route_name, String username, String id_token, HTTPCallback callback) {
+    public static Request insertFavouriteRoute(String route_name, String username, String id_token) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/routes/favourites";
 
@@ -69,7 +69,7 @@ public class RoutesHTTP extends OkHTTPRequest {
 
     }
 
-    public void insertToVisitRoute(String route_name, String username, String id_token, HTTPCallback callback) {
+    public static Request insertToVisitRoute(String route_name, String username, String id_token) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/routes/to-visit";
 
@@ -77,24 +77,10 @@ public class RoutesHTTP extends OkHTTPRequest {
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getPostRequest(url, request_body, header);
+        return getPostRequest(url, request_body, header);
 
-        startHttpRequest(callback);
     }
 
-    public void insertReport(Report report, String id_token, HTTPCallback callback) {
-
-        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes/report";
-
-        String request_body = "{\"issuer\":" + report.getIssuer() + ",\"route_name\":" + report.getRoute_name() + ",\"description\":"
-                + report.getDescription() + ",\"title\":" + report.getTitle() + ",\"type\":" + report.getType() + "}";
-
-        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
-
-        request = getPostRequest(url, request_body, header);
-
-        startHttpRequest(callback);
-    }
 
     public void createRoutesCompilation(RoutesCompilation routes_compilation, String id_token, HTTPCallback callback){
 
@@ -133,39 +119,34 @@ public class RoutesHTTP extends OkHTTPRequest {
 
     }
 
-    public void deleteFavouriteRoute(String username, String id_token, String route_name, HTTPCallback callback) {
+    public static Request deleteFavouriteRoute(String username, String id_token, String route_name) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/routes/favourites?route-name=" + route_name;
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getDeleteRequest(url, header);
-
-        startHttpRequest(callback);
+        return getDeleteRequest(url, header);
 
     }
 
-    public void deleteToVisitRoute(String username, String id_token, String route_name, HTTPCallback callback) {
+    public static Request deleteToVisitRoute(String username, String id_token, String route_name) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/routes/to-visit?route-name=" + route_name;
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getDeleteRequest(url, header);
+        return getDeleteRequest(url, header);
 
-        startHttpRequest(callback);
 
     }
 
-    public void getToVisitRoutes(String username, String id_token, HTTPCallback callback) {
+    public static Request getToVisitRoutes(String username, String id_token) {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/" + username + "/routes/to-visit";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getGetRequest(url, header);
-
-        startHttpRequest(callback);
+        return getGetRequest(url, header);
 
     }
 

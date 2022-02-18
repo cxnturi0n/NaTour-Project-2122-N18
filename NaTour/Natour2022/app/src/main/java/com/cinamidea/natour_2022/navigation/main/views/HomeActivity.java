@@ -33,9 +33,8 @@ import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.views.AllPathsFragment;
 import com.cinamidea.natour_2022.map.MapActivity;
-import com.cinamidea.natour_2022.navigation.ChangePasswordActivity;
+import com.cinamidea.natour_2022.auth.changepassword.ChangePasswordActivity;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationActivity;
-import com.cinamidea.natour_2022.navigation.main.ProfileFragment;
 import com.cinamidea.natour_2022.navigation.main.contracts.HomeActivityContract;
 import com.cinamidea.natour_2022.navigation.main.presenters.HomeActivityPresenter;
 import com.cinamidea.natour_2022.navigation.search.SearchActivity;
@@ -45,10 +44,8 @@ import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Base64;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.getstream.chat.android.client.ChatClient;
@@ -278,8 +275,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
         if(SigninFragment.current_username.equals("admin_natour_cinamidea2022"))
             bottomSheetView.findViewById(R.id.menuLayout_admin).setVisibility(View.VISIBLE);
 
-        UserSharedPreferences user_type = new UserSharedPreferences(this);
-        if (!user_type.getUser_type().equals("Cognito"))
+        if (!new UserType(getApplicationContext()).getUserType().equals("Cognito"))
             bottomSheetView.findViewById(R.id.menuLayout_changePassword).setVisibility(View.GONE);
 
         bottomSheetView.findViewById(R.id.menuLayout_logout).setOnClickListener(view1 -> {
