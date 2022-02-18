@@ -16,9 +16,7 @@ public interface ProfileFavouriteRoutesContract {
 
             void onSuccess(ArrayList<Route> fav_routes);
             void onError(String response);
-            void onUserUnauthorized(String response);
-            void onNetworkError(String response);
-
+            void onUserUnauthorized();
         }
         void getFavRoutes(String id_token, ProfileFavouriteRoutesContract.Model.OnFinishedListener listener);
 

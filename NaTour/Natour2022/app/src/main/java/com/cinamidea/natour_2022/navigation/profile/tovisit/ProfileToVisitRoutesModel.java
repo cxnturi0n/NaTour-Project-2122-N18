@@ -1,5 +1,7 @@
 package com.cinamidea.natour_2022.navigation.profile.tovisit;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
@@ -17,7 +19,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ProfileRoutesToVisitModel implements ProfileRoutesToVisitContract.Model{
+public class ProfileToVisitRoutesModel implements ProfileToVisitRoutesContract.Model{
     private OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .build();

@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.cinamidea.natour_2022.navigation.profile.created.ProfileMyRoadsFragment;
 import com.cinamidea.natour_2022.navigation.profile.favourites.ProfileFavouriteRoutesFragment;
-import com.cinamidea.natour_2022.navigation.profile.tovisit.ProfileRoadsToVisitFragment;
+import com.cinamidea.natour_2022.navigation.profile.tovisit.ProfileToVisitRoutesFragment;
 
 public class ProfileFragmentAdapter extends FragmentStateAdapter {
 
@@ -29,7 +29,7 @@ public class ProfileFragmentAdapter extends FragmentStateAdapter {
             case 1:
                 return new ProfileFavouriteRoutesFragment();
             case 2:
-                return new ProfileRoadsToVisitFragment();
+                return new ProfileToVisitRoutesFragment();
 
         }
         return new ProfileMyRoadsFragment();

@@ -15,12 +15,15 @@ public interface ProfileMyRoadsContract {
         interface OnFinishedListener{
             void onSuccess(ArrayList<Route> user_routes);
             void onError(String message);
-            void onUserUnauthorized(String message);
-            void onNetworkError(String message);
+            void onUserUnauthorized();
+        }
+
+        interface OnFavouriteRoutesFetchedListener {
+            void onSuccess(ArrayList<Route> favourite_routes);
         }
 
         void getUserRoutes(String id_token,OnFinishedListener listener);
-        void getFavouriteRoutes(String id_token, OnFinishedListener listener);
+        void getFavouriteRoutes(String id_token, OnFavouriteRoutesFetchedListener listener);
 
     }
 

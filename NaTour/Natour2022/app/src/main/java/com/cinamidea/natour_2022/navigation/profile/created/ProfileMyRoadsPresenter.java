@@ -20,25 +20,7 @@ public class ProfileMyRoadsPresenter implements ProfileMyRoadsContract.Presenter
            @Override
            public void onSuccess(ArrayList<Route> returned_user_routes) {
 
-                model.getFavouriteRoutes(id_token, new ProfileMyRoadsContract.Model.OnFinishedListener() {
-                    @Override
-                    public void onSuccess(ArrayList<Route> returned_favourite_routes) {
-                        view.loadRoutes(returned_user_routes, returned_favourite_routes);
-                    }
-
-                    @Override
-                    public void onError(String message) {
-                    }
-
-                    @Override
-                    public void onUserUnauthorized(String message) {
-                        view.logOutUnauthorizedUser();
-                    }
-
-                    @Override
-                    public void onNetworkError(String message) {
-                    }
-                });
+                model.getFavouriteRoutes(id_token, returned_favourite_routes -> view.loadRoutes(returned_user_routes, returned_favourite_routes));
            }
 
            @Override
@@ -47,14 +29,10 @@ public class ProfileMyRoadsPresenter implements ProfileMyRoadsContract.Presenter
            }
 
            @Override
-           public void onUserUnauthorized(String message) {
+           public void onUserUnauthorized() {
                view.logOutUnauthorizedUser();
            }
 
-           @Override
-           public void onNetworkError(String message) {
-               view.displayError(message);
-           }
        });
     }
 }

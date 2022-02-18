@@ -19,28 +19,25 @@ import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
+import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 
 import java.util.ArrayList;
 
-public class ProfileRoutesToVisitFragment extends Fragment implements ProfileRoutesToVisitContract.View {
+public class ProfileToVisitRoutesFragment extends Fragment implements ProfileToVisitRoutesContract.View{
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private View view;
     private ProgressBar progressBar;
-
-    private ProfileRoutesToVisitContract.Presenter presenter;
-    private UserType userType;
+    private ProfileToVisitRoutesContract.Presenter presenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        presenter = new ProfileRoutesToVisitPresenter(this);
-        userType = new UserType(getContext());
-
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile_roads_to_visit, container, false);
         setupViewComponents(view);
+
         return view;
     }
 
@@ -51,7 +48,7 @@ public class ProfileRoutesToVisitFragment extends Fragment implements ProfileRou
         if (!HomeActivity.counter_updated[2]) {
             recyclerView.setAdapter(null);
             progressBar.setVisibility(View.VISIBLE);
-            presenter.getToVisitRoutes(userType.getUserType()+userType.getIdToken());
+            loadRoutes();
             HomeActivity.is_updated = false;
             HomeActivity.counter_updated[2] = true;
         }
@@ -63,9 +60,17 @@ public class ProfileRoutesToVisitFragment extends Fragment implements ProfileRou
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         progressBar = view.findViewById(R.id.fragmentToVisit_progress);
-        presenter.getToVisitRoutes(userType.getUserType()+userType.getIdToken());
+        loadRoutes();
+
     }
 
+    private void loadRoutes() {
+
+        UserType user_type = new UserType(getContext());
+        presenter = new ProfileToVisitRoutesPresenter(this);
+        presenter.getToVisitRoutes(user_type.getUserType()+user_type.getIdToken());
+
+    }
 
     @Override
     public void loadRoutes(ArrayList<Route> to_visit_routes, ArrayList<Route> fav_routes) {
@@ -76,15 +81,13 @@ public class ProfileRoutesToVisitFragment extends Fragment implements ProfileRou
         });
     }
 
-
     @Override
     public void displayError(String message) {
-        //TODO:Toast
+//TODO LOG
     }
 
     @Override
     public void logOutUnauthorizedUser() {
-        new UserType(getContext()).clear();
         Intent intent = new Intent(getContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

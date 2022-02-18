@@ -51,7 +51,7 @@ public class ProfileFavouriteRoutesModel implements ProfileFavouriteRoutesContra
                         listener.onSuccess(fav_routes);
                         break;
                     case 401:
-                        listener.onUserUnauthorized(response_body);
+                        listener.onUserUnauthorized();
                         break;
                     default:
                         listener.onError(ResponseDeserializer.jsonToMessage(response_body));

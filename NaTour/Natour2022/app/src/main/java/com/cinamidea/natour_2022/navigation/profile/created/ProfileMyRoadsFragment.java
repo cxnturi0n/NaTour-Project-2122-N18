@@ -71,7 +71,6 @@ public class ProfileMyRoadsFragment extends Fragment implements ProfileMyRoadsCo
     @Override
     public void loadRoutes(ArrayList<Route> routes, ArrayList<Route> fav_routes) {
         getActivity().runOnUiThread(() -> {
-            Log.e("loadroutesinthr",Thread.currentThread().getName());
             progressBar.setVisibility(View.GONE);
             recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), routes, fav_routes, false);
             recyclerView.setAdapter(recyclerViewAdapter);
@@ -81,7 +80,6 @@ public class ProfileMyRoadsFragment extends Fragment implements ProfileMyRoadsCo
     @Override
     public void displayError(String message) {
         //TODO TOAST
-        Log.e("PROFILEMYROADSFRAGMENT", message);
     }
 
     @Override

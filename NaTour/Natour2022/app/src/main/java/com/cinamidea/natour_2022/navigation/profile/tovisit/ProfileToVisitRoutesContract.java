@@ -4,7 +4,7 @@ import com.cinamidea.natour_2022.entities.Route;
 
 import java.util.ArrayList;
 
-public interface ProfileRoutesToVisitContract {
+public interface ProfileToVisitRoutesContract {
     interface View{
         void loadRoutes(ArrayList<Route> to_visit_routes,ArrayList<Route> fav_routes);
         void displayError(String message);

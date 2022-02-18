@@ -84,7 +84,6 @@ public class ProfileFavouriteRoutesFragment extends Fragment implements ProfileF
 
     @Override
     public void logOutUnauthorizedUser() {
-        new UserType(getContext()).clear();
         Intent intent = new Intent(getContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

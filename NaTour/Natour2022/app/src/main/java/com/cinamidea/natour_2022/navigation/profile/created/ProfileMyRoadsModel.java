@@ -44,7 +44,7 @@ public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
                         listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
                         break;
                     case 401:
-                        listener.onUserUnauthorized(response_body);
+                        listener.onUserUnauthorized();
                         break;
                     default:
                         listener.onError(ResponseDeserializer.jsonToMessage(response_body));
@@ -56,7 +56,7 @@ public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
     }
 
     @Override
-    public void getFavouriteRoutes(String id_token, OnFinishedListener listener) {
+    public void getFavouriteRoutes(String id_token, OnFavouriteRoutesFetchedListener listener) {
 
         Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
 
@@ -71,16 +71,8 @@ public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
 
                 int response_code = response.code();
                 String response_body = response.body().string();
-                switch (response_code) {
-                    case 200:
-                        listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
-                        break;
-                    case 401:
-                        listener.onUserUnauthorized(response_body);
-                        break;
-                    default:
-                        listener.onError(ResponseDeserializer.jsonToMessage(response_body));
-                }
+                        if(response_code == 200)
+                            listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
             }
         });
     }
