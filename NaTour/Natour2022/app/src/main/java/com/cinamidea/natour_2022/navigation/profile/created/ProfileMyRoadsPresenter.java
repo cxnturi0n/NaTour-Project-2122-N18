@@ -14,13 +14,13 @@ public class ProfileMyRoadsPresenter implements ProfileMyRoadsContract.Presenter
     }
 
     @Override
-    public void getRoutes(String id_token) {
+    public void getMyRoutes(String username, String id_token) {
 
-       model.getUserRoutes(id_token, new ProfileMyRoadsContract.Model.OnFinishedListener() {
+       model.getUserRoutes(username, id_token, new ProfileMyRoadsContract.Model.OnFinishedListener() {
            @Override
            public void onSuccess(ArrayList<Route> returned_user_routes) {
 
-                model.getFavouriteRoutes(id_token, returned_favourite_routes -> view.loadRoutes(returned_user_routes, returned_favourite_routes));
+                model.getFavouriteRoutes(username,id_token, returned_favourite_routes -> view.loadRoutes(returned_user_routes, returned_favourite_routes));
            }
 
            @Override

@@ -1,10 +1,7 @@
 package com.cinamidea.natour_2022.prova;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
@@ -21,12 +18,11 @@ import okhttp3.Response;
 
 public class HomeModel implements HomeContract.Model{
 
-    private ArrayList<Route> route_list;
     private OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .build();
     @Override
-    public void getAllRoutes(String id_token, OnFinishedListener listener) {
+    public void getAllRoutes(String username, String id_token, OnFinishedListener listener) {
 
         Request request = RoutesHTTP.getAllRoutes(id_token);
 
@@ -59,8 +55,8 @@ public class HomeModel implements HomeContract.Model{
     }
 
     @Override
-    public void getFavouriteRoutes(String id_token, OnFinishedListener listener) {
-        Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
+    public void getFavouriteRoutes(String username, String id_token, OnFinishedListener listener) {
+        Request request = RoutesHTTP.getFavouriteRoutes(username, id_token);
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -89,7 +85,7 @@ public class HomeModel implements HomeContract.Model{
     }
 
     @Override
-    public void getRoutesByDifficulty(String id_token, String difficulty, OnFinishedListener listener) {
+    public void getRoutesByDifficulty(String username, String id_token, String difficulty, OnFinishedListener listener) {
 
         Request request = RoutesHTTP.getRoutesByLevel(id_token, difficulty);
 

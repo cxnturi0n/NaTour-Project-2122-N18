@@ -8,11 +8,6 @@ import androidx.annotation.NonNull;
 import com.cinamidea.natour_2022.entities.Tokens;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -38,7 +33,7 @@ public class SignInModel implements SignInContract.Model {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onFailure("Network error");
+                listener.onError("Network error");
             }
 
             @Override
@@ -46,11 +41,11 @@ public class SignInModel implements SignInContract.Model {
                 int response_code = response.code();
                 String message = response.body().string();
                 if (response_code == 200) {
-                    google_preferences.edit().putString("username", username).commit();
+                    google_preferences.edit().putString("username", username.replace(" ","")).commit();
                     google_preferences.edit().putString("id_token", id_token).commit();
                     listener.onSuccess();
                 } else {
-                    listener.onFailure(ResponseDeserializer.jsonToMessage(message));
+                    listener.onError(ResponseDeserializer.jsonToMessage(message));
                     google_preferences.edit().clear().commit();
                 }
             }
@@ -66,7 +61,7 @@ public class SignInModel implements SignInContract.Model {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onFailure("Network error");
+                listener.onError("Network error");
             }
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -79,8 +74,10 @@ public class SignInModel implements SignInContract.Model {
                     cognito_preferences.edit().putString("access_token", tokens.getAccess_token()).commit();
                     cognito_preferences.edit().putString("refresh_token", tokens.getRefresh_token()).commit();
                     listener.onSuccess();
-                } else
-                    listener.onFailure(ResponseDeserializer.jsonToMessage(message));
+                } else {
+                    cognito_preferences.edit().clear().commit();
+                    listener.onError(ResponseDeserializer.jsonToMessage(message));
+                }
             }
         });
 

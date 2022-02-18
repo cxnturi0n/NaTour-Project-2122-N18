@@ -3,7 +3,6 @@ package com.cinamidea.natour_2022.auth.signup.models;
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.auth.signup.contracts.ConfirmSignUpContract;
-import com.cinamidea.natour_2022.auth.signup.contracts.SignUpContract;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 
@@ -30,7 +29,7 @@ public class ConfirmSignUpModel implements ConfirmSignUpContract.Model {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    listener.onFailure(e.getMessage());
+                    listener.onError(e.getMessage());
                 }
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -39,7 +38,7 @@ public class ConfirmSignUpModel implements ConfirmSignUpContract.Model {
                     if(response_code == 200)
                         listener.onSuccess(message);
                     else
-                        listener.onFailure(ResponseDeserializer.jsonToMessage(message));
+                        listener.onError(ResponseDeserializer.jsonToMessage(message));
                 }
             });
     }

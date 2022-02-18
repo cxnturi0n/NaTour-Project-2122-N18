@@ -1,7 +1,6 @@
 package com.cinamidea.natour_2022.prova;
 
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.navigation.profile.created.ProfileMyRoadsContract;
 
 import java.util.ArrayList;
 
@@ -16,8 +15,8 @@ public interface HomeContract {
 
     interface Presenter {
 
-        void getAllRoutesButtonClicked(String id_token);
-        void getRoutesByDifficultyButtonClicked(String id_token, String difficulty);
+        void getAllRoutesButtonClicked(String username, String id_token);
+        void getRoutesByDifficultyButtonClicked(String username, String id_token, String difficulty);
 
     }
 
@@ -30,9 +29,9 @@ public interface HomeContract {
             void onNetworkError(String response);
         }
 
-        void getAllRoutes(String id_token, OnFinishedListener listener);
-        void getFavouriteRoutes(String id_token, OnFinishedListener listener);
-        void getRoutesByDifficulty(String id_token, String difficulty, OnFinishedListener listener);
+        void getAllRoutes(String username, String id_token, OnFinishedListener listener);
+        void getFavouriteRoutes(String username, String id_token, OnFinishedListener listener);
+        void getRoutesByDifficulty(String username, String id_token, String difficulty, OnFinishedListener listener);
     }
 
 }

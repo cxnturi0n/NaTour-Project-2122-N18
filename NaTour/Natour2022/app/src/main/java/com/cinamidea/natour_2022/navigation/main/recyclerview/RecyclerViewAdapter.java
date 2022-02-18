@@ -47,6 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private boolean is_favourite_fragment = false;
     private boolean is_tovisit_fragment = false;
+    private UserType user_type;
 
     public RecyclerViewAdapter(Context context, ArrayList<Route> routes, boolean is_favourite_fragment) {
         this.context = context;
@@ -67,6 +68,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(context).inflate(R.layout.post, parent, false);
+        user_type = new UserType(context);
         return new MyViewHolder(view);
 
     }
@@ -90,7 +92,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Routes/Images/"+route_name).into(holder.image);
         Glide.with(context).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+holder.username.getText().toString()).circleCrop().placeholder(R.drawable.natour_avatar).into(holder.avatar);
 
-        if (holder.username.getText().toString().equals(SigninFragment.current_username))
+        if (holder.username.getText().toString().equals(user_type.getUsername()))
             holder.chat.setVisibility(View.GONE);
 
         if (route.isDisability_access())
@@ -143,7 +145,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.chat.setOnClickListener(view -> {
 
             ArrayList<String> members = new ArrayList<>();
-            members.add(SigninFragment.current_username);
+            members.add(user_type.getUsername());
             members.add(holder.username.getText().toString());
             Intent chat_intent = new Intent(context, HomeChatActivity.class);
             chat_intent.putStringArrayListExtra("members", members);
@@ -176,10 +178,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             if (holder.favourite.getTag().equals(1)) {
                 holder.favourite.setImageResource(R.drawable.ic_like);
-                holder.presenter.deleteFavouriteButtonClicked(route.getName(), id_token);
+                holder.presenter.deleteFavouriteButtonClicked(user_type.getUsername(),route.getName(), id_token);
             } else {
                 holder.favourite.setImageResource(R.drawable.ic_liked);
-                holder.presenter.insertFavouriteButtonClicked(route.getName(), id_token);
+                holder.presenter.insertFavouriteButtonClicked(user_type.getUsername(),route.getName(), id_token);
             }
 
 
@@ -229,9 +231,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         bottomSheetView.findViewById(R.id.post_addtovisit).setOnClickListener(view1 -> {
             bottomSheetDialog.dismiss();
             if (is_tovisit_fragment)
-                holder.presenter.deleteToVisitButtonClicked(route.getName(),id_token);
+                holder.presenter.deleteToVisitButtonClicked(user_type.getUsername(),route.getName(),id_token);
             else
-                holder.presenter.insertToVisitButtonClicked(route.getName(),id_token);
+                holder.presenter.insertToVisitButtonClicked(user_type.getUsername(), route.getName(),id_token);
 
         });
         bottomSheetView.findViewById(R.id.post_report).setOnClickListener(view -> {
@@ -309,7 +311,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         @Override
-        public void addedToFavouritesError() {
+        public void addFavouriteError() {
             ((Activity) context).runOnUiThread(() -> {
                 favourite.setImageResource(R.drawable.ic_like);
                 favourite.setClickable(true);
@@ -341,17 +343,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         @Override
-        public void deletedFromFavouritesError() {
-            ((Activity) context).runOnUiThread(() -> {
-                favourite.setImageResource(R.drawable.ic_liked);
-                favourite.setClickable(true);
-            });
+        public void deleteFavouriteError(String message) {
+
         }
+
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void addedToVisit() {
             HomeActivity.counter_updated[2] = false;
+        }
+
+        @Override
+        public void addToVisitError(String message) {
+
         }
 
         @Override
@@ -367,11 +372,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         @Override
-        public void ToVisitError(String message) {
-            Log.e("e", message);
-            //TODO Toast
+        public void deleteToVisitError(String message) {
 
         }
+
 
     }
 

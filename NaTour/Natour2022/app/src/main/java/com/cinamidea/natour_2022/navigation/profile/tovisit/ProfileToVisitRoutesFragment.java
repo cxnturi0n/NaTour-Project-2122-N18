@@ -68,7 +68,7 @@ public class ProfileToVisitRoutesFragment extends Fragment implements ProfileToV
 
         UserType user_type = new UserType(getContext());
         presenter = new ProfileToVisitRoutesPresenter(this);
-        presenter.getToVisitRoutes(user_type.getUserType()+user_type.getIdToken());
+        presenter.getToVisitRoutes(user_type.getUsername(), user_type.getUserType()+user_type.getIdToken());
 
     }
 

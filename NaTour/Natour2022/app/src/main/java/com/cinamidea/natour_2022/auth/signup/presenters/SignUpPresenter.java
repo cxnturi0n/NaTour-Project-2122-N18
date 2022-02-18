@@ -24,7 +24,7 @@ public class SignUpPresenter implements SignUpContract.Presenter, SignUpContract
     }
 
     @Override
-    public void onFailure(String message) {
+    public void onError(String message) {
         view.displayError(message);
     }
 }

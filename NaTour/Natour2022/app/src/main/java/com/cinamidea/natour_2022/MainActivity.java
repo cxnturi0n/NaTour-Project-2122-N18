@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         else if (GoogleSignIn.getLastSignedInAccount(this) != null)
             googleSilentLogin();
 
+
     }
 
     @Override
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private void cognitoSilentLogin() {
 
         presenter.cognitoSilentSignIn(new UserType(this));
-        SigninFragment.current_username = getSharedPreferences("Cognito", MODE_PRIVATE).getString("username", null);
+
 
     }
 

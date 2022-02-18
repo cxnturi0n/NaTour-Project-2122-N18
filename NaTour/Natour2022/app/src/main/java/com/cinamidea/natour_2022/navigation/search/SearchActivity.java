@@ -17,6 +17,7 @@ import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
 import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetFilteredRoutesCallback;
@@ -113,7 +114,7 @@ public class SearchActivity extends AppCompatActivity {
         Log.e("Tag", user_type.getId_token());
         String id_token = user_type.getUser_type() + user_type.getId_token();
         new RoutesHTTP().getFilteredRoutes(routeFilters, id_token,
-                new GetFilteredRoutesCallback(SigninFragment.current_username, id_token, routes, fav_routes, this, progressBar, recyclerView, recyclerViewAdapter));
+                new GetFilteredRoutesCallback(new UserType(getApplicationContext()).getUsername(), id_token, routes, fav_routes, this, progressBar, recyclerView, recyclerViewAdapter));
 
 
     }

@@ -11,6 +11,7 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetRoutesInCompilationCallback;
@@ -40,7 +41,7 @@ public class RoutesInCompilationActivity extends AppCompatActivity {
 
         UserSharedPreferences user_type = new UserSharedPreferences(this);
         String id_token = user_type.getUser_type() + user_type.getId_token();
-        new RoutesHTTP().getUserRoutesCompilation(SigninFragment.current_username, getIntent().getStringExtra("id"), id_token, new GetRoutesInCompilationCallback(this, progressBar, recyclerView, recyclerViewAdapter));
+        new RoutesHTTP().getUserRoutesCompilation(new UserType(this).getUsername(), getIntent().getStringExtra("id"), id_token, new GetRoutesInCompilationCallback(this, progressBar, recyclerView, recyclerViewAdapter));
 
     }
 

@@ -25,6 +25,7 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetFilteredRoutesCallback;
@@ -124,7 +125,7 @@ public class GeoSearchActivity extends AppCompatActivity {
 
                             UserSharedPreferences userSharedPreferences = new UserSharedPreferences(GeoSearchActivity.this);
                             new RoutesHTTP().getFilteredRoutes(routeFilters,
-                                    userSharedPreferences.getUser_type() + userSharedPreferences.getId_token(), new GetFilteredRoutesCallback(SigninFragment.current_username, userSharedPreferences.getId_token(), routes, fav_routes, GeoSearchActivity.this, progressBar));
+                                    userSharedPreferences.getUser_type() + userSharedPreferences.getId_token(), new GetFilteredRoutesCallback(new UserType(getApplicationContext()).getUsername(), userSharedPreferences.getId_token(), routes, fav_routes, GeoSearchActivity.this, progressBar));
 
                         } else {
                             //Nasconde la tastiera

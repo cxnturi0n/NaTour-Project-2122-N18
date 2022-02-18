@@ -36,7 +36,6 @@ public class MainModel implements MainContract.Model{
     public void cognitoSilentSignIn(UserType user_type, MainContract.Model.OnFinishListener listener) {
 
         Request request = AuthenticationHTTP.tokenLogin(user_type.getIdToken());
-        Log.e("COGNITO", "SILENT SIGNIN");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -48,17 +47,15 @@ public class MainModel implements MainContract.Model{
                 int response_code = response.code();
                 String message = response.body().string();
                 if (response_code == 200) {
-                    Log.e("COGNITO", "VALID");
                     //Token is valid
                     listener.onSuccess();
                 } else {
                     //Token is expired
-                    if(message.contains("expired")) {
+                    if(message.contains("expired"))
                         refreshCognitoIdAndAccessTokens(user_type, listener);
-                        Log.e("COGNITO", "TOKEN EXPIRED");
-                    }
                     else //Invalid token
                     {
+                        user_type.clear();
                         listener.onUserUnauthorized("Invalid session, please sign in again");
                     }
                 }
@@ -90,6 +87,7 @@ public class MainModel implements MainContract.Model{
                 } else {
                     Log.e("COGNITO", "INVALID REFRESH");
                     //Invalid or expired refresh token
+                    user_type.clear();
                     listener.onUserUnauthorized("Invalid session, please sign in again");
                 }
             }
@@ -104,7 +102,6 @@ public class MainModel implements MainContract.Model{
         if (task.isSuccessful()) {
 
             //If cached id_token is still valid, then log user in
-            SigninFragment.current_username = task.getResult().getDisplayName().replace(" ", "");
             listener.onSuccess();
 
         } else {
@@ -116,7 +113,6 @@ public class MainModel implements MainContract.Model{
                     GoogleSignInAccount signInAccount = task1.getResult(ApiException.class);
 
                     //Salvo username e token nelle shared
-                    SigninFragment.current_username = signInAccount.getDisplayName().replace(" ", "");
 
                     google_preferences.edit().putString("username", signInAccount.getDisplayName().replace(" ", "")).commit();
                     google_preferences.edit().putString("id_token", signInAccount.getIdToken()).commit();
@@ -124,6 +120,8 @@ public class MainModel implements MainContract.Model{
                     listener.onSuccess();
 
                 } catch (ApiException apiException) {
+                    //Clearing shared preferences so user wont silent sign in again
+                    google_preferences.edit().clear().commit();
                     //If id_token is not cached or something goes bad
                     int status_code = apiException.getStatusCode();
                     switch (status_code) {

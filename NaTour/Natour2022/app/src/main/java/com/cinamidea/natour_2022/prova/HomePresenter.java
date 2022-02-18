@@ -18,12 +18,12 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void getAllRoutesButtonClicked(String id_token) {
+    public void getAllRoutesButtonClicked(String username, String id_token) {
 
-        model.getAllRoutes(id_token, new HomeContract.Model.OnFinishedListener() {
+        model.getAllRoutes(username, id_token, new HomeContract.Model.OnFinishedListener() {
             @Override
             public void onSuccess(ArrayList<Route> returned_routes) {
-                model.getFavouriteRoutes(id_token, new HomeContract.Model.OnFinishedListener() {
+                model.getFavouriteRoutes(username, id_token, new HomeContract.Model.OnFinishedListener() {
                     @Override
                     public void onSuccess(ArrayList<Route> returned_favourite_routes) {
                         view.loadRoutes(returned_routes, returned_favourite_routes);
@@ -66,12 +66,12 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void getRoutesByDifficultyButtonClicked(String id_token, String difficulty) {
+    public void getRoutesByDifficultyButtonClicked(String username, String id_token, String difficulty) {
 
-        model.getRoutesByDifficulty(id_token, difficulty, new HomeContract.Model.OnFinishedListener() {
+        model.getRoutesByDifficulty(username, id_token, difficulty, new HomeContract.Model.OnFinishedListener() {
             @Override
             public void onSuccess(ArrayList<Route> routes) {
-                model.getFavouriteRoutes(id_token, new HomeContract.Model.OnFinishedListener() {
+                model.getFavouriteRoutes(username, id_token, new HomeContract.Model.OnFinishedListener() {
                     @Override
                     public void onSuccess(ArrayList<Route> returned_favourite_routes) {
                         view.loadRoutes(routes, returned_favourite_routes);

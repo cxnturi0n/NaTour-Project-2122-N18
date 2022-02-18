@@ -18,12 +18,12 @@ public interface ProfileFavouriteRoutesContract {
             void onError(String response);
             void onUserUnauthorized();
         }
-        void getFavRoutes(String id_token, ProfileFavouriteRoutesContract.Model.OnFinishedListener listener);
+        void getFavRoutes(String username, String id_token, ProfileFavouriteRoutesContract.Model.OnFinishedListener listener);
 
     }
 
     interface Presenter {
-        void getFavourite(String id_token);
+        void getFavouriteRoutes(String username, String id_token);
     }
 
 }

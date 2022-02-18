@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.databinding.ActivityHomeChatBinding;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jetbrains.annotations.Nullable;
@@ -49,8 +50,9 @@ public final class HomeChatActivity extends AppCompatActivity {
         new ChatDomain.Builder(client, getApplicationContext()).build();
 
         User user = new User();
-        user.setId(SigninFragment.current_username);
-        user.setName(SigninFragment.current_username);
+        String username = new UserType(this).getUsername();
+        user.setId(username);
+        user.setName(username);
 
         String token = client.devToken(user.getId());
         client.connectUser(

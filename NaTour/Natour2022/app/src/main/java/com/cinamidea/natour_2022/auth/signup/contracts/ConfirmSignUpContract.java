@@ -15,7 +15,7 @@ public interface ConfirmSignUpContract {
 
         interface OnFinishListener {
             void onSuccess(String message);
-            void onFailure(String message);
+            void onError(String message);
         }
         void confirmSignUp(String username, String confirmation_code, OnFinishListener listener);
     }

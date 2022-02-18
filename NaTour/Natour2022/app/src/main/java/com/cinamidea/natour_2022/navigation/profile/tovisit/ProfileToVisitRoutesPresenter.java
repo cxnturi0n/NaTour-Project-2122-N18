@@ -17,11 +17,11 @@ public class ProfileToVisitRoutesPresenter implements ProfileToVisitRoutesContra
 
 
     @Override
-    public void getToVisitRoutes(String id_token) {
-        model.getToVisitRoutes(id_token, new ProfileToVisitRoutesContract.Model.OnFinishedListener() {
+    public void getToVisitRoutes(String username, String id_token) {
+        model.getToVisitRoutes(username ,id_token, new ProfileToVisitRoutesContract.Model.OnFinishedListener() {
             @Override
             public void onSuccess(ArrayList<Route> returned_tovisit_routes) {
-                model.getFavouriteRoutes(id_token, returned_favourite_routes -> {
+                model.getFavouriteRoutes(username ,id_token, returned_favourite_routes -> {
                     view.loadRoutes(returned_tovisit_routes, returned_favourite_routes);
                 });
             }

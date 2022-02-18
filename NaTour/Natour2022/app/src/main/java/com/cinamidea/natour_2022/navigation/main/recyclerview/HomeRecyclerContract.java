@@ -5,40 +5,49 @@ public interface HomeRecyclerContract {
     interface View {
 
         void addedToFavourites(int position);
-        void addedToFavouritesError();
+        void addFavouriteError();
+
         void deletedFromFavourites(int position);
-        void deletedFromFavouritesError();
+        void deleteFavouriteError(String message);
 
         void addedToVisit();
+        void addToVisitError(String message);
+
         void deletedFromToVisit(int position);
-        void ToVisitError(String message);
+        void deleteToVisitError(String message);
 
     }
 
     interface Presenter {
 
-        void insertFavouriteButtonClicked(String route_name, String id_token);
-        void insertToVisitButtonClicked(String route_name, String id_token);
-        void deleteFavouriteButtonClicked(String route_name, String id_token);
-        void deleteToVisitButtonClicked(String route_name, String id_token);
+        void insertFavouriteButtonClicked(String username, String route_name, String id_token);
+        void insertToVisitButtonClicked(String username,String route_name, String id_token);
+        void deleteFavouriteButtonClicked(String username,String route_name, String id_token);
+        void deleteToVisitButtonClicked(String username,String route_name, String id_token);
     }
 
     interface Model {
 
         interface OnFinishedListener {
 
-            void onSuccess(String response);
-            void onError(String response);
-            void onUserUnauthorized(String response);
-            void onNetworkError(String response);
+            void onSuccess(String message);
+            void onError(String message);
+            void onUserUnauthorized(String message);
+            void onNetworkError(String message);
+        }
+
+        interface OnToVisitUpdated {
+
+            void onSuccess(String message);
+            void onError(String message);
 
         }
 
-        void insertFavourite(String route_name, String id_token, OnFinishedListener onFinishedListener);
-        void deleteFavourite(String route_name, String id_token, OnFinishedListener onFinishedListener);
+        void insertFavourite(String username, String route_name, String id_token, OnFinishedListener onFinishedListener);
+        void deleteFavourite(String username, String route_name, String id_token, OnFinishedListener onFinishedListener);
 
-        void insertToVisit(String route_name, String id_token, OnFinishedListener onFinishedListener);
-        void deleteToVisit(String route_name, String id_token, OnFinishedListener onFinishedListener);
+        void insertToVisit(String username, String route_name, String id_token, OnToVisitUpdated onFinishedListener);
+        void deleteToVisit(String username, String route_name, String id_token, OnToVisitUpdated onFinishedListener);
 
     }
 

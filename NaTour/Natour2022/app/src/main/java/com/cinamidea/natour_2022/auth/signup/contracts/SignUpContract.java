@@ -15,7 +15,7 @@ public interface SignUpContract {
 
         interface OnFinishListener {
             void onSuccess(String message);
-            void onFailure(String message);
+            void onError(String message);
         }
         void signUp(String username, String email, String password, OnFinishListener listener);
     }

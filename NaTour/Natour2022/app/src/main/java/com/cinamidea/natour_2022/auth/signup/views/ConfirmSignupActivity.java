@@ -48,7 +48,7 @@ public class ConfirmSignupActivity extends AppCompatActivity implements ConfirmS
 
         button_verify.setOnClickListener(view -> {
             String confirmation_code = pin_view.getText().toString();
-            presenter.confirmSignUpButtonPressed(SigninFragment.current_username, confirmation_code);
+            presenter.confirmSignUpButtonPressed(getIntent().getStringExtra("username"), confirmation_code);
         });
     }
 

@@ -49,7 +49,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         user_type = new UserType(getActivity());
         setupViewComponents();
         filterListeners();
-        Log.e("main",Thread.currentThread().getName());
 
     }
 
@@ -67,8 +66,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         progressBar = view.findViewById(R.id.fragmentHome_progress);
 
-        String id_token = user_type.getUserType() + user_type.getIdToken();
-        presenter.getAllRoutesButtonClicked(id_token);
+        presenter.getAllRoutesButtonClicked(user_type.getUsername(), user_type.getUserType() + user_type.getIdToken());
 
     }
 
@@ -80,8 +78,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             setupFilterButton(button_all);
             getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
-            String id_token = user_type.getUserType() + user_type.getIdToken();
-            presenter.getAllRoutesButtonClicked(id_token);
+            UserType type = new UserType(getContext());
+            presenter.getAllRoutesButtonClicked(type.getUsername(), type.getIdToken());
 
         });
 
@@ -90,8 +88,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             setupFilterButton(button_easy);
             getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
-            String id_token = user_type.getUserType() + user_type.getIdToken();
-            presenter.getRoutesByDifficultyButtonClicked(id_token, "Easy");
+            presenter.getRoutesByDifficultyButtonClicked(user_type.getUsername(), user_type.getUserType() + user_type.getIdToken(), "Easy");
 
         });
 
@@ -101,7 +98,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
             String id_token = user_type.getUserType() + user_type.getIdToken();
-            presenter.getRoutesByDifficultyButtonClicked(id_token, "Medium");
+            presenter.getRoutesByDifficultyButtonClicked(user_type.getUsername(), id_token, "Medium");
 
         });
 
@@ -111,7 +108,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
             String id_token = user_type.getUserType() + user_type.getIdToken();
-            presenter.getRoutesByDifficultyButtonClicked(id_token, "Hard");
+            presenter.getRoutesByDifficultyButtonClicked(user_type.getUsername(),id_token, "Hard");
 
         });
 
@@ -121,7 +118,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             getActivity().runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
 
             String id_token = user_type.getUserType() + user_type.getIdToken();
-            presenter.getRoutesByDifficultyButtonClicked(id_token, "Extreme");
+            presenter.getRoutesByDifficultyButtonClicked(user_type.getUsername(),id_token, "Extreme");
 
         });
 

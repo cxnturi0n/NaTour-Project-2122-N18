@@ -31,8 +31,8 @@ public class ProfileFavouriteRoutesModel implements ProfileFavouriteRoutesContra
 
 
     @Override
-    public void getFavRoutes(String id_token, OnFinishedListener listener) {
-        Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
+    public void getFavRoutes(String username, String id_token, OnFinishedListener listener) {
+        Request request = RoutesHTTP.getFavouriteRoutes(username, id_token);
 
         client.newCall(request).enqueue(new Callback() {
             @Override

@@ -35,7 +35,7 @@ public class SignInPresenter implements SignInContract.Presenter, SignInContract
 
 
     @Override
-    public void onFailure(String message) {
+    public void onError(String message) {
         view.displayError(message);
     }
 

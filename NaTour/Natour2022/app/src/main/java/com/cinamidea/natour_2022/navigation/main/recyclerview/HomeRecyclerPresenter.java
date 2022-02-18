@@ -13,9 +13,9 @@ public class HomeRecyclerPresenter implements HomeRecyclerContract.Presenter {
     }
 
     @Override
-    public void insertFavouriteButtonClicked(String route_name, String id_token) {
+    public void insertFavouriteButtonClicked(String username, String route_name, String id_token) {
 
-        model.insertFavourite(route_name, id_token, new HomeRecyclerContract.Model.OnFinishedListener() {
+        model.insertFavourite(username, route_name, id_token, new HomeRecyclerContract.Model.OnFinishedListener() {
             @Override
             public void onSuccess(String response) {
                 view.addedToFavourites(position);
@@ -23,26 +23,26 @@ public class HomeRecyclerPresenter implements HomeRecyclerContract.Presenter {
 
             @Override
             public void onError(String response) {
-                view.addedToFavouritesError();
+                view.addFavouriteError();
             }
 
             @Override
             public void onUserUnauthorized(String response) {
-                view.addedToFavouritesError();
+                view.addFavouriteError();
             }
 
             @Override
             public void onNetworkError(String response) {
-                view.addedToFavouritesError();
+                view.addFavouriteError();
             }
         });
 
     }
 
     @Override
-    public void deleteFavouriteButtonClicked(String route_name, String id_token) {
+    public void deleteFavouriteButtonClicked(String username, String route_name, String id_token) {
 
-        model.deleteFavourite(route_name, id_token, new HomeRecyclerContract.Model.OnFinishedListener() {
+        model.deleteFavourite(username, route_name, id_token, new HomeRecyclerContract.Model.OnFinishedListener() {
             @Override
             public void onSuccess(String response) {
                 view.deletedFromFavourites(position);
@@ -50,26 +50,26 @@ public class HomeRecyclerPresenter implements HomeRecyclerContract.Presenter {
 
             @Override
             public void onError(String response) {
-                view.deletedFromFavouritesError();
+                view.deleteFavouriteError(response);
             }
 
             @Override
             public void onUserUnauthorized(String response) {
-                view.deletedFromFavouritesError();
+                view.deleteFavouriteError(response);
             }
 
             @Override
             public void onNetworkError(String response) {
-                view.deletedFromFavouritesError();
+                view.deleteFavouriteError(response);
             }
         });
 
     }
 
     @Override
-    public void insertToVisitButtonClicked(String route_name, String id_token) {
+    public void insertToVisitButtonClicked(String username, String route_name, String id_token) {
 
-        model.insertToVisit(route_name, id_token, new HomeRecyclerContract.Model.OnFinishedListener() {
+        model.insertToVisit(username, route_name, id_token, new HomeRecyclerContract.Model.OnToVisitUpdated() {
             @Override
             public void onSuccess(String response) {
                 view.addedToVisit();
@@ -77,26 +77,16 @@ public class HomeRecyclerPresenter implements HomeRecyclerContract.Presenter {
 
             @Override
             public void onError(String response) {
-
-            }
-
-            @Override
-            public void onUserUnauthorized(String response) {
-
-            }
-
-            @Override
-            public void onNetworkError(String response) {
-
+                view.addToVisitError(response);
             }
         });
 
     }
 
     @Override
-    public void deleteToVisitButtonClicked(String route_name, String id_token) {
+    public void deleteToVisitButtonClicked(String username, String route_name, String id_token) {
 
-        model.deleteToVisit(route_name, id_token, new HomeRecyclerContract.Model.OnFinishedListener() {
+        model.deleteToVisit(username, route_name, id_token, new HomeRecyclerContract.Model.OnToVisitUpdated() {
             @Override
             public void onSuccess(String response) {
                 view.deletedFromToVisit(position);
@@ -104,18 +94,9 @@ public class HomeRecyclerPresenter implements HomeRecyclerContract.Presenter {
 
             @Override
             public void onError(String response) {
-
+                view.deleteFavouriteError(response);
             }
 
-            @Override
-            public void onUserUnauthorized(String response) {
-
-            }
-
-            @Override
-            public void onNetworkError(String response) {
-
-            }
         });
 
     }

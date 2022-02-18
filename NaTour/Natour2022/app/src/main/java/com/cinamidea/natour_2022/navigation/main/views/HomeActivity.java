@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,11 +82,16 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
     private ChatClient client;
 
     private HomeActivityContract.Presenter presenter;
+    private  UserType user_type;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        user_type = new UserType(this);
+        username = user_type.getUsername();
 
         setupViewComponents();
         setupChatUser();
@@ -118,9 +124,9 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
         button_search = findViewById(R.id.activityHome_search);
         button_openmap = findViewById(R.id.activityHome_openMap);
 
-        textview_username.setText(SigninFragment.current_username);
+        textview_username.setText(username);
 
-        Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+SigninFragment.current_username).placeholder(R.drawable.natour_avatar).into(imgbutton_avatar);
+        Glide.with(this).load("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+user_type.getUsername()).placeholder(R.drawable.natour_avatar).into(imgbutton_avatar);
 
 
     }
@@ -132,9 +138,10 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
         new ChatDomain.Builder(client, getApplicationContext()).build();
 
         User user = new User();
-        user.setId(SigninFragment.current_username);
-        user.setName(SigninFragment.current_username);
-        user.setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + SigninFragment.current_username);
+
+        user.setId(username);
+        user.setName(username);
+        user.setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/" + username);
         String token = client.devToken(user.getId());
         client.connectUser(
                 user,
@@ -272,7 +279,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
                 findViewById(R.id.menuLayout_container)
         );
 
-        if(SigninFragment.current_username.equals("admin_natour_cinamidea2022"))
+        if(user_type.getUsername().equals("admin_natour_cinamidea2022"))
             bottomSheetView.findViewById(R.id.menuLayout_admin).setVisibility(View.VISIBLE);
 
         if (!new UserType(getApplicationContext()).getUserType().equals("Cognito"))
@@ -325,7 +332,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
             try {
                 InputStream iStream = getContentResolver().openInputStream(uri);
                 UserType user_type = new UserType(this);
-                presenter.putImage(SigninFragment.current_username,user_type.getUserType()+user_type.getIdToken(),iStream);
+                presenter.putImage(user_type.getUsername(),user_type.getUserType()+user_type.getIdToken(),iStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -395,7 +402,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
 
     @Override
     public void setChatUserImage() {
-        client.getCurrentUser().setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+ SigninFragment.current_username);
+        client.getCurrentUser().setImage("https://streamimages1.s3.eu-central-1.amazonaws.com/Users/ProfilePics/"+ user_type.getUsername());
     }
 
     @Override

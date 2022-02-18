@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import com.google.android.gms.tasks.Task;
 
 public class SigninFragment extends CustomAuthFragment implements SignInContract.View {
 
-    public static String current_username;
+
     private Button button_signin;
     private TextView text_forgotpwd;
     private EditText edit_user;
@@ -84,7 +85,6 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
 
             presenter.cognitoSignInButtonClicked(username, password, getActivity().getSharedPreferences("Cognito", Context.MODE_PRIVATE));
 
-            current_username = username.toLowerCase();
         });
 
         text_forgotpwd.setOnClickListener(view -> runHandledIntent(new Intent(getActivity(), ResetCRActivity.class)));
@@ -105,18 +105,12 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
         getActivity().startActivity(intent);
     }
 
-    @Override
-    public void googleSignUp() {
-        startGoogleSignUp();
-    }
 
     @Override
     public void displayError(String message) {
         googlesignin_client.signOut();
         //TODO TOAST
     }
-
-
 
     //Google sign up stuff
 
@@ -126,7 +120,6 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completed_task) {
-
 
         GoogleSignInAccount google_account = completed_task.getResult();
 
@@ -146,6 +139,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
                 handleSignInResult(task);
             }
         });
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(("556927589955-pahgt8na4l8de0985mvlc9gugfltbkef.apps.googleusercontent.com"))

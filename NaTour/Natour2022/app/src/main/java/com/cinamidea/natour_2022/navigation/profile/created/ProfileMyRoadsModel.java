@@ -26,8 +26,8 @@ public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
             .build();
 
     @Override
-    public void getUserRoutes(String id_token, OnFinishedListener listener) {
-        Request request = RoutesHTTP.getUserRoutes(SigninFragment.current_username,id_token);
+    public void getUserRoutes(String username, String id_token, OnFinishedListener listener) {
+        Request request = RoutesHTTP.getUserRoutes(username,id_token);
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -56,9 +56,9 @@ public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
     }
 
     @Override
-    public void getFavouriteRoutes(String id_token, OnFavouriteRoutesFetchedListener listener) {
+    public void getFavouriteRoutes(String username, String id_token, OnFavouriteRoutesFetchedListener listener) {
 
-        Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
+        Request request = RoutesHTTP.getFavouriteRoutes(username, id_token);
 
         client.newCall(request).enqueue(new Callback() {
             @Override

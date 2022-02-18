@@ -15,8 +15,8 @@ public class ProfileFavouriteRoutesPresenter implements ProfileFavouriteRoutesCo
     }
 
     @Override
-    public void getFavourite(String id_token) {
-        model.getFavRoutes(id_token, new ProfileFavouriteRoutesContract.Model.OnFinishedListener() {
+    public void getFavouriteRoutes(String username, String id_token) {
+        model.getFavRoutes(username, id_token, new ProfileFavouriteRoutesContract.Model.OnFinishedListener() {
             @Override
             public void onSuccess(ArrayList<Route> fav_routes) {
                 view.loadRoutes(fav_routes);

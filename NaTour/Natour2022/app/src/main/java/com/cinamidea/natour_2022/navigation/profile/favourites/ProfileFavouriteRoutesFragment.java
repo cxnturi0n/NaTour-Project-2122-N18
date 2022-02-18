@@ -51,7 +51,7 @@ public class ProfileFavouriteRoutesFragment extends Fragment implements ProfileF
         if (!HomeActivity.counter_updated[1]) {
             recyclerView.setAdapter(null);
             progressBar.setVisibility(View.VISIBLE);
-            presenter.getFavourite(userType.getUserType()+userType.getIdToken());
+            presenter.getFavouriteRoutes(userType.getUsername(), userType.getUserType()+userType.getIdToken());
             HomeActivity.is_updated = false;
             HomeActivity.counter_updated[1] = true;
         }
@@ -63,7 +63,7 @@ public class ProfileFavouriteRoutesFragment extends Fragment implements ProfileF
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         progressBar = view.findViewById(R.id.fragmentPreferredRoads_progress);
-        presenter.getFavourite(userType.getUserType()+userType.getIdToken());
+        presenter.getFavouriteRoutes(userType.getUsername(),userType.getUserType()+userType.getIdToken());
 
     }
 

@@ -22,14 +22,14 @@ public interface ProfileMyRoadsContract {
             void onSuccess(ArrayList<Route> favourite_routes);
         }
 
-        void getUserRoutes(String id_token,OnFinishedListener listener);
-        void getFavouriteRoutes(String id_token, OnFavouriteRoutesFetchedListener listener);
+        void getUserRoutes(String username, String id_token,OnFinishedListener listener);
+        void getFavouriteRoutes(String username, String id_token, OnFavouriteRoutesFetchedListener listener);
 
     }
 
 
     interface Presenter {
-        void getRoutes(String id_token);
+        void getMyRoutes(String username, String id_token);
     }
 
 }

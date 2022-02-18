@@ -10,8 +10,6 @@ public interface SignInContract {
     interface View {
         void signInSuccess();
 
-        void googleSignUp();
-
         void displayError(String message);
     }
 
@@ -28,14 +26,14 @@ public interface SignInContract {
         interface OnFinishListenerCognito {
             void onSuccess();
 
-            void onFailure(String message);
+            void onError(String message);
         }
 
 
         interface OnFinishListenerGoogle {
             void onSuccess();
 
-            void onFailure(String message);
+            void onError(String message);
         }
 
 

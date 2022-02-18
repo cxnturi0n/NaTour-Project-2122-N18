@@ -3,7 +3,6 @@ package com.cinamidea.natour_2022.navigation.profile.created;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,7 @@ public class ProfileMyRoadsFragment extends Fragment implements ProfileMyRoadsCo
         if (!HomeActivity.counter_updated[0]) {
             recyclerView.setAdapter(null);
             progressBar.setVisibility(View.VISIBLE);
-            presenter.getRoutes(userType.getUserType()+userType.getIdToken());
+            presenter.getMyRoutes(userType.getUsername(), userType.getUserType()+userType.getIdToken());
             HomeActivity.is_updated = false;
             HomeActivity.counter_updated[0] = true;
         }
@@ -63,7 +62,7 @@ public class ProfileMyRoadsFragment extends Fragment implements ProfileMyRoadsCo
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         progressBar = view.findViewById(R.id.fragmentMyRoads_progress);
 
-        presenter.getRoutes(userType.getUserType()+userType.getIdToken());
+        presenter.getMyRoutes(userType.getUsername(),userType.getUserType()+userType.getIdToken());
 
 
     }

@@ -26,8 +26,8 @@ public class ProfileToVisitRoutesModel implements ProfileToVisitRoutesContract.M
 
 
     @Override
-    public void getToVisitRoutes(String id_token, OnFinishedListener listener) {
-        Request request = RoutesHTTP.getToVisitRoutes(SigninFragment.current_username, id_token);
+    public void getToVisitRoutes(String username, String id_token, OnFinishedListener listener) {
+        Request request = RoutesHTTP.getToVisitRoutes(username, id_token);
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -56,9 +56,9 @@ public class ProfileToVisitRoutesModel implements ProfileToVisitRoutesContract.M
     }
 
     @Override
-    public void getFavouriteRoutes(String id_token, OnFavouriteRoutesFetchedListener listener) {
+    public void getFavouriteRoutes(String username, String id_token, OnFavouriteRoutesFetchedListener listener) {
 
-        Request request = RoutesHTTP.getFavouriteRoutes(SigninFragment.current_username, id_token);
+        Request request = RoutesHTTP.getFavouriteRoutes(username, id_token);
 
         client.newCall(request).enqueue(new Callback() {
             @Override

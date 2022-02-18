@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.RoutesCompilation;
+import com.cinamidea.natour_2022.utilities.UserType;
 import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 import com.cinamidea.natour_2022.utilities.http.callbacks.routes.CreateCompilationCallback;
@@ -47,7 +48,7 @@ public class CreateCompilationActivity extends AppCompatActivity {
             String title = ((EditText)findViewById(R.id.activityCreateCompilation_title)).getText().toString();
             String description = ((EditText)findViewById(R.id.activityCreateCompilation_description)).getText().toString();
 
-            RoutesCompilation routesCompilation = new RoutesCompilation("", SigninFragment.current_username, title, description, null);
+            RoutesCompilation routesCompilation = new RoutesCompilation("", new UserType(this).getUsername(), title, description, null);
             UserSharedPreferences userSharedPreferences = new UserSharedPreferences(this);
             ProgressBar progressBar = findViewById(R.id.activityCreateCompilation_progress);
             progressBar.setVisibility(View.VISIBLE);

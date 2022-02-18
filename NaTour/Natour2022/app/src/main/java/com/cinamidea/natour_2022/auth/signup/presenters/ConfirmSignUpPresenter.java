@@ -25,7 +25,7 @@ public class ConfirmSignUpPresenter implements ConfirmSignUpContract.Presenter, 
     }
 
     @Override
-    public void onFailure(String message) {
+    public void onError(String message) {
         view.displayError(message);
     }
 }

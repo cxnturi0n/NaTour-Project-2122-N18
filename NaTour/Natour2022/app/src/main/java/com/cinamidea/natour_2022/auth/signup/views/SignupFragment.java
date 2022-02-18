@@ -88,8 +88,9 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
 
     @Override
     public void signUpSuccess() {
-        SigninFragment.current_username = this.username;
-        getActivity().startActivity(new Intent(getActivity(), ConfirmSignupActivity.class));
+        Intent intent = new Intent(getActivity(), ConfirmSignupActivity.class);
+        intent.putExtra("username", username);
+        getActivity().startActivity(intent);
     }
 
     @Override
