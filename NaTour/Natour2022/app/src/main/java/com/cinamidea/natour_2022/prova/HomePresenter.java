@@ -1,7 +1,5 @@
 package com.cinamidea.natour_2022.prova;
 
-import android.util.Log;
-
 import com.cinamidea.natour_2022.entities.Route;
 
 import java.util.ArrayList;
@@ -23,27 +21,7 @@ public class HomePresenter implements HomeContract.Presenter {
         model.getAllRoutes(username, id_token, new HomeContract.Model.OnFinishedListener() {
             @Override
             public void onSuccess(ArrayList<Route> returned_routes) {
-                model.getFavouriteRoutes(username, id_token, new HomeContract.Model.OnFinishedListener() {
-                    @Override
-                    public void onSuccess(ArrayList<Route> returned_favourite_routes) {
-                        view.loadRoutes(returned_routes, returned_favourite_routes);
-                    }
-
-                    @Override
-                    public void onError(String response) {
-
-                    }
-
-                    @Override
-                    public void onUserUnauthorized(String response) {
-
-                    }
-
-                    @Override
-                    public void onNetworkError(String response) {
-
-                    }
-                });
+                model.getFavouriteRoutes(username, id_token, returned_favourite_routes -> view.loadRoutes(returned_routes, returned_favourite_routes));
             }
 
             @Override
@@ -52,14 +30,10 @@ public class HomePresenter implements HomeContract.Presenter {
             }
 
             @Override
-            public void onUserUnauthorized(String response) {
+            public void onUserUnauthorized() {
                 view.logOutUnauthorizedUser();
             }
 
-            @Override
-            public void onNetworkError(String response) {
-                view.displayError(response);
-            }
 
         });
 
@@ -71,27 +45,7 @@ public class HomePresenter implements HomeContract.Presenter {
         model.getRoutesByDifficulty(username, id_token, difficulty, new HomeContract.Model.OnFinishedListener() {
             @Override
             public void onSuccess(ArrayList<Route> routes) {
-                model.getFavouriteRoutes(username, id_token, new HomeContract.Model.OnFinishedListener() {
-                    @Override
-                    public void onSuccess(ArrayList<Route> returned_favourite_routes) {
-                        view.loadRoutes(routes, returned_favourite_routes);
-                    }
-
-                    @Override
-                    public void onError(String response) {
-
-                    }
-
-                    @Override
-                    public void onUserUnauthorized(String response) {
-
-                    }
-
-                    @Override
-                    public void onNetworkError(String response) {
-
-                    }
-                });
+                model.getFavouriteRoutes(username, id_token, returned_favourite_routes -> view.loadRoutes(routes, returned_favourite_routes));
             }
 
             @Override
@@ -100,14 +54,10 @@ public class HomePresenter implements HomeContract.Presenter {
             }
 
             @Override
-            public void onUserUnauthorized(String response) {
+            public void onUserUnauthorized() {
                 view.logOutUnauthorizedUser();
             }
 
-            @Override
-            public void onNetworkError(String response) {
-                view.displayError(response);
-            }
         });
 
     }

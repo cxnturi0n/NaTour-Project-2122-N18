@@ -1,10 +1,7 @@
 package com.cinamidea.natour_2022.navigation.profile.tovisit;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;

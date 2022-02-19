@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import androidx.core.app.ActivityCompat;
-
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 
 public class CreateCompilationCallback implements HTTPCallback {

@@ -94,7 +94,7 @@ public class HomeRecyclerPresenter implements HomeRecyclerContract.Presenter {
 
             @Override
             public void onError(String response) {
-                view.deleteFavouriteError(response);
+                view.deleteToVisitError(response);
             }
 
         });

@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:layout_marginHorizontal="16dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -52,19 +52,19 @@
             android:id="@+id/activityHome_openMap"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_weight="1"
             android:layout_marginStart="40dp"
+            android:layout_weight="1"
             android:background="@drawable/background_back_button"
-            app:srcCompat="@drawable/ic_openmap"/>
+            app:srcCompat="@drawable/ic_openmap" />
 
         <ImageButton
             android:id="@+id/activityHome_search"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_weight="1"
             android:layout_marginStart="8dp"
+            android:layout_weight="1"
             android:background="@drawable/background_back_button"
-            app:srcCompat="@drawable/ic_search"/>
+            app:srcCompat="@drawable/ic_search" />
 
         <ImageButton
             android:id="@+id/activityHome_chat_or_menu"
@@ -73,7 +73,7 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:background="@drawable/background_back_button"
-            app:srcCompat="@drawable/ic_menu"/>
+            app:srcCompat="@drawable/ic_menu" />
 
     </LinearLayout>
 
@@ -81,27 +81,27 @@
         android:id="@+id/activityHome_fragmentcontainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/drawable_divider_line"
-        android:layout_alignTop="@+id/activityHome_bottom"/>
+        android:layout_alignTop="@+id/activityHome_bottom"
+        android:background="@drawable/drawable_divider_line" />
 
     <LinearLayout
         android:id="@+id/activityHome_bottom"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/activityHome_home"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/background_back_button"
-            app:srcCompat="@drawable/ic_home_active"/>
+            app:srcCompat="@drawable/ic_home_active" />
 
         <ImageButton
             android:id="@+id/activityHome_profile"
@@ -109,7 +109,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="120dp"
             android:background="@drawable/background_back_button"
-            app:srcCompat="@drawable/ic_profile_inactive"/>
+            app:srcCompat="@drawable/ic_profile_inactive" />
 
     </LinearLayout>
 

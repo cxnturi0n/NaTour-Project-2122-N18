@@ -20,7 +20,6 @@ import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapte
 import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
 
-
 import java.util.ArrayList;
 
 public class ProfileFavouriteRoutesFragment extends Fragment implements ProfileFavouriteRoutesContract.View {

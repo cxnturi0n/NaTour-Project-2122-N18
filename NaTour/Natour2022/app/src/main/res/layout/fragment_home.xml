@@ -8,10 +8,10 @@
     <ProgressBar
         android:id="@+id/fragmentHome_progress"
         android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminateTint="@color/natour_green"
         android:layout_height="wrap_content"
-        android:indeterminate="true" />
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/natour_green" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,9 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:overScrollMode="never"
             android:paddingHorizontal="8dp"
-            android:scrollbarThumbHorizontal="@null"
-            android:overScrollMode="never">
+            android:scrollbarThumbHorizontal="@null">
 
             <LinearLayout
 
@@ -38,8 +38,8 @@
                     android:layout_height="32dp"
                     android:background="@drawable/background_home_filters"
                     android:fontFamily="sans-serif"
-                    android:text="@string/activityCreateRoute_all"
                     android:stateListAnimator="@null"
+                    android:text="@string/activityCreateRoute_all"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -51,8 +51,8 @@
                     android:layout_marginStart="16dp"
                     android:background="@drawable/background_filter_off"
                     android:fontFamily="sans-serif"
-                    android:text="@string/activityCreateRoute_easy"
                     android:stateListAnimator="@null"
+                    android:text="@string/activityCreateRoute_easy"
                     android:textAllCaps="false"
                     android:textColor="#C4C4C4"
                     android:textSize="18sp" />
@@ -64,8 +64,8 @@
                     android:layout_marginStart="16dp"
                     android:background="@drawable/background_filter_off"
                     android:fontFamily="sans-serif"
-                    android:text="@string/activityCreateRoute_medium"
                     android:stateListAnimator="@null"
+                    android:text="@string/activityCreateRoute_medium"
                     android:textAllCaps="false"
                     android:textColor="#C4C4C4"
                     android:textSize="18sp" />
@@ -77,9 +77,9 @@
                     android:layout_marginStart="16dp"
                     android:background="@drawable/background_filter_off"
                     android:fontFamily="sans-serif"
+                    android:stateListAnimator="@null"
                     android:text="@string/activityCreateRoute_hard"
                     android:textAllCaps="false"
-                    android:stateListAnimator="@null"
                     android:textColor="#C4C4C4"
                     android:textSize="18sp" />
 
@@ -90,8 +90,8 @@
                     android:layout_marginStart="16dp"
                     android:background="@drawable/background_filter_off"
                     android:fontFamily="sans-serif"
-                    android:text="@string/activityCreateRoute_extreme"
                     android:stateListAnimator="@null"
+                    android:text="@string/activityCreateRoute_extreme"
                     android:textAllCaps="false"
                     android:textColor="#C4C4C4"
                     android:textSize="18sp" />
@@ -103,9 +103,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragmentHome_recyclerView"
             android:layout_width="match_parent"
-            android:layout_marginTop="16dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_marginTop="16dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
 

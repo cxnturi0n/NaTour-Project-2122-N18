@@ -2,7 +2,6 @@ package com.cinamidea.natour_2022.auth.signup.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.auth.CustomAuthFragment;
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.auth.signup.contracts.SignUpContract;
 import com.cinamidea.natour_2022.auth.signup.presenters.SignUpPresenter;
 

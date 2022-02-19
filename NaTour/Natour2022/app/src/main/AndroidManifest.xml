@@ -21,9 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Natour2022">
         <activity
-            android:name=".navigation.compilation.RoutesInCompilationActivity"
-            android:exported="false" />
-        <activity
             android:name=".navigation.search.SearchActivity"
             android:exported="false" />
         <!--
@@ -45,16 +42,20 @@
             android:name=".navigation.search.geosearch.CompletedGeoSearchActivity"
             android:exported="false" />
         <activity
-            android:name=".navigation.compilation.CreateCompilationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".navigation.compilation.CompilationActivity"
-            android:exported="false" />
-        <activity
             android:name=".admin.AdminActivity"
             android:exported="false" />
         <activity
+            android:name=".navigation.compilation.views.CompilationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.compilation.views.CompilationRoutesActivity"
+            android:exported="false" />
+        <activity
             android:name=".map.DetailedMap"
+            android:exported="false"
+            android:label="@string/title_activity_detailed_map" />
+        <activity
+            android:name=".navigation.compilation.views.CreateCompilationActivity"
             android:exported="false"
             android:label="@string/title_activity_detailed_map" />
         <activity

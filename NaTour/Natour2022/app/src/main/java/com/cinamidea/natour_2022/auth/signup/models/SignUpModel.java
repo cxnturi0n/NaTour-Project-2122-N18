@@ -2,7 +2,6 @@ package com.cinamidea.natour_2022.auth.signup.models;
 
 import androidx.annotation.NonNull;
 
-
 import com.cinamidea.natour_2022.auth.signup.contracts.SignUpContract;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;

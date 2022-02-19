@@ -40,13 +40,11 @@ public class HomeActivityModel implements HomeActivityContract.Model {
                         listener.onSuccess(response_body);
                         break;
                     case 400:
+                    case 500:
                         listener.onError(response_body);
                         break;
                     case 401:
-                        listener.onUserUnauthorized("Invalid session, please sign in again");
-                        break;
-                    case 500:
-                        listener.onNetworkError(response_body);
+                        listener.onUserUnauthorized();
                         break;
                     default:
                         return;

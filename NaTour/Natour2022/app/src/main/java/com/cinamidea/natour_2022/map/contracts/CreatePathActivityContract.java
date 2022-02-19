@@ -1,7 +1,6 @@
 package com.cinamidea.natour_2022.map.contracts;
 
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.utilities.UserType;
 
 
 public interface CreatePathActivityContract {

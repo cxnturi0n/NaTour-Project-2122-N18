@@ -43,7 +43,7 @@ public class HomeModel implements HomeContract.Model{
                         listener.onSuccess(routes);
                         break;
                     case 401:
-                        listener.onUserUnauthorized(response_body);
+                        listener.onUserUnauthorized();
                         break;
                     default:
                         listener.onError(response_body);
@@ -55,13 +55,12 @@ public class HomeModel implements HomeContract.Model{
     }
 
     @Override
-    public void getFavouriteRoutes(String username, String id_token, OnFinishedListener listener) {
+    public void getFavouriteRoutes(String username, String id_token, OnFavouriteRoutesFetchedListener listener) {
         Request request = RoutesHTTP.getFavouriteRoutes(username, id_token);
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onNetworkError("Network error");
             }
 
             @Override
@@ -69,18 +68,9 @@ public class HomeModel implements HomeContract.Model{
 
                 int response_code = response.code();
                 String response_body = response.body().string();
-                switch (response_code) {
-                    case 200:
-                        listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
-                        break;
-                    case 401:
-                        listener.onUserUnauthorized("Invalid session, please sign in again");
-                        break;
-                    default:
-                    listener.onError(response_body);
-                    break;
+                if(response_code == 200)
+                    listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
                 }
-            }
         });
     }
 
@@ -106,13 +96,11 @@ public class HomeModel implements HomeContract.Model{
                         listener.onSuccess(routes);
                         break;
                     case 400:
+                    case 500:
                         listener.onError(response_body);
                         break;
                     case 401:
-                        listener.onUserUnauthorized(response_body);
-                        break;
-                    case 500:
-                        listener.onNetworkError(response_body);
+                        listener.onUserUnauthorized();
                         break;
                     default:
                         return;

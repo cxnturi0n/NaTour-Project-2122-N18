@@ -43,13 +43,13 @@
         android:layout_width="348dp"
         android:layout_height="61dp"
         android:alpha="0"
-        android:stateListAnimator="@null"
         android:background="@drawable/background_button_signin"
         android:fontFamily="@font/roboto_regular"
+        android:stateListAnimator="@null"
         android:text="@string/activityRun_signin"
         android:textAllCaps="false"
-        android:textSize="20sp"
         android:textColor="@color/white"
+        android:textSize="20sp"
         tools:layout_editor_absoluteX="31dp"
         tools:layout_editor_absoluteY="437dp" />
 

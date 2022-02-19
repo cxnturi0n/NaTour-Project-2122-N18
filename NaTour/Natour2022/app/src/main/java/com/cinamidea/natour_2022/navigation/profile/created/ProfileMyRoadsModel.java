@@ -2,16 +2,10 @@ package com.cinamidea.natour_2022.navigation.profile.created;
 
 import androidx.annotation.NonNull;
 
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
-import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.google.gson.Gson;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;

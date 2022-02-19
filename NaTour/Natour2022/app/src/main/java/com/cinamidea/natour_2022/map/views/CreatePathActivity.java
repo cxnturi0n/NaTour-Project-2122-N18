@@ -25,12 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.R;
-
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.contracts.CreatePathActivityContract;
 import com.cinamidea.natour_2022.map.presenters.CreatePathActivityPresenter;
-
 import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.gms.maps.model.LatLng;

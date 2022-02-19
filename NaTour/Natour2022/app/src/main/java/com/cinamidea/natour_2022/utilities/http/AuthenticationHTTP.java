@@ -1,10 +1,6 @@
 package com.cinamidea.natour_2022.utilities.http;
 
 
-import android.util.Log;
-
-import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
-
 import okhttp3.Headers;
 import okhttp3.Request;
 

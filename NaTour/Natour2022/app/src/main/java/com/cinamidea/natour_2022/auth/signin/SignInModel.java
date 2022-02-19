@@ -1,7 +1,6 @@
 package com.cinamidea.natour_2022.auth.signin;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 

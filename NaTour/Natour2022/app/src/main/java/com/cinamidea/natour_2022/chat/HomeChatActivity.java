@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.databinding.ActivityHomeChatBinding;
 import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

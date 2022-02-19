@@ -38,8 +38,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -49,31 +49,31 @@
             android:id="@+id/activityMap_allpaths"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:paddingTop="12dp"
             android:layout_weight="1"
-            android:text="@string/activityMap_viewroutes"
-            android:stateListAnimator="@null"
             android:background="#00000000"
-            android:textSize="13sp"
+            android:drawableTop="@drawable/ic_globe_active"
             android:drawablePadding="-8dp"
             android:fontFamily="sans-serif"
+            android:paddingTop="12dp"
+            android:stateListAnimator="@null"
+            android:text="@string/activityMap_viewroutes"
             android:textAllCaps="false"
-            android:drawableTop="@drawable/ic_globe_active" />
+            android:textSize="13sp" />
 
         <android.widget.Button
             android:id="@+id/activityMap_addpath"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="75dp"
-            android:paddingTop="12dp"
-            android:text="@string/activityMap_addroute"
+            android:layout_weight="1"
             android:background="#00000000"
-            android:textSize="13sp"
-            android:stateListAnimator="@null"
-            android:fontFamily="sans-serif"
-            android:textAllCaps="false"
+            android:drawableTop="@drawable/ic_add_road"
             android:drawablePadding="-8dp"
-            android:drawableTop="@drawable/ic_add_road" />
+            android:fontFamily="sans-serif"
+            android:paddingTop="12dp"
+            android:stateListAnimator="@null"
+            android:text="@string/activityMap_addroute"
+            android:textAllCaps="false"
+            android:textSize="13sp" />
 
     </LinearLayout>
 

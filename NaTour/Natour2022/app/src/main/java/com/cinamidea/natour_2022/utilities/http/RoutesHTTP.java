@@ -1,11 +1,9 @@
 package com.cinamidea.natour_2022.utilities.http;
 
-import com.cinamidea.natour_2022.entities.Report;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
 import com.cinamidea.natour_2022.entities.RoutesCompilation;
 import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import okhttp3.Headers;
@@ -82,7 +80,7 @@ public class RoutesHTTP extends OkHTTPRequest {
     }
 
 
-    public void createRoutesCompilation(RoutesCompilation routes_compilation, String id_token, HTTPCallback callback){
+    public static Request createRoutesCompilation(RoutesCompilation routes_compilation, String id_token){
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes-compilations";
 
@@ -91,12 +89,11 @@ public class RoutesHTTP extends OkHTTPRequest {
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getPostRequest(url, request_body, header);
+        return getPostRequest(url, request_body, header);
 
-        startHttpRequest(callback);
     }
 
-    public void insertRouteIntoCompilation(String username, String route_name, String compilation_id, String id_token, HTTPCallback callback){
+    public static Request insertRouteIntoCompilation(String username, String route_name, String compilation_id, String id_token){
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/"+username+"/routes/compilations/"+compilation_id;
 
@@ -104,9 +101,8 @@ public class RoutesHTTP extends OkHTTPRequest {
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getPostRequest(url, request_body, header);
+        return getPostRequest(url, request_body, header);
 
-        startHttpRequest(callback);
     }
 
     public static Request getFavouriteRoutes(String username, String id_token) {
@@ -183,28 +179,25 @@ public class RoutesHTTP extends OkHTTPRequest {
         startHttpRequest(callback);
     }
 
-    public void getUserRoutesCompilation(String username, String compilation_id, String id_token, HTTPCallback callback)
+    public static Request getUserRoutesCompilation(String username, String compilation_id, String id_token)
     {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/"+username+"/routes/compilations/"+compilation_id;
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getGetRequest(url, header);
+        return getGetRequest(url, header);
 
-        startHttpRequest(callback);
     }
 
-    public void getUserRoutesCompilations(String username, String id_token, HTTPCallback callback)
+    public static Request getUserRoutesCompilations(String username, String id_token)
     {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/users/"+username+"/routes/compilations";
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getGetRequest(url, header);
-
-        startHttpRequest(callback);
+        return getGetRequest(url, header);
 
     }
 

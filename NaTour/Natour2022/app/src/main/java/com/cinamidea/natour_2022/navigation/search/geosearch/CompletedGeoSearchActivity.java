@@ -1,11 +1,11 @@
 package com.cinamidea.natour_2022.navigation.search.geosearch;
 
+import android.os.Bundle;
+import android.widget.ImageButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.widget.ImageButton;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;

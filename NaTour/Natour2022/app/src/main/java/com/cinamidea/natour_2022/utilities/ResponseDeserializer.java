@@ -1,6 +1,7 @@
 package com.cinamidea.natour_2022.utilities;
 
 import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.entities.RoutesCompilation;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -13,6 +14,17 @@ public class ResponseDeserializer {
         Gson gson = new Gson();
         ArrayList<Route> routes = new ArrayList<>();
         Route[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), Route[].class);
+        for (int i = 0; i < routes_array.length; i++) {
+
+            routes.add(routes_array[i]);
+        }
+        return routes;
+    }
+
+    public static ArrayList<RoutesCompilation> jsonToRoutesCompilationsList(String response) {
+        Gson gson = new Gson();
+        ArrayList<RoutesCompilation> routes = new ArrayList<>();
+        RoutesCompilation[] routes_array = gson.fromJson(removeQuotesAndUnescape(response), RoutesCompilation[].class);
         for (int i = 0; i < routes_array.length; i++) {
 
             routes.add(routes_array[i]);

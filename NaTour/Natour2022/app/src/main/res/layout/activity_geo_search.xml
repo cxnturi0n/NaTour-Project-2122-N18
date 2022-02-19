@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".navigation.search.geosearch.GeoSearchActivity">
 
@@ -17,28 +17,28 @@
         android:id="@+id/activityGeoSearch_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:paddingLeft="4dp"
         android:paddingStart="4dp"
-        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:paddingTop="4dp"
         android:paddingEnd="4dp"
+        android:paddingRight="4dp"
+        app:areSuggestionsDisabled="true"
         app:cardCornerRadius="8dp"
         app:cardElevation="2dp"
-        app:rightButtonDrawable="@drawable/ic_filter_variant_black_48dp"
         app:clearInputButtonDrawable="@drawable/ic_close_black_48dp"
+        app:isClearInputButtonEnabled="true"
         app:isDismissableOnTouchOutside="true"
         app:isProgressBarEnabled="true"
         app:isVoiceInputButtonEnabled="false"
-        app:isClearInputButtonEnabled="true"
-        app:areSuggestionsDisabled="true"
-        app:shouldDimBehind="true"/>
+        app:rightButtonDrawable="@drawable/ic_filter_variant_black_48dp"
+        app:shouldDimBehind="true" />
 
     <ProgressBar
         android:id="@+id/activityGeoSearch_progressbar"
         android:layout_width="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
         android:layout_height="wrap_content"
-        android:indeterminate="true" />
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

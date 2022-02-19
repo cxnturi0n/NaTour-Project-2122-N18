@@ -2,8 +2,6 @@ package com.cinamidea.natour_2022.auth.signin;
 
 import android.content.SharedPreferences;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-
 public interface SignInContract {
 
 

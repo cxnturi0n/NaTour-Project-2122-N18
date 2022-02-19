@@ -25,12 +25,15 @@ public interface HomeContract {
         interface OnFinishedListener {
             void onSuccess(ArrayList<Route> routes);
             void onError(String response);
-            void onUserUnauthorized(String response);
-            void onNetworkError(String response);
+            void onUserUnauthorized();
+        }
+
+        interface OnFavouriteRoutesFetchedListener {
+            void onSuccess(ArrayList<Route> favourite_routes);
         }
 
         void getAllRoutes(String username, String id_token, OnFinishedListener listener);
-        void getFavouriteRoutes(String username, String id_token, OnFinishedListener listener);
+        void getFavouriteRoutes(String username, String id_token, OnFavouriteRoutesFetchedListener listener);
         void getRoutesByDifficulty(String username, String id_token, String difficulty, OnFinishedListener listener);
     }
 

@@ -1,14 +1,6 @@
 package com.cinamidea.natour_2022.navigation.main.contracts;
 
-import android.content.Intent;
-import android.net.Uri;
-
-import com.cinamidea.natour_2022.MainActivity;
-import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.utilities.UserType;
-
 import java.io.InputStream;
-import java.util.ArrayList;
 
 public interface HomeActivityContract {
 
@@ -24,8 +16,7 @@ public interface HomeActivityContract {
         interface OnFinishedListener{
             void onSuccess(String response);
             void onError(String response);
-            void onUserUnauthorized(String response);
-            void onNetworkError(String response);
+            void onUserUnauthorized();
 
         }
 

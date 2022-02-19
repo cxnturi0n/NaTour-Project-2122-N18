@@ -1,7 +1,6 @@
 package com.cinamidea.natour_2022.auth.changepassword;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -12,13 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
-import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.utilities.UserType;
-import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
-import com.cinamidea.natour_2022.utilities.http.callbacks.auth.ChangePasswordCallback;
-
-import java.util.ArrayList;
 
 public class ChangePasswordActivity extends AppCompatActivity implements ChangePasswordContract.View{
 

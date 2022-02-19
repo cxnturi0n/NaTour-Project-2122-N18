@@ -3,7 +3,6 @@ package com.cinamidea.natour_2022.map.presenters;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.contracts.CreatePathActivityContract;
 import com.cinamidea.natour_2022.map.models.CreatePathActivityModel;
-import com.cinamidea.natour_2022.utilities.UserType;
 
 public class CreatePathActivityPresenter implements CreatePathActivityContract.Presenter{
 

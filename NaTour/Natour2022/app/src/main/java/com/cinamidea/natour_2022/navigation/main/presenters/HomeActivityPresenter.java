@@ -1,6 +1,5 @@
 package com.cinamidea.natour_2022.navigation.main.presenters;
 
-import android.net.Uri;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -39,18 +38,14 @@ public class HomeActivityPresenter implements HomeActivityContract.Presenter {
 
                 @Override
                 public void onError(String response) {
-
+                    view.displayError(response);
                 }
 
                 @Override
-                public void onUserUnauthorized(String response) {
+                public void onUserUnauthorized() {
                     view.logOutUnauthorizedUser();
                 }
 
-                @Override
-                public void onNetworkError(String response) {
-
-                }
             });
         } catch (IOException e) {
         }

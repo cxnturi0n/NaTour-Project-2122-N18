@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/menuLayout_container"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_profile_menu">
+    android:background="@drawable/background_profile_menu"
+    android:orientation="vertical">
 
     <View
         android:layout_width="64dp"
         android:layout_height="2dp"
-        android:layout_marginTop="16dp"
         android:layout_gravity="center"
-        android:background="@drawable/drawable_rounded_line"/>
+        android:layout_marginTop="16dp"
+        android:background="@drawable/drawable_rounded_line" />
 
     <android.widget.Button
         android:id="@+id/menuLayout_savedPaths"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="32dp"
+        android:background="@null"
         android:drawableStart="@drawable/ic_savedpaths"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
@@ -27,15 +28,15 @@
         android:text="@string/activityHome_routecollection"
         android:textAlignment="textStart"
         android:textAllCaps="false"
-        android:textSize="18sp"
-        android:layout_marginHorizontal="32dp" />
+        android:textSize="18sp" />
 
     <android.widget.Button
         android:id="@+id/menuLayout_editPhoto"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
+        android:background="@null"
         android:drawableStart="@drawable/ic_editphoto"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
@@ -44,15 +45,15 @@
         android:text="@string/activityHome_editprofilephoto"
         android:textAlignment="textStart"
         android:textAllCaps="false"
-        android:textSize="18sp"
-        android:layout_marginHorizontal="32dp" />
+        android:textSize="18sp" />
 
     <android.widget.Button
         android:id="@+id/menuLayout_changePassword"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
+        android:background="@null"
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
@@ -61,33 +62,33 @@
         android:text="@string/activityHome_changepassword"
         android:textAlignment="textStart"
         android:textAllCaps="false"
-        android:textSize="18sp"
-        android:layout_marginHorizontal="32dp" />
+        android:textSize="18sp" />
 
     <android.widget.Button
         android:id="@+id/menuLayout_admin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
+        android:background="@null"
         android:drawableStart="@drawable/ic_shield"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
         android:paddingStart="16dp"
-        android:visibility="gone"
         android:stateListAnimator="@null"
         android:text="Admin"
         android:textAlignment="textStart"
         android:textAllCaps="false"
         android:textSize="18sp"
-        android:layout_marginHorizontal="32dp" />
+        android:visibility="gone" />
 
     <android.widget.Button
         android:id="@+id/menuLayout_logout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
+        android:background="@null"
         android:drawableStart="@drawable/ic_logout"
         android:drawablePadding="16dp"
         android:fontFamily="@font/roboto_light"
@@ -96,13 +97,12 @@
         android:text="@string/activityHome_logout"
         android:textAlignment="textStart"
         android:textAllCaps="false"
-        android:textSize="18sp"
-        android:layout_marginHorizontal="32dp" />
+        android:textSize="18sp" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="32dp"
         android:layout_gravity="center"
-        android:background="@color/white"/>
+        android:background="@color/white" />
 
 </LinearLayout>
