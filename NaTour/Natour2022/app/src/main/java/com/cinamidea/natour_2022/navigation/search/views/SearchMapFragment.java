@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.search.geosearch;
+package com.cinamidea.natour_2022.navigation.search.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,27 +31,24 @@ public class SearchMapFragment extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
 
-            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(@NonNull LatLng latLng) {
-                    if (markerArrayList.size() == 0) {
-                        Marker marker = map.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                        markerArrayList.add(marker);
-                        LatLng point = marker.getPosition();
-                        GeoSearchActivity.getPersistentSearchView().setInputQuery(point.latitude + "," + point.longitude);
-                        GeoSearchActivity.setLatLng(point);
-                    }else{
-                        markerArrayList.clear();
-                        map.clear();
-                        Marker marker = map.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                        markerArrayList.add(marker);
-                        LatLng point = marker.getPosition();
-                        GeoSearchActivity.getPersistentSearchView().setInputQuery(point.latitude + "," + point.longitude);
-                        GeoSearchActivity.setLatLng(point);
-
-                    }
+            map.setOnMapClickListener(latLng -> {
+                if (markerArrayList.size() == 0) {
+                    Marker marker = map.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    markerArrayList.add(marker);
+                    LatLng point = marker.getPosition();
+                    GeoSearchActivity.getPersistentSearchView().setInputQuery(point.latitude + "," + point.longitude);
+                    GeoSearchActivity.setLatLng(point);
+                }else{
+                    markerArrayList.clear();
+                    map.clear();
+                    Marker marker = map.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    markerArrayList.add(marker);
+                    LatLng point = marker.getPosition();
+                    GeoSearchActivity.getPersistentSearchView().setInputQuery(point.latitude + "," + point.longitude);
+                    GeoSearchActivity.setLatLng(point);
 
                 }
+
             });
 
         }

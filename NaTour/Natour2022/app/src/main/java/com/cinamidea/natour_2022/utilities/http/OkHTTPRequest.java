@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
+
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -64,40 +64,5 @@ public class OkHTTPRequest {
 
     }
 
-    void startHttpRequest(HTTPCallback callback) {
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                callback.handleRequestException(e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
-                int response_code = response.code();
-                String response_body = response.body().string();
-                switch (response_code) {
-                    case 200:
-                        Log.e("200", response_body);
-                        callback.handleStatus200(response_body);
-                        break;
-                    case 400:
-                        Log.e("400", response_body);
-                        callback.handleStatus400(response_body);
-                        break;
-                    case 401:
-                        Log.e("401", response_body);
-                        callback.handleStatus401(response_body);
-                        break;
-                    case 500:
-                        callback.handleStatus500(response_body);
-                        break;
-                    default:
-                        return;
-                }
-            }
-        });
-    }
 
 }

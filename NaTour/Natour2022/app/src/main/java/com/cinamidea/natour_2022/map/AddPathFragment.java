@@ -187,8 +187,6 @@ public class AddPathFragment extends Fragment {
             intent.putParcelableArrayListExtra("path", (ArrayList<? extends Parcelable>) path);
             intent.setClass(getContext(), CreatePathActivity.class);
             startActivity(intent);
-
-
         });
 
     }

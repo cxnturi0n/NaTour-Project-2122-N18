@@ -1,7 +1,5 @@
 package com.cinamidea.natour_2022.navigation.compilation.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,16 +9,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.RoutesCompilation;
 import com.cinamidea.natour_2022.navigation.compilation.contracts.CreateCompilationContract;
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CreateCompilationPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
-import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
-import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.cinamidea.natour_2022.utilities.http.callbacks.routes.CreateCompilationCallback;
 
 public class CreateCompilationActivity extends AppCompatActivity implements CreateCompilationContract.View {
 

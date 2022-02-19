@@ -7,6 +7,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -149,9 +150,16 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
         });
 
         button_continue.setOnClickListener(view -> {
-            insertRouteOnDb(path);
 
+            if(image_base64==null)
+                Log.e("ciao","image");
+                //TODO IMAGE NEEDED
+            if(duration.getText().toString().isEmpty())
+                Log.e("ciao","image");
+            //TODO DURATION NEEDED
 
+            if(image_base64!=null&&!duration.getText().toString().isEmpty())
+                insertRouteOnDb(path);
         });
 
         button_addimage.setOnClickListener(view -> {

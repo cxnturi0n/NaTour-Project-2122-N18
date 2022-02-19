@@ -82,7 +82,13 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
             String username = edit_user.getText().toString();
             String password = edit_password.getText().toString();
 
-            presenter.cognitoSignInButtonClicked(username, password, getActivity().getSharedPreferences("Cognito", Context.MODE_PRIVATE));
+            if(!username.isEmpty() && !password.isEmpty()) {
+
+                presenter.cognitoSignInButtonClicked(username, password, getActivity().getSharedPreferences("Cognito", Context.MODE_PRIVATE));
+
+            }else{
+                //TODO TOAST
+            }
 
         });
 
@@ -132,7 +138,6 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
 
         start_activity_for_result = registerForActivityResult(new ActivityResultContracts
                 .StartActivityForResult(), result -> {
-
             if (result.getResultCode() == Activity.RESULT_OK) {
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
                 handleSignInResult(task);
@@ -147,6 +152,5 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
         googlesignin_client = GoogleSignIn.getClient(getActivity(), gso);
 
     }
-
 
 }

@@ -3,7 +3,6 @@ package com.cinamidea.natour_2022.utilities.http;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
 import com.cinamidea.natour_2022.entities.RoutesCompilation;
-import com.cinamidea.natour_2022.utilities.http.callbacks.HTTPCallback;
 import com.google.gson.Gson;
 
 import okhttp3.Headers;
@@ -166,7 +165,7 @@ public class RoutesHTTP extends OkHTTPRequest {
 
     }
 
-    public void getFilteredRoutes(RouteFilters route_filters, String id_token, HTTPCallback callback)
+    public static Request getFilteredRoutes(RouteFilters route_filters, String id_token)
     {
 
         String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes?"+"route-name="+route_filters.getRoute_name()+"&level="+route_filters.getLevel()+"&duration="+route_filters.getDuration()+
@@ -174,9 +173,8 @@ public class RoutesHTTP extends OkHTTPRequest {
 
         Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
 
-        request = getGetRequest(url, header);
+        return getGetRequest(url, header);
 
-        startHttpRequest(callback);
     }
 
     public static Request getUserRoutesCompilation(String username, String compilation_id, String id_token)

@@ -179,27 +179,29 @@ public class AllPathsFragment extends Fragment implements AllPathFragmentContrac
 
     @Override
     public void updateLocationUI() {
-        if (map == null) {
-            return;
-        }
-        try {
-            if (locationPermissionGranted) {
-                map.setMyLocationEnabled(true);
-                map.getUiSettings().setMyLocationButtonEnabled(true);
-                //TODO:Zoom sulla mappa
-                if (current_location != null) {
-                    zoomBasedOnCurrentLocation();
+        getActivity().runOnUiThread(() -> {
+            if (map == null) {
+                return;
+            }
+            try {
+                if (locationPermissionGranted) {
+
+                    map.setMyLocationEnabled(true);
+                    map.getUiSettings().setMyLocationButtonEnabled(true);
+                    //TODO:Zoom sulla mappa
+                    if (current_location != null) {
+                        zoomBasedOnCurrentLocation();
+                    } else {
+                    }
                 } else {
-                    Toast.makeText(getContext(), "Null", Toast.LENGTH_SHORT).show();
+                    map.setMyLocationEnabled(true);
+                    map.getUiSettings().setMyLocationButtonEnabled(true);
+
                 }
-            } else {
-                map.setMyLocationEnabled(true);
-                map.getUiSettings().setMyLocationButtonEnabled(true);
+            } catch (SecurityException e) {
 
             }
-        } catch (SecurityException e) {
-
-        }
+        });
     }
 
 

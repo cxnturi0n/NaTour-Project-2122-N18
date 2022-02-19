@@ -1,15 +1,16 @@
-package com.cinamidea.natour_2022.map.models;
+package com.cinamidea.natour_2022.navigation.search;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.entities.Route;
-import com.cinamidea.natour_2022.map.contracts.AllPathFragmentContract;
+import com.cinamidea.natour_2022.entities.RouteFilters;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -18,17 +19,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AllPathFragmentModel implements AllPathFragmentContract.Model{
+public class SearchModel implements SearchContract.Model {
 
     private OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(20, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
             .build();
 
-
     @Override
-    public void getAllRoutes(AllPathFragmentContract.Model.OnFinishedListener listener,String id_token) {
+    public void getFilteredRoutes(String username, RouteFilters route_filters, String id_token, OnFinishedListener listener) {
 
-        Request request = RoutesHTTP.getAllRoutes(id_token);
+        Request request = RoutesHTTP.getFilteredRoutes(route_filters, id_token);
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -43,26 +43,41 @@ public class AllPathFragmentModel implements AllPathFragmentContract.Model{
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
-                        Route[] routes = ResponseDeserializer.jsonToRoutesArray(response_body);
-                        listener.onSuccess(routes);
+                        listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
                         break;
                     case 400:
+                    case 500:
                         listener.onError(response_body);
                         break;
                     case 401:
-                        listener.onUserUnauthorized(response_body);
-                        break;
-                    case 500:
-                        listener.onNetworkError(response_body);
+                        listener.onUserUnauthorized();
                         break;
                     default:
                         return;
                 }
             }
         });
-
     }
 
+    @Override
+    public void getFavourites(String username, String id_token, OnFavouriteRoutesFetchedListener listener) {
+        Request request = RoutesHTTP.getFavouriteRoutes(username, id_token);
 
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+                int response_code = response.code();
+                String response_body = response.body().string();
+                if(response_code == 200)
+                    listener.onSuccess(ResponseDeserializer.jsonToRoutesList(response_body));
+
+            }
+        });
+    }
 }

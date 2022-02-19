@@ -8,10 +8,8 @@ import com.cinamidea.natour_2022.entities.Tokens;
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;

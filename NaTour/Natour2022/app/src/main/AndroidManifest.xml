@@ -20,9 +20,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Natour2022">
-        <activity
-            android:name=".navigation.search.SearchActivity"
-            android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -36,10 +33,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".navigation.search.geosearch.GeoSearchActivity"
+            android:name=".navigation.search.views.GeoSearchActivity"
             android:exported="false" />
         <activity
-            android:name=".navigation.search.geosearch.CompletedGeoSearchActivity"
+            android:name=".navigation.search.views.CompletedGeoSearchActivity"
             android:exported="false" />
         <activity
             android:name=".admin.AdminActivity"
@@ -60,6 +57,9 @@
             android:label="@string/title_activity_detailed_map" />
         <activity
             android:name=".auth.changepassword.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.search.views.SearchActivity"
             android:exported="false" />
         <activity
             android:name=".auth.resetpassword.views.ResetCRActivity"
@@ -93,6 +93,10 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".auth.AuthActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".map.views.CreatePathActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity

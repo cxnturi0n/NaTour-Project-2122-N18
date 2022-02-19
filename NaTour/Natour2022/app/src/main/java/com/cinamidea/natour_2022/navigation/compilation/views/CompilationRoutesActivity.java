@@ -18,9 +18,6 @@ import com.cinamidea.natour_2022.navigation.compilation.contracts.CompilationRou
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CompilationRoutesPresenter;
 import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.utilities.UserType;
-import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
-import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetRoutesInCompilationCallback;
 
 import java.util.ArrayList;
 import java.util.List;

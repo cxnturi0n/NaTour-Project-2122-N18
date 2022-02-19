@@ -1,7 +1,8 @@
-package com.cinamidea.natour_2022.navigation.search.geosearch;
+package com.cinamidea.natour_2022.navigation.search.views;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -21,13 +22,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
+import com.cinamidea.natour_2022.navigation.search.SearchContract;
+import com.cinamidea.natour_2022.navigation.search.SearchPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
-import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
-import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
-import com.cinamidea.natour_2022.utilities.http.callbacks.routes.GetFilteredRoutesCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchConfirmedListener;
@@ -40,7 +41,7 @@ import java.util.Locale;
 
 import me.gujun.android.taggroup.TagGroup;
 
-public class GeoSearchActivity extends AppCompatActivity {
+public class GeoSearchActivity extends AppCompatActivity implements SearchContract.View {
 
     private Fragment map_fragment;
     private List<String> tags = new ArrayList<>();
@@ -55,6 +56,8 @@ public class GeoSearchActivity extends AppCompatActivity {
     private List<Address> addresses;
     private static PersistentSearchView persistentSearchView;
     private static LatLng latLng;
+    private SearchContract.Presenter presenter;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -66,6 +69,8 @@ public class GeoSearchActivity extends AppCompatActivity {
         map_fragment = new SearchMapFragment();
         persistentSearchView = findViewById(R.id.activityGeoSearch_search);
         persistentSearchView.showRightButton();
+
+        presenter = new SearchPresenter(this);
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -84,73 +89,62 @@ public class GeoSearchActivity extends AppCompatActivity {
 
     private void listeners() {
 
-        persistentSearchView.setOnSearchQueryChangeListener(new OnSearchQueryChangeListener() {
-            @Override
-            public void onSearchQueryChanged(PersistentSearchView searchView, String oldQuery, String newQuery) {
-                if(persistentSearchView.isInputQueryEmpty()) {
+        persistentSearchView.setOnSearchQueryChangeListener((searchView, oldQuery, newQuery) -> {
+            if(persistentSearchView.isInputQueryEmpty()) {
 
-                    persistentSearchView.setLeftButtonDrawable(R.drawable.ic_back);
-                    is_searchview_empty = true;
-
-                }
-                else {
-
-                    persistentSearchView.setLeftButtonDrawable(R.drawable.stream_ui_ic_search);
-                    is_searchview_empty = false;
-
-                }
+                persistentSearchView.setLeftButtonDrawable(R.drawable.ic_back);
+                is_searchview_empty = true;
 
             }
+            else {
+
+                persistentSearchView.setLeftButtonDrawable(R.drawable.stream_ui_ic_search);
+                is_searchview_empty = false;
+
+            }
+
         });
 
-        persistentSearchView.setOnSearchConfirmedListener(new OnSearchConfirmedListener() {
-            @Override
-            public void onSearchConfirmed(PersistentSearchView searchView, String query) {
-                if (!persistentSearchView.isInputQueryEmpty()) {
-                    try {
+        persistentSearchView.setOnSearchConfirmedListener((searchView, query) -> {
+            if (!persistentSearchView.isInputQueryEmpty()) {
+                try {
 
-                        addresses = geocoder.getFromLocationName(persistentSearchView.getInputQuery(), 1);
-                        if (!addresses.isEmpty()) {
-                            LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
-                            setLatLng(latLng);
-                            RouteFilters routeFilters = new RouteFilters("", tokenizedList(difficulties),
-                                    min_duration, is_disability, latLng, range, tokenizedList(tags));
+                    addresses = geocoder.getFromLocationName(persistentSearchView.getInputQuery(), 1);
+                    if (!addresses.isEmpty()) {
+                        LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
+                        setLatLng(latLng);
+                        RouteFilters routeFilters = new RouteFilters("", tokenizedList(difficulties),
+                                min_duration, is_disability, latLng, range, tokenizedList(tags));
 
-                            ArrayList<Route> routes = new ArrayList<>();
-                            ArrayList<Route> fav_routes = new ArrayList<>();
+                        UserType user_type = new UserType(GeoSearchActivity.this);
+                        presenter.searchButtonClicked(user_type.getUsername(),routeFilters, user_type.getUserType()+user_type.getIdToken());
 
-                            ProgressBar progressBar = findViewById(R.id.activityGeoSearch_progressbar);
-                            progressBar.setVisibility(View.VISIBLE);
+                        progressBar = findViewById(R.id.activityGeoSearch_progressbar);
+                        progressBar.setVisibility(View.VISIBLE);
 
-                            UserSharedPreferences userSharedPreferences = new UserSharedPreferences(GeoSearchActivity.this);
-                            new RoutesHTTP().getFilteredRoutes(routeFilters,
-                                    userSharedPreferences.getUser_type() + userSharedPreferences.getId_token(), new GetFilteredRoutesCallback(new UserType(getApplicationContext()).getUsername(), userSharedPreferences.getId_token(), routes, fav_routes, GeoSearchActivity.this, progressBar));
 
-                        } else {
-                            //Nasconde la tastiera
-                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-                            Toast.makeText(GeoSearchActivity.this, "Luogo inesistente", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+
+                    } else {
+                        //Nasconde la tastiera
+                        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                        Toast.makeText(GeoSearchActivity.this, "Luogo inesistente", Toast.LENGTH_LONG).show();
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-
             }
+
+
         });
 
-        persistentSearchView.setOnLeftBtnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        persistentSearchView.setOnLeftBtnClickListener(view -> {
 
-                if(is_searchview_empty)
-                    finish();
-                else
-                    persistentSearchView.confirmSearchAction();
+            if(is_searchview_empty)
+                finish();
+            else
+                persistentSearchView.confirmSearchAction();
 
-            }
         });
 
 
@@ -314,4 +308,27 @@ public class GeoSearchActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void loadResults(ArrayList<Route> filtered_routes, ArrayList<Route> favourite_routes) {
+        runOnUiThread(() -> {
+            progressBar.setVisibility(View.GONE);
+            CompletedGeoSearchActivity.setRoutes(filtered_routes);
+            CompletedGeoSearchActivity.setFav_routes(favourite_routes);
+            startActivity(new Intent(GeoSearchActivity.this, CompletedGeoSearchActivity.class));
+        });
+
+    }
+
+    @Override
+    public void displayError(String message) {
+        progressBar.setVisibility(View.GONE);
+        //TODO TOAST
+    }
+
+    @Override
+    public void logOutUnauthorizedUser() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }

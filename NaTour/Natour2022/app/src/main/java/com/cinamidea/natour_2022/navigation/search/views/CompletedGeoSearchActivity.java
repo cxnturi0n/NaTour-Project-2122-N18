@@ -1,4 +1,4 @@
-package com.cinamidea.natour_2022.navigation.search.geosearch;
+package com.cinamidea.natour_2022.navigation.search.views;
 
 import android.os.Bundle;
 import android.widget.ImageButton;

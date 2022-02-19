@@ -36,11 +36,10 @@ import com.cinamidea.natour_2022.map.views.AllPathsFragment;
 import com.cinamidea.natour_2022.navigation.compilation.views.CompilationActivity;
 import com.cinamidea.natour_2022.navigation.main.contracts.HomeActivityContract;
 import com.cinamidea.natour_2022.navigation.main.presenters.HomeActivityPresenter;
-import com.cinamidea.natour_2022.navigation.search.SearchActivity;
-import com.cinamidea.natour_2022.navigation.search.geosearch.GeoSearchActivity;
+import com.cinamidea.natour_2022.navigation.search.views.GeoSearchActivity;
+import com.cinamidea.natour_2022.navigation.search.views.SearchActivity;
 import com.cinamidea.natour_2022.prova.HomeFragment;
 import com.cinamidea.natour_2022.utilities.UserType;
-import com.cinamidea.natour_2022.utilities.auth.UserSharedPreferences;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.IOException;
@@ -378,13 +377,11 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
 
     private void logout() {
 
-        UserSharedPreferences user_type = new UserSharedPreferences(this);
-        if(user_type.getUser_type().equals("Cognito"))
-            getSharedPreferences("natour_tokens", MODE_PRIVATE).edit().clear().commit();
-        else {
+        UserType user_type = new UserType(this);
+        if(user_type.getUserType().equals("Google")) {
             //TODO LOGOUT GOOGLE
-            getSharedPreferences("google_token", MODE_PRIVATE).edit().clear().commit();
         }
+        user_type.clear();
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
