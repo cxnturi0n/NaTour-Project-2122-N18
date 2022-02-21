@@ -25,6 +25,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.contracts.CreatePathActivityContract;
@@ -351,13 +352,21 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
     @Override
     public void showToastAddedRoute() {
         //TODO:iNSERIRE TOAST
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(CreatePathActivity.this, "Route added successfully", Toast.LENGTH_LONG).show();
-            }
-        });
+        runOnUiThread(() -> Toast.makeText(CreatePathActivity.this, "Route added successfully", Toast.LENGTH_LONG).show());
     }
+
+    @Override
+    public void displayError(String message) {
+        //TODO LOG
+    }
+
+    @Override
+    public void logOutUnauthorizedUser() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
 
     @Override
     public void backToHomeAfterInsertedRoute() {

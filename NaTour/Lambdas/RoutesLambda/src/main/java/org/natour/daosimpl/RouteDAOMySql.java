@@ -894,7 +894,7 @@ public class RouteDAOMySql implements RouteDAO {
 
         float duration = query_filters.getDuration();
 
-        boolean disability_access = query_filters.isIs_disability_access();
+        boolean disability_access = query_filters.isDisableAccessible();
 
         if (!route_name.equals("")) {
 

@@ -6,7 +6,7 @@ public interface SignInContract {
 
 
     interface View {
-        void signInSuccess();
+        void signInCompleted();
 
         void displayError(String message);
     }

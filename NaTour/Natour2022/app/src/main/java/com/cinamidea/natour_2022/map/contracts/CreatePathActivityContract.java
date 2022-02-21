@@ -10,7 +10,8 @@ public interface CreatePathActivityContract {
         void dismissLoadingDialog();
         void showToastAddedRoute();
         void backToHomeAfterInsertedRoute();
-
+        void displayError(String message);
+        void logOutUnauthorizedUser();
     }
 
 
@@ -18,8 +19,7 @@ public interface CreatePathActivityContract {
         interface OnFinishedListener{
             void onSuccess(String response);
             void onError(String response);
-            void onUserUnauthorized(String response);
-            void onNetworkError(String response);
+            void onUserUnauthorized();
         }
 
         void insertRoute(OnFinishedListener listener, String id_token, Route route);

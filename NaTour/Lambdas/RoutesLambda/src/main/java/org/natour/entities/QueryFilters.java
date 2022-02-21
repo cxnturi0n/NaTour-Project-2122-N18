@@ -66,7 +66,7 @@ public class QueryFilters {
         this.duration = duration;
     }
 
-    public boolean isIs_disability_access() {
+    public boolean isDisableAccessible() {
         return is_disability_access;
     }
 

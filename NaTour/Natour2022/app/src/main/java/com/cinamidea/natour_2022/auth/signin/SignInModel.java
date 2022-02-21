@@ -1,6 +1,7 @@
 package com.cinamidea.natour_2022.auth.signin;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -63,21 +64,22 @@ public class SignInModel implements SignInContract.Model {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 int response_code = response.code();
+                SharedPreferences.Editor editor = cognito_preferences.edit();
                 String message = response.body().string();
                 if (response_code == 200) {
                     Tokens tokens = new Gson().fromJson(ResponseDeserializer.removeQuotesAndUnescape(message), Tokens.class);
-                    cognito_preferences.edit().putString("username", username.toLowerCase()).commit();
-                    cognito_preferences.edit().putString("id_token", tokens.getId_token()).commit();
-                    cognito_preferences.edit().putString("access_token", tokens.getAccess_token()).commit();
-                    cognito_preferences.edit().putString("refresh_token", tokens.getRefresh_token()).commit();
+                    editor.putString("username", username.toLowerCase());
+                    editor.putString("id_token", tokens.getId_token());
+                    editor.putString("access_token", tokens.getAccess_token());
+                    editor.putString("refresh_token", tokens.getRefresh_token());
+                    editor.commit();
                     listener.onSuccess();
                 } else {
-                    cognito_preferences.edit().clear().commit();
+                    editor.clear().commit();
                     listener.onError(ResponseDeserializer.jsonToMessage(message));
                 }
             }
         });
 
     }
-
 }

@@ -98,17 +98,13 @@ public class MainModel implements MainContract.Model{
     public void googleSilentSignIn(GoogleSignInClient client, SharedPreferences google_preferences, MainContract.Model.OnFinishListener listener) {
 
         Task<GoogleSignInAccount> task = client.silentSignIn();
-        if (task.isSuccessful()) {
-
-            //If cached id_token is still valid, then log user in
-            listener.onSuccess();
-
-        } else {
-
+        if (task.isSuccessful())
+            listener.onSuccess(); //If cached id_token is still valid, then log user in
+            else {      //If cached id_token is present, yet expired, use refresh token to fetch new id_token and log user in
             task.addOnCompleteListener(task1 -> {
 
                 try {
-                    //If cached id_token is present, but expired then use refresh token to fetch new id_token and log user in
+
                     GoogleSignInAccount signInAccount = task1.getResult(ApiException.class);
 
                     //Salvo username e token nelle shared
@@ -118,7 +114,7 @@ public class MainModel implements MainContract.Model{
 
                     listener.onSuccess();
 
-                } catch (ApiException apiException) {
+                } catch (ApiException apiException) { //If something goes wrong
                     //Clearing shared preferences so user wont silent sign in again
                     google_preferences.edit().clear().commit();
                     //If id_token is not cached or something goes bad

@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.contracts.AllPathFragmentContract;
@@ -151,6 +152,18 @@ public class AllPathsFragment extends Fragment implements AllPathFragmentContrac
     @Override
     public void dismissLoadingDialog() {
         dialog.dismiss();
+    }
+
+    @Override
+    public void displayError(String message) {
+        //TODO LOG
+    }
+
+    @Override
+    public void logOutUnauthorizedUser() {
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 

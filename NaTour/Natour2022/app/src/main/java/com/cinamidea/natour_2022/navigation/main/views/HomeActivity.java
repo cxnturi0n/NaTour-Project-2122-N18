@@ -30,6 +30,7 @@ import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.admin.AdminActivity;
 import com.cinamidea.natour_2022.auth.changepassword.ChangePasswordActivity;
+import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.MapActivity;
 import com.cinamidea.natour_2022.map.views.AllPathsFragment;
@@ -40,6 +41,9 @@ import com.cinamidea.natour_2022.navigation.search.views.GeoSearchActivity;
 import com.cinamidea.natour_2022.navigation.search.views.SearchActivity;
 import com.cinamidea.natour_2022.prova.HomeFragment;
 import com.cinamidea.natour_2022.utilities.UserType;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.IOException;
@@ -378,8 +382,13 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
     private void logout() {
 
         UserType user_type = new UserType(this);
+
         if(user_type.getUserType().equals("Google")) {
-            //TODO LOGOUT GOOGLE
+            GoogleSignInClient googlesignin_client = GoogleSignIn.getClient(this, new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .requestIdToken(("556927589955-pahgt8na4l8de0985mvlc9gugfltbkef.apps.googleusercontent.com"))
+                    .build());
+            googlesignin_client.signOut();
         }
         user_type.clear();
 

@@ -14,6 +14,8 @@ public interface AllPathFragmentContract {
         void getLocationPermission();
         void showLoadingDialog();
         void dismissLoadingDialog();
+        void displayError(String message);
+        void logOutUnauthorizedUser();
 
     }
 
@@ -23,7 +25,6 @@ public interface AllPathFragmentContract {
             void onSuccess(Route[] routes);
             void onError(String response);
             void onUserUnauthorized(String response);
-            void onNetworkError(String response);
         }
 
         void getAllRoutes(OnFinishedListener listener, String id_token);

@@ -41,13 +41,11 @@ public class CreatePathActivityModel implements CreatePathActivityContract.Model
                         listener.onSuccess(response_body);
                         break;
                     case 400:
+                    case 500:
                         listener.onError(response_body);
                         break;
                     case 401:
-                        listener.onUserUnauthorized(response_body);
-                        break;
-                    case 500:
-                        listener.onNetworkError(response_body);
+                        listener.onUserUnauthorized();
                         break;
                     default:
                         return;

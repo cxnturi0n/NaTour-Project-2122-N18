@@ -33,12 +33,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 
         super.onResume();
+
         if (user_type.getUserType().equals("Cognito"))
             cognitoSilentLogin();
 
         else if (GoogleSignIn.getLastSignedInAccount(this) != null)
             googleSilentLogin();
-
 
     }
 

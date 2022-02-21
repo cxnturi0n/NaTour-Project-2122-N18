@@ -48,34 +48,26 @@ public class ChatUserList extends AppCompatActivity {
 
         queryAllUsers();
 
-        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String channelType = "messaging";
-                User item = (User) parent.getItemAtPosition(position);
-                List<String> members = Arrays.asList(client.getCurrentUser().getId(), item.getId());
+        userListView.setOnItemClickListener((parent, view, position, id) -> {
+            String channelType = "messaging";
+            User item = (User) parent.getItemAtPosition(position);
+            List<String> members = Arrays.asList(client.getCurrentUser().getId(), item.getId());
 
-                client.createChannel(channelType, members).enqueue(result -> {
-                    if (result.isSuccess()) {
-                        Intent intent = new Intent(ChatUserList.this, HomeChatActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    } else {
-                        // Handle result.error()
-                        Log.e(TAG, "ChatUserList: Errore creazione canale");
-                    }
-                });
+            client.createChannel(channelType, members).enqueue(result -> {
+                if (result.isSuccess()) {
+                    Intent intent = new Intent(ChatUserList.this, HomeChatActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else {
+                    // Handle result.error()
+                    Log.e(TAG, "ChatUserList: Errore creazione canale");
+                }
+            });
 
 
-            }
         });
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ChatUserList.this, HomeChatActivity.class));
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(ChatUserList.this, HomeChatActivity.class)));
 
 
     }

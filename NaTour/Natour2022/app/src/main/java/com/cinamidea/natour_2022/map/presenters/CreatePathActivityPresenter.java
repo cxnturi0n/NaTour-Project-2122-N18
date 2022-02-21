@@ -28,17 +28,12 @@ public class CreatePathActivityPresenter implements CreatePathActivityContract.P
 
             @Override
             public void onError(String response_body) {
-
+                view.displayError(response_body);
             }
 
             @Override
-            public void onUserUnauthorized(String response_body) {
-
-            }
-
-            @Override
-            public void onNetworkError(String response_body) {
-
+            public void onUserUnauthorized() {
+                view.logOutUnauthorizedUser();
             }
         },id_token,route);
     }

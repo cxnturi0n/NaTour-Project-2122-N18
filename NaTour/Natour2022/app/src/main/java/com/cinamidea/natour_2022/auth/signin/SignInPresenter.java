@@ -28,7 +28,7 @@ public class SignInPresenter implements SignInContract.Presenter, SignInContract
 
     @Override
     public void onSuccess() {
-        view.signInSuccess();
+        view.signInCompleted();
     }
 
 

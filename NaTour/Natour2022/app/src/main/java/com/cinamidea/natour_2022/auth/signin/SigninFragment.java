@@ -103,7 +103,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
     }
 
     @Override
-    public void signInSuccess() {
+    public void signInCompleted() {
 
         Intent intent = new Intent(getActivity(), HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
