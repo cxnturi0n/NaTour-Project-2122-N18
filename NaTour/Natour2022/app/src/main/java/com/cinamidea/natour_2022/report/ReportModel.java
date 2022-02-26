@@ -24,7 +24,7 @@ public class ReportModel implements ReportContract.Model{
     @Override
     public void sendReport(String id_token, Report report, OnFinishListener listener) {
 
-        if(isReportable(report.getTitle(), report.getDescription())) {
+        if(checkReportValidity(report.getTitle(), report.getDescription())) {
             Request request = ReportHTTP.insertReport(report, id_token);
 
             client.newCall(request).enqueue(new Callback() {
@@ -49,10 +49,14 @@ public class ReportModel implements ReportContract.Model{
 
     }
 
-    private boolean isReportable(String title, String description) {
-        final int MIN_TITLE_LENGTH = 3;
-        final int MIN_DESCRIPTION_LENGTH = 3;
-        return title.length() >= MIN_TITLE_LENGTH && description.length() >= MIN_DESCRIPTION_LENGTH;
+    public boolean checkReportValidity(String title, String description) {
+        if(title == null || description == null)
+            throw new NullPointerException();
+        if(title.length()<3||title.length()>32)
+            return false;
+        if(description.length()<5||description.length()>255)
+            return false;
+        return true;
     }
 
 }

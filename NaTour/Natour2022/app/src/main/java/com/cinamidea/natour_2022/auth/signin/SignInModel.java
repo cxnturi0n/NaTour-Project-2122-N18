@@ -10,6 +10,7 @@ import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.AuthenticationHTTP;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -61,6 +62,7 @@ public class SignInModel implements SignInContract.Model {
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 listener.onError("Network error");
             }
+
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 int response_code = response.code();
@@ -80,6 +82,5 @@ public class SignInModel implements SignInContract.Model {
                 }
             }
         });
-
     }
 }
