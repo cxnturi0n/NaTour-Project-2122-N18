@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.cinamidea.natour_2022.navigation.search.SearchContract;
 import com.cinamidea.natour_2022.navigation.search.SearchPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.slider.Slider;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchConfirmedListener;
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchQueryChangeListener;
@@ -108,7 +110,8 @@ public class GeoSearchActivity extends AppCompatActivity implements SearchContra
         persistentSearchView.setOnSearchConfirmedListener((searchView, query) -> {
             if (!persistentSearchView.isInputQueryEmpty()) {
                 try {
-
+                    Log.e("TEST", String.valueOf(range));
+                    Log.e("TEST", String.valueOf(min_duration));
                     addresses = geocoder.getFromLocationName(persistentSearchView.getInputQuery(), 1);
                     if (!addresses.isEmpty()) {
                         LatLng latLng = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
@@ -172,26 +175,26 @@ public class GeoSearchActivity extends AppCompatActivity implements SearchContra
                 extreme.setChecked(false);
                 tagGroup.setTags(tags);
 
-                ((EditText) dialog.findViewById(R.id.activitySearch_range)).setText("");
-                ((EditText) dialog.findViewById(R.id.activitySearch_duration)).setText("");
+                ((Slider) dialog.findViewById(R.id.activitySearch_range)).setValue(0);
+                ((Slider) dialog.findViewById(R.id.activitySearch_duration)).setValue(0);
                 ((CheckBox) dialog.findViewById(R.id.activitySearch_disability)).setChecked(false);
 
             });
 
             dialog.findViewById(R.id.activitySearch_ok).setOnClickListener(v -> {
 
-                String range_string = ((EditText) dialog.findViewById(R.id.activitySearch_range)).getText().toString();
-                String min_duration_string = ((EditText) dialog.findViewById(R.id.activitySearch_duration)).getText().toString();
+                int range_slider = (int) ((Slider) dialog.findViewById(R.id.activitySearch_range)).getValue();
+                int min_duration_slider = (int) ((Slider) dialog.findViewById(R.id.activitySearch_duration)).getValue();
 
                 try {
-                    if (!range_string.equals("")) range = getMeters(Integer.parseInt(range_string));
+                    if (range_slider!=0) range = getMeters(range_slider);
                 } catch (ArithmeticException exception) {
                     range = Integer.MAX_VALUE;
                 }
 
                 try {
-                    if (!min_duration_string.equals(""))
-                        min_duration = Integer.parseInt(min_duration_string);
+                    if (min_duration_slider!=0)
+                        min_duration = min_duration_slider;
                 } catch (ArithmeticException exception) {
                     min_duration = Integer.MAX_VALUE;
                 }

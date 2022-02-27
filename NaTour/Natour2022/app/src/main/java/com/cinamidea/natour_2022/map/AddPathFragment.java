@@ -1,6 +1,7 @@
 package com.cinamidea.natour_2022.map;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -53,6 +55,7 @@ public class AddPathFragment extends Fragment {
     private final ArrayList<Marker> AllMarkers = new ArrayList<Marker>();
     private List<LatLng> path = new ArrayList<>();
     private ImageButton button_success, button_cancel, button_add_gpx;
+    private Button button_help;
     private int check_long_press_map_click = 0;
 
 
@@ -145,6 +148,7 @@ public class AddPathFragment extends Fragment {
         button_cancel = view.findViewById(R.id.activityMap_cancel);
         button_success = view.findViewById(R.id.activityMap_success);
         button_add_gpx = view.findViewById(R.id.activityMap_gpx);
+        button_help = view.findViewById(R.id.activityMap_help);
         setListeners();
 
     }
@@ -187,6 +191,19 @@ public class AddPathFragment extends Fragment {
             intent.putParcelableArrayListExtra("path", (ArrayList<? extends Parcelable>) path);
             intent.setClass(getContext(), CreatePathActivity.class);
             startActivity(intent);
+        });
+
+        button_help.setOnClickListener(view -> {
+
+            Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.dialog_help);
+            dialog.getWindow().setBackgroundDrawable(getActivity().getDrawable(R.drawable.background_alert_dialog));
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+
+            dialog.findViewById(R.id.dialogHelp_button).setOnClickListener(v -> dialog.dismiss());
+
         });
 
     }

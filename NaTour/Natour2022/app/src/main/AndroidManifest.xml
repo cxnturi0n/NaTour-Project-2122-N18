@@ -34,35 +34,45 @@
 
         <activity
             android:name=".navigation.search.views.GeoSearchActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".navigation.search.views.CompletedGeoSearchActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".admin.AdminActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".navigation.compilation.views.CompilationActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".navigation.compilation.views.CompilationRoutesActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".map.DetailedMap"
+            android:launchMode="singleTask"
             android:exported="false"
             android:label="@string/title_activity_detailed_map" />
         <activity
             android:name=".navigation.compilation.views.CreateCompilationActivity"
+            android:launchMode="singleTask"
             android:exported="false"
             android:label="@string/title_activity_detailed_map" />
         <activity
             android:name=".auth.changepassword.ChangePasswordActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".navigation.search.views.SearchActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".auth.resetpassword.views.ResetCRActivity"
+            android:launchMode="singleTask"
             android:exported="false" />
         <activity
             android:name=".map.MapActivity"

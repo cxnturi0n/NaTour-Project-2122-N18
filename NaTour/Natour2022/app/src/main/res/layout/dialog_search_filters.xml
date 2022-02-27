@@ -16,19 +16,16 @@
         android:textColor="@color/natour_black"
         android:textSize="18sp"/>
 
-    <EditText
+    <com.google.android.material.slider.Slider
         android:id="@+id/activitySearch_range"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:valueFrom="0"
+        android:valueTo="6371"
+        android:stepSize="1"
         android:layout_marginEnd="64dp"
-
-        android:layout_marginTop="8dp"
-        android:hint="@string/activitySearch_range"
-        android:background="@drawable/background_edit_text"
-        android:fontFamily="sans-serif-light"
-        android:inputType="number"
-        android:paddingHorizontal="16dp" />
+        />
 
     <TextView
         android:layout_marginTop="16dp"
@@ -40,22 +37,19 @@
         android:textColor="@color/natour_black"
         android:textSize="18sp"/>
 
-    <EditText
+    <com.google.android.material.slider.Slider
         android:id="@+id/activitySearch_duration"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:valueFrom="0"
+        android:valueTo="720"
+        android:stepSize="1"
         android:layout_marginEnd="64dp"
-        android:paddingEnd="32dp"
-        android:layout_marginTop="8dp"
-        android:hint="@string/activitySearch_minduration"
-        android:background="@drawable/background_edit_text"
-        android:fontFamily="sans-serif-light"
-        android:inputType="number"
-        android:paddingHorizontal="16dp" />
+        />
 
     <TextView
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
@@ -194,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@id/activitySearch_ok"
-            android:layout_marginEnd="80dp"
+            android:layout_marginEnd="96dp"
             android:background="@color/natour_transparent"
             android:text="@string/activitySearch_cancel"
             android:textColor="@color/natour_green"
