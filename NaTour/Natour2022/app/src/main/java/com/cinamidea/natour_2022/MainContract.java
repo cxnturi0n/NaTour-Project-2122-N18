@@ -18,7 +18,7 @@ public interface MainContract {
         interface OnFinishListener{
             void onSuccess();
             void onUserUnauthorized(String message);
-            void onNetworkError(String message);
+            void onError(String message);
         }
 
         void cognitoSilentSignIn(UserType user_type, OnFinishListener listener);

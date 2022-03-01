@@ -36,7 +36,7 @@ public class ProfileFavouriteRoutesFragment extends Fragment implements ProfileF
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         userType = new UserType(getContext());
-        presenter = new ProfileFavouriteRoutesPresenter(this);
+        presenter = new ProfileFavouriteRoutesPresenter(this, new ProfileFavouriteRoutesModel());
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile_preferred_roads, container, false);
         setupViewComponents(view);

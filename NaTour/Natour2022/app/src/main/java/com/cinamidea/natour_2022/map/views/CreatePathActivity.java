@@ -29,6 +29,7 @@ import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.contracts.CreatePathActivityContract;
+import com.cinamidea.natour_2022.map.models.CreatePathActivityModel;
 import com.cinamidea.natour_2022.map.presenters.CreatePathActivityPresenter;
 import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
@@ -77,7 +78,7 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
     }
 
     private void setupComponents() {
-        presenter = new CreatePathActivityPresenter(this);
+        presenter = new CreatePathActivityPresenter(this, new CreatePathActivityModel());
         path = new ArrayList<>();
         Intent intent = getIntent();
         if (intent != null)

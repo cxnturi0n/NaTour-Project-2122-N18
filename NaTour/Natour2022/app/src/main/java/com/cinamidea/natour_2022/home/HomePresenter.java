@@ -10,9 +10,9 @@ public class HomePresenter implements HomeContract.Presenter {
     private final HomeContract.Model model;
 
 
-    public HomePresenter(HomeContract.View view) {
+    public HomePresenter(HomeContract.View view, HomeContract.Model model) {
         this.view = view;
-        this.model = new HomeModel();
+        this.model = model;
     }
 
     @Override

@@ -9,8 +9,8 @@ public class ProfileFavouriteRoutesPresenter implements ProfileFavouriteRoutesCo
     private ProfileFavouriteRoutesContract.Model model;
     private ProfileFavouriteRoutesContract.View view;
 
-    public ProfileFavouriteRoutesPresenter(ProfileFavouriteRoutesContract.View view) {
-        this.model = new ProfileFavouriteRoutesModel();
+    public ProfileFavouriteRoutesPresenter(ProfileFavouriteRoutesContract.View view, ProfileFavouriteRoutesContract.Model model) {
+        this.model = model;
         this.view = view;
     }
 

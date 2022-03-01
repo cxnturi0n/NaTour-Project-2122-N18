@@ -28,6 +28,7 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
 import com.cinamidea.natour_2022.navigation.search.SearchContract;
+import com.cinamidea.natour_2022.navigation.search.SearchModel;
 import com.cinamidea.natour_2022.navigation.search.SearchPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.gms.maps.model.LatLng;
@@ -72,7 +73,7 @@ public class GeoSearchActivity extends AppCompatActivity implements SearchContra
         persistentSearchView = findViewById(R.id.activityGeoSearch_search);
         persistentSearchView.showRightButton();
 
-        presenter = new SearchPresenter(this);
+        presenter = new SearchPresenter(this, new SearchModel());
 
 
         FragmentManager fragmentManager = getSupportFragmentManager();

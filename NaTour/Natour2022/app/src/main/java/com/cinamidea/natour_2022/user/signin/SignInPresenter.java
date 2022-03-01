@@ -10,9 +10,9 @@ public class SignInPresenter implements SignInContract.Presenter, SignInContract
     // creating object of Model Interface
     private final SignInContract.Model model;
 
-    public SignInPresenter(SignInContract.View view) {
+    public SignInPresenter(SignInContract.View view, SignInContract.Model model) {
         this.view = view;
-        this.model = new SignInModel();
+        this.model = model;
     }
 
     @Override

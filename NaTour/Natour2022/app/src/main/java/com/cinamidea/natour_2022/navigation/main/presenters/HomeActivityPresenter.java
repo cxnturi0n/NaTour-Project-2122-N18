@@ -13,11 +13,11 @@ import java.io.InputStream;
 import java.util.Base64;
 
 public class HomeActivityPresenter implements HomeActivityContract.Presenter {
-    HomeActivityContract.Model model;
-    HomeActivityContract.View view;
+    private HomeActivityContract.Model model;
+    private HomeActivityContract.View view;
 
-    public HomeActivityPresenter(HomeActivityContract.View view) {
-        this.model = new HomeActivityModel();
+    public HomeActivityPresenter(HomeActivityContract.View view, HomeActivityContract.Model model) {
+        this.model = model;
         this.view = view;
     }
 

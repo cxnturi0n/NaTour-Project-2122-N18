@@ -38,7 +38,7 @@ public class MainModel implements MainContract.Model{
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onNetworkError("Network error");
+                listener.onError("Network error");
             }
 
             @Override
@@ -48,8 +48,7 @@ public class MainModel implements MainContract.Model{
                 if (response_code == 200) {
                     //Token is valid
                     listener.onSuccess();
-                } else {
-                    //Token is expired
+                } else { //Token is expired
                     if(message.contains("expired"))
                         refreshCognitoIdAndAccessTokens(user_type, listener);
                     else //Invalid token
@@ -68,7 +67,7 @@ public class MainModel implements MainContract.Model{
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                listener.onNetworkError("Network error");
+                listener.onError("Network error");
             }
 
             @Override

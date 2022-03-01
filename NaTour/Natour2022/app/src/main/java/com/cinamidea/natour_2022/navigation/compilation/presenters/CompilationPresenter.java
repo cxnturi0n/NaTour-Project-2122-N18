@@ -11,9 +11,9 @@ public class CompilationPresenter implements CompilationContract.Presenter, Comp
     private final CompilationContract.View view;
     private final CompilationContract.Model model;
 
-    public CompilationPresenter(CompilationContract.View view) {
+    public CompilationPresenter(CompilationContract.View view, CompilationContract.Model model) {
         this.view = view;
-        this.model = new CompilationModel();
+        this.model = model;
     }
 
     @Override

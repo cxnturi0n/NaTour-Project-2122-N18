@@ -25,7 +25,7 @@ public class AdminActivity extends AppCompatActivity implements AdminContract.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        presenter = new AdminPresenter(this);
+        presenter = new AdminPresenter(this, new AdminModel());
 
         button_back = findViewById(R.id.activityAdmin_backbutton);
         button_send = findViewById(R.id.activityAdmin_send);

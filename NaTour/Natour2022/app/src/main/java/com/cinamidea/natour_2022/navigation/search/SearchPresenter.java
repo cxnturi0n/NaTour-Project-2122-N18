@@ -10,9 +10,9 @@ public class SearchPresenter implements SearchContract.Presenter{
     private final SearchContract.View view;
     private final SearchContract.Model model;
 
-    public SearchPresenter(SearchContract.View view) {
+    public SearchPresenter(SearchContract.View view, SearchContract.Model model) {
         this.view = view;
-        this.model = new SearchModel();
+        this.model = model;
     }
 
     @Override

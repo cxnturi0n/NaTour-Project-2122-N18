@@ -1,5 +1,6 @@
 package com.cinamidea.natour_2022.report;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Report;
 import com.cinamidea.natour_2022.utilities.UserType;
@@ -27,7 +29,7 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
-        presenter = new ReportPresenter(this);
+        presenter = new ReportPresenter(this, new ReportModel());
 
         route_name = getIntent().getStringExtra("route_name");
         button_back = findViewById(R.id.activityReport_backbutton);
@@ -75,5 +77,12 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
     @Override
     public void displayError(String message) {
             //TODO TOAST + ACTIVITY FINISH
+    }
+
+    @Override
+    public void logOutUnauthorizedUser() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

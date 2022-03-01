@@ -7,9 +7,9 @@ public class ChangePasswordPresenter implements ChangePasswordContract.Presenter
     private final ChangePasswordContract.View view;
     private final ChangePasswordContract.Model model;
 
-    public ChangePasswordPresenter(ChangePasswordContract.View view) {
+    public ChangePasswordPresenter(ChangePasswordContract.View view, ChangePasswordContract.Model model) {
         this.view = view;
-        this.model = new ChangePasswordModel();
+        this.model = model;
     }
 
     @Override
@@ -31,11 +31,6 @@ public class ChangePasswordPresenter implements ChangePasswordContract.Presenter
     @Override
     public void onUserUnauthorized(String response) {
         view.logOutUnauthorizedUser();
-    }
-
-    @Override
-    public void onNetworkError(String response) {
-        view.displayError(response);
     }
 
 }

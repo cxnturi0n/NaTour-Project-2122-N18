@@ -6,8 +6,8 @@ public class HomeRecyclerPresenter implements HomeRecyclerContract.Presenter {
     private final HomeRecyclerContract.View view;
     private final int position;
 
-    public HomeRecyclerPresenter(HomeRecyclerContract.View view, int position) {
-        this.model = new HomeRecyclerModel();
+    public HomeRecyclerPresenter(HomeRecyclerContract.View view, int position, HomeRecyclerContract.Model model) {
+        this.model = model;
         this.view = view;
         this.position = position;
     }

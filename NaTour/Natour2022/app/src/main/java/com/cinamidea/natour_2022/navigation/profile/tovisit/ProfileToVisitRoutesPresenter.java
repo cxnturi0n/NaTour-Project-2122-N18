@@ -10,8 +10,8 @@ public class ProfileToVisitRoutesPresenter implements ProfileToVisitRoutesContra
     private ProfileToVisitRoutesContract.Model model;
     private ProfileToVisitRoutesContract.View view;
 
-    public ProfileToVisitRoutesPresenter(ProfileToVisitRoutesContract.View view) {
-        this.model= new ProfileToVisitRoutesModel();
+    public ProfileToVisitRoutesPresenter(ProfileToVisitRoutesContract.View view, ProfileToVisitRoutesContract.Model model) {
+        this.model= model;
         this.view = view;
     }
 

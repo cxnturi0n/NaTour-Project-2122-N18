@@ -436,13 +436,30 @@
 											"height": 13,
 											"text": "+insertRoute(route: Route): void",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF/Rl/W3qnO9tM=",
+											"_parent": {
+												"$ref": "AAAAAAF/P91di+POEUg="
+											},
+											"model": {
+												"$ref": "AAAAAAF/Rl/W0qnLXNA="
+											},
+											"font": "Arial;13;0",
+											"left": 1013,
+											"top": 1169,
+											"width": 219.7685546875,
+											"height": 13,
+											"text": "+updateUserPosition(): void",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 1008,
 									"top": 1104,
 									"width": 229.7685546875,
-									"height": 68
+									"height": 83
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -482,7 +499,7 @@
 							"left": 1008,
 							"top": 1056,
 							"width": 229.7685546875,
-							"height": 116,
+							"height": 131,
 							"nameCompartment": {
 								"$ref": "AAAAAAF/P91di+PI+T4="
 							},
@@ -2432,8 +2449,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1136,
-									"top": 1210,
+									"left": 1137,
+									"top": 1218,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -2453,8 +2470,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 1151,
-									"top": 1210,
+									"left": 1152,
+									"top": 1218,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -2474,8 +2491,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1107,
-									"top": 1211,
+									"left": 1108,
+									"top": 1219,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -2495,8 +2512,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1137,
-									"top": 1191,
+									"left": 1138,
+									"top": 1206,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -2516,8 +2533,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1150,
-									"top": 1193,
+									"left": 1151,
+									"top": 1209,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -2537,8 +2554,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1109,
-									"top": 1187,
+									"left": 1110,
+									"top": 1202,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -2558,8 +2575,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1137,
-									"top": 1230,
+									"left": 1138,
+									"top": 1231,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -2578,7 +2595,7 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 1150,
+									"left": 1151,
 									"top": 1228,
 									"height": 13,
 									"alpha": -0.7853981633974483,
@@ -2645,7 +2662,7 @@
 								"$ref": "AAAAAAF/P91di+PHqRE="
 							},
 							"lineStyle": 1,
-							"points": "1122:1172;1123:1263",
+							"points": "1123:1187;1123:1263",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF/QAoDJui9qQY="
@@ -3974,6 +3991,25 @@
 									"_id": "AAAAAAF/P/tQauYeDco=",
 									"_parent": {
 										"$ref": "AAAAAAF/P/bUTeYVBao="
+									},
+									"type": "void",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF/Rl/W0qnLXNA=",
+							"_parent": {
+								"$ref": "AAAAAAF/P91di+PFFz8="
+							},
+							"name": "updateUserPosition",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF/RmAQ5qpiuZQ=",
+									"_parent": {
+										"$ref": "AAAAAAF/Rl/W0qnLXNA="
 									},
 									"type": "void",
 									"direction": "return"

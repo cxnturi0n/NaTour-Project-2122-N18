@@ -8,9 +8,9 @@ public class CompilationRecyclerPresenter implements CompilationRecyclerContract
     private final CompilationRecyclerContract.View view;
     private final CompilationRecyclerContract.Model model;
 
-    public CompilationRecyclerPresenter(CompilationRecyclerContract.View view) {
+    public CompilationRecyclerPresenter(CompilationRecyclerContract.View view, CompilationRecyclerContract.Model model) {
         this.view = view;
-        this.model = new CompilationRecyclerModel();
+        this.model = model;
     }
 
     @Override

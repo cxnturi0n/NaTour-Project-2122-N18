@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.admin.AdminActivity;
+import com.cinamidea.natour_2022.navigation.main.models.HomeActivityModel;
 import com.cinamidea.natour_2022.user.changepassword.ChangePasswordActivity;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
 import com.cinamidea.natour_2022.map.MapActivity;
@@ -97,7 +98,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
         setupChatUser();
         setListeners();
 
-        presenter = new HomeActivityPresenter(this);
+        presenter = new HomeActivityPresenter(this, new HomeActivityModel());
         fragmentManager = getSupportFragmentManager();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

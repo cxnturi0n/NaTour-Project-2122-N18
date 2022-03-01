@@ -8,7 +8,7 @@ public interface ReportContract {
 
         void reportDone(String message);
         void displayError(String message);
-
+        void logOutUnauthorizedUser();
     }
 
     interface Presenter {
@@ -21,7 +21,8 @@ public interface ReportContract {
 
         interface OnFinishListener {
             void onSuccess(String message);
-            void onFailure(String message);
+            void onError(String message);
+            void onUserUnauthorized();
         }
 
         void sendReport(String id_token, Report report, OnFinishListener listener);

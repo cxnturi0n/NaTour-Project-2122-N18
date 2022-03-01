@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new HomePresenter(this);
+        presenter = new HomePresenter(this, new HomeModel());
         user_type = new UserType(getActivity());
         setupViewComponents();
         filterListeners();

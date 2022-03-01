@@ -14,6 +14,7 @@ import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.compilation.contracts.CompilationRoutesContract;
+import com.cinamidea.natour_2022.navigation.compilation.models.CompilationRoutesModel;
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CompilationRoutesPresenter;
 import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.utilities.UserType;
@@ -34,7 +35,7 @@ public class CompilationRoutesActivity extends AppCompatActivity implements  Com
         setContentView(R.layout.activity_routes_in_compilation);
 
         progressBar = findViewById(R.id.activityRoutesCompilation_progress);
-        presenter = new CompilationRoutesPresenter(this);
+        presenter = new CompilationRoutesPresenter(this, new CompilationRoutesModel());
 
         loadRecyclerView();
     }

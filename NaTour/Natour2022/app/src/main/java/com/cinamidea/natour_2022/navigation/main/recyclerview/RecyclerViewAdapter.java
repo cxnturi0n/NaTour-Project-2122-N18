@@ -132,7 +132,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.presenter = new HomeRecyclerPresenter(holder, position);
+        holder.presenter = new HomeRecyclerPresenter(holder, position, new HomeRecyclerModel());
 
         Route route = routes.get(position);
         setupHolder(holder, route);

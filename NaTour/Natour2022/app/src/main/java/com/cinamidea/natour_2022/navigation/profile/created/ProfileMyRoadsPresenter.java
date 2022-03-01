@@ -8,8 +8,8 @@ public class ProfileMyRoadsPresenter implements ProfileMyRoadsContract.Presenter
     private ProfileMyRoadsContract.Model model;
     private ProfileMyRoadsContract.View view;
 
-    public ProfileMyRoadsPresenter(ProfileMyRoadsContract.View view) {
-        this.model = new ProfileMyRoadsModel();
+    public ProfileMyRoadsPresenter(ProfileMyRoadsContract.View view, ProfileMyRoadsContract.Model model) {
+        this.model = model;
         this.view = view;
     }
 

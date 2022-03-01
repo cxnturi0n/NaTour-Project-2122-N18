@@ -15,6 +15,7 @@ import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.RoutesCompilation;
 import com.cinamidea.natour_2022.navigation.compilation.CompilationRecyclerAdapter;
 import com.cinamidea.natour_2022.navigation.compilation.contracts.CompilationContract;
+import com.cinamidea.natour_2022.navigation.compilation.models.CompilationModel;
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CompilationPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,7 +38,7 @@ public class CompilationActivity extends AppCompatActivity implements Compilatio
 
         button_add = findViewById(R.id.activityCompilation_add);
         progressBar = findViewById(R.id.activityCompilation_progress);
-        presenter = new CompilationPresenter(this);
+        presenter = new CompilationPresenter(this, new CompilationModel());
 
         extra = getIntent().getStringExtra("route_name");
         if(extra!=null) {

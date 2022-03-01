@@ -26,6 +26,7 @@ import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.contracts.AllPathFragmentContract;
+import com.cinamidea.natour_2022.map.models.AllPathFragmentModel;
 import com.cinamidea.natour_2022.map.presenters.AllPathFragmentPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -76,7 +77,7 @@ public class AllPathsFragment extends Fragment implements AllPathFragmentContrac
                              @Nullable Bundle savedInstanceState) {
 
         // instantiating object of AllPathFragmentPresenter Interface
-        presenter = new AllPathFragmentPresenter(this);
+        presenter = new AllPathFragmentPresenter(this, new AllPathFragmentModel());
         return inflater.inflate(R.layout.fragment_all_paths, container, false);
     }
 

@@ -28,7 +28,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
 
         setupComponents();
         setListeners();
-        presenter = new ChangePasswordPresenter(this);
+        presenter = new ChangePasswordPresenter(this, new ChangePasswordModel());
     }
 
     private void setupComponents() {

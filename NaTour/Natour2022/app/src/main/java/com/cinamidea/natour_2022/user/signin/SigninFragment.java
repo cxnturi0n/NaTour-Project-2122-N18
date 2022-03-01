@@ -43,7 +43,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        presenter = new SignInPresenter(this);
+        presenter = new SignInPresenter(this, new SignInModel());
 
         initGoogleAuthVars();
         // Inflate the layout for this fragment

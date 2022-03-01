@@ -7,9 +7,9 @@ public class ReportPresenter implements ReportContract.Presenter, ReportContract
     private final ReportContract.View view;
     private final ReportContract.Model model;
 
-    public ReportPresenter(ReportContract.View view) {
+    public ReportPresenter(ReportContract.View view, ReportContract.Model model) {
         this.view = view;
-        this.model = new ReportModel();
+        this.model = model;
     }
 
 
@@ -19,8 +19,13 @@ public class ReportPresenter implements ReportContract.Presenter, ReportContract
     }
 
     @Override
-    public void onFailure(String message) {
+    public void onError(String message) {
         view.displayError(message);
+    }
+
+    @Override
+    public void onUserUnauthorized() {
+        view.logOutUnauthorizedUser();
     }
 
     @Override

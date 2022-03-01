@@ -16,6 +16,7 @@ import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.RoutesCompilation;
 import com.cinamidea.natour_2022.navigation.compilation.contracts.CompilationRecyclerContract;
+import com.cinamidea.natour_2022.navigation.compilation.models.CompilationRecyclerModel;
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CompilationRecyclerPresenter;
 import com.cinamidea.natour_2022.navigation.compilation.views.CompilationRoutesActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
@@ -47,7 +48,7 @@ public class CompilationRecyclerAdapter extends RecyclerView.Adapter<Compilation
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.presenter = new CompilationRecyclerPresenter(holder);
+        holder.presenter = new CompilationRecyclerPresenter(holder, new CompilationRecyclerModel());
 
         RoutesCompilation routecompilation;
 

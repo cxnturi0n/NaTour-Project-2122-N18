@@ -19,6 +19,7 @@ import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
 import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.navigation.search.SearchContract;
+import com.cinamidea.natour_2022.navigation.search.SearchModel;
 import com.cinamidea.natour_2022.navigation.search.SearchPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
 import com.paulrybitskyi.persistentsearchview.PersistentSearchView;
@@ -43,7 +44,7 @@ public class SearchActivity extends AppCompatActivity implements SearchContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        presenter = new SearchPresenter(this);
+        presenter = new SearchPresenter(this, new SearchModel());
 
         button_back = findViewById(R.id.activitySearch_backbutton);
         recyclerView = findViewById(R.id.activitySearch_recyclerview);

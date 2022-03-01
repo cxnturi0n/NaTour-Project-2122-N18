@@ -15,6 +15,7 @@ import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.RoutesCompilation;
 import com.cinamidea.natour_2022.navigation.compilation.contracts.CreateCompilationContract;
+import com.cinamidea.natour_2022.navigation.compilation.models.CreateCompilationModel;
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CreateCompilationPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
 
@@ -33,7 +34,7 @@ public class CreateCompilationActivity extends AppCompatActivity implements Crea
         button_back = findViewById(R.id.activityCreateCompilation_backbutton);
         button_create = findViewById(R.id.activityCreateCompilation_create);
         progressBar = findViewById(R.id.activityCreateCompilation_progress);
-        presenter = new CreateCompilationPresenter(this);
+        presenter = new CreateCompilationPresenter(this, new CreateCompilationModel());
 
         listeners();
 

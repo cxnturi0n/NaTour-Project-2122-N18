@@ -16,9 +16,9 @@ public class CompilationRoutesPresenter implements  CompilationRoutesContract.Pr
     volatile ArrayList<Route> user_routes;
 
 
-    public CompilationRoutesPresenter(CompilationRoutesContract.View view) {
+    public CompilationRoutesPresenter(CompilationRoutesContract.View view, CompilationRoutesContract.Model model) {
         this.view = view;
-        this.model = new CompilationRoutesModel();
+        this.model = model;
     }
 
     @Override

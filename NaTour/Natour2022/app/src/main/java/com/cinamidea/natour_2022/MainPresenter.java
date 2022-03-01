@@ -36,7 +36,7 @@ public class MainPresenter implements MainContract.Presenter, MainContract.Model
     }
 
     @Override
-    public void onNetworkError(String message) {
+    public void onError(String message) {
         view.displayError(message);
     }
 

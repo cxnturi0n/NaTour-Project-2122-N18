@@ -17,7 +17,6 @@ public interface ChangePasswordContract {
             void onSuccess();
             void onError(String response);
             void onUserUnauthorized(String response);
-            void onNetworkError(String response);
 
         }
         void changePassword(UserType user_type, String old_password, String new_password, Model.OnFinishedListener listener);

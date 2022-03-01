@@ -30,7 +30,7 @@ public class ReportModel implements ReportContract.Model{
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    listener.onFailure("Network error");
+                    listener.onError("Network error");
                 }
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -39,12 +39,12 @@ public class ReportModel implements ReportContract.Model{
                     if(response_code == 200)
                         listener.onSuccess(message);
                     else
-                        listener.onFailure(ResponseDeserializer.jsonToMessage(message));
+                        listener.onError(ResponseDeserializer.jsonToMessage(message));
                 }
             });
 
         }else{
-            listener.onFailure("Title or description is too short");
+            listener.onError("Title or description is too short");
         }
 
     }

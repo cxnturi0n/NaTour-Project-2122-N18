@@ -11,9 +11,9 @@ public class CreateCompilationPresenter implements CreateCompilationContract.Pre
     private final CreateCompilationContract.View view;
     private final CreateCompilationContract.Model model;
 
-    public CreateCompilationPresenter(CreateCompilationContract.View view) {
+    public CreateCompilationPresenter(CreateCompilationContract.View view, CreateCompilationContract.Model model) {
         this.view = view;
-        this.model = new CreateCompilationModel();
+        this.model = model;
     }
 
 

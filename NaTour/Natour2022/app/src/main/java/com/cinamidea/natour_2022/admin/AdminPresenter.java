@@ -7,9 +7,9 @@ public class AdminPresenter implements AdminContract.Presenter, AdminContract.Mo
     private final AdminContract.View view;
     private final AdminContract.Model model;
 
-    public AdminPresenter(AdminContract.View view) {
+    public AdminPresenter(AdminContract.View view, AdminContract.Model model) {
         this.view = view;
-        this.model = new AdminModel();
+        this.model = model;
     }
 
     @Override

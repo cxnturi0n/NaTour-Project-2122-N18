@@ -35,7 +35,7 @@ public class ProfileMyRoadsFragment extends Fragment implements ProfileMyRoadsCo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         userType = new UserType(getContext());
-        presenter = new ProfileMyRoadsPresenter(this);
+        presenter = new ProfileMyRoadsPresenter(this, new ProfileMyRoadsModel());
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile_my_roads, container, false);
         setupViewComponents(view);

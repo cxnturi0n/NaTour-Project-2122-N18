@@ -9,9 +9,9 @@ public class CreatePathActivityPresenter implements CreatePathActivityContract.P
     private CreatePathActivityContract.View view;
     private CreatePathActivityContract.Model model;
 
-    public CreatePathActivityPresenter(CreatePathActivityContract.View view) {
+    public CreatePathActivityPresenter(CreatePathActivityContract.View view, CreatePathActivityContract.Model model) {
         this.view = view;
-        this.model = new CreatePathActivityModel();
+        this.model = model;
     }
 
     @Override

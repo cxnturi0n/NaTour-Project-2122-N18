@@ -8,9 +8,9 @@ public class AllPathFragmentPresenter implements AllPathFragmentContract.Present
     private AllPathFragmentContract.View view;
     private AllPathFragmentContract.Model model;
 
-    public AllPathFragmentPresenter(AllPathFragmentContract.View allPathFragments) {
+    public AllPathFragmentPresenter(AllPathFragmentContract.View allPathFragments, AllPathFragmentContract.Model model) {
         this.view = allPathFragments;
-        this.model = new AllPathFragmentModel();
+        this.model = model;
     }
 
     @Override
