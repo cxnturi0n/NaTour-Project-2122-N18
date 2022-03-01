@@ -170,7 +170,7 @@
 											"top": 786,
 											"width": 199.05615234375,
 											"height": 13,
-											"text": "-displayGpxFiles(): void",
+											"text": "+displayGpxFiles(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -187,7 +187,7 @@
 											"top": 801,
 											"width": 199.05615234375,
 											"height": 13,
-											"text": "-confirmGpxButtonPressed(): void",
+											"text": "+confirmGpxButtonPressed(): void",
 											"horizontalAlignment": 0
 										}
 									],
@@ -1098,7 +1098,7 @@
 											"top": 861,
 											"width": 239.916015625,
 											"height": 13,
-											"text": "-displayRoutes(): void",
+											"text": "+displayRoutes(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1115,7 +1115,7 @@
 											"top": 876,
 											"width": 239.916015625,
 											"height": 13,
-											"text": "-zoomToMyPosition(): void",
+											"text": "+zoomToMyPosition(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1132,7 +1132,7 @@
 											"top": 891,
 											"width": 239.916015625,
 											"height": 13,
-											"text": "-viewRoutesButtonPressed(): void",
+											"text": "+viewRoutesButtonPressed(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1149,7 +1149,7 @@
 											"top": 906,
 											"width": 239.916015625,
 											"height": 13,
-											"text": "-addRouteButtonPressed(): void",
+											"text": "+addRouteButtonPressed(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1166,7 +1166,7 @@
 											"top": 921,
 											"width": 239.916015625,
 											"height": 13,
-											"text": "-addGpxButtonPressed(): void",
+											"text": "+addGpxButtonPressed(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1183,7 +1183,7 @@
 											"top": 936,
 											"width": 239.916015625,
 											"height": 13,
-											"text": "-cancelMarkersButtonPressed(): void",
+											"text": "+cancelMarkersButtonPressed(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1200,7 +1200,7 @@
 											"top": 951,
 											"width": 239.916015625,
 											"height": 13,
-											"text": "-confirmMarkersButtonPressed(): void",
+											"text": "+confirmMarkersButtonPressed(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1217,7 +1217,7 @@
 											"top": 966,
 											"width": 239.916015625,
 											"height": 13,
-											"text": "-myPositionButtonPressed(): void",
+											"text": "+myPositionButtonPressed(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1234,7 +1234,7 @@
 											"top": 981,
 											"width": 239.916015625,
 											"height": 13,
-											"text": "-drawRoute(): void",
+											"text": "+drawRoute(): void",
 											"horizontalAlignment": 0
 										}
 									],
@@ -1564,7 +1564,7 @@
 											"top": 891,
 											"width": 248.193359375,
 											"height": 13,
-											"text": "-continueButtonPressed(): void",
+											"text": "+continueButtonPressed(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1581,7 +1581,7 @@
 											"top": 906,
 											"width": 248.193359375,
 											"height": 13,
-											"text": "-addImageButtonPressed(): void",
+											"text": "+addImageButtonPressed(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1813,7 +1813,7 @@
 											"top": 786,
 											"width": 211.34521484375,
 											"height": 13,
-											"text": "-displayGallery(): void",
+											"text": "+displayGallery(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1830,7 +1830,7 @@
 											"top": 801,
 											"width": 211.34521484375,
 											"height": 13,
-											"text": "-confirmImageButtonPressed(): void",
+											"text": "+confirmImageButtonPressed(): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3823,7 +3823,6 @@
 								"$ref": "AAAAAAF/P91SEuOcU/0="
 							},
 							"name": "displayGpxFiles",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -3843,7 +3842,6 @@
 								"$ref": "AAAAAAF/P91SEuOcU/0="
 							},
 							"name": "confirmGpxButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4268,7 +4266,6 @@
 								"$ref": "AAAAAAF/P919leQXJlY="
 							},
 							"name": "displayRoutes",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4288,7 +4285,6 @@
 								"$ref": "AAAAAAF/P919leQXJlY="
 							},
 							"name": "zoomToMyPosition",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4308,7 +4304,6 @@
 								"$ref": "AAAAAAF/P919leQXJlY="
 							},
 							"name": "viewRoutesButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4328,7 +4323,6 @@
 								"$ref": "AAAAAAF/P919leQXJlY="
 							},
 							"name": "addRouteButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4348,7 +4342,6 @@
 								"$ref": "AAAAAAF/P919leQXJlY="
 							},
 							"name": "addGpxButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4368,7 +4361,6 @@
 								"$ref": "AAAAAAF/P919leQXJlY="
 							},
 							"name": "cancelMarkersButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4388,7 +4380,6 @@
 								"$ref": "AAAAAAF/P919leQXJlY="
 							},
 							"name": "confirmMarkersButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4408,7 +4399,6 @@
 								"$ref": "AAAAAAF/P919leQXJlY="
 							},
 							"name": "myPositionButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4428,7 +4418,6 @@
 								"$ref": "AAAAAAF/P919leQXJlY="
 							},
 							"name": "drawRoute",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4572,7 +4561,6 @@
 								"$ref": "AAAAAAF/P+dF9uUa3gs="
 							},
 							"name": "continueButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4592,7 +4580,6 @@
 								"$ref": "AAAAAAF/P+dF9uUa3gs="
 							},
 							"name": "addImageButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4685,7 +4672,6 @@
 								"$ref": "AAAAAAF/P+/nf+W8HAQ="
 							},
 							"name": "displayGallery",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -4705,7 +4691,6 @@
 								"$ref": "AAAAAAF/P+/nf+W8HAQ="
 							},
 							"name": "confirmImageButtonPressed",
-							"visibility": "private",
 							"parameters": [
 								{
 									"_type": "UMLParameter",
@@ -5355,7 +5340,7 @@
 									"containerExtending": true,
 									"left": 212,
 									"top": 112,
-									"width": 84.68359375,
+									"width": 84,
 									"height": 38,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU6pfo4tQ="
@@ -10155,7 +10140,7 @@
 									"containerExtending": true,
 									"left": 556,
 									"top": 540,
-									"width": 102.6484375,
+									"width": 102,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7JjRyrM="
@@ -10462,7 +10447,7 @@
 									"containerExtending": true,
 									"left": 720,
 									"top": 592,
-									"width": 98.67578125,
+									"width": 98,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7JjipRk="
@@ -11804,7 +11789,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 644,
-									"width": 79.380859375,
+									"width": 71.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7JkkNoA="
@@ -11990,7 +11975,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 708,
-									"width": 79.380859375,
+									"width": 71.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7Zkui3w="
@@ -12176,7 +12161,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 764,
-									"width": 79.380859375,
+									"width": 71.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7Zk4G8c="
@@ -12362,7 +12347,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 820,
-									"width": 92.013671875,
+									"width": 82.685546875,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7ZlCIII="
@@ -12548,7 +12533,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 876,
-									"width": 79.380859375,
+									"width": 71.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7ZlMH98="
@@ -13426,7 +13411,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 24,
-									"width": 79.380859375,
+									"width": 71.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7Zl0Th4="
@@ -13474,7 +13459,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 60,
-									"width": 120.396484375,
+									"width": 112.427734375,
 									"height": 22
 								},
 								{
@@ -13629,7 +13614,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 96,
-									"width": 79.380859375,
+									"width": 71.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7Zl/P5Q="
@@ -13815,7 +13800,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 148,
-									"width": 79.380859375,
+									"width": 71.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7ZmJCw0="
@@ -14581,7 +14566,7 @@
 									"containerExtending": true,
 									"left": 724,
 									"top": 888,
-									"width": 85.345703125,
+									"width": 85,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF/QDOU7Zmv2ig="

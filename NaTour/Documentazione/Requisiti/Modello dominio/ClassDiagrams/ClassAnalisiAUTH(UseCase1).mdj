@@ -2158,47 +2158,13 @@
 											"height": 13,
 											"text": "-logoutButton: Button",
 											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLAttributeView",
-											"_id": "AAAAAAF/HC3Fi871SV0=",
-											"_parent": {
-												"$ref": "AAAAAAF/HCvdAcxeYi0="
-											},
-											"model": {
-												"$ref": "AAAAAAF/HC3Fds7pMBc="
-											},
-											"font": "Arial;13;0",
-											"left": 1445,
-											"top": 881,
-											"width": 251.83056640625,
-											"height": 13,
-											"text": "-editProfilePicButton: Button",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLAttributeView",
-											"_id": "AAAAAAF/HC39Z89O8hU=",
-											"_parent": {
-												"$ref": "AAAAAAF/HCvdAcxeYi0="
-											},
-											"model": {
-												"$ref": "AAAAAAF/HC39Us9CCd0="
-											},
-											"font": "Arial;13;0",
-											"left": 1445,
-											"top": 896,
-											"width": 251.83056640625,
-											"height": 13,
-											"text": "-routesCollectionsButton: Button",
-											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 1440,
 									"top": 846,
 									"width": 261.83056640625,
-									"height": 68
+									"height": 38
 								},
 								{
 									"_type": "UMLOperationCompartmentView",
@@ -2221,7 +2187,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1445,
-											"top": 919,
+											"top": 889,
 											"width": 251.83056640625,
 											"height": 13,
 											"text": "+onChangePasswordButtonPressed(): void",
@@ -2238,52 +2204,18 @@
 											},
 											"font": "Arial;13;0",
 											"left": 1445,
-											"top": 934,
+											"top": 904,
 											"width": 251.83056640625,
 											"height": 13,
 											"text": "+onLogoutButtonPressed(): void",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAF/HDA9HtDanUE=",
-											"_parent": {
-												"$ref": "AAAAAAF/HCvdAcxfCdA="
-											},
-											"model": {
-												"$ref": "AAAAAAF/HDA9C9DOrXI="
-											},
-											"font": "Arial;13;0",
-											"left": 1445,
-											"top": 949,
-											"width": 251.83056640625,
-											"height": 13,
-											"text": "+onEditProfilePicButtonPressed(): void",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAF/HDBo7dFZWK8=",
-											"_parent": {
-												"$ref": "AAAAAAF/HCvdAcxfCdA="
-											},
-											"model": {
-												"$ref": "AAAAAAF/HDBo2dFNQTc="
-											},
-											"font": "Arial;13;0",
-											"left": 1445,
-											"top": 964,
-											"width": 251.83056640625,
-											"height": 13,
-											"text": "+onRoutesCollectionsButtonPressed(): void",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 1440,
-									"top": 914,
+									"top": 884,
 									"width": 261.83056640625,
-									"height": 68
+									"height": 38
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -2323,7 +2255,7 @@
 							"left": 1440,
 							"top": 808,
 							"width": 261.83056640625,
-							"height": 177,
+							"height": 114,
 							"nameCompartment": {
 								"$ref": "AAAAAAF/HCvdAcxZXv0="
 							},
@@ -3467,7 +3399,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 1585,
-									"top": 1003,
+									"top": 940,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -3488,7 +3420,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 1598,
-									"top": 1006,
+									"top": 943,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -3508,7 +3440,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 1554,
-									"top": 999,
+									"top": 936,
 									"width": 7.22998046875,
 									"height": 13,
 									"alpha": -0.5235987755982988,
@@ -3618,7 +3550,7 @@
 							"tail": {
 								"$ref": "AAAAAAF/HCvdAcxY2cs="
 							},
-							"points": "1570:984;1570:1032;1832:1032;1832:1136",
+							"points": "1570:921;1570:1032;1832:1032;1832:1136",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF/HFYZAWa2o64="
@@ -5939,26 +5871,6 @@
 							"name": "logoutButton",
 							"visibility": "private",
 							"type": "Button"
-						},
-						{
-							"_type": "UMLAttribute",
-							"_id": "AAAAAAF/HC3Fds7pMBc=",
-							"_parent": {
-								"$ref": "AAAAAAF/HCvdAMxW9gU="
-							},
-							"name": "editProfilePicButton",
-							"visibility": "private",
-							"type": "Button"
-						},
-						{
-							"_type": "UMLAttribute",
-							"_id": "AAAAAAF/HC39Us9CCd0=",
-							"_parent": {
-								"$ref": "AAAAAAF/HCvdAMxW9gU="
-							},
-							"name": "routesCollectionsButton",
-							"visibility": "private",
-							"type": "Button"
 						}
 					],
 					"operations": [
@@ -5994,44 +5906,6 @@
 									"_id": "AAAAAAF/HDA8qtCxzXs=",
 									"_parent": {
 										"$ref": "AAAAAAF/HDAY0NB9Jow="
-									},
-									"type": "void",
-									"direction": "return"
-								}
-							]
-						},
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAF/HDA9C9DOrXI=",
-							"_parent": {
-								"$ref": "AAAAAAF/HCvdAMxW9gU="
-							},
-							"name": "onEditProfilePicButtonPressed",
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF/HDBofNEw8V0=",
-									"_parent": {
-										"$ref": "AAAAAAF/HDA9C9DOrXI="
-									},
-									"type": "void",
-									"direction": "return"
-								}
-							]
-						},
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAF/HDBo2dFNQTc=",
-							"_parent": {
-								"$ref": "AAAAAAF/HCvdAMxW9gU="
-							},
-							"name": "onRoutesCollectionsButtonPressed",
-							"parameters": [
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAF/HDCCYdGBcbE=",
-									"_parent": {
-										"$ref": "AAAAAAF/HDBo2dFNQTc="
 									},
 									"type": "void",
 									"direction": "return"
