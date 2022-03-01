@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".auth.signup.views.SignupFragment">
+    tools:context=".user.signup.views.SignupFragment">
 
     <TextView
         android:id="@+id/fragmentSignup_signuptext"

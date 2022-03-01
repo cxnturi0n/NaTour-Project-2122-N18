@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
-import com.cinamidea.natour_2022.auth.signin.SigninFragment;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.compilation.contracts.CompilationRoutesContract;
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CompilationRoutesPresenter;
@@ -20,7 +19,6 @@ import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapte
 import com.cinamidea.natour_2022.utilities.UserType;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CompilationRoutesActivity extends AppCompatActivity implements  CompilationRoutesContract.View {
 

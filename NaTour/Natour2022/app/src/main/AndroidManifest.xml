@@ -63,7 +63,7 @@
             android:exported="false"
             android:label="@string/title_activity_detailed_map" />
         <activity
-            android:name=".auth.changepassword.ChangePasswordActivity"
+            android:name=".user.changepassword.ChangePasswordActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
@@ -71,7 +71,7 @@
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
-            android:name=".auth.resetpassword.views.ResetCRActivity"
+            android:name=".user.resetpassword.views.ResetCRActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
@@ -91,7 +91,7 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".auth.CustomAuthActivity"
+            android:name=".user.CustomAuthActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
@@ -102,7 +102,7 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".auth.AuthActivity"
+            android:name=".user.AuthActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity

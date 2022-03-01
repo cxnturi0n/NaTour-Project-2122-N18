@@ -10,9 +10,9 @@ public class MainPresenter implements MainContract.Presenter, MainContract.Model
     private final MainContract.View view;
     private final MainContract.Model model;
 
-    public MainPresenter(MainContract.View view){
+    public MainPresenter(MainContract.View view, MainContract.Model model){
         this.view = view;
-        this.model = new MainModel();
+        this.model = model;
     }
 
     @Override

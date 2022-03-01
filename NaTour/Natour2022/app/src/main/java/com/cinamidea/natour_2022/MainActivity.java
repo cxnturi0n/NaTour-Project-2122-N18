@@ -11,7 +11,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 
-import com.cinamidea.natour_2022.auth.AuthActivity;
+import com.cinamidea.natour_2022.user.AuthActivity;
 import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

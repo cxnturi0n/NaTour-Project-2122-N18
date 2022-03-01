@@ -30,7 +30,6 @@ import org.junit.jupiter.api.Assertions;
  description_min, description_min+1, description_nom, description_max-1, description_max with title_nom
 
 
-
  */
 public class ReportModelTest extends TestCase {
 

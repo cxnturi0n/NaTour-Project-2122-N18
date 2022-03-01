@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00000000"
-    tools:context=".auth.ResetCRUserFragment">
+    tools:context=".user.ResetCRUserFragment">
 
     <TextView
         android:id="@+id/fragmentCR1_title"
