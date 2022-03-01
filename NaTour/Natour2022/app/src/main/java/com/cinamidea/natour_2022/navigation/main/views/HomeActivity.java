@@ -279,7 +279,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
                 findViewById(R.id.menuLayout_container)
         );
 
-        if(user_type.getUsername().equals("admin_natour_cinamidea2022"))
+        if(user_type.getUsername().equals("admin0"))
             bottomSheetView.findViewById(R.id.menuLayout_admin).setVisibility(View.VISIBLE);
 
         if (!new UserType(getApplicationContext()).getUserType().equals("Cognito"))

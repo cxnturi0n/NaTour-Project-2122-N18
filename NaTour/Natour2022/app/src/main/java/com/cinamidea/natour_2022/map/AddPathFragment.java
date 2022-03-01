@@ -94,7 +94,7 @@ public class AddPathFragment extends Fragment {
                     }
 
                     PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
-                    Polyline polyline = add_path_map.addPolyline(opts);
+                    add_path_map.addPolyline(opts);
 
                 }
 

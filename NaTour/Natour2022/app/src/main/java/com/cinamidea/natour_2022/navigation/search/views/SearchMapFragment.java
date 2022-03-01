@@ -30,7 +30,7 @@ public class SearchMapFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
-
+            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             map.setOnMapClickListener(latLng -> {
                 if (markerArrayList.size() == 0) {
                     Marker marker = map.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));

@@ -9,7 +9,7 @@ public class SignUpPresenter implements SignUpContract.Presenter, SignUpContract
     private final SignUpContract.View view;
     private final SignUpContract.Model model;
 
-    public SignUpPresenter(MainContract.View view, MainContract.Model model){
+    public SignUpPresenter(SignUpContract.View view, SignUpContract.Model model){
         this.view = view;
         this.model = model;
     }

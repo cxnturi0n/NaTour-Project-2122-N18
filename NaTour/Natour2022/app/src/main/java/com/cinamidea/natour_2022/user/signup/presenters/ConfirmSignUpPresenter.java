@@ -10,7 +10,7 @@ public class ConfirmSignUpPresenter implements ConfirmSignUpContract.Presenter, 
     private final ConfirmSignUpContract.Model model;
 
 
-    public ConfirmSignUpPresenter(MainContract.View view, MainContract.Model model){
+    public ConfirmSignUpPresenter(ConfirmSignUpContract.View view, ConfirmSignUpContract.Model model){
         this.view = view;
         this.model = model;
     }

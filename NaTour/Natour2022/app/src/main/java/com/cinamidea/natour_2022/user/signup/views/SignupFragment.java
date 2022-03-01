@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.user.CustomAuthFragment;
 import com.cinamidea.natour_2022.user.signup.contracts.SignUpContract;
+import com.cinamidea.natour_2022.user.signup.models.SignUpModel;
 import com.cinamidea.natour_2022.user.signup.presenters.SignUpPresenter;
 
 public class SignupFragment extends CustomAuthFragment implements SignUpContract.View {
@@ -23,7 +24,7 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
     private EditText edit_retypepassword;
     private String username;
 
-    private SignUpContract.Presenter presenter = new SignUpPresenter(this);
+    private SignUpContract.Presenter presenter = new SignUpPresenter(this, new SignUpModel());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

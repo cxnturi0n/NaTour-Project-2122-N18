@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.user.signup.contracts.ConfirmSignUpContract;
+import com.cinamidea.natour_2022.user.signup.models.ConfirmSignUpModel;
 import com.cinamidea.natour_2022.user.signup.presenters.ConfirmSignUpPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
 
@@ -26,7 +27,7 @@ public class ConfirmSignupActivity extends AppCompatActivity implements ConfirmS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmsignup);
 
-        presenter = new ConfirmSignUpPresenter(this);
+        presenter = new ConfirmSignUpPresenter(this, new ConfirmSignUpModel());
 
         setupComponents();
         setListeners();

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         this.googlesignin_client = GoogleSignIn.getClient(this, gso);
 
-        presenter = new MainPresenter(this);
+        presenter = new MainPresenter(this, new MainModel());
 
         //Controllo se l utente puo loggare in automatico(o con cognito o con google). Se no, allora alloca le componenti dell' activity (Non richiamo direttamente il metodo (Ho fatto i controlli per evitare di ripetere due volte
         //il silent sign in visto che l onresume parte in ogni caso dopo l oncreate
