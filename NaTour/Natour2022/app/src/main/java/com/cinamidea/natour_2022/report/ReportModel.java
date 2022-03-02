@@ -39,7 +39,7 @@ public class ReportModel implements ReportContract.Model{
                     if(response_code == 200)
                         listener.onSuccess(message);
                     else
-                        listener.onError(ResponseDeserializer.jsonToMessage(message));
+                        listener.onError(message);
                 }
             });
 

@@ -42,7 +42,7 @@ public class SignInModel implements SignInContract.Model {
                     google_preferences.edit().putString("id_token", id_token).commit();
                     listener.onSuccess();
                 } else {
-                    listener.onError(ResponseDeserializer.jsonToMessage(message));
+                    listener.onError(message);
                     google_preferences.edit().clear().commit();
                 }
             }
@@ -76,7 +76,7 @@ public class SignInModel implements SignInContract.Model {
                     listener.onSuccess();
                 } else {
                     editor.clear().commit();
-                    listener.onError(ResponseDeserializer.jsonToMessage(message));
+                    listener.onError(message);
                 }
             }
         });

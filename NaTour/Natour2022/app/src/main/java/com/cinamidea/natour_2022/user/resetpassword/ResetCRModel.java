@@ -38,7 +38,7 @@ public class ResetCRModel implements ResetCRContract.Model {
                 if(response_code == 200)
                     listener.onSuccess(message);
                 else
-                    listener.onError(ResponseDeserializer.jsonToMessage(message));
+                    listener.onError(message);
             }
         });
 
@@ -62,7 +62,7 @@ public class ResetCRModel implements ResetCRContract.Model {
                 if(response_code == 200)
                     listener.onSuccess(message);
                 else
-                    listener.onError(ResponseDeserializer.jsonToMessage(message));
+                    listener.onError(message);
             }
         });
 

@@ -40,7 +40,7 @@ public class AdminModel implements AdminContract.Model {
                     if(response_code == 200)
                         listener.onSuccess(message);
                     else if(response_code == 400)
-                        listener.onError(ResponseDeserializer.jsonToMessage(message));
+                        listener.onError(message);
                     else
                         listener.onUserUnauthorized(message);
                 }
