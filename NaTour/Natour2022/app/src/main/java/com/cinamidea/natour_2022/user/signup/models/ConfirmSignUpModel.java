@@ -38,7 +38,7 @@ public class ConfirmSignUpModel implements ConfirmSignUpContract.Model {
                     if(response_code == 200)
                         listener.onSuccess(message);
                     else
-                        listener.onError(message);
+                        listener.onError(ResponseDeserializer.jsonToMessage(message));
                 }
             });
     }

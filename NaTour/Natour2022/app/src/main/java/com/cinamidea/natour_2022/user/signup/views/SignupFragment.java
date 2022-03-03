@@ -9,11 +9,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.user.CustomAuthFragment;
 import com.cinamidea.natour_2022.user.signup.contracts.SignUpContract;
 import com.cinamidea.natour_2022.user.signup.models.SignUpModel;
 import com.cinamidea.natour_2022.user.signup.presenters.SignUpPresenter;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class SignupFragment extends CustomAuthFragment implements SignUpContract.View {
 
@@ -71,7 +76,7 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
 
             if (!password.equals(retype_password)) {
 
-                Toast.makeText(getActivity(), "Passwords don't match", Toast.LENGTH_LONG).show();
+               displayError("Passwords don't match");
                 return;
 
             }
@@ -94,6 +99,13 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
 
     @Override
     public void displayError(String message) {
-        //TODO Toast
+        getActivity().runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(getActivity(),"",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getContext(),R.font.helvetica_regular));
+        });
     }
 }

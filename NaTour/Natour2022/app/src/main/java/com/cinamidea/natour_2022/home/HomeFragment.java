@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +19,13 @@ import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
+import com.cinamidea.natour_2022.user.changepassword.ChangePasswordActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
 
 import java.util.ArrayList;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class HomeFragment extends Fragment implements HomeContract.View {
 
@@ -149,7 +154,14 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     @Override
     public void displayError(String message) {
-        //TODO ERROR
+        getActivity().runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(getActivity(),"",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getContext(),R.font.helvetica_regular));
+        });
     }
 
     @Override

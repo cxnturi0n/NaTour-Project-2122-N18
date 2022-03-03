@@ -40,10 +40,12 @@ public class ChangePasswordModel implements ChangePasswordContract.Model{
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
+                        Log.e("Message",response_body);
                         listener.onSuccess();
+
                         break;
                     case 400:
-                        listener.onError(response_body);
+                        listener.onError(ResponseDeserializer.jsonToMessage(response_body));
                         break;
                     case 401:
                         listener.onUserUnauthorized("Invalid session, please sign in again");

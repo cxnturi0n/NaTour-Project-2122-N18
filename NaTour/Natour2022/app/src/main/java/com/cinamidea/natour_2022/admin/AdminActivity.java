@@ -50,6 +50,7 @@ public class AdminActivity extends AppCompatActivity implements AdminContract.Vi
         Log.e("200",message);
         //TODO Mostrare TOAST
 
+
     }
 
     @Override
