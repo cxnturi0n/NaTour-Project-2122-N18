@@ -21,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.admin.AdminActivity;
+import com.cinamidea.natour_2022.navigation.compilation.views.CreateCompilationActivity;
 import com.cinamidea.natour_2022.navigation.main.models.HomeActivityModel;
 import com.cinamidea.natour_2022.user.changepassword.ChangePasswordActivity;
 import com.cinamidea.natour_2022.chat.HomeChatActivity;
@@ -54,8 +56,9 @@ import io.getstream.chat.android.client.ChatClient;
 import io.getstream.chat.android.client.logger.ChatLogLevel;
 import io.getstream.chat.android.client.models.User;
 import io.getstream.chat.android.livedata.ChatDomain;
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
-//TODO: CHAT
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeActivity extends AppCompatActivity implements HomeActivityContract.View {
@@ -411,7 +414,14 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityContr
 
     @Override
     public void displayError(String message) {
-        //TODO DISPLAY ERROR
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(HomeActivity.this, "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+        });
 
     }
 

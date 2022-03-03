@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.bumptech.glide.Glide;
 import com.cinamidea.natour_2022.MainActivity;
@@ -43,6 +44,8 @@ import java.util.Base64;
 import java.util.List;
 
 import me.gujun.android.taggroup.TagGroup;
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class CreatePathActivity extends AppCompatActivity implements CreatePathActivityContract.View {
 
@@ -53,7 +56,7 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
     private final List<String> tags = new ArrayList<>();
     private RadioButton rb_easy, rb_medium, rb_hard, rb_extreme;
     private RadioButton rb_checked;
-    //TODO:New variable
+
     private Button button_continue;
     private EditText title;
     private EditText description;
@@ -96,7 +99,7 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
         rb_checked = rb_easy;
         mTagGroup.clearFocus();
 
-        //TODO:new components
+
         button_continue = findViewById(R.id.activityCreatePath_continue);
         title = findViewById(R.id.activityCreatePath_title);
         description = findViewById(R.id.activityCreatePath_description);
@@ -153,15 +156,38 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
 
         button_continue.setOnClickListener(view -> {
 
-            if(image_base64==null)
-                Log.e("ciao","image");
-                //TODO IMAGE NEEDED
-            if(duration.getText().toString().isEmpty())
-                Log.e("ciao","image");
-            //TODO DURATION NEEDED
+            if (image_base64 == null)
 
-            if(image_base64!=null&&!duration.getText().toString().isEmpty())
+                MotionToast.Companion.createColorToast(CreatePathActivity.this, "",
+                        "Image missing",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+
+
+            if (duration.getText().toString().isEmpty())
+                MotionToast.Companion.createColorToast(CreatePathActivity.this, "",
+                        "Duration missing",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+
+            if (description.getText().toString().isEmpty()) {
+                MotionToast.Companion.createColorToast(CreatePathActivity.this, "",
+                        "Description missing",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+                return;
+            }
+
+            if (image_base64 != null && !duration.getText().toString().isEmpty())
                 insertRouteOnDb(path);
+
+
         });
 
         button_addimage.setOnClickListener(view -> {
@@ -243,7 +269,7 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
                     new UserType(this).getUsername(), level, Integer.parseInt(duration.getText().toString()), 0, checkDisabilityAccess(), path, tokenizedTags(tags), image_base64, getRouteLength(path));
 
             UserType user_type = new UserType(this);
-            presenter.continueButtonClick(user_type.getUserType()+user_type.getIdToken(),route);
+            presenter.continueButtonClick(user_type.getUserType() + user_type.getIdToken(), route);
 
         }
     }
@@ -352,13 +378,28 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
 
     @Override
     public void showToastAddedRoute() {
-        //TODO:iNSERIRE TOAST
-        runOnUiThread(() -> Toast.makeText(CreatePathActivity.this, "Route added successfully", Toast.LENGTH_LONG).show());
+        runOnUiThread(() -> {
+            MotionToast.Companion.createColorToast(CreatePathActivity.this, "",
+                    "Route added successfully",
+                    MotionToastStyle.SUCCESS,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+
+        });
     }
 
     @Override
     public void displayError(String message) {
-        //TODO LOG
+        runOnUiThread(() -> {
+            MotionToast.Companion.createColorToast(CreatePathActivity.this, "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+
+        });
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -27,6 +28,7 @@ import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
+import com.cinamidea.natour_2022.navigation.compilation.views.CreateCompilationActivity;
 import com.cinamidea.natour_2022.navigation.search.SearchContract;
 import com.cinamidea.natour_2022.navigation.search.SearchModel;
 import com.cinamidea.natour_2022.navigation.search.SearchPresenter;
@@ -43,6 +45,8 @@ import java.util.List;
 import java.util.Locale;
 
 import me.gujun.android.taggroup.TagGroup;
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class GeoSearchActivity extends AppCompatActivity implements SearchContract.View {
 
@@ -326,7 +330,14 @@ public class GeoSearchActivity extends AppCompatActivity implements SearchContra
     @Override
     public void displayError(String message) {
         progressBar.setVisibility(View.GONE);
-        //TODO TOAST
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(GeoSearchActivity.this, "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+        });
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.cinamidea.natour_2022.navigation.compilation.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
+import com.cinamidea.natour_2022.map.views.CreatePathActivity;
 import com.cinamidea.natour_2022.navigation.compilation.contracts.CompilationRoutesContract;
 import com.cinamidea.natour_2022.navigation.compilation.models.CompilationRoutesModel;
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CompilationRoutesPresenter;
@@ -20,6 +22,9 @@ import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapte
 import com.cinamidea.natour_2022.utilities.UserType;
 
 import java.util.ArrayList;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class CompilationRoutesActivity extends AppCompatActivity implements  CompilationRoutesContract.View {
 
@@ -71,8 +76,14 @@ public class CompilationRoutesActivity extends AppCompatActivity implements  Com
 
     @Override
     public void displayError(String message) {
-        //TODO ADD TOAST
-        Log.e("tag1",message);
+        runOnUiThread(()->{
+            MotionToast.Companion.createColorToast(CompilationRoutesActivity.this, "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+        });
     }
 
     @Override

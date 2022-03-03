@@ -10,14 +10,19 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.RoutesCompilation;
+import com.cinamidea.natour_2022.map.views.CreatePathActivity;
 import com.cinamidea.natour_2022.navigation.compilation.contracts.CreateCompilationContract;
 import com.cinamidea.natour_2022.navigation.compilation.models.CreateCompilationModel;
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CreateCompilationPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class CreateCompilationActivity extends AppCompatActivity implements CreateCompilationContract.View {
 
@@ -61,7 +66,12 @@ public class CreateCompilationActivity extends AppCompatActivity implements Crea
                 presenter.createCompilationButtonClicked(user_type.getUsername(), routesCompilation, id_token);
             }else
             {
-                //TODO CIAO
+                MotionToast.Companion.createColorToast(CreateCompilationActivity.this, "",
+                        getResources().getString(R.string.error_EmptyFields),
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
             }
 
         });
@@ -80,13 +90,27 @@ public class CreateCompilationActivity extends AppCompatActivity implements Crea
 
     @Override
     public void displayError(String message) {
-        //TODO ERROR
-        Log.e("errorcreatecompilation",message);
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(CreateCompilationActivity.this, "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+        });
+
     }
 
     @Override
     public void logOutUnauthorizedUser() {
-        //TODO ERROR
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(CreateCompilationActivity.this, "",
+                    "Invalid session, please sign in again",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+        });
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

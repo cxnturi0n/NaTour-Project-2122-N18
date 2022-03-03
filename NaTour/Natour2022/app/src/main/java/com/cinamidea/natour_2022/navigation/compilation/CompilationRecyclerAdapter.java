@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cinamidea.natour_2022.MainActivity;
@@ -19,8 +20,13 @@ import com.cinamidea.natour_2022.navigation.compilation.contracts.CompilationRec
 import com.cinamidea.natour_2022.navigation.compilation.models.CompilationRecyclerModel;
 import com.cinamidea.natour_2022.navigation.compilation.presenters.CompilationRecyclerPresenter;
 import com.cinamidea.natour_2022.navigation.compilation.views.CompilationRoutesActivity;
+import com.cinamidea.natour_2022.navigation.compilation.views.CreateCompilationActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
+
 import java.util.ArrayList;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class CompilationRecyclerAdapter extends RecyclerView.Adapter<CompilationRecyclerAdapter.MyViewHolder> {
 
@@ -58,18 +64,17 @@ public class CompilationRecyclerAdapter extends RecyclerView.Adapter<Compilation
         holder.description.setText(routecompilation.getDescription());
 
 
-
         holder.button_open.setOnClickListener(view -> {
 
 
-            if(is_insert) {
+            if (is_insert) {
                 UserType user_type = new UserType(context);
                 String id_token = user_type.getUserType() + user_type.getIdToken();
 
                 holder.presenter.insertIntoCompilationButtonClicked(user_type.getUsername(), extra, routecompilation.getId(), id_token);
 
 
-            }else {
+            } else {
 
                 Intent intent = new Intent(context, CompilationRoutesActivity.class);
                 intent.putExtra("id", routecompilation.getId());
@@ -96,7 +101,7 @@ public class CompilationRecyclerAdapter extends RecyclerView.Adapter<Compilation
         return routecompilations.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder  implements CompilationRecyclerContract.View {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements CompilationRecyclerContract.View {
 
         TextView title, description;
         Button button_open;
@@ -109,7 +114,7 @@ public class CompilationRecyclerAdapter extends RecyclerView.Adapter<Compilation
             description = itemView.findViewById(R.id.compilation_description);
             button_open = itemView.findViewById(R.id.compilation_open);
 
-            if(extra!=null) {
+            if (extra != null) {
 
                 button_open.setText(R.string.select);
                 is_insert = true;
@@ -120,12 +125,20 @@ public class CompilationRecyclerAdapter extends RecyclerView.Adapter<Compilation
 
         @Override
         public void addedToCompilation() {
-            ((Activity)context).runOnUiThread(() -> ((Activity)context).finish());
+            ((Activity) context).runOnUiThread(() -> ((Activity) context).finish());
         }
 
         @Override
         public void displayError(String message) {
-            //TODO TOAST
+            ((Activity) context).runOnUiThread(() -> {
+                MotionToast.Companion.createColorToast((Activity) context, "",
+                        message,
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(context, R.font.helvetica_regular));
+
+            });
         }
 
         @Override

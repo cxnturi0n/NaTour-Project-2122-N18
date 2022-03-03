@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.cinamidea.natour_2022.MainActivity;
@@ -40,6 +41,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class AllPathsFragment extends Fragment implements AllPathFragmentContract.View {
 
@@ -157,7 +161,15 @@ public class AllPathsFragment extends Fragment implements AllPathFragmentContrac
 
     @Override
     public void displayError(String message) {
-        //TODO LOG
+        getActivity().runOnUiThread(() -> {
+            MotionToast.Companion.createColorToast(getActivity(), "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getContext(), R.font.helvetica_regular));
+
+        });
     }
 
     @Override
@@ -202,7 +214,7 @@ public class AllPathsFragment extends Fragment implements AllPathFragmentContrac
 
                     map.setMyLocationEnabled(true);
                     map.getUiSettings().setMyLocationButtonEnabled(true);
-                    //TODO:Zoom sulla mappa
+
                     if (current_location != null) {
                         zoomBasedOnCurrentLocation();
                     } else {

@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.entities.RouteFilters;
+import com.cinamidea.natour_2022.navigation.compilation.views.CreateCompilationActivity;
 import com.cinamidea.natour_2022.navigation.main.recyclerview.RecyclerViewAdapter;
 import com.cinamidea.natour_2022.navigation.search.SearchContract;
 import com.cinamidea.natour_2022.navigation.search.SearchModel;
@@ -27,6 +29,9 @@ import com.paulrybitskyi.persistentsearchview.listeners.OnSearchConfirmedListene
 import com.paulrybitskyi.persistentsearchview.listeners.OnSearchQueryChangeListener;
 
 import java.util.ArrayList;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class SearchActivity extends AppCompatActivity implements SearchContract.View {
 
@@ -136,7 +141,14 @@ public class SearchActivity extends AppCompatActivity implements SearchContract.
     @Override
     public void displayError(String message) {
         progressBar.setVisibility(View.GONE);
-        //TODO TOAST
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(SearchActivity.this, "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
+        });
     }
 
     @Override
