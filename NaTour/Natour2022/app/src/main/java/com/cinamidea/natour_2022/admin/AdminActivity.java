@@ -8,10 +8,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.utilities.UserType;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class AdminActivity extends AppCompatActivity implements AdminContract.View {
 
@@ -47,8 +51,15 @@ public class AdminActivity extends AppCompatActivity implements AdminContract.Vi
     @Override
     public void mailSent(String message) {
 
-        Log.e("200",message);
-        //TODO Mostrare TOAST
+        runOnUiThread(() -> {
+            MotionToast.Companion.createColorToast(this, "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, R.font.helvetica_regular));
+
+        });
 
 
     }
@@ -63,9 +74,15 @@ public class AdminActivity extends AppCompatActivity implements AdminContract.Vi
     @Override
     public void displayError(String message) {
 
-        Log.e("400",message);
-        //TODO Mostrare TOAST
+        runOnUiThread(() -> {
+            MotionToast.Companion.createColorToast(this, "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this, R.font.helvetica_regular));
 
+        });
     }
 
 }

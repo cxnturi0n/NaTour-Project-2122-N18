@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,9 @@ import com.cinamidea.natour_2022.navigation.main.views.HomeActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
 
 import java.util.ArrayList;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class ProfileToVisitRoutesFragment extends Fragment implements ProfileToVisitRoutesContract.View{
 
@@ -82,7 +86,16 @@ public class ProfileToVisitRoutesFragment extends Fragment implements ProfileToV
 
     @Override
     public void displayError(String message) {
-//TODO LOG
+
+        getActivity().runOnUiThread(() -> {
+            MotionToast.Companion.createColorToast(getActivity(), "",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getContext(), R.font.helvetica_regular));
+
+        });
     }
 
     @Override

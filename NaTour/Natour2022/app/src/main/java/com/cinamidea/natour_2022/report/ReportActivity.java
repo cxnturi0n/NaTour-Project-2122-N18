@@ -9,11 +9,15 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.entities.Report;
 import com.cinamidea.natour_2022.utilities.UserType;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class ReportActivity extends AppCompatActivity implements ReportContract.View {
 
@@ -70,13 +74,30 @@ public class ReportActivity extends AppCompatActivity implements ReportContract.
 
     @Override
     public void reportDone(String message) {
-        Log.e("me",message);
-        //TODO TOAST + ACTIVITY FINISH
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(this,"",
+                    message,
+                    MotionToastStyle.SUCCESS,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this,R.font.helvetica_regular));
+            finish();
+        });
+
     }
 
     @Override
     public void displayError(String message) {
-            //TODO TOAST + ACTIVITY FINISH
+
+        runOnUiThread(() -> {
+                MotionToast.Companion.createColorToast(this, "",
+                        "you have already reported this route",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this, R.font.helvetica_regular));
+
+        });
     }
 
     @Override
