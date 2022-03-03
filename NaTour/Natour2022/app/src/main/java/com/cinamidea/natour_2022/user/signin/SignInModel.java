@@ -76,7 +76,7 @@ public class SignInModel implements SignInContract.Model {
                     listener.onSuccess();
                 } else {
                     editor.clear().commit();
-                    listener.onError(message);
+                    listener.onError(ResponseDeserializer.jsonToMessage(message));
                 }
             }
         });

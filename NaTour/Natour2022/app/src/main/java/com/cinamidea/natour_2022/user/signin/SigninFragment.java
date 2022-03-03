@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.cinamidea.natour_2022.R;
 import com.cinamidea.natour_2022.user.CustomAuthFragment;
@@ -24,6 +25,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.Task;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class SigninFragment extends CustomAuthFragment implements SignInContract.View {
 
@@ -88,7 +92,13 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
                 presenter.cognitoSignInButtonClicked(username, password, getActivity().getSharedPreferences("Cognito", Context.MODE_PRIVATE));
 
             }else{
-                //TODO TOAST
+
+                MotionToast.Companion.createColorToast(getActivity(),"",
+                        getResources().getString(R.string.error_EmptyFields),
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(getContext(),R.font.helvetica_regular));
             }
 
         });
@@ -115,8 +125,17 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
     @Override
     public void displayError(String message) {
         googlesignin_client.signOut();
-        //TODO TOAST
-        Log.e("TAG", message);
+
+        getActivity().runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(getActivity(),"",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getContext(),R.font.helvetica_regular));
+        });
+
+
     }
 
     //Google sign up stuff

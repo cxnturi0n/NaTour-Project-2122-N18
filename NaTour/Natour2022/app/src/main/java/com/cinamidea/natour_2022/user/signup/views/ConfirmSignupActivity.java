@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
@@ -13,6 +14,9 @@ import com.cinamidea.natour_2022.user.signup.contracts.ConfirmSignUpContract;
 import com.cinamidea.natour_2022.user.signup.models.ConfirmSignUpModel;
 import com.cinamidea.natour_2022.user.signup.presenters.ConfirmSignUpPresenter;
 import com.cinamidea.natour_2022.utilities.UserType;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class ConfirmSignupActivity extends AppCompatActivity implements ConfirmSignUpContract.View{
 
@@ -55,6 +59,7 @@ public class ConfirmSignupActivity extends AppCompatActivity implements ConfirmS
     @Override
     public void confirmSignUpSuccess() {
 
+
         new UserType(this).clear();
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -64,6 +69,13 @@ public class ConfirmSignupActivity extends AppCompatActivity implements ConfirmS
 
     @Override
     public void displayError(String message) {
-        //TODO Toast
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(ConfirmSignupActivity.this,"",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(),R.font.helvetica_regular));
+        });
     }
 }

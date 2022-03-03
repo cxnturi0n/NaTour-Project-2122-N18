@@ -8,10 +8,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.cinamidea.natour_2022.MainActivity;
 import com.cinamidea.natour_2022.R;
+import com.cinamidea.natour_2022.user.signup.views.ConfirmSignupActivity;
 import com.cinamidea.natour_2022.utilities.UserType;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class ChangePasswordActivity extends AppCompatActivity implements ChangePasswordContract.View{
 
@@ -56,6 +61,14 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
 
     @Override
     public void onPasswordChanged() {
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(ChangePasswordActivity.this,"",
+                    "Password changed successfully",
+                    MotionToastStyle.SUCCESS,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(),R.font.helvetica_regular));
+        });
         new UserType(this).clear();
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -64,12 +77,27 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
 
     @Override
     public void displayError(String message) {
-        Log.e("password", message);
-        //TODO LOG
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(ChangePasswordActivity.this,"",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(),R.font.helvetica_regular));
+        });
     }
 
     @Override
     public void logOutUnauthorizedUser() {
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(ChangePasswordActivity.this,"",
+                    "Invalid session, please sign in again",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(),R.font.helvetica_regular));
+        });
+
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

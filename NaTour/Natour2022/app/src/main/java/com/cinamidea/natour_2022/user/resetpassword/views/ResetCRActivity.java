@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -12,6 +13,10 @@ import com.cinamidea.natour_2022.user.resetpassword.ResetCRContract;
 import com.cinamidea.natour_2022.user.resetpassword.ResetCRFragmentSwitcher;
 import com.cinamidea.natour_2022.user.resetpassword.ResetCRModel;
 import com.cinamidea.natour_2022.user.resetpassword.ResetCRPresenter;
+import com.cinamidea.natour_2022.user.signup.views.ConfirmSignupActivity;
+
+import www.sanju.motiontoast.MotionToast;
+import www.sanju.motiontoast.MotionToastStyle;
 
 public class ResetCRActivity extends AppCompatActivity implements ResetCRFragmentSwitcher, ResetCRContract.View {
 
@@ -77,19 +82,38 @@ public class ResetCRActivity extends AppCompatActivity implements ResetCRFragmen
 
     @Override
     public void resetDone(String message) {
-        //TODO Inserire toast reset ok
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(ResetCRActivity.this,"",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(),R.font.helvetica_regular));
+        });
         finish();
     }
 
     @Override
     public void displayUsernameNotFoundError(String message) {
-        Log.e("notfounht","12");
-        //TODO Inserire toast
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(ResetCRActivity.this,"",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(),R.font.helvetica_regular));
+        });
     }
 
     @Override
     public void displayResetError(String message) {
-        Log.e("123","123123123");
-        //TODO Inserire toast
+        runOnUiThread(()-> {
+            MotionToast.Companion.createColorToast(ResetCRActivity.this,"",
+                    message,
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(getApplicationContext(),R.font.helvetica_regular));
+        });
     }
 }

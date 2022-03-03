@@ -202,18 +202,7 @@ public class RoutesHTTP extends OkHTTPRequest {
 
 
 
-    //TODO:Put immagine nel bucket
-    /*public static void putImageInBucket(String user_type, String id_token, Base64 image,RoutesCallback callback){
-        String url = "https://t290f5jgg8.execute-api.eu-central-1.amazonaws.com/api/routes";
 
-        Headers header = new Headers.Builder().add("Authorization", "\"" + id_token + "\"").build();
-
-        String request_body = "{\"user_type\":" + user_type + ",\"action\":" + "GET_BY_LEVEL" +
-                ",\"level\":" + level + "}";
-
-    }
-
-     */
 
 
 }

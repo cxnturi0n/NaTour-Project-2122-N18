@@ -150,5 +150,8 @@
     <string name="dialogHelp_message">Click on the map to add start point, to add intermediate points: click again.</string>
     <string name="dialogHelp_message2">Longclick on the map to add the end point</string>
 
+    <!-- Errori -->
+    <string name="error_EmptyFields">One or more fields are missing</string>
+
 
 </resources>
