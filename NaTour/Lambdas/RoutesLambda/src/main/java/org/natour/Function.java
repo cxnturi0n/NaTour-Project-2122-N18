@@ -22,7 +22,7 @@ import java.util.List;
 
 public class Function implements RequestHandler<Event, String> {
 
-    //All these object will be reused as long as lambda keeps warm
+    //All these object will be reused as long as lambda keeps warm (1 database connection for each warm lambda function)
     RouteDAO route_dao = (new RouteDAOFactory(MySqlDB.getConnection())).getRouteDAO("mysql");
     CognitoTokens cognito_tokens = new CognitoTokens();
     Gson gson = new Gson();
