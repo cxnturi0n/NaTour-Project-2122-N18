@@ -33,7 +33,7 @@ public class MainModel implements MainContract.Model{
 
     @Override
     public void cognitoSilentSignIn(UserType user_type, MainContract.Model.OnFinishListener listener) {
-
+        Log.d("COGNITO", "Silent signing in..");
         Request request = AuthenticationHTTP.tokenLogin(user_type.getIdToken());
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -47,8 +47,10 @@ public class MainModel implements MainContract.Model{
                 String message = response.body().string();
                 if (response_code == 200) {
                     //Token is valid
+                    Log.d("COGNITO", "Silent sign in successful");
                     listener.onSuccess();
                 } else { //Token is expired
+                    Log.e("COGNITO", "Silent sign in error: "+message);
                     if(message.contains("expired"))
                         refreshCognitoIdAndAccessTokens(user_type, listener);
                     else //Invalid token
@@ -63,6 +65,7 @@ public class MainModel implements MainContract.Model{
 
     public void refreshCognitoIdAndAccessTokens(UserType user_type, MainContract.Model.OnFinishListener listener) {
 
+        Log.d("COGNITO", "Refreshing tokens..");
         Request request = AuthenticationHTTP.refreshToken(user_type.getUsername(), user_type.getRefreshToken());
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -75,7 +78,7 @@ public class MainModel implements MainContract.Model{
                 int response_code = response.code();
                 String message = response.body().string();
                 if (response_code == 200) {
-                    Log.e("COGNITO", "REFRESH OK");
+                    Log.d("COGNITO", "Token refreshed successfully");
                     //Saving refreshed id and access tokens
                     Tokens tokens = new Gson().fromJson(ResponseDeserializer.removeQuotesAndUnescape(message), Tokens.class);
                     user_type.setIdToken(tokens.getId_token());
@@ -83,7 +86,7 @@ public class MainModel implements MainContract.Model{
                     //Trying to sign in again with refreshed id_token
                     cognitoSilentSignIn(user_type, listener);
                 } else {
-                    Log.e("COGNITO", "INVALID REFRESH");
+                    Log.e("COGNITO", "Invalid refresh token");
                     //Invalid or expired refresh token
                     user_type.clear();
                     listener.onUserUnauthorized("Invalid session, please sign in again");
@@ -96,12 +99,14 @@ public class MainModel implements MainContract.Model{
     @Override
     public void googleSilentSignIn(GoogleSignInClient client, SharedPreferences google_preferences, MainContract.Model.OnFinishListener listener) {
 
+        Log.d("GOOGLE", "Silent signing in..");
         Task<GoogleSignInAccount> task = client.silentSignIn();
-        if (task.isSuccessful())
+        if (task.isSuccessful()) {
             listener.onSuccess(); //If cached id_token is still valid, then log user in
+            Log.i("GOOGLE", "Silent sign in");
+        }
             else {      //If cached id_token is present, yet expired, use refresh token to fetch new id_token and log user in
             task.addOnCompleteListener(task1 -> {
-
                 try {
 
                     GoogleSignInAccount signInAccount = task1.getResult(ApiException.class);

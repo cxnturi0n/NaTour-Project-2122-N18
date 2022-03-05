@@ -1,6 +1,7 @@
 package com.cinamidea.natour_2022.user.signin;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -54,7 +55,7 @@ public class SignInModel implements SignInContract.Model {
     public void cognitoSignIn(String username, String password, SharedPreferences cognito_preferences, OnFinishListenerCognito listener) {
 
         Request request = AuthenticationHTTP.signInAndGetTokensRequest(username, password);
-
+        Log.d("COGNITO", "Signing in");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -67,14 +68,19 @@ public class SignInModel implements SignInContract.Model {
                 SharedPreferences.Editor editor = cognito_preferences.edit();
                 String message = response.body().string();
                 if (response_code == 200) {
+                    Log.d("COGNITO", "Saving id_token");
                     Tokens tokens = new Gson().fromJson(ResponseDeserializer.removeQuotesAndUnescape(message), Tokens.class);
                     editor.putString("username", username.toLowerCase());
                     editor.putString("id_token", tokens.getId_token());
+                    Log.d("COGNITO", "Saving access_token");
                     editor.putString("access_token", tokens.getAccess_token());
+                    Log.d("COGNITO", "Saving refresh_token");
                     editor.putString("refresh_token", tokens.getRefresh_token());
                     editor.commit();
+                    Log.d("COGNITO", "Sign in successful");
                     listener.onSuccess();
                 } else {
+                    Log.e("COGNITO", "Sign in error: "+ResponseDeserializer.jsonToMessage(message));
                     editor.clear().commit();
                     listener.onError(ResponseDeserializer.jsonToMessage(message));
                 }

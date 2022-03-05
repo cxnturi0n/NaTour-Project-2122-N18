@@ -2,6 +2,7 @@ package com.cinamidea.natour_2022.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,6 +150,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             progressBar.setVisibility(View.GONE);
             recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), routes, fav_routes, false);
             recyclerView.setAdapter(recyclerViewAdapter);
+            Log.d("HOME", "Routes loaded");
         });
     }
 

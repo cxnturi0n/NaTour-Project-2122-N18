@@ -29,7 +29,7 @@ public class AllPathFragmentModel implements AllPathFragmentContract.Model{
     public void getAllRoutes(AllPathFragmentContract.Model.OnFinishedListener listener,String id_token) {
 
         Request request = RoutesHTTP.getAllRoutes(id_token);
-
+        Log.d("MAP", "Loading all routes");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {

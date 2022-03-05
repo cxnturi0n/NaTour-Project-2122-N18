@@ -29,7 +29,7 @@ public class SearchModel implements SearchContract.Model {
     public void getFilteredRoutes(String username, RouteFilters route_filters, String id_token, OnFinishedListener listener) {
 
         Request request = RoutesHTTP.getFilteredRoutes(route_filters, id_token);
-
+        Log.d("SEARCH", "Loading results...");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {

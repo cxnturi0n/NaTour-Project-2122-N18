@@ -1,9 +1,12 @@
 package com.cinamidea.natour_2022.map.models;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.entities.Route;
 import com.cinamidea.natour_2022.map.contracts.CreatePathActivityContract;
+import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
 import com.cinamidea.natour_2022.utilities.http.RoutesHTTP;
 
 import java.io.IOException;
@@ -34,14 +37,17 @@ public class CreatePathActivityModel implements CreatePathActivityContract.Model
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
 
+                Log.d("MAP", "Inserting route..");
                 int response_code = response.code();
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
+                        Log.d("MAP","Route successfully inserted");
                         listener.onSuccess(response_body);
                         break;
                     case 400:
                     case 500:
+                        Log.e("MAP","Couldn't insert route: "+ ResponseDeserializer.jsonToMessage(response_body));
                         listener.onError(response_body);
                         break;
                     case 401:

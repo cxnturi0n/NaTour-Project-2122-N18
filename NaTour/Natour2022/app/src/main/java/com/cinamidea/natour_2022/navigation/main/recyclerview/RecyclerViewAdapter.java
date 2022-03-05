@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -303,6 +304,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             for (int i = 0; i < 3; i++)
                 HomeActivity.counter_updated[i] = false;
 
+            Log.d("HOME", "Favourite added.");
+
         }
 
         @Override
@@ -335,6 +338,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             HomeActivity.is_updated = true;
             for (int i = 0; i < 3; i++)
                 HomeActivity.counter_updated[i] = false;
+
+            Log.d("HOME", "Favourite removed.");
         }
 
         @Override
@@ -347,6 +352,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void addedToVisit() {
             HomeActivity.counter_updated[2] = false;
+            Log.d("HOME", "To visit added.");
         }
 
         @Override
@@ -364,6 +370,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 itemView.setVisibility(View.GONE);
 
             });
+
+            Log.d("HOME", "To visit removed.");
+
         }
 
         @Override
@@ -373,5 +382,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     }
+
+
 
 }

@@ -323,6 +323,9 @@ public class GeoSearchActivity extends AppCompatActivity implements SearchContra
             CompletedGeoSearchActivity.setRoutes(filtered_routes);
             CompletedGeoSearchActivity.setFav_routes(favourite_routes);
             startActivity(new Intent(GeoSearchActivity.this, CompletedGeoSearchActivity.class));
+
+            Log.d("SEARCH", "Results loaded");
+
         });
 
     }

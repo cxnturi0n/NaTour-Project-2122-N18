@@ -25,7 +25,7 @@ public class ChangePasswordModel implements ChangePasswordContract.Model{
 
     @Override
     public void changePassword(UserType user_type, String old_password, String new_password, OnFinishedListener listener) {
-        Log.e("f", user_type.getAccessToken());
+        Log.d("COGNITO", "Changing password..");
         Request request = AuthenticationHTTP.changePassword(user_type.getUsername(), old_password, new_password, user_type.getAccessToken());
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -40,11 +40,12 @@ public class ChangePasswordModel implements ChangePasswordContract.Model{
                 String response_body = response.body().string();
                 switch (response_code) {
                     case 200:
-                        Log.e("Message",response_body);
+                        Log.d("COGNITO", "Password changed successfully");
                         listener.onSuccess();
 
                         break;
                     case 400:
+                        Log.d("COGNITO", "Password change error: "+ResponseDeserializer.jsonToMessage(response_body));
                         listener.onError(ResponseDeserializer.jsonToMessage(response_body));
                         break;
                     case 401:

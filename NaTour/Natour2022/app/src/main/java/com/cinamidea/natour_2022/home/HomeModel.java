@@ -1,5 +1,7 @@
 package com.cinamidea.natour_2022.home;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.entities.Route;
@@ -34,7 +36,7 @@ public class HomeModel implements HomeContract.Model{
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
+                Log.d("HOME", "Loading routes..");
                 int response_code = response.code();
                 String response_body = response.body().string();
                 switch (response_code) {
@@ -57,7 +59,6 @@ public class HomeModel implements HomeContract.Model{
     @Override
     public void getFavouriteRoutes(String username, String id_token, OnFavouriteRoutesFetchedListener listener) {
         Request request = RoutesHTTP.getFavouriteRoutes(username, id_token);
-
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -78,7 +79,7 @@ public class HomeModel implements HomeContract.Model{
     public void getRoutesByDifficulty(String username, String id_token, String difficulty, OnFinishedListener listener) {
 
         Request request = RoutesHTTP.getRoutesByLevel(id_token, difficulty);
-
+        Log.d("HOME","Loading "+difficulty+" routes");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {

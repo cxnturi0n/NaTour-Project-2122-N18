@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -189,6 +190,7 @@ public class AllPathsFragment extends Fragment implements AllPathFragmentContrac
                 map.addMarker(new MarkerOptions().position(path.get(path.size() - 1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
                 map.addPolyline(opts);
+                Log.d("MAP","Routes loadad");
             }
         });
 

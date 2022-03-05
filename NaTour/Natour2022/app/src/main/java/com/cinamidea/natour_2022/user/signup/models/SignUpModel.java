@@ -1,5 +1,7 @@
 package com.cinamidea.natour_2022.user.signup.models;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.user.signup.contracts.SignUpContract;
@@ -25,7 +27,7 @@ public class SignUpModel implements SignUpContract.Model {
     public void signUp(String username, String email, String password, OnFinishListener listener) {
 
         Request request = AuthenticationHTTP.signUp(username, email, password);
-
+        Log.d("COGNITO", "Registration is being processed..");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -35,10 +37,14 @@ public class SignUpModel implements SignUpContract.Model {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 int response_code = response.code();
                 String message = response.body().string();
-                if(response_code == 200)
+                if(response_code == 200){
+                    Log.d("COGNITO", "Verification code sent to: "+email);
                     listener.onSuccess(message);
-                else
+                }
+                else{
+                    Log.d("COGNITO", "Couldn't sent verification code"+ResponseDeserializer.jsonToMessage(message));
                     listener.onError(ResponseDeserializer.jsonToMessage(message));
+                }
             }
         });
 
