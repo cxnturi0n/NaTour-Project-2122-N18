@@ -1,5 +1,7 @@
 package com.cinamidea.natour_2022.navigation.profile.created;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.utilities.ResponseDeserializer;
@@ -21,6 +23,8 @@ public class ProfileMyRoadsModel implements ProfileMyRoadsContract.Model{
 
     @Override
     public void getUserRoutes(String username, String id_token, OnFinishedListener listener) {
+
+        Log.d("HOME","Loading user routes..");
         Request request = RoutesHTTP.getUserRoutes(username,id_token);
         client.newCall(request).enqueue(new Callback() {
             @Override

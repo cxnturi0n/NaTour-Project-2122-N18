@@ -1,5 +1,7 @@
 package com.cinamidea.natour_2022.report;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.entities.Report;
@@ -24,6 +26,7 @@ public class ReportModel implements ReportContract.Model{
     @Override
     public void sendReport(String id_token, Report report, OnFinishListener listener) {
 
+        Log.i("REPORT","Sending report..");
         if(checkReportValidity(report.getTitle(), report.getDescription())) {
             Request request = ReportHTTP.insertReport(report, id_token);
 
@@ -34,6 +37,7 @@ public class ReportModel implements ReportContract.Model{
                 }
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    Log.i("REPORT","Report successfully sent");
                     int response_code = response.code();
                     String message = response.body().string();
                     if(response_code == 200)
@@ -43,10 +47,8 @@ public class ReportModel implements ReportContract.Model{
                 }
             });
 
-        }else{
+        }else
             listener.onError("Title or description is too short");
-        }
-
     }
 
     public boolean checkReportValidity(String title, String description) {

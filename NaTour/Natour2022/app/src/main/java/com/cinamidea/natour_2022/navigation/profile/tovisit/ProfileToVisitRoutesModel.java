@@ -1,5 +1,7 @@
 package com.cinamidea.natour_2022.navigation.profile.tovisit;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.entities.Route;
@@ -35,6 +37,7 @@ public class ProfileToVisitRoutesModel implements ProfileToVisitRoutesContract.M
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
 
+                Log.d("HOME","Loading to visit routes..");
                 int response_code = response.code();
                 String response_body = response.body().string();
                 switch (response_code) {

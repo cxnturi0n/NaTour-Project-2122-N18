@@ -3,6 +3,7 @@ package com.cinamidea.natour_2022.navigation.profile.favourites;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public class ProfileFavouriteRoutesFragment extends Fragment implements ProfileF
             progressBar.setVisibility(View.GONE);
             recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), fav_routes, true);
             recyclerView.setAdapter(recyclerViewAdapter);
+            Log.d("HOME","Favourite routes loaded");
         });
     }
 

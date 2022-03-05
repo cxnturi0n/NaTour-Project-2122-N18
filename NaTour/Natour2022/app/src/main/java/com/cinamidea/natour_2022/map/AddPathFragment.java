@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public class AddPathFragment extends Fragment {
                 public void onMapClick(LatLng point) {
 
                     if (markers.size() == 0 && check_long_press_map_click == 0) {
+                        Log.d("MAP","Start marker added");
                         Marker start_marker = add_path_map.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                         markers.add(start_marker);
                         path.add(start_marker.getPosition());
@@ -85,6 +87,7 @@ public class AddPathFragment extends Fragment {
                         check_long_press_map_click = 1;
 
                     } else if (check_long_press_map_click == 1) {
+                        Log.d("MAP","Marker added");
                         //IL secondo marker il colore rosso
                         Marker marker = add_path_map.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                         markers.add(marker);
@@ -104,10 +107,10 @@ public class AddPathFragment extends Fragment {
             add_path_map.setOnMapLongClickListener(latLng -> {
 
                 if (check_long_press_map_click == 1) {
-
+                    Log.d("MAP","End marker added");
                     Marker end_marker = add_path_map.addMarker(new MarkerOptions()
                             .position(latLng)
-                            .title("You are here")
+                            .title("")
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                     path.add(end_marker.getPosition());
                     //Aggiungiamo una linea rossa tra i marker
@@ -186,6 +189,8 @@ public class AddPathFragment extends Fragment {
 
 
         button_success.setOnClickListener(view -> {
+            Log.d("MAP","Route confirmed");
+            Log.d("MAP","Opening Create Route Form..");
             markers.clear();
             Intent intent = new Intent();
             intent.putParcelableArrayListExtra("path", (ArrayList<? extends Parcelable>) path);

@@ -3,6 +3,7 @@ package com.cinamidea.natour_2022.navigation.profile.tovisit;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,6 +82,7 @@ public class ProfileToVisitRoutesFragment extends Fragment implements ProfileToV
             progressBar.setVisibility(View.GONE);
             recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), to_visit_routes, fav_routes, true);
             recyclerView.setAdapter(recyclerViewAdapter);
+            Log.d("HOME","To visit routes loaded");
         });
     }
 

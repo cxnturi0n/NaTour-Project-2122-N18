@@ -1,5 +1,7 @@
 package com.cinamidea.natour_2022.navigation.profile.favourites;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.cinamidea.natour_2022.entities.Route;
@@ -27,7 +29,7 @@ public class ProfileFavouriteRoutesModel implements ProfileFavouriteRoutesContra
     @Override
     public void getFavRoutes(String username, String id_token, OnFinishedListener listener) {
         Request request = RoutesHTTP.getFavouriteRoutes(username, id_token);
-
+        Log.d("HOME","Loading favourite routes..");
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
