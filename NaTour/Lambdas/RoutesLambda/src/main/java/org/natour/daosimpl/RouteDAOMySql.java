@@ -889,6 +889,9 @@ public class RouteDAOMySql implements RouteDAO {
 
         String tags = query_filters.getTags();
 
+        if(route_name==null||levels==null||tags==null)
+            throw new NullPointerException();
+
         float duration = query_filters.getDuration();
 
         boolean disability_access = query_filters.isDisableAccessible();
