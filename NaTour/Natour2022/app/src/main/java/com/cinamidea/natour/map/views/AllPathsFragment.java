@@ -67,6 +67,12 @@ public class AllPathsFragment extends Fragment implements AllPathFragmentContrac
 
             map.getUiSettings().setCompassEnabled(false);
 
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(41.891922, 12.484828))
+                    .zoom(6)
+                    .build();
+            map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
             UserType type = new UserType(getContext());
             presenter.getAllRoutesOnCreate(type.getUserType()+type.getIdToken());
 
@@ -230,7 +236,6 @@ public class AllPathsFragment extends Fragment implements AllPathFragmentContrac
             }
         });
     }
-
 
     private void zoomBasedOnCurrentLocation() {
         Location location = getCurrentLocation();

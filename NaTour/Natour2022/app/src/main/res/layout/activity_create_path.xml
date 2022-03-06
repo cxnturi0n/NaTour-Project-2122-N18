@@ -76,6 +76,7 @@
                 android:background="@drawable/background_edit_text"
                 android:fontFamily="sans-serif-light"
                 android:inputType="text"
+                android:maxLength="32"
                 android:paddingHorizontal="16dp" />
 
             <TextView
@@ -100,6 +101,7 @@
                 android:inputType="textMultiLine"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
+                android:maxLength="255"
                 android:singleLine="false" />
 
             <TextView

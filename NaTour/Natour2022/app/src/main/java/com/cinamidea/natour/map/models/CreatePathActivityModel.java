@@ -42,6 +42,7 @@ public class CreatePathActivityModel implements CreatePathActivityContract.Model
                 MainActivity.mFirebaseAnalytics.logEvent("SAVING_ROUTE", new Bundle());
                 int response_code = response.code();
                 String response_body = response.body().string();
+                Log.e("ciao",response_body);
                 switch (response_code) {
                     case 200:
                         MainActivity.mFirebaseAnalytics.logEvent("ROUTE_SAVED", new Bundle());

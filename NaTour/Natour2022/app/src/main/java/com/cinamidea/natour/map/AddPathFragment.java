@@ -62,7 +62,7 @@ public class AddPathFragment extends Fragment {
 
     private final int FILE_REQUEST_CODE = 1;
     private String gpx_content;
-
+    int i = 0;
     private List<LatLng> punti_gpx;
     private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -72,40 +72,40 @@ public class AddPathFragment extends Fragment {
             add_path_map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             add_path_map.getUiSettings().setCompassEnabled(false);
             zoomOnMap();
-            add_path_map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                final MarkerOptions options = new MarkerOptions();
 
-                @Override
-                public void onMapClick(LatLng point) {
+            add_path_map.setOnMapClickListener(point -> {
 
-                    if (markers.size() == 0 && check_long_press_map_click == 0) {
-                        MainActivity.mFirebaseAnalytics.logEvent("START_MARKER_ADDED", new Bundle());
-                        Marker start_marker = add_path_map.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                        markers.add(start_marker);
-                        path.add(start_marker.getPosition());
-                        button_cancel.setVisibility(View.VISIBLE);
-                        button_add_gpx.setVisibility(View.GONE);
-                        check_long_press_map_click = 1;
+                if(point != null)
+                Log.e("ciao","Map click "+String.valueOf(i++));
+                if (markers.size() == 0 && check_long_press_map_click == 0) {
+                    MainActivity.mFirebaseAnalytics.logEvent("START_MARKER_ADDED", new Bundle());
+                    Marker start_marker = add_path_map.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    markers.add(start_marker);
+                    path.add(start_marker.getPosition());
+                    button_cancel.setVisibility(View.VISIBLE);
+                    button_add_gpx.setVisibility(View.GONE);
+                    check_long_press_map_click = 1;
 
-                    } else if (check_long_press_map_click == 1) {
-                        MainActivity.mFirebaseAnalytics.logEvent("MARKER_ADDED", new Bundle());
-                        //IL secondo marker il colore rosso
-                        Marker marker = add_path_map.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                        markers.add(marker);
-                        AllMarkers.add(marker);
-                        button_add_gpx.setVisibility(View.GONE);
-                        path.add(marker.getPosition());
-                    }
-
-                    PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
-                    add_path_map.addPolyline(opts);
-
+                } else if (check_long_press_map_click == 1) {
+                    MainActivity.mFirebaseAnalytics.logEvent("MARKER_ADDED", new Bundle());
+                    //IL secondo marker il colore rosso
+                    Marker marker = add_path_map.addMarker(new MarkerOptions().position(point).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    markers.add(marker);
+                    AllMarkers.add(marker);
+                    button_add_gpx.setVisibility(View.GONE);
+                    path.add(marker.getPosition());
                 }
+
+                PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.RED).width(10);
+                add_path_map.addPolyline(opts);
 
             });
 
 
             add_path_map.setOnMapLongClickListener(latLng -> {
+
+                if(latLng != null)
+                Log.e("ciao","Map click "+String.valueOf(i++));
 
                 if (check_long_press_map_click == 1) {
 

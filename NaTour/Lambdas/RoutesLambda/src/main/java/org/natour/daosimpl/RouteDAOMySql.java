@@ -540,7 +540,7 @@ public class RouteDAOMySql implements RouteDAO {
             prepared_statement.executeBatch();
 
         } catch (SQLException e) {
-            throw new PersistenceException("Insert Error");
+            throw new PersistenceException(e.getMessage());
         } finally {
             try {
                 prepared_statement.close();
