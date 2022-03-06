@@ -35,6 +35,7 @@ import com.cinamidea.natour.report.ReportActivity;
 import com.cinamidea.natour.utilities.UserType;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
@@ -42,6 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context context;
     ArrayList<Route> routes;
     ArrayList<Route> favourite_routes;
+    final DecimalFormat df = new DecimalFormat("0.00");
 
     private boolean is_favourite_fragment = false;
     private boolean is_tovisit_fragment = false;
@@ -203,7 +205,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private String getKm(float meters) {
 
-        return String.valueOf(meters / 1000);
+        meters = meters / 1000;
+
+        return df.format(meters);
 
     }
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -28,6 +29,7 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
     private EditText edit_password;
     private EditText edit_retypepassword;
     private String username;
+    private ProgressBar progressbar;
 
     private SignUpContract.Presenter presenter = new SignUpPresenter(this, new SignUpModel());
 
@@ -55,6 +57,7 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
         edit_email = view.findViewById(R.id.fragmentSignup_email);
         edit_password = view.findViewById(R.id.fragmentSignup_password);
         edit_retypepassword = view.findViewById(R.id.fragmentSignup_retypepassw);
+        progressbar = view.findViewById(R.id.fragmentSignup_progressbar);
 
         setupAnimation();
 
@@ -63,12 +66,6 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
     private void setListeners() {
 
         signup_button.setOnClickListener(v -> {
-
-//            Dialog dialog = new Dialog(getActivity());
-//            dialog.setContentView(R.layout.error_message_layout);
-//            dialog.getWindow().setBackgroundDrawable(getActivity().getDrawable(R.drawable.message_notification_background));
-//            dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//            dialog.show();
 
             runAnimation(signup_button);
             String password = edit_password.getText().toString();
@@ -81,6 +78,7 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
 
             }
 
+            progressbar.setVisibility(View.VISIBLE);
             String username = edit_user.getText().toString();
             this.username = username;
             String email = edit_email.getText().toString();
@@ -91,6 +89,7 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
 
     @Override
     public void signUpSuccess() {
+        getActivity().runOnUiThread(() -> progressbar.setVisibility(View.GONE));
         MainActivity.mFirebaseAnalytics.logEvent("CODE_SENT", new Bundle());
         Intent intent = new Intent(getActivity(), ConfirmSignupActivity.class);
         intent.putExtra("username", username);
@@ -100,6 +99,7 @@ public class SignupFragment extends CustomAuthFragment implements SignUpContract
     @Override
     public void displayError(String message) {
         getActivity().runOnUiThread(()-> {
+            progressbar.setVisibility(View.GONE);
             MotionToast.Companion.createColorToast(getActivity(),"",
                     message,
                     MotionToastStyle.ERROR,

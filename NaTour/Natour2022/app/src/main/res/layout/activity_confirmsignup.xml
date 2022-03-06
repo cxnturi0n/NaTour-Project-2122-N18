@@ -33,23 +33,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityPin_mail"
+        app:layout_constraintTop_toBottomOf="@+id/activityPin_message"
         app:lineColor="#C4C4C4"
         app:lineWidth="1dp"
         app:viewType="rectangle" />
 
-    <TextView
-        android:id="@+id/activityPin_mail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:text="@string/activityPin_mail"
-        android:textColor="@color/natour_black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityPin_message" />
+
 
     <TextView
         android:id="@+id/activityPin_message"
@@ -65,37 +54,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activityPin_title" />
 
-    <TextView
-        android:id="@+id/activityPin_codeMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:text="@string/activityPin_codemessage"
-        android:textColor="@color/natour_black"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityPin_pin" />
-
-    <TextView
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:fontFamily="sans-serif"
-        android:text="@string/activityPin_resend"
-        android:textColor="@color/natour_green"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activityPin_codeMessage" />
 
     <android.widget.Button
         android:id="@+id/activityPin_button"
         android:layout_width="350dp"
         android:layout_height="60dp"
-        android:layout_marginTop="32dp"
         android:background="@drawable/background_button_signin"
         android:fontFamily="sans-serif"
         android:stateListAnimator="@null"
@@ -107,8 +70,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/activityPin_pin"
+        app:layout_constraintVertical_bias="0.111" />
 
     <TextView
         android:id="@+id/activityPin_title"

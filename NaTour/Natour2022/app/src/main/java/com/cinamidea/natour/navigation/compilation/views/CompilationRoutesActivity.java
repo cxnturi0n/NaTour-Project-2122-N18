@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -29,6 +30,7 @@ public class CompilationRoutesActivity extends AppCompatActivity implements Comp
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private static ArrayList<Route> routes;
+    private static ArrayList<Route> fav_routes;
     private CompilationRoutesContract.Presenter presenter;
     private ProgressBar progressBar;
 
@@ -64,8 +66,9 @@ public class CompilationRoutesActivity extends AppCompatActivity implements Comp
             progressBar.setVisibility(View.GONE);
 
             CompilationRoutesActivity.routes = routes;
+            CompilationRoutesActivity.fav_routes = fav_routes;
 
-            recyclerViewAdapter = new RecyclerViewAdapter(this, CompilationRoutesActivity.routes, fav_routes, false);
+            recyclerViewAdapter = new RecyclerViewAdapter(this, CompilationRoutesActivity.routes, CompilationRoutesActivity.fav_routes, false);
             recyclerView.setAdapter(recyclerViewAdapter);
 
         });

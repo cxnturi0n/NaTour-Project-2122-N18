@@ -1,3 +1,4 @@
+/*
 package org.natour.daosimpl;
 
 import junit.framework.TestCase;
@@ -10,7 +11,8 @@ public class RouteDAOMySqlTest extends TestCase {
 
     private static RouteDAOMySql route_dao = new RouteDAOMySql();
 
-    /**
+    */
+/**
      192 sect test cases for getFilteredSql method
 
      Equivalence classes
@@ -35,7 +37,8 @@ public class RouteDAOMySqlTest extends TestCase {
      CE3 one element -> VALID
      CE4 more than one element -> VALID
 
-     **/
+     **//*
+
     @Test
     public void test_RouteNameNull_LevelsNull_PositiveDuration_DisabilityTrue_TagsNull() {
         QueryFilters filters = new QueryFilters(null, null, 12.3f, true, null);
@@ -1183,4 +1186,4 @@ public class RouteDAOMySqlTest extends TestCase {
         assertEquals("SELECT * FROM Routes WHERE (level = \"Hard\" OR level = \"Medium\" OR level = \"Easy\") AND duration >= 666.0 AND (tags like '%tag1%' OR tags like '%tag2%')", route_dao.getFilteredSql(filters));
     }
 
-}
+}*/

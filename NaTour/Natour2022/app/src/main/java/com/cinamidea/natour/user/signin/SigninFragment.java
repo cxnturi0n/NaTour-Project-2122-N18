@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -39,6 +40,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
     private GoogleSignInClient googlesignin_client;
     private ActivityResultLauncher<Intent> start_activity_for_result;
     private GoogleSignInOptions gso;
+    private ProgressBar progressbar;
 
     private SignInContract.Presenter presenter;
 
@@ -72,6 +74,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
         edit_user = view.findViewById(R.id.fragmentSignin_username);
         edit_password = view.findViewById(R.id.fragmentSignin_password);
         button_googlesignin = view.findViewById(R.id.fragmentSignin_signinwithgoogle);
+        progressbar = view.findViewById(R.id.fragmentSignin_progressbar);
 
         setupAnimation();
 
@@ -88,6 +91,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
 
             if(!username.isEmpty() && !password.isEmpty()) {
 
+                progressbar.setVisibility(View.VISIBLE);
                 presenter.cognitoSignInButtonClicked(username, password, getActivity().getSharedPreferences("Cognito", Context.MODE_PRIVATE));
 
             }else{
@@ -106,6 +110,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
 
         button_googlesignin.setOnClickListener(view -> {
 
+            progressbar.setVisibility(View.VISIBLE);
             startGoogleSignUp();
 
         });
@@ -115,6 +120,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
     @Override
     public void signInCompleted() {
 
+        getActivity().runOnUiThread(() -> progressbar.setVisibility(View.GONE));
         Intent intent = new Intent(getActivity(), HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().startActivity(intent);
@@ -126,6 +132,9 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
         googlesignin_client.signOut();
 
         getActivity().runOnUiThread(()-> {
+
+            progressbar.setVisibility(View.GONE);
+
             MotionToast.Companion.createColorToast(getActivity(),"",
                     message,
                     MotionToastStyle.ERROR,
@@ -152,6 +161,7 @@ public class SigninFragment extends CustomAuthFragment implements SignInContract
         String email = google_account.getEmail();
         String id_token = google_account.getIdToken();
         presenter.googleSignUpButtonClicked(username, email, id_token, getActivity().getSharedPreferences("Google", Context.MODE_PRIVATE));
+
     }
 
     private void initGoogleAuthVars() {

@@ -60,7 +60,7 @@ public class CompilationRoutesModel implements CompilationRoutesContract.Model {
     }
 
     @Override
-    public void getFavourites(String id_token,String username, OnFavouriteRoutesFetchedListener listener) {
+    public void getFavourites(String username,String id_token, OnFavouriteRoutesFetchedListener listener) {
 
         Request request = RoutesHTTP.getFavouriteRoutes(username, id_token);
 

@@ -15,6 +15,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.time.*;
 
 public class RouteDAOMySql implements RouteDAO {
 
@@ -33,22 +34,22 @@ public class RouteDAOMySql implements RouteDAO {
     private void prepareFrequentStatements() {
         try {
 
-            String query_routes = "SELECT * from Routes r JOIN Coordinates c ON c.route_name=r.name ORDER BY r.name,c.seq_num";
+            String query_routes = "SELECT * from Routes r JOIN Coordinates c ON c.route_name=r.name ORDER BY r.creation_time DESC, r.name,c.seq_num";
             get_all_routes_statement = connection.prepareStatement(query_routes);
 
             String query_coordinates = "SELECT latitude, longitude FROM Coordinates WHERE route_name =? ORDER BY seq_num,route_name";
             route_coordinates_statement = connection.prepareStatement(query_coordinates, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-            String query_user_routes_statement = "SELECT * FROM Routes WHERE creator_username=?";
+            String query_user_routes_statement = "SELECT * FROM Routes WHERE creator_username=? ORDER BY creation_time";
             user_routes_statement = connection.prepareStatement(query_user_routes_statement);
 
-            String query_user_favourites_statement = "SELECT * FROM Favourites JOIN Routes ON Favourites.route_name=Routes.name WHERE Favourites.username=?";
+            String query_user_favourites_statement = "SELECT * FROM Favourites JOIN Routes ON Favourites.route_name=Routes.name WHERE Favourites.username=? ORDER BY Routes.creation_time";
             user_favourites_statement = connection.prepareStatement(query_user_favourites_statement);
 
-            String query_get_routes_by_level = "SELECT * FROM Routes WHERE level=?";
+            String query_get_routes_by_level = "SELECT * FROM Routes WHERE level=? ORDER BY creation_time";
             get_routes_by_level_statement = connection.prepareStatement(query_get_routes_by_level);
 
-            String query_get_tovisit_routes = "SELECT * FROM ToVisit JOIN Routes ON ToVisit.route_name=Routes.name WHERE ToVisit.username=?";
+            String query_get_tovisit_routes = "SELECT * FROM ToVisit JOIN Routes ON ToVisit.route_name=Routes.name WHERE ToVisit.username=? ORDER BY Routes.creation_time";
             get_tovisit_routes_statement = connection.prepareStatement(query_get_tovisit_routes);
 
         } catch (SQLException e) {
@@ -495,7 +496,7 @@ public class RouteDAOMySql implements RouteDAO {
 
         NatourS3Bucket natour_bucket = new NatourS3Bucket();
 
-        String query_route = "INSERT INTO Routes (name,creator_username,description,level, duration,report_count,disability_access, tags, length)" + "VALUES (?,?,?,?,?,?,?,?,?)";
+        String query_route = "INSERT INTO Routes (name,creator_username,description,level, duration,report_count,disability_access, tags, length, creation_time)" + "VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         String query_coordinates = "INSERT INTO Coordinates (latitude, longitude, route_name, seq_num) VALUES (?,?,?,?)";
 
@@ -516,6 +517,7 @@ public class RouteDAOMySql implements RouteDAO {
             prepared_statement.setBoolean(7, route.isDisability_access());
             prepared_statement.setString(8, route.getTags());
             prepared_statement.setFloat(9, route.getLength());
+            prepared_statement.setLong(10, Instant.now().toEpochMilli());
 
             byte decoded_image[] = Base64.getDecoder().decode(route.getImage_base64());
 
@@ -693,7 +695,7 @@ public class RouteDAOMySql implements RouteDAO {
 
     public List<Route> getUserRoutesCompilation(String id) throws PersistenceException {
 
-        String get_routes_in_compilation = "SELECT * FROM RoutesInCompilation AS C JOIN Routes AS R ON R.name = C.route_name WHERE C.id =?";
+        String get_routes_in_compilation = "SELECT * FROM RoutesInCompilation AS C JOIN Routes AS R ON R.name = C.route_name WHERE C.id =? ORDER BY Routes.creation_time";
 
         PreparedStatement prepared_statement = null;
 
@@ -900,7 +902,7 @@ public class RouteDAOMySql implements RouteDAO {
 
             filter_sql += "name like '%" + query_filters.getRoute_name() + "%'";
 
-            return filter_sql;
+            return filter_sql+" ORDER BY creation_time";
 
         } else {
 
@@ -937,7 +939,7 @@ public class RouteDAOMySql implements RouteDAO {
 
         }
 
-        return filter_sql.length()==27 ? "SELECT * FROM Routes": filter_sql.substring(0, filter_sql.length() - 5);
+        return filter_sql.length()==27 ? "SELECT * FROM Routes ORDER BY creation_time": filter_sql.substring(0, filter_sql.length() - 5);
 
     }
 

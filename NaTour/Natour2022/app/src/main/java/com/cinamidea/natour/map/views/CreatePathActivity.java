@@ -387,7 +387,7 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
                     MotionToast.GRAVITY_BOTTOM,
                     MotionToast.LONG_DURATION,
                     ResourcesCompat.getFont(getApplicationContext(), R.font.helvetica_regular));
-
+                    backToHomeAfterInsertedRoute();
 
         });
     }
@@ -417,5 +417,6 @@ public class CreatePathActivity extends AppCompatActivity implements CreatePathA
     public void backToHomeAfterInsertedRoute() {
         Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

@@ -22,7 +22,6 @@ public class CreatePathActivityPresenter implements CreatePathActivityContract.P
                 view.dismissLoadingDialog();
                 //Show toast
                 view.showToastAddedRoute();
-                view.backToHomeAfterInsertedRoute();
             }
 
             @Override

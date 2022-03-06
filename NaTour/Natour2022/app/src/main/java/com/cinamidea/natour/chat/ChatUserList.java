@@ -43,6 +43,7 @@ public class ChatUserList extends AppCompatActivity {
 
         userListView = findViewById(R.id.list);
         username_list = findViewById(R.id.username_list_users);
+        userListView.setDivider(null);
 
         queryAllUsers();
 

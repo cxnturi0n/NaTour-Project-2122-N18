@@ -28,6 +28,7 @@ public class ConfirmSignupActivity extends AppCompatActivity implements ConfirmS
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmsignup);
 
