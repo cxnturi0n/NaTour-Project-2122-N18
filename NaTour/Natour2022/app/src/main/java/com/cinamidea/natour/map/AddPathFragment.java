@@ -71,6 +71,7 @@ public class AddPathFragment extends Fragment {
             add_path_map = googleMap;
             add_path_map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             add_path_map.getUiSettings().setCompassEnabled(false);
+            zoomOnMap();
             add_path_map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 final MarkerOptions options = new MarkerOptions();
 
@@ -371,6 +372,14 @@ public class AddPathFragment extends Fragment {
         add_path_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 
+    }
+
+    private void zoomOnMap(){
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(41.891922, 12.484828))
+                .zoom(6)
+                .build();
+        add_path_map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
 
