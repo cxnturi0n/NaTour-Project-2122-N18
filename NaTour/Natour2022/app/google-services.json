@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "557349299624",
+    "project_id": "crashlytics-343115",
+    "storage_bucket": "crashlytics-343115.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557349299624:android:b134cebcf52c52aa37a99d",
+        "android_client_info": {
+          "package_name": "com.cinamidea.natour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "557349299624-e0c4vig8jcg6i5tvedumof6n1v5vmnfl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cinamidea.natour",
+            "certificate_hash": "ae9812b4356bb80fa69ba80d35c5b4b28223fae9"
+          }
+        },
+        {
+          "client_id": "557349299624-aikdhhaaeigbdmpcco8fluanvtg9bmkd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVqK4lAGBRVguDsqP46fSU-p_HDQLLEzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "557349299624-aikdhhaaeigbdmpcco8fluanvtg9bmkd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557349299624:android:f599067b1022be7337a99d",
+        "android_client_info": {
+          "package_name": "com.cinamidea.natour_2022"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "557349299624-aikdhhaaeigbdmpcco8fluanvtg9bmkd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVqK4lAGBRVguDsqP46fSU-p_HDQLLEzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "557349299624-aikdhhaaeigbdmpcco8fluanvtg9bmkd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

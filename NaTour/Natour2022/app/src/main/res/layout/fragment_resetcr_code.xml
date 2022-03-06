@@ -83,5 +83,4 @@
         app:layout_constraintTop_toBottomOf="@+id/fragmentCR2_code" />
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

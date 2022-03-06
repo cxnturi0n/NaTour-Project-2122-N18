@@ -1,68 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background_alert_dialog"
+    android:layout_height="wrap_content"
     android:layout_marginTop="32dp"
-    android:layout_height="wrap_content">
+    android:background="@drawable/background_alert_dialog"
+    android:orientation="vertical">
 
     <TextView
-        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:text="@string/activitySearch_range"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif"
+        android:text="@string/activitySearch_range"
         android:textColor="@color/natour_black"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/activitySearch_range"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:valueFrom="0"
-        android:valueTo="6371"
-        android:stepSize="1"
         android:layout_marginEnd="64dp"
-        />
+        android:stepSize="1"
+        android:valueFrom="0"
+        android:valueTo="6371" />
 
     <TextView
-        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:text="@string/activitySearch_minduration"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif"
+        android:text="@string/activitySearch_minduration"
         android:textColor="@color/natour_black"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/activitySearch_duration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:valueFrom="0"
-        android:valueTo="720"
-        android:stepSize="1"
         android:layout_marginEnd="64dp"
-        />
+        android:stepSize="1"
+        android:valueFrom="0"
+        android:valueTo="720" />
 
     <TextView
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:text="@string/activitySearch_difficulty"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
+        android:text="@string/activitySearch_difficulty"
         android:textColor="@color/natour_black"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <RelativeLayout
-        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
+        android:layout_height="72dp"
         android:layout_marginHorizontal="32dp"
-        android:layout_height="72dp">
+        android:layout_marginTop="16dp">
 
         <RadioButton
             android:id="@+id/activitySearch_easy"
@@ -82,9 +80,9 @@
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="32dp"
-            android:checked="false"
             android:background="@drawable/background_radiobutton"
             android:button="@null"
+            android:checked="false"
             android:text="@string/activityCreateRoute_medium"
             android:textAlignment="center"
             android:textSize="18sp" />
@@ -95,26 +93,26 @@
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="16dp"
-            android:checked="false"
             android:background="@drawable/background_radiobutton"
+            android:button="@null"
+            android:checked="false"
             android:text="@string/activityCreateRoute_hard"
             android:textAlignment="center"
-            android:textSize="18sp"
-            android:button="@null"/>
+            android:textSize="18sp" />
 
         <RadioButton
             android:id="@+id/activitySearch_extreme"
             android:layout_width="130dp"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_height="30dp"
-            android:checked="false"
             android:layout_marginStart="32dp"
             android:background="@drawable/background_radiobutton"
+            android:button="@null"
+            android:checked="false"
             android:text="@string/activityCreateRoute_extreme"
             android:textAlignment="center"
-            android:textSize="18sp"
-            android:button="@null"/>
+            android:textSize="18sp" />
 
     </RelativeLayout>
 
@@ -144,10 +142,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/activitySearch_tags"
             android:fontFamily="sans-serif"
+            android:text="@string/activitySearch_tags"
             android:textColor="@color/natour_black"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/activitySearch_addtag"
@@ -171,17 +169,17 @@
     <me.gujun.android.taggroup.TagGroup
         android:id="@+id/activitySearch_taggroup"
         style="@style/TagGroup"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="32dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginHorizontal="32dp">
+        android:layout_marginBottom="16dp">
 
         <android.widget.Button
             android:id="@+id/activitySearch_cancel"

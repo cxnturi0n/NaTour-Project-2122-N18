@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cinamidea.natour_2022">
+    package="com.cinamidea.natour">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -33,88 +33,88 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".navigation.search.views.GeoSearchActivity"
+            android:name="com.cinamidea.natour.navigation.search.views.GeoSearchActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
-            android:name=".navigation.search.views.CompletedGeoSearchActivity"
+            android:name="com.cinamidea.natour.navigation.search.views.CompletedGeoSearchActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminActivity"
+            android:name="com.cinamidea.natour.admin.AdminActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
-            android:name=".navigation.compilation.views.CompilationActivity"
+            android:name="com.cinamidea.natour.navigation.compilation.views.CompilationActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
-            android:name=".navigation.compilation.views.CompilationRoutesActivity"
+            android:name="com.cinamidea.natour.navigation.compilation.views.CompilationRoutesActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
-            android:name=".map.DetailedMap"
+            android:name="com.cinamidea.natour.map.DetailedMap"
             android:launchMode="singleTask"
             android:exported="false"
             android:label="@string/title_activity_detailed_map" />
         <activity
-            android:name=".navigation.compilation.views.CreateCompilationActivity"
+            android:name="com.cinamidea.natour.navigation.compilation.views.CreateCompilationActivity"
             android:launchMode="singleTask"
             android:exported="false"
             android:label="@string/title_activity_detailed_map" />
         <activity
-            android:name=".user.changepassword.ChangePasswordActivity"
+            android:name="com.cinamidea.natour.user.changepassword.ChangePasswordActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
-            android:name=".navigation.search.views.SearchActivity"
+            android:name="com.cinamidea.natour.navigation.search.views.SearchActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
-            android:name=".user.resetpassword.views.ResetCRActivity"
+            android:name="com.cinamidea.natour.user.resetpassword.views.ResetCRActivity"
             android:launchMode="singleTask"
             android:exported="false" />
         <activity
-            android:name=".map.MapActivity"
+            android:name="com.cinamidea.natour.map.MapActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".chat.ChatUserList"
+            android:name="com.cinamidea.natour.chat.ChatUserList"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".chat.ChatActivity"
+            android:name="com.cinamidea.natour.chat.ChatActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".chat.HomeChatActivity"
+            android:name="com.cinamidea.natour.chat.HomeChatActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".user.CustomAuthActivity"
+            android:name="com.cinamidea.natour.user.CustomAuthActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".report.ReportActivity"
-            android:exported="false"
-            android:launchMode="singleTask" />
-            android:name=".auth.signup.views.ConfirmSignupActivity"
+            android:name="com.cinamidea.natour.report.ReportActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".user.AuthActivity"
+            android:name="com.cinamidea.natour.user.AuthActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
+        <activity android:name=".user.signup.views.ConfirmSignupActivity"
+            android:exported="false"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name="com.cinamidea.natour.map.views.CreatePathActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".map.views.CreatePathActivity"
+            android:name="com.cinamidea.natour.navigation.main.views.HomeActivity"
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".navigation.main.views.HomeActivity"
-            android:exported="false"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".MainActivity"
+            android:name="com.cinamidea.natour.MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
